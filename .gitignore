@@ -28,6 +28,8 @@ proguard/
 # Eclipse Metadata
 .metadata/
 
+./app/build
+
 local.properties
 
 # Mac OS X clutter

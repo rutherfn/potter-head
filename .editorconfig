@@ -1,0 +1,16 @@
+root = true
+
+[*.{kt,kts}]
+# Keep essential rules enabled
+ktlint_standard_final-newline = enabled
+ktlint_standard_no-trailing-spaces = enabled
+ktlint_standard_indent = enabled
+
+# Disable overly restrictive rules for modern Kotlin/Compose
+ktlint_standard_import-ordering = disabled
+ktlint_standard_expression-body-syntax = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled
+ktlint_standard_trailing-comma-on-declaration-site = disabled
+ktlint_standard_function-naming = disabled
+ktlint_standard_comment-spacing = disabled
+ktlint_standard_parameter-list-wrapping = disabled

@@ -28,7 +28,7 @@ proguard/
 # Eclipse Metadata
 .metadata/
 
-./app/build
+app/build
 
 local.properties
 

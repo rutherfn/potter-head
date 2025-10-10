@@ -2,10 +2,31 @@ package com.nicholas.rutherford.potter.head.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val OrangePrimary = Color(0xFFFFA500)
+val RedPrimary = Color(0xFFFF4500)
+val OrangeLight = Color(0xFFFFB84D)
+val RedDark = Color(0xFFE03D00)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
+
+val OrangeAccent = Color(0xFFFF8C00)
+val RedAccent = Color(0xFFFF0000)
+
+val SurfaceLight = Color(0xFFF5F5F5)
+val SurfaceDark = Color(0xFF1A1A1A)
+
+val TextPrimary = Color(0xFF000000)
+val TextSecondary = Color(0xFF666666)
+val TextOnPrimary = Color(0xFFFFFFFF)
+
+val Orange80 = Color(0xFFFFB84D)
+val Red80 = Color(0xFFFF6B35)
+val OrangeGrey80 = Color(0xFFCC8A4D)
+val RedGrey80 = Color(0xFFCC4A1A)
+
+// Light theme variants
+val Orange40 = Color(0xFFE03D00)
+val Red40 = Color(0xFFB32B00)
+val OrangeGrey40 = Color(0xFF8A5A00)
+val RedGrey40 = Color(0xFF8A2B00)

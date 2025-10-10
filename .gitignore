@@ -18,7 +18,6 @@ gen/
 
 # Ignore gradle files
 .gradle/
-gradle/
 
 # Ignore idea folder
 .idea
@@ -28,6 +27,8 @@ proguard/
 
 # Eclipse Metadata
 .metadata/
+
+./app/build
 
 local.properties
 

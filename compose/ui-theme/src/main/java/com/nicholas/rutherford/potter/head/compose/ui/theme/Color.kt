@@ -1,4 +1,4 @@
-package com.nicholas.rutherford.potter.head.ui.theme
+package com.nicholas.rutherford.potter.head.compose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -25,7 +25,6 @@ val Red80 = Color(0xFFFF6B35)
 val OrangeGrey80 = Color(0xFFCC8A4D)
 val RedGrey80 = Color(0xFFCC4A1A)
 
-// Light theme variants
 val Orange40 = Color(0xFFE03D00)
 val Red40 = Color(0xFFB32B00)
 val OrangeGrey40 = Color(0xFF8A5A00)

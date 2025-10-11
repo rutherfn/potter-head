@@ -1,4 +1,4 @@
-package com.nicholas.rutherford.potter.head.ui.theme
+package com.nicholas.rutherford.potter.head.compose.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

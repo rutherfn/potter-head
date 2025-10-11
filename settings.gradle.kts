@@ -20,5 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "PotterHead"
+
 include(":app")
- 
+include(":compose:ui-theme")

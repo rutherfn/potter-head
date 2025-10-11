@@ -29,6 +29,7 @@ proguard/
 .metadata/
 
 app/build
+compose/ui-theme/build
 
 local.properties
 

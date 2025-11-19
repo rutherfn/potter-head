@@ -23,6 +23,7 @@ rootProject.name = "PotterHead"
 
 include(":app")
 include(":compose:ui-theme")
+include(":entry-point")
 include(":feature:characters")
 include(":feature:quizzes")
 include(":feature:settings")

@@ -6,11 +6,13 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.8.0"
+activityCompose = "1.9.0"
 composeBom = "2024.09.00"
+navigationCompose = "2.8.4"
 ktlint = "13.1.0"
 appcompat = "1.6.1"
 material = "1.10.0"
+materialIconsExtended = "1.7.8"
 metro = "0.3.0"
 dependencyAnalysis = "1.31.0"
 activity = "1.8.2"
@@ -19,6 +21,7 @@ lifecycle = "2.8.3"
 testMonitor = "1.6.1"
 
 [libraries]
+androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -44,6 +47,7 @@ androidx-test-monitor = { group = "androidx.test", name = "monitor", version.ref
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "compose" }
 androidx-compose-ui-unit = { group = "androidx.compose.ui", name = "ui-unit", version.ref = "compose" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

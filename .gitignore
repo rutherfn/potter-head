@@ -42,5 +42,6 @@ Thumbs.db
 # Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
 .idea
 
+entry-point/build
 feature/characters/build
 feature/quizzes/build

@@ -28,8 +28,6 @@ proguard/
 # Eclipse Metadata
 .metadata/
 
-app/build
-
 local.properties
 
 # Mac OS X clutter
@@ -40,3 +38,16 @@ Thumbs.db
 
 # Intellij IDEA (see https://intellij-support.jetbrains.com/entries/23393067)
 .idea
+
+.kotlin/errors
+
+build
+
+app/build
+compose/ui-theme/build
+database/build
+entry-point/build
+feature/characters/build
+feature/quizzes/build
+model/build
+network/build

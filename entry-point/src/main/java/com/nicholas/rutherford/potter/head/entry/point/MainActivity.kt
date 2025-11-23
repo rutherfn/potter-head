@@ -18,15 +18,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvider
 import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
+import com.nicholas.rutherford.potter.head.entry.point.LocalViewModelFactory
 
 sealed class Screen(val route: String, val title: String) {
     object Characters : Screen("characters", "Characters")
@@ -39,8 +44,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            PotterHeadTheme {
-                val navController = rememberNavController()
+            val context = LocalContext.current
+            // Access ViewModelFactory from Application via public interface (no reflection)
+            val application = context.applicationContext
+            val viewModelFactory = (application as? ViewModelFactoryProvider)
+                ?.getViewModelFactory()
+                ?: throw IllegalStateException("Application must implement ViewModelFactoryProvider")
+            
+            CompositionLocalProvider(LocalViewModelFactory provides viewModelFactory) {
+                PotterHeadTheme {
+                    val factory = LocalViewModelFactory.current
+                    val viewModel: MainActivityViewModel = viewModel(factory = factory)
+                    val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
@@ -123,6 +138,7 @@ class MainActivity : ComponentActivity() {
                             SettingsScreen()
                         }
                     }
+                }
                 }
             }
         }

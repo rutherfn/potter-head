@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -38,9 +39,17 @@ android {
     }
 }
 
+metro {
+    enabled = true
+    debug = false
+}
+
 dependencies {
 
+    implementation(project(path = ":base:view-model"))
     implementation(project(path = ":compose:ui-theme"))
+    implementation(project(path = ":network"))
+
     implementation(libs.kotlin.stdlib)
 
     implementation(libs.androidx.activity.compose)
@@ -54,6 +63,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.ui.text)
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${libs.versions.lifecycle.get()}")
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
 

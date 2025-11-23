@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -12,6 +13,15 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+    
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = false
+            all {
+                it.useJUnitPlatform()
+            }
+        }
     }
 
     buildTypes {
@@ -32,12 +42,39 @@ android {
     }
 }
 
+metro {
+    enabled = true
+    debug = true
+}
+
 dependencies {
+    api(project(path = ":model"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    testImplementation(libs.junit)
+    
+    // Test utilities for creating test data
+    testImplementation(project(path = ":test-utils"))
+    
+    // JUnit Jupiter (JUnit 5)
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    
+    // Coroutines test support
+    testImplementation(libs.kotlinx.coroutines.test)
+    
+    // Keep JUnit 4 for Android tests
+    androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.retrofit)
+
+    implementation(libs.converter.gson)
+    implementation(libs.gson)
+
+    implementation(libs.kermit)
+
+    implementation(libs.kotlinx.coroutines.android)
 }

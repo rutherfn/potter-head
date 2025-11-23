@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nicholas.rutherford.potter.head.model"
+    namespace = "com.nicholas.rutherford.potter.head.base.view.model"
     compileSdk = 36
 
     defaultConfig {
@@ -33,12 +33,8 @@ android {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.13.2")
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.kermit)
 }

@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.metro)
 }
 
 android {
-    namespace = "com.nicholas.rutherford.potter.head.network"
+    namespace = "com.nicholas.rutherford.potter.head.core"
     compileSdk = 36
 
     defaultConfig {
@@ -13,16 +12,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-    }
-
-    @Suppress("UnstableApiUsage")
-    testOptions {
-        unitTests {
-            isIncludeAndroidResources = false
-            all {
-                it.useJUnitPlatform()
-            }
-        }
     }
 
     buildTypes {
@@ -41,31 +30,32 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-}
-
-metro {
-    enabled = true
-    debug = true
+    
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = false
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 dependencies {
-    api(project(path = ":core"))
-    api(project(path = ":model"))
 
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.gson)
-
-    implementation(libs.kermit)
-
-    implementation(libs.kotlinx.coroutines.core)
-
-    testImplementation(project(path = ":test-utils"))
-
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    
+    // JUnit Jupiter (JUnit 5)
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
-    testImplementation(libs.kotlinx.coroutines.test)
-
+    
+    // Test utilities for assertion extensions
+    testImplementation(project(path = ":test-utils"))
+    
+    // Keep JUnit 4 for Android tests
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }

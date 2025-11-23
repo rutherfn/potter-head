@@ -33,12 +33,6 @@ android {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.13.2")
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Gson for JSON serialization annotations
+    implementation(libs.gson)
 }

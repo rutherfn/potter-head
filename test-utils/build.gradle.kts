@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nicholas.rutherford.potter.head.test"
+    namespace = "com.nicholas.rutherford.potter.head.test.utils"
     compileSdk = 36
 
     defaultConfig {
@@ -18,7 +18,8 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    
+
+    @Suppress("UnstableApiUsage")
     testOptions {
         unitTests {
             isIncludeAndroidResources = false
@@ -32,11 +33,9 @@ android {
 dependencies {
     api(project(path = ":model"))
     api(project(path = ":network"))
-    
-    // JUnit Jupiter for assertion functions
+
     api(libs.junit.jupiter.api)
-    
-    // Test dependencies
+
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.kotlinx.coroutines.test)

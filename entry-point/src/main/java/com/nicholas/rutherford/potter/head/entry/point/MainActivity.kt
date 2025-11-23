@@ -20,7 +20,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -38,25 +37,22 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
-            // Access ViewModelFactory from Application via public interface (no reflection)
             val application = context.applicationContext
             val viewModelFactory = (application as? ViewModelFactoryProvider)
                 ?.getViewModelFactory()
-                ?: throw IllegalStateException("Application must implement ViewModelFactoryProvider")
+                ?:throw IllegalStateException("Application must implement ViewModelFactoryProvider")
             
-            CompositionLocalProvider(LocalViewModelFactory provides viewModelFactory) {
+            CompositionLocalProvider(value = LocalViewModelFactory provides viewModelFactory) {
                 PotterHeadTheme {
-                    val factory = LocalViewModelFactory.current
-                    val viewModel: MainActivityViewModel = viewModel(factory = factory)
                     val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentDestination = navBackStackEntry?.destination
+                    val navBackStackEntry by navController.currentBackStackEntryAsState()
+                    val currentDestination = navBackStackEntry?.destination
 
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                            NavigationBarItem(
+                    Scaffold(
+                        modifier = Modifier.fillMaxSize(),
+                        bottomBar = {
+                            NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
+                                NavigationBarItem(
                                 selected = currentDestination?.hierarchy?.any { it.route == Screens.Characters.route } == true,
                                 onClick = {
                                     navController.navigate(Screens.Characters.route) {

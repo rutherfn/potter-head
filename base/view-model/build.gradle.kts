@@ -48,9 +48,7 @@ dependencies {
 
     implementation(libs.kermit)
 
-    // Compose Runtime for CompositionLocal
     implementation(libs.androidx.compose.runtime)
-    
-    // ViewModel for Factory interface
+
     implementation(libs.androidx.lifecycle.viewmodel)
 }

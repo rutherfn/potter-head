@@ -12,20 +12,22 @@ class ConstantsTest {
 
     @Test
     fun `APP_GRAPH_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        val expectedClassName = "com.nicholas.rutherford.potter.head.di.AppGraph$$\$MetroGraph"
-        Constants.APP_GRAPH_METRO_GRAPH_CLASS_NAME shouldBe expectedClassName
+        Constants.APP_GRAPH_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.di.AppGraph$$\$MetroGraph"
     }
 
     @Test
     fun `NETWORK_MODULE_CLASS_NAME should be set to the correct NetworkModule class name`() {
-        val expectedClassName = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
-        Constants.NETWORK_MODULE_CLASS_NAME shouldBe expectedClassName
+        Constants.NETWORK_MODULE_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     }
 
     @Test
     fun `NETWORK_MODULE_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        val expectedClassName = "com.nicholas.rutherford.potter.head.network.di.NetworkModule$$\$MetroGraph"
-        Constants.NETWORK_MODULE_METRO_GRAPH_CLASS_NAME shouldBe expectedClassName
+        Constants.NETWORK_MODULE_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.network.di.NetworkModule$$\$MetroGraph"
+    }
+
+    @Test
+    fun `NETWORK_MODULE_NAME should be set to correct expected name`() {
+        Constants.NETWORK_MODULE_NAME shouldBe "NetworkModule"
     }
 }
 

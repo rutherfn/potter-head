@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
-import com.nicholas.rutherford.potter.head.entry.point.MainActivityViewModel
 import com.nicholas.rutherford.potter.head.feature.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
@@ -45,23 +44,11 @@ class ViewModelFactory(
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         when (modelClass) {
-            MainActivityViewModel::class.java -> createMainActivityViewModel() as T
             CharactersViewModel::class.java -> createCharacterViewModel() as T
             QuizzesViewModel::class.java -> createQuizzesViewModel() as T
             SettingsViewModel::class.java -> createSettingsViewModel() as T
             else -> handleUnknownViewModel(modelClass)
         }
-
-    /**
-     * Creates a [MainActivityViewModel] instance with its dependencies injected.
-     *
-     * This method retrieves the [HarryPotterApiRepository] from the [AppGraph] and passes it
-     * to the ViewModel constructor. All dependencies are provided via constructor injection.
-     *
-     * @return A new [MainActivityViewModel] instance with the repository dependency injected.
-     */
-    private fun createMainActivityViewModel(): MainActivityViewModel =
-        MainActivityViewModel(repository = appGraph.networkModule.harryPotterApiRepository)
 
     /**
      * Creates a [CharactersViewModel] instance with its dependencies injected.
@@ -100,9 +87,10 @@ class ViewModelFactory(
      * @throws IllegalArgumentException with a message indicating the ViewModel class is not supported.
      */
     private fun <T : ViewModel> handleUnknownViewModel(modelClass: Class<T>): Nothing {
-        val errorMessage = "Unknown ViewModel class: ${modelClass.name}. Add it to ViewModelFactory.create() to support injection."
-
         log.e("Unable to create ViewModel for class: ${modelClass.name}")
-        throw IllegalArgumentException(errorMessage)
+        throw IllegalArgumentException(
+            "Unknown ViewModel class: ${modelClass.name}. " +
+                "Add it to ViewModelFactory.create() to support injection."
+        )
     }
 }

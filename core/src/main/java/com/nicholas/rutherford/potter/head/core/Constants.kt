@@ -5,4 +5,5 @@ object Constants {
     const val APP_GRAPH_METRO_GRAPH_CLASS_NAME = "com.nicholas.rutherford.potter.head.di.AppGraph$$\$MetroGraph"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_METRO_GRAPH_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule$$\$MetroGraph"
+    const val NETWORK_MODULE_NAME = "NetworkModule"
 }

@@ -31,7 +31,7 @@ object MetroModuleFactory {
      * val networkModule = MetroModuleFactory.create<NetworkModule>(
      *     interfaceClassName = Constants.NETWORK_MODULE_CLASS_NAME,
      *     implementationClassName = Constants.NETWORK_MODULE_METRO_GRAPH_CLASS_NAME,
-     *     moduleName = "NetworkModule"
+     *     moduleName = Constants.NETWORK_MODULE_NAME
      * )
      * ```
      *

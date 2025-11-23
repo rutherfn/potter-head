@@ -33,6 +33,5 @@ android {
 }
 
 dependencies {
-    // Gson for JSON serialization annotations
     implementation(libs.gson)
 }

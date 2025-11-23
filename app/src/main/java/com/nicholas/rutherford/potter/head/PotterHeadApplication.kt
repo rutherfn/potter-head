@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.nicholas.rutherford.potter.head
 
 import android.app.Application
@@ -54,7 +56,7 @@ class PotterHeadApplication :
      * This is the single source of truth for ViewModel creation.
      */
     val viewModelFactory: ViewModelFactory by lazy {
-        ViewModelFactory(appGraph)
+        ViewModelFactory(appGraph = appGraph)
     }
 
     /**

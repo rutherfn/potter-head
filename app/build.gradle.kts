@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.metro)
 }
 
 android {
@@ -42,6 +43,23 @@ android {
     }
 }
 
+metro {
+    enabled = true
+    debug = false
+}
+
 dependencies {
+    implementation(project(path = ":base:view-model"))
     implementation(project(path = ":entry-point"))
+    implementation(project(path = ":feature:characters"))
+    implementation(project(path = ":feature:quizzes"))
+    implementation(project(path = ":feature:settings"))
+    implementation(project(path = ":network"))
+
+    implementation(libs.kermit)
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.runtime)
+
+    implementation(libs.androidx.lifecycle.viewmodel)
 }

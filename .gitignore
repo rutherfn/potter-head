@@ -44,6 +44,8 @@ Thumbs.db
 build
 
 app/build
+base/view-model/build
+core/build
 compose/ui-theme/build
 database/build
 entry-point/build

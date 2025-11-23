@@ -22,11 +22,14 @@ dependencyResolutionManagement {
 rootProject.name = "PotterHead"
 
 include(":app")
+include(":base:view-model")
 include(":compose:ui-theme")
+include(":core")
+include(":database")
 include(":entry-point")
 include(":feature:characters")
 include(":feature:quizzes")
 include(":feature:settings")
 include(":model")
-include(":database")
 include(":network")
+include(":test-utils")

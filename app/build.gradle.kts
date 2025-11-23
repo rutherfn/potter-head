@@ -52,11 +52,11 @@ dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":entry-point"))
     implementation(project(path = ":network"))
-    
+
     // Compose Runtime required for Compose Compiler
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.runtime)
-    
+
     // Lifecycle ViewModel for ViewModelFactory
     implementation(libs.androidx.lifecycle.viewmodel)
 }

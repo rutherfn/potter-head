@@ -5,8 +5,9 @@ import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvi
 import com.nicholas.rutherford.potter.head.di.AppGraph
 import com.nicholas.rutherford.potter.head.di.ViewModelFactory
 
-class PotterHeadApplication : Application(), ViewModelFactoryProvider {
-    
+class PotterHeadApplication :
+    Application(),
+    ViewModelFactoryProvider {
     /**
      * Metro generates AppGraph$$$MetroGraph as the implementation.
      * This provides access to all dependency graphs in the application.
@@ -16,7 +17,8 @@ class PotterHeadApplication : Application(), ViewModelFactoryProvider {
             val baseName = "com.nicholas.rutherford.potter.head.di.AppGraph"
             val dollarSign = "\$"
             val className = "$baseName$dollarSign$dollarSign$dollarSign" + "MetroGraph"
-            Class.forName(className)
+            Class
+                .forName(className)
                 .getDeclaredConstructor()
                 .newInstance() as AppGraph
         } catch (e: Exception) {
@@ -26,7 +28,7 @@ class PotterHeadApplication : Application(), ViewModelFactoryProvider {
             )
         }
     }
-    
+
     /**
      * ViewModelFactory instance using AppGraph.
      * This is the single source of truth for ViewModel creation.
@@ -34,21 +36,16 @@ class PotterHeadApplication : Application(), ViewModelFactoryProvider {
     val viewModelFactory: ViewModelFactory by lazy {
         ViewModelFactory(appGraph)
     }
-    
-    override fun getViewModelFactory(): androidx.lifecycle.ViewModelProvider.Factory {
-        return viewModelFactory
-    }
-    
+
+    override fun getViewModelFactory(): androidx.lifecycle.ViewModelProvider.Factory = viewModelFactory
+
     override fun onCreate() {
         super.onCreate()
         // Graph and factory are lazily initialized on first access
     }
-    
+
     companion object {
         @JvmStatic
-        fun from(context: android.content.Context): PotterHeadApplication {
-            return context.applicationContext as PotterHeadApplication
-        }
+        fun from(context: android.content.Context): PotterHeadApplication = context.applicationContext as PotterHeadApplication
     }
 }
-

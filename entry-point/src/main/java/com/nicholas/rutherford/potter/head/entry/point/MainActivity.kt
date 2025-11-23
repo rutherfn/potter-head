@@ -16,28 +16,21 @@ import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
 import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvider
 import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
-import com.nicholas.rutherford.potter.head.entry.point.LocalViewModelFactory
-
-sealed class Screen(val route: String, val title: String) {
-    object Characters : Screen("characters", "Characters")
-    object Quizzes : Screen("quizzes", "Quizzes")
-    object Settings : Screen("settings", "Settings")
-}
+import com.nicholas.rutherford.potter.head.entry.point.navigation.AppNavigationGraph
+import com.nicholas.rutherford.potter.head.entry.point.navigation.Screens
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,9 +57,9 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                             NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == Screen.Characters.route } == true,
+                                selected = currentDestination?.hierarchy?.any { it.route == Screens.Characters.route } == true,
                                 onClick = {
-                                    navController.navigate(Screen.Characters.route) {
+                                    navController.navigate(Screens.Characters.route) {
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -77,15 +70,15 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         Icons.Default.Group,
-                                        contentDescription = Screen.Characters.title
+                                        contentDescription = Screens.Characters.title
                                     )
                                 },
-                                label = { Text(Screen.Characters.title) }
+                                label = { Text(Screens.Characters.title) }
                             )
                             NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == Screen.Quizzes.route } == true,
+                                selected = currentDestination?.hierarchy?.any { it.route == Screens.Quizzes.route } == true,
                                 onClick = {
-                                    navController.navigate(Screen.Quizzes.route) {
+                                    navController.navigate(Screens.Quizzes.route) {
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -96,15 +89,15 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         Icons.Default.Quiz,
-                                        contentDescription = Screen.Quizzes.title
+                                        contentDescription = Screens.Quizzes.title
                                     )
                                 },
-                                label = { Text(Screen.Quizzes.title) }
+                                label = { Text(Screens.Quizzes.title) }
                             )
                             NavigationBarItem(
-                                selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
+                                selected = currentDestination?.hierarchy?.any { it.route == Screens.Settings.route } == true,
                                 onClick = {
-                                    navController.navigate(Screen.Settings.route) {
+                                    navController.navigate(Screens.Settings.route) {
                                         popUpTo(navController.graph.findStartDestination().id) {
                                             saveState = true
                                         }
@@ -115,27 +108,23 @@ class MainActivity : ComponentActivity() {
                                 icon = {
                                     Icon(
                                         Icons.Default.Settings,
-                                        contentDescription = Screen.Settings.title
+                                        contentDescription = Screens.Settings.title
                                     )
                                 },
-                                label = { Text(Screen.Settings.title) }
+                                label = { Text(Screens.Settings.title) }
                             )
                         }
                     }
                 ) { innerPadding ->
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.Characters.route,
-                        modifier = Modifier.padding(innerPadding)
+                        startDestination = Screens.Characters.route,
+                        modifier = Modifier.padding(paddingValues = innerPadding)
                     ) {
-                        composable(Screen.Characters.route) {
-                            CharactersScreen()
-                        }
-                        composable(Screen.Quizzes.route) {
-                            QuizzesScreen()
-                        }
-                        composable(Screen.Settings.route) {
-                            SettingsScreen()
+                        with(receiver = AppNavigationGraph) {
+                            charactersScreen()
+                            quizzesScreen()
+                            settingsScreen()
                         }
                     }
                 }
@@ -143,28 +132,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-}
-
-@Composable
-fun CharactersScreen() {
-    Text(
-        text = "Characters Screen",
-        modifier = Modifier.padding(16.dp)
-    )
-}
-
-@Composable
-fun QuizzesScreen() {
-    Text(
-        text = "Quizzes Screen",
-        modifier = Modifier.padding(16.dp)
-    )
-}
-
-@Composable
-fun SettingsScreen() {
-    Text(
-        text = "Settings Screen",
-        modifier = Modifier.padding(16.dp)
-    )
 }

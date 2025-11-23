@@ -1,6 +1,5 @@
 package com.nicholas.rutherford.potter.head.entry.point
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse

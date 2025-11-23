@@ -51,12 +51,15 @@ metro {
 dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":entry-point"))
+    implementation(project(path = ":feature:characters"))
+    implementation(project(path = ":feature:quizzes"))
+    implementation(project(path = ":feature:settings"))
     implementation(project(path = ":network"))
 
-    // Compose Runtime required for Compose Compiler
+    implementation(libs.kermit)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.runtime)
 
-    // Lifecycle ViewModel for ViewModelFactory
     implementation(libs.androidx.lifecycle.viewmodel)
 }

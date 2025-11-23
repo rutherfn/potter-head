@@ -59,6 +59,7 @@ dependencies {
     implementation(libs.kermit)
 
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     testImplementation(project(path = ":test-utils"))
 

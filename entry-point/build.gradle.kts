@@ -49,6 +49,9 @@ dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":compose:ui-theme"))
     implementation(project(path = ":network"))
+    implementation(project(path = ":feature:characters"))
+    implementation(project(path = ":feature:quizzes"))
+    implementation(project(path = ":feature:settings"))
 
     implementation(libs.kotlin.stdlib)
 
@@ -63,7 +66,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.ui.text)
     implementation(libs.androidx.lifecycle.viewmodel)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${libs.versions.lifecycle.get()}")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.navigation.compose)
 

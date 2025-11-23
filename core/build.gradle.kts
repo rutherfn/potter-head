@@ -47,6 +47,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     
+    // Logging
+    implementation(libs.kermit)
+    
     // JUnit Jupiter (JUnit 5)
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)

@@ -1,11 +1,13 @@
+@file:Suppress("UnstableApi")
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.metro)
 }
 
 android {
-    namespace = "com.nicholas.rutherford.potter.head.base.view.model"
+    namespace = "com.nicholas.rutherford.potter.head.navigation"
     compileSdk = 36
 
     defaultConfig {
@@ -31,27 +33,17 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
-        compose = true
-    }
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
-    }
+metro {
+    enabled = true
+    debug = true
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    api(project(path = ":core"))
 
-    implementation(libs.kermit)
+    implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.androidx.compose.runtime)
-
-    implementation(libs.androidx.lifecycle.viewmodel)
-
-    // Navigator interface for NavigatorProvider (using implementation to avoid circular deps)
-    implementation(project(path = ":navigation"))
+    implementation(libs.kotlinx.coroutines.core)
 }

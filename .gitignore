@@ -53,3 +53,4 @@ feature/characters/build
 feature/quizzes/build
 model/build
 network/build
+navigation/build

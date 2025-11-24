@@ -50,6 +50,9 @@ dependencies {
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui.text)
     implementation(libs.androidx.compose.ui.unit)
+    
+    // Lifecycle-aware flow collection (provides flowWithLifecycle)
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.3")
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     

@@ -53,6 +53,7 @@ dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":compose:ui-theme"))
     implementation(project(path = ":network"))
+    implementation(project(path = ":navigation"))
 
     implementation(platform(libs.androidx.compose.bom))
 

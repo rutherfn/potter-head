@@ -49,6 +49,7 @@ dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":compose:ui-theme"))
     implementation(project(path = ":network"))
+    implementation(project(path = ":navigation"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
     implementation(project(path = ":feature:settings"))

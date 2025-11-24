@@ -54,7 +54,9 @@ dependencies {
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
     implementation(project(path = ":feature:settings"))
+    implementation(project(path = ":navigation"))
     implementation(project(path = ":network"))
+    implementation(project(path = ":saved-state"))
 
     implementation(libs.kermit)
 
@@ -62,4 +64,5 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
 
     implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
 }

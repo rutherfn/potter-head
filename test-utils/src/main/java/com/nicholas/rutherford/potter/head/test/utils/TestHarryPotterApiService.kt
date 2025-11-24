@@ -17,10 +17,10 @@ class TestHarryPotterApiService(
         }
     }
 
-    override suspend fun fetchCharacterById(id: String): CharacterResponse {
+    override suspend fun fetchCharacterById(id: String): List<CharacterResponse> {
         if (shouldThrowException) {
             throw IllegalStateException("Simulated API exception for testing error handling")
         }
-        return TestCharacterResponse.build().copy(id = id)
+        return listOf(TestCharacterResponse.build().copy(id = id))
     }
 }

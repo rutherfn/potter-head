@@ -5,7 +5,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
-import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailParams
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailScreen
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
@@ -41,17 +40,6 @@ object AppNavigationGraph {
             arguments = NavArguments.characterDetail
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            
-            // Debug: Extract and log navigation arguments from backStackEntry
-            val characterId = backStackEntry.arguments?.getString(Constants.NamedArguments.ID)
-            println("DEBUG AppNavigationGraph: Character ID from backStackEntry.arguments: $characterId")
-            println("DEBUG AppNavigationGraph: All arguments: ${backStackEntry.arguments?.keySet()?.joinToString()}")
-            
-            // The viewModel() composable automatically provides SavedStateHandle with navigation arguments
-            // when used with a NavBackStackEntry. We explicitly pass viewModelStoreOwner to ensure
-            // the SavedStateHandle is correctly associated with the navigation entry.
-            // The factory will extract it from CreationExtras and use the CharacterDetailViewModelFactory
-            // (with assisted injection pattern) to create the ViewModel.
             val viewModel: CharacterDetailViewModel = viewModel(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry

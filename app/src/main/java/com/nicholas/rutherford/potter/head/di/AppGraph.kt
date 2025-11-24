@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.nicholas.rutherford.potter.head.di
 
 import com.nicholas.rutherford.potter.head.core.Constants
@@ -6,6 +8,7 @@ import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.Ch
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
 import com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule
+import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
 import dev.zacsweers.metro.DependencyGraph
 import dev.zacsweers.metro.Provides
 
@@ -21,7 +24,6 @@ import dev.zacsweers.metro.Provides
 @DependencyGraph
 interface AppGraph {
     val networkModule: NetworkModule
-    val savedStateModule: SavedStateModule
     val navigatorModule: NavigatorModule
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
 
@@ -100,4 +102,5 @@ interface AppGraph {
                 navigator = navigatorModule.navigator
             )
     }
+
 }

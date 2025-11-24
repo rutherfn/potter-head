@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
+import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
-import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModelFactory
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
@@ -85,25 +85,8 @@ class ViewModelFactory(
      * @param extras [CreationExtras] that may contain SavedStateHandle from navigation arguments.
      * @return A new [CharacterDetailViewModel] instance with the repository, navigator, and SavedStateHandle injected.
      */
-    private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel {
-        // Extract SavedStateHandle from CreationExtras (contains navigation arguments from Compose Navigation)
-        // The viewModel() composable in Compose Navigation automatically provides SavedStateHandle in CreationExtras
-        // We use the createSavedStateHandle() extension function which is the recommended way to extract it
-        val savedStateHandle = extras.createSavedStateHandle()
-        
-        // Debug: Log all keys in SavedStateHandle to see what's available
-        val keys = savedStateHandle.keys()
-        log.d("SavedStateHandle keys: ${keys.joinToString()}")
-        println("DEBUG Factory: SavedStateHandle keys: ${keys.joinToString()}")
-        
-        // Log the ID value for debugging
-        val idValue = savedStateHandle.get<String>(com.nicholas.rutherford.potter.head.core.Constants.NamedArguments.ID)
-        log.d("ID value in SavedStateHandle: $idValue")
-        println("DEBUG Factory: ID value in SavedStateHandle: $idValue")
-        
-        // Use the factory with assisted injection pattern - SavedStateHandle is provided at creation time
-        return appGraph.characterDetailViewModelFactory.create(savedStateHandle = savedStateHandle)
-    }
+    private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel =
+        appGraph.characterDetailViewModelFactory.create(savedStateHandle = extras.createSavedStateHandle())
 
     /**
      * Creates a [QuizzesViewModel] instance with its dependencies injected.
@@ -131,10 +114,9 @@ class ViewModelFactory(
      * @throws IllegalArgumentException with a message indicating the ViewModel class is not supported.
      */
     private fun <T : ViewModel> handleUnknownViewModel(modelClass: Class<T>): Nothing {
-        log.e("Unable to create ViewModel for class: ${modelClass.name}")
-        throw IllegalArgumentException(
-            "Unknown ViewModel class: ${modelClass.name}. " +
-                "Add it to ViewModelFactory.create() to support injection."
-        )
+        val errorMessage = "Unknown ViewModel class: ${modelClass.name}. Add it to ViewModelFactory.create() to support injection."
+
+        log.e(errorMessage)
+        throw IllegalArgumentException(errorMessage)
     }
 }

@@ -43,15 +43,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    api(libs.androidx.compose.runtime.android)
+    api(libs.androidx.lifecycle.viewmodel.android)
 
-    implementation(libs.kermit)
-
-    implementation(libs.androidx.compose.runtime)
-
-    implementation(libs.androidx.lifecycle.viewmodel)
-
-    // Navigator interface for NavigatorProvider (using implementation to avoid circular deps)
-    implementation(project(path = ":navigation"))
+    api(project(path = ":navigation"))
 }

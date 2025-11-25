@@ -43,19 +43,14 @@ android {
 }
 
 dependencies {
+    debugApi(libs.kermit.android.debug)
+    debugImplementation(libs.kermit.core.android.debug)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-
-    implementation(libs.kermit)
+    releaseApi(libs.kermit.android)
+    releaseImplementation(libs.kermit.core.android)
 
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
 
     testImplementation(project(path = ":test-utils"))
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }

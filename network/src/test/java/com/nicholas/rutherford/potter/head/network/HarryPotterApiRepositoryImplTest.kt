@@ -69,7 +69,7 @@ class HarryPotterApiRepositoryImplTest {
         fun `should return failure result when API service throws exception`() = runTest {
             val apiService = object : HarryPotterApiService {
                 override suspend fun fetchAllCharacters(): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
-                override suspend fun fetchCharacterById(id: String): CharacterResponse { throw IllegalStateException("Simulated API exception for testing error handling") }
+                override suspend fun fetchCharacterById(id: String): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
             }
             val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
 
@@ -109,10 +109,11 @@ class HarryPotterApiRepositoryImplTest {
             result.isSuccess shouldBe true
             result.isFailure shouldBe false
 
-            val character = result.getOrNull()
+            val characters = result.getOrNull()
 
-            character shouldNotBe null
-            character!!.id shouldBe id
+            characters shouldNotBe null
+            characters!!.isNotEmpty() shouldBe true
+            characters.first().id shouldBe id
         }
 
         @Test

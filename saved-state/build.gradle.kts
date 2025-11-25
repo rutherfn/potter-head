@@ -41,14 +41,7 @@ metro {
 }
 
 dependencies {
-    api(project(path = ":core"))
-
     // Lifecycle for SavedStateHandle
-    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
-
-    // Test dependencies
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    api(libs.androidx.lifecycle.viewmodel.savedstate)
 }
 

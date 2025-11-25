@@ -31,9 +31,6 @@ import kotlinx.coroutines.flow.Flow
  * @param lifecycleOwner The [LifecycleOwner] controlling the active state of the flow collection.
  * @param initialState The default value returned before any emissions.
  * @return A Compose [State] representing the current value emitted by the flow.
- *
- * @author Nicholas Rutherford
- * Created on 2025-08-16
  */
 @Composable
 fun <T> Flow<T>.asLifecycleAwareState(

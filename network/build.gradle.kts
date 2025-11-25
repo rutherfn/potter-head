@@ -49,24 +49,23 @@ metro {
 }
 
 dependencies {
-    api(project(path = ":core"))
+    implementation(project(path = ":core"))
     api(project(path = ":model"))
 
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
-    implementation(libs.gson)
-
-    implementation(libs.kermit)
+    api(libs.gson)
+    api(libs.retrofit)
+    api(libs.converter.gson)
+    api(libs.androidx.lifecycle.viewmodel.android)
+    debugImplementation(libs.kermit.android.debug)
+    debugImplementation(libs.kermit.core.android.debug)
+    releaseImplementation(libs.kermit.android)
+    releaseImplementation(libs.kermit.core.android)
 
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     testImplementation(project(path = ":test-utils"))
 
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
 }

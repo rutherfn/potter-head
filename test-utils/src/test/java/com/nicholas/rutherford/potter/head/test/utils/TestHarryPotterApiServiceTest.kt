@@ -40,8 +40,10 @@ class TestHarryPotterApiServiceTest {
         fun `should return character with given id when shouldReturnData is true and shouldThrowException is false`() = runTest {
             val apiService = TestHarryPotterApiService(shouldReturnData = true, shouldThrowException = false)
             val testId = "custom-character-id"
-            val character = apiService.fetchCharacterById(id = testId)
+            val characters = apiService.fetchCharacterById(id = testId)
 
+            characters.isNotEmpty() shouldBe true
+            val character = characters.first()
             character.id shouldBe testId
             character.name shouldBe "Harry Potter"
             character.house shouldBe "Gryffindor"
@@ -72,8 +74,10 @@ class TestHarryPotterApiServiceTest {
             )
             val testId = "test-id"
 
-            val character = apiService.fetchCharacterById(id = testId)
+            val characters = apiService.fetchCharacterById(id = testId)
 
+            characters.isNotEmpty() shouldBe true
+            val character = characters.first()
             character.id shouldBe testId
             character.name shouldBe "Harry Potter"
         }

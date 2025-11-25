@@ -41,9 +41,9 @@ metro {
 }
 
 dependencies {
-    api(project(path = ":core"))
+    implementation(project(path = ":core"))
 
-    implementation(libs.androidx.navigation.compose)
+    api(libs.androidx.navigation.common)
 
     implementation(libs.kotlinx.coroutines.core)
 }

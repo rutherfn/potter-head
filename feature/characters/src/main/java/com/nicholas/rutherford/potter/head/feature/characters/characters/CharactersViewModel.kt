@@ -2,6 +2,7 @@ package com.nicholas.rutherford.potter.head.feature.characters.characters
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -30,13 +31,13 @@ class CharactersViewModel(
     }
 
     fun onCharacterClicked(characterId: String = "9e3f7ce4-b9a7-4244-b709-dae5c1f1d4a8") {
-        // Example: Navigate to character detail screen
-        // Use SimpleNavigationAction for basic navigation
-        // Compose Navigation uses path parameters: characterDetail/{id}
-        println("hello world testsdsd")
+        // Navigate to character detail screen
+        // Replace {id} placeholder in the route with the actual character ID
+        val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
+            .replace("{id}", characterId)
         navigator.navigate(
             SimpleNavigationAction(
-                destination = "characterDetail/$characterId"
+                destination = route
             )
         )
     }

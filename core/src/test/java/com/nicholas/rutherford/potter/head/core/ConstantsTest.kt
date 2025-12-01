@@ -1,6 +1,6 @@
 package com.nicholas.rutherford.potter.head.core
 
-import com.nicholas.rutherford.potter.head.test.utils.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
 import org.junit.jupiter.api.Test
 
 class ConstantsTest {

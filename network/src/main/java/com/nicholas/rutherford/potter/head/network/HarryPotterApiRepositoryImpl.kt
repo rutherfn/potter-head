@@ -44,7 +44,6 @@ class HarryPotterApiRepositoryImpl(
     override fun getCharacterById(id: String): Flow<Result<List<CharacterResponse>>> = flow {
         try {
             log.d("Attempting to fetch character with id: $id")
-            println("DEBUG Repository: Fetching character with id: $id")
             val character = apiService.fetchCharacterById(id = id)
             emit(value = Result.success(value = character))
             log.i("Was able to successfully fetch character with id $id with following being the character that was fetched -- $character")

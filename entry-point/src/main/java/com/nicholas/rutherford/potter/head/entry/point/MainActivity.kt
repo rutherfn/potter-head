@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val lifecycleOwner = LocalLifecycleOwner.current
             val context = LocalContext.current
-            val dependencies = getApplicationDependencies(context)
+            val dependencies = getApplicationDependencies(context = context)
 
             CompositionLocalProvider(value = LocalViewModelFactory provides dependencies.viewModelFactory) {
                 PotterHeadTheme {
@@ -57,12 +57,7 @@ class MainActivity : ComponentActivity() {
                             startDestination = Screens.Characters.route,
                             modifier = Modifier.padding(paddingValues = innerPadding)
                         ) {
-                            with(receiver = AppNavigationGraph) {
-                                charactersScreen()
-                                characterDetailScreen()
-                                quizzesScreen()
-                                settingsScreen()
-                            }
+                            AppNavigationGraph.setupAllScreens(builder = this)
                         }
                     }
                 }

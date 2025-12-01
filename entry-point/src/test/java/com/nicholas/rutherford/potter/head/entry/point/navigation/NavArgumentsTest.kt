@@ -2,8 +2,8 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation
 
 import androidx.navigation.NavType
 import com.nicholas.rutherford.potter.head.core.Constants
-import com.nicholas.rutherford.potter.head.test.utils.shouldBe
-import com.nicholas.rutherford.potter.head.test.utils.shouldNotBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldNotBe
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

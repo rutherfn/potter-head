@@ -1,4 +1,4 @@
-package com.nicholas.rutherford.potter.head.test.utils
+package com.nicholas.rutherford.potter.head.test.utils.ext
 
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf

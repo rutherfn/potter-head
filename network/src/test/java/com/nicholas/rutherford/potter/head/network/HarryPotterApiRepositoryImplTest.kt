@@ -1,10 +1,10 @@
 package com.nicholas.rutherford.potter.head.network
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
-import com.nicholas.rutherford.potter.head.test.utils.TestHarryPotterApiService
-import com.nicholas.rutherford.potter.head.test.utils.shouldBe
-import com.nicholas.rutherford.potter.head.test.utils.shouldBeInstanceOf
-import com.nicholas.rutherford.potter.head.test.utils.shouldNotBe
+import com.nicholas.rutherford.potter.head.test.utils.api.TestHarryPotterApiService
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBeInstanceOf
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldNotBe
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Nested

@@ -1,6 +1,9 @@
 package com.nicholas.rutherford.potter.head.test.utils
 
+import com.nicholas.rutherford.potter.head.test.utils.api.TestHarryPotterApiService
 import com.nicholas.rutherford.potter.head.test.utils.data.TestCharacterResponse
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBeInstanceOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -38,7 +41,8 @@ class TestHarryPotterApiServiceTest {
 
         @Test
         fun `should return character with given id when shouldReturnData is true and shouldThrowException is false`() = runTest {
-            val apiService = TestHarryPotterApiService(shouldReturnData = true, shouldThrowException = false)
+            val apiService =
+                TestHarryPotterApiService(shouldReturnData = true, shouldThrowException = false)
             val testId = "custom-character-id"
             val characters = apiService.fetchCharacterById(id = testId)
 

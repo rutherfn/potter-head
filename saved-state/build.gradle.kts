@@ -41,7 +41,6 @@ metro {
 }
 
 dependencies {
-    // Lifecycle for SavedStateHandle
     api(libs.androidx.lifecycle.viewmodel.savedstate)
 }
 

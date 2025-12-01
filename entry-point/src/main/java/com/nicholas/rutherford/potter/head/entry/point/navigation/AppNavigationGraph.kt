@@ -147,4 +147,41 @@ object AppNavigationGraph {
             )
         }
     }
+
+    /**
+     * List of all screen setup functions to be included in the navigation graph.
+     *
+     * This list defines all screens that should be registered in the navigation graph.
+     * To add a new screen, simply add its setup function to this list.
+     *
+     * The order of screens in this list does not affect navigation behavior,
+     * but it's recommended to keep them in a logical order for maintainability.
+     */
+    private val screenSetupFunctions: List<NavGraphBuilder.() -> Unit> = listOf(
+        { charactersScreen() },
+        { characterDetailScreen() },
+        { quizzesScreen() },
+        { settingsScreen() }
+    )
+
+    /**
+     * Sets up all screens in the navigation graph.
+     *
+     * This function iterates through all screen setup functions defined in
+     * [screenSetupFunctions] and calls them with the provided [NavGraphBuilder] receiver.
+     * This allows for a centralized way to manage which screens are included in the graph.
+     *
+     * To add a new screen to the navigation graph:
+     * 1. Create the screen setup extension function (e.g., `fun NavGraphBuilder.newScreen()`)
+     * 2. Add it to the [screenSetupFunctions] list as a lambda: `{ newScreen() }`
+     *
+     * @param builder The [NavGraphBuilder] to use for setting up the screens.
+     */
+    fun setupAllScreens(builder: NavGraphBuilder) {
+        with(this@AppNavigationGraph) {
+            screenSetupFunctions.forEach { setupFunction ->
+                builder.setupFunction()
+            }
+        }
+    }
 }

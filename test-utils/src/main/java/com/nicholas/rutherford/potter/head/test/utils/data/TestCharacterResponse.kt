@@ -2,8 +2,27 @@ package com.nicholas.rutherford.potter.head.test.utils.data
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
 
+/**
+ * Test utility object for creating [CharacterResponse] instances for testing purposes.
+ *
+ * This object provides factory methods to create test data for character responses,
+ * which are used in unit tests. It provides the following:
+ * - Default character data
+ * - Methods to create lists of character responses
+ * - Methods to create varied character responses representing different houses and scenarios
+ *
+ * @see CharacterResponse for the actual data model
+ * @see TestWandResponse for creating wand data used in character responses
+ *
+ * @author Nicholas Rutherford
+ */
 object TestCharacterResponse {
 
+    /**
+     * Creates a default [CharacterResponse] instance with test data.
+     *
+     * @return A [CharacterResponse] instance with default test values representing Harry Potter.
+     */
     fun build(): CharacterResponse =
         CharacterResponse(
             id = CHARACTER_RESPONSE_ID,
@@ -28,13 +47,25 @@ object TestCharacterResponse {
             image = CHARACTER_RESPONSE_IMAGE
         )
 
-    fun buildList(count: Int = 3): List<CharacterResponse> = List(count) { index ->
+    /**
+     * Creates a list of [CharacterResponse] instances with default test data.
+     *
+     * @param count The number of character responses to create. Defaults to 3.
+     * @return A list of [CharacterResponse] instances, each with unique IDs and names.
+     */
+    fun buildList(count: Int = 3): List<CharacterResponse> = List(size = count) { index ->
         build().copy(
             id = "$CHARACTER_RESPONSE_ID-$index",
             name = "$CHARACTER_RESPONSE_NAME $index"
         )
     }
 
+    /**
+     * Creates a list of [CharacterResponse] instances with varied test data.
+     *
+     * @return A list of [CharacterResponse] instances representing different characters
+     *         from all four Hogwarts houses with varied properties.
+     */
     fun buildVariedList(): List<CharacterResponse> {
         return listOf(
             build(), // Default: Harry Potter

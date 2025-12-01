@@ -1,7 +1,7 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
 import com.nicholas.rutherford.potter.head.core.Constants
-import com.nicholas.rutherford.potter.head.test.utils.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 

@@ -56,8 +56,10 @@ dependencies {
     api(libs.retrofit)
     api(libs.converter.gson)
     api(libs.androidx.lifecycle.viewmodel.android)
+
     debugImplementation(libs.kermit.android.debug)
     debugImplementation(libs.kermit.core.android.debug)
+
     releaseImplementation(libs.kermit.android)
     releaseImplementation(libs.kermit.core.android)
 
@@ -66,6 +68,7 @@ dependencies {
     testImplementation(project(path = ":test-utils"))
 
     testImplementation(libs.junit.jupiter.api)
-    testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }

@@ -102,5 +102,4 @@ interface AppGraph {
                 navigator = navigatorModule.navigator
             )
     }
-
 }

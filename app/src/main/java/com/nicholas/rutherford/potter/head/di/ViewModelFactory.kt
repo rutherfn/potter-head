@@ -52,7 +52,10 @@ class ViewModelFactory(
      * @throws IllegalArgumentException if the requested ViewModel class is not supported.
      */
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>, extras: CreationExtras): T =
+    override fun <T : ViewModel> create(
+        modelClass: Class<T>,
+        extras: CreationExtras
+    ): T =
         when (modelClass) {
             CharactersViewModel::class.java -> createCharacterViewModel() as T
             CharacterDetailViewModel::class.java -> createCharacterDetailViewModel(extras) as T

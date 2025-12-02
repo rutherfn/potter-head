@@ -43,12 +43,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+    api(libs.androidx.compose.runtime.android)
+    api(libs.androidx.lifecycle.viewmodel.android)
 
-    implementation(libs.kermit)
-
-    implementation(libs.androidx.compose.runtime)
-
-    implementation(libs.androidx.lifecycle.viewmodel)
+    api(project(path = ":navigation"))
 }

@@ -1,10 +1,10 @@
 package com.nicholas.rutherford.potter.head.network
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
-import com.nicholas.rutherford.potter.head.test.utils.TestHarryPotterApiService
-import com.nicholas.rutherford.potter.head.test.utils.shouldBe
-import com.nicholas.rutherford.potter.head.test.utils.shouldBeInstanceOf
-import com.nicholas.rutherford.potter.head.test.utils.shouldNotBe
+import com.nicholas.rutherford.potter.head.test.utils.api.TestHarryPotterApiService
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBeInstanceOf
+import com.nicholas.rutherford.potter.head.test.utils.ext.shouldNotBe
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Nested
@@ -69,7 +69,7 @@ class HarryPotterApiRepositoryImplTest {
         fun `should return failure result when API service throws exception`() = runTest {
             val apiService = object : HarryPotterApiService {
                 override suspend fun fetchAllCharacters(): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
-                override suspend fun fetchCharacterById(id: String): CharacterResponse { throw IllegalStateException("Simulated API exception for testing error handling") }
+                override suspend fun fetchCharacterById(id: String): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
             }
             val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
 
@@ -109,10 +109,11 @@ class HarryPotterApiRepositoryImplTest {
             result.isSuccess shouldBe true
             result.isFailure shouldBe false
 
-            val character = result.getOrNull()
+            val characters = result.getOrNull()
 
-            character shouldNotBe null
-            character!!.id shouldBe id
+            characters shouldNotBe null
+            characters!!.isNotEmpty() shouldBe true
+            characters.first().id shouldBe id
         }
 
         @Test

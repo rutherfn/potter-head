@@ -34,9 +34,8 @@ dependencies {
     api(project(path = ":model"))
     api(project(path = ":network"))
 
-    api(libs.junit.jupiter.api)
+    implementation(libs.junit.jupiter.api)
 
-    testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
     testImplementation(libs.kotlinx.coroutines.test)
 }

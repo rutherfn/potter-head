@@ -1,12 +1,17 @@
 package com.nicholas.rutherford.potter.head.di
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
+import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
-import com.nicholas.rutherford.potter.head.feature.characters.CharactersViewModel
+import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
+import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
  * Factory for creating ViewModels with Metro dependency injection.
@@ -33,18 +38,27 @@ class ViewModelFactory(
      * to the appropriate creation method. Each ViewModel type has its own creation method that
      * handles dependency injection via the [AppGraph].
      *
+     * When [CreationExtras] is provided (e.g., from Compose Navigation), it extracts the
+     * [SavedStateHandle] which contains navigation arguments. Otherwise, it creates an empty
+     * [SavedStateHandle] for ViewModels that require it.
+     *
      * The `@Suppress("UNCHECKED_CAST")` annotation is required because we're casting from a
      * specific ViewModel type to the generic type parameter `T`. This is safe because we verify
      * the class type before creating the instance.
      *
      * @param modelClass The [Class] of the ViewModel to create.
+     * @param extras Optional [CreationExtras] that may contain SavedStateHandle from navigation arguments.
      * @return A new instance of the requested ViewModel type with dependencies injected.
      * @throws IllegalArgumentException if the requested ViewModel class is not supported.
      */
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel> create(modelClass: Class<T>): T =
+    override fun <T : ViewModel> create(
+        modelClass: Class<T>,
+        extras: CreationExtras
+    ): T =
         when (modelClass) {
             CharactersViewModel::class.java -> createCharacterViewModel() as T
+            CharacterDetailViewModel::class.java -> createCharacterDetailViewModel(extras) as T
             QuizzesViewModel::class.java -> createQuizzesViewModel() as T
             SettingsViewModel::class.java -> createSettingsViewModel() as T
             else -> handleUnknownViewModel(modelClass)
@@ -53,13 +67,29 @@ class ViewModelFactory(
     /**
      * Creates a [CharactersViewModel] instance with its dependencies injected.
      *
-     * This method retrieves the [HarryPotterApiRepository] from the [AppGraph] and passes it
-     * to the ViewModel constructor. All dependencies are provided via constructor injection.
+     * This method retrieves the [HarryPotterApiRepository] and [Navigator] from the [AppGraph]
+     * and passes them to the ViewModel constructor. All dependencies are provided via constructor injection.
      *
-     * @return A new [CharactersViewModel] instance with the repository dependency injected.
+     * @return A new [CharactersViewModel] instance with the repository and navigator dependencies injected.
      */
     private fun createCharacterViewModel(): CharactersViewModel =
-        CharactersViewModel(repository = appGraph.networkModule.harryPotterApiRepository)
+        CharactersViewModel(
+            repository = appGraph.networkModule.harryPotterApiRepository,
+            navigator = appGraph.navigatorModule.navigator
+        )
+
+    /**
+     * Creates a [CharacterDetailViewModel] instance with its dependencies injected.
+     *
+     * This method extracts the [SavedStateHandle] from [CreationExtras] if available
+     * (which contains navigation arguments from Compose Navigation), or creates an empty one if not.
+     * This ensures that navigation arguments are properly passed to the ViewModel.
+     *
+     * @param extras [CreationExtras] that may contain SavedStateHandle from navigation arguments.
+     * @return A new [CharacterDetailViewModel] instance with the repository, navigator, and SavedStateHandle injected.
+     */
+    private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel =
+        appGraph.characterDetailViewModelFactory.create(savedStateHandle = extras.createSavedStateHandle())
 
     /**
      * Creates a [QuizzesViewModel] instance with its dependencies injected.
@@ -87,10 +117,9 @@ class ViewModelFactory(
      * @throws IllegalArgumentException with a message indicating the ViewModel class is not supported.
      */
     private fun <T : ViewModel> handleUnknownViewModel(modelClass: Class<T>): Nothing {
-        log.e("Unable to create ViewModel for class: ${modelClass.name}")
-        throw IllegalArgumentException(
-            "Unknown ViewModel class: ${modelClass.name}. " +
-                "Add it to ViewModelFactory.create() to support injection."
-        )
+        val errorMessage = "Unknown ViewModel class: ${modelClass.name}. Add it to ViewModelFactory.create() to support injection."
+
+        log.e(errorMessage)
+        throw IllegalArgumentException(errorMessage)
     }
 }

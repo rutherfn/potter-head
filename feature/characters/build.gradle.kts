@@ -50,39 +50,28 @@ metro {
 
 dependencies {
     // Module dependencies
-    implementation(project(path = ":base:view-model"))
-    implementation(project(path = ":compose:ui-theme"))
-    implementation(project(path = ":network"))
+    api(project(path = ":navigation"))
+    api(project(path = ":network"))
+    implementation(project(path = ":core"))
 
-    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.test.monitor)
+    api(libs.androidx.compose.runtime.android)
+    api(libs.androidx.lifecycle.viewmodel.android)
+    api(libs.androidx.lifecycle.viewmodel.savedstate.android)
+    api(libs.kotlinx.coroutines.core)
+    api(libs.androidx.compose.foundation.layout.android)
+    implementation(libs.androidx.compose.foundation.android)
+    implementation(libs.androidx.compose.material3.android)
+    implementation(libs.androidx.compose.ui.android)
+    implementation(libs.androidx.compose.ui.graphics.android)
+    implementation(libs.androidx.compose.ui.text.android)
+    implementation(libs.androidx.compose.ui.tooling.preview.android)
+    implementation(libs.androidx.compose.ui.unit.android)
+    implementation(libs.androidx.navigation.common)
 
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons.extended)
-
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.ui.graphics)
-
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.foundation.layout)
-
-    implementation(libs.androidx.compose.runtime)
-
-    implementation(libs.androidx.compose.ui.text)
-
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.activity.compose)
-
-    implementation(libs.androidx.navigation.compose)
-
-    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
-    debugImplementation(libs.androidx.compose.ui.tooling)
     debugRuntimeOnly(libs.androidx.compose.ui.test.manifest)
 }

@@ -4,9 +4,11 @@ package com.nicholas.rutherford.potter.head
 
 import android.app.Application
 import co.touchlab.kermit.Logger
+import com.nicholas.rutherford.potter.head.base.view.model.NavigatorProvider
 import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvider
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.di.AppGraph
+import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
 import android.content.Context
 import com.nicholas.rutherford.potter.head.di.ViewModelFactory
@@ -26,7 +28,8 @@ import com.nicholas.rutherford.potter.head.di.ViewModelFactory
  */
 class PotterHeadApplication :
     Application(),
-    ViewModelFactoryProvider {
+    ViewModelFactoryProvider,
+    NavigatorProvider {
     /**
      * Kermit Logger for this class.
      */
@@ -68,6 +71,17 @@ class PotterHeadApplication :
      * @return A [LifeCycleViewModelProvider.Factory] instance configured with the application's dependency graph.
      */
     override fun getViewModelFactory(): LifeCycleViewModelProvider.Factory = viewModelFactory
+
+    /**
+     * Returns the [Navigator] instance for handling navigation actions.
+     *
+     * This provides access to the Navigator which can be used to trigger navigation
+     * from ViewModels. MainActivity observes the Navigator's StateFlows to perform
+     * actual navigation.
+     *
+     * @return The [Navigator] instance from the AppGraph.
+     */
+    override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
 
     companion object {
         /**

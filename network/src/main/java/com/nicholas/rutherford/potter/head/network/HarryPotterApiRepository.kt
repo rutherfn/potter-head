@@ -24,5 +24,5 @@ interface HarryPotterApiRepository {
      *
      * @return A [Flow] emitting a [Result] containing a [CharacterResponse] object.
      */
-    fun getCharacterById(id: String): Flow<Result<CharacterResponse>>
+    fun getCharacterById(id: String): Flow<Result<List<CharacterResponse>>>
 }

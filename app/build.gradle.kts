@@ -54,12 +54,22 @@ dependencies {
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
     implementation(project(path = ":feature:settings"))
+    implementation(project(path = ":navigation"))
     implementation(project(path = ":network"))
+    implementation(project(path = ":saved-state"))
+    implementation(project(path = ":core"))
 
-    implementation(libs.kermit)
+    debugImplementation(libs.kermit.android.debug)
+    debugImplementation(libs.kermit.core.android.debug)
+
+    releaseImplementation(libs.kermit.android)
+    releaseImplementation(libs.kermit.core.android)
 
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.compose.runtime.android)
 
-    implementation(libs.androidx.lifecycle.viewmodel)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate.android)
+
+    implementation(libs.kotlin.stdlib.version)
 }

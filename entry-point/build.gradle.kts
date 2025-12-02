@@ -37,6 +37,16 @@ android {
     buildFeatures {
         compose = true
     }
+
+    @Suppress("UnstableApiUsage")
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = false
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 metro {
@@ -45,32 +55,46 @@ metro {
 }
 
 dependencies {
-
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":compose:ui-theme"))
-    implementation(project(path = ":network"))
+    implementation(project(path = ":navigation"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
     implementation(project(path = ":feature:settings"))
+    implementation(project(path = ":core"))
 
-    implementation(libs.kotlin.stdlib)
+    api(libs.androidx.compose.runtime.android)
+    api(libs.androidx.navigation.common)
 
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.compose.material3)
+    debugApi(libs.androidx.compose.animation.android)
 
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.compose.foundation.layout)
-    implementation(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.ui.text)
-    implementation(libs.androidx.lifecycle.viewmodel)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.compose.material.icons.extended)
+    debugImplementation(libs.androidx.compose.foundation.android)
+    debugImplementation(libs.androidx.compose.foundation.layout.android)
+
+    implementation(libs.androidx.compose.material3.android)
+    implementation(libs.androidx.compose.material.icons.core.android)
+    implementation(libs.androidx.compose.material.icons.extended.android)
+    implementation(libs.androidx.compose.ui.android)
+    implementation(libs.androidx.compose.ui.text.android)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.lifecycle.viewmodel.compose.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.runtime)
+    implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(libs.junit)
+    releaseApi(libs.androidx.compose.animation.android)
+
+    releaseImplementation(libs.androidx.compose.foundation.android)
+    releaseImplementation(libs.androidx.compose.foundation.layout.android)
+
+    api(libs.androidx.activity)
+    api(libs.kotlin.stdlib.version)
+
+    testImplementation(libs.junit.jupiter.api)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testImplementation(project(path = ":test-utils"))
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

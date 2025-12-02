@@ -40,19 +40,19 @@ kotlin {
 }
 
 dependencies {
+    api(libs.androidx.compose.material3.android)
+    api(libs.androidx.compose.runtime.android)
+    api(libs.androidx.lifecycle.common)
+    api(libs.kotlinx.coroutines.core)
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.graphics)
-    implementation(libs.androidx.compose.material3)
-
-    api(libs.androidx.compose.runtime)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.ui.text)
-    implementation(libs.androidx.compose.ui.unit)
+    implementation(libs.androidx.compose.foundation.android)
+    implementation(libs.androidx.compose.ui.android)
+    implementation(libs.androidx.compose.ui.graphics.android)
+    implementation(libs.androidx.compose.ui.text.android)
+    implementation(libs.androidx.compose.ui.unit.android)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     
-    debugImplementation(libs.androidx.compose.ui.tooling)
     debugRuntimeOnly(libs.androidx.compose.ui.test.manifest)
 }

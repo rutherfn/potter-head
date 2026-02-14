@@ -2,7 +2,12 @@
 
 package com.nicholas.rutherford.potter.head.di
 
+import android.content.Context
+import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.database.AppDatabase
+import com.nicholas.rutherford.potter.head.database.DebugToggleKeys
+import com.nicholas.rutherford.potter.head.database.di.DatabaseModule
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModelFactory
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
@@ -13,9 +18,12 @@ import com.nicholas.rutherford.potter.head.saved.state.SavedStateHandleFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.Strictness
+import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
+import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
+import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -28,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface AppGraph {
     val networkModule: NetworkModule
     val navigatorModule: NavigatorModule
+    val databaseModule: DatabaseModule
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
 }
 
@@ -73,15 +82,80 @@ private class NetworkModuleImpl : NetworkModule {
 }
 
 /**
+ * Implementation of DatabaseModule that provides database-related dependencies.
+ */
+private class DatabaseModuleImpl(
+    private val context: Context
+) : DatabaseModule {
+    override val appDatabase: AppDatabase by lazy {
+        AppDatabase.create(context).also { database ->
+            // Initialize default data synchronously on first database access
+            // This ensures defaults are set before the database is used
+            initializeDefaultData(database)
+        }
+    }
+
+    override val debugToggleDao = appDatabase.debugToggleDao()
+
+    override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
+
+    /**
+     * Initializes default data in the database synchronously.
+     * This runs in a blocking coroutine to ensure defaults are set before use.
+     * 
+     * This method is designed to be extensible - add initialization logic for
+     * new tables here as they are added to the database.
+     */
+    private fun initializeDefaultData(database: AppDatabase) {
+        val log = Logger.withTag(tag = "DatabaseModule")
+
+        runBlocking {
+            try {
+                initializeDebugToggles(database)
+                
+                // Add initialization for future tables here:
+                // initializeUserData(database)
+                // initializeAppSettings(database)
+                // etc.
+            } catch (e: Exception) {
+                log.e("Failed to initialize default database data: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     * Initializes default debug toggles in the database.
+     * Only sets defaults if the toggle doesn't already exist.
+     */
+    private suspend fun initializeDebugToggles(database: AppDatabase) {
+        val repository = DebugToggleRepositoryImpl(dao = database.debugToggleDao())
+
+        val existingToggle = repository.getToggleSync(DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION)
+        if (existingToggle == null) {
+            repository.setToggleEnabled(
+                key = DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION,
+                isEnabled = true
+            )
+        }
+    }
+}
+
+/**
  * Implementation of AppGraph that creates and provides all dependency modules.
  */
-internal class AppGraphImpl : AppGraph {
+internal class AppGraphImpl(
+    private val context: Context
+) : AppGraph {
     override val networkModule: NetworkModule by lazy {
         NetworkModuleImpl()
     }
 
     override val navigatorModule: NavigatorModule by lazy {
         NavigatorModuleImpl()
+    }
+
+    override val databaseModule: DatabaseModule by lazy {
+        DatabaseModuleImpl(context = context)
     }
 
     override val characterDetailViewModelFactory: CharacterDetailViewModelFactory by lazy {

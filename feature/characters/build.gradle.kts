@@ -40,7 +40,8 @@ kotlin {
 }
 
 dependencies {
-    // Module dependencies
+
+    api(project(path = ":database"))
     api(project(path = ":navigation"))
     api(project(path = ":network"))
     implementation(project(path = ":core"))

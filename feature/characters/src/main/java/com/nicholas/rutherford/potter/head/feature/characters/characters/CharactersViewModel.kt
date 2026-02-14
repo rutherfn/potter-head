@@ -3,6 +3,7 @@ package com.nicholas.rutherford.potter.head.feature.characters.characters
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -10,13 +11,13 @@ import kotlinx.coroutines.launch
 
 class CharactersViewModel(
     private val repository: HarryPotterApiRepository,
+    private val debugToggleRepository: DebugToggleRepository,
     private val navigator: Navigator
 ) : ViewModel() {
 
     init {
         loadAllCharacters()
     }
-
     private fun loadAllCharacters() {
         //todo -> More work on this its just placeholder for now
         viewModelScope.launch {

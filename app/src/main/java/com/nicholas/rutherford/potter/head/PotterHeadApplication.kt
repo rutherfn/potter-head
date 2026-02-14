@@ -38,9 +38,9 @@ class PotterHeadApplication :
 
     /**
      * AppGraph instance that aggregates all dependency modules.
-     * Provides access to network, navigation, and other feature modules.
+     * Provides access to network, navigation, database, and other feature modules.
      */
-    val appGraph: AppGraph by lazy { AppGraphImpl() }
+    val appGraph: AppGraph by lazy { AppGraphImpl(context = this) }
 
     /**
      * ViewModelFactory instance using AppGraph.

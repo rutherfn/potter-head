@@ -14,10 +14,10 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
- * Factory for creating ViewModels with Metro dependency injection.
+ * Factory for creating ViewModels with dependency injection.
  *
  * This factory uses AppGraph from Application to provide dependencies.
- * Following Metro best practices, dependencies are injected via constructor injection.
+ * Dependencies are injected via constructor injection.
  *
  * @param appGraph The root dependency graph from Application, providing access to all modules.
  *
@@ -26,6 +26,7 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
 class ViewModelFactory(
     private val appGraph: AppGraph
 ) : ViewModelProvider.Factory {
+
     /**
      * Kermit Logger for this class.
      */
@@ -42,12 +43,9 @@ class ViewModelFactory(
      * [SavedStateHandle] which contains navigation arguments. Otherwise, it creates an empty
      * [SavedStateHandle] for ViewModels that require it.
      *
-     * The `@Suppress("UNCHECKED_CAST")` annotation is required because we're casting from a
-     * specific ViewModel type to the generic type parameter `T`. This is safe because we verify
-     * the class type before creating the instance.
-     *
      * @param modelClass The [Class] of the ViewModel to create.
      * @param extras Optional [CreationExtras] that may contain SavedStateHandle from navigation arguments.
+     *
      * @return A new instance of the requested ViewModel type with dependencies injected.
      * @throws IllegalArgumentException if the requested ViewModel class is not supported.
      */
@@ -109,7 +107,7 @@ class ViewModelFactory(
      * Handles the case when an unknown or unsupported ViewModel class is requested.
      *
      * This method logs an error message and throws an [IllegalArgumentException] with a
-     * descriptive error message. The error message instructs developers to add the ViewModel
+     * descriptive error message. The error message logs out to directly add the ViewModel
      * to the factory's `create` method to support dependency injection.
      *
      * @param modelClass The [Class] of the unsupported ViewModel.

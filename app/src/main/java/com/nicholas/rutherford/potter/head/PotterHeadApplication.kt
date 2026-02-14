@@ -3,26 +3,26 @@
 package com.nicholas.rutherford.potter.head
 
 import android.app.Application
+import android.content.Context
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.base.view.model.NavigatorProvider
 import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvider
-import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.di.AppGraph
+import com.nicholas.rutherford.potter.head.di.AppGraphImpl
+import com.nicholas.rutherford.potter.head.di.ViewModelFactory
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
-import android.content.Context
-import com.nicholas.rutherford.potter.head.di.ViewModelFactory
 
 /**
  * Custom [Application] class for the Potter Head app.
  *
  * This class serves as the entry point for the application and provides:
- * - Access to the Metro dependency injection graph ([AppGraph])
+ * - Access to the dependency injection graph ([AppGraph])
  * - ViewModel factory for creating ViewModels with dependency injection
  * - Utility method to retrieve the application instance from any context
  *
- * The application initializes the Metro-generated [AppGraph] which provides access to all
- * dependency modules (network, database, etc.) throughout the app lifecycle.
+ * The application initializes the [AppGraph] which provides access to all
+ * dependency modules (network, navigation, etc.) throughout the app lifecycle.
  *
  * @author Nicholas Rutherford
  */
@@ -30,37 +30,23 @@ class PotterHeadApplication :
     Application(),
     ViewModelFactoryProvider,
     NavigatorProvider {
+
     /**
      * Kermit Logger for this class.
      */
     private val log = Logger.withTag(tag = "PotterHeadApplication")
 
     /**
-     * Metro generates AppGraph$$$MetroGraph as the implementation.
-     * This provides access to all dependency graphs in the application.
+     * AppGraph instance that aggregates all dependency modules.
+     * Provides access to network, navigation, and other feature modules.
      */
-    val appGraph: AppGraph by lazy {
-        try {
-            Class
-                .forName(Constants.APP_GRAPH_METRO_GRAPH_CLASS_NAME)
-                .getDeclaredConstructor()
-                .newInstance() as AppGraph
-        } catch (e: Exception) {
-            log.e("Failed to create AppGraph instance with exception message --- ${e.message}")
-            throw IllegalStateException(
-                "Failed to create AppGraph instance. Make sure Metro has generated the graph.",
-                e
-            )
-        }
-    }
+    val appGraph: AppGraph by lazy { AppGraphImpl() }
 
     /**
      * ViewModelFactory instance using AppGraph.
      * This is the single source of truth for ViewModel creation.
      */
-    val viewModelFactory: ViewModelFactory by lazy {
-        ViewModelFactory(appGraph = appGraph)
-    }
+    val viewModelFactory: ViewModelFactory by lazy { ViewModelFactory(appGraph = appGraph) }
 
     /**
      * Returns the [LifeCycleViewModelProvider.Factory] instance for creating ViewModels with dependency injection.
@@ -84,6 +70,7 @@ class PotterHeadApplication :
     override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
 
     companion object {
+
         /**
          * Retrieves the [PotterHeadApplication] instance from the given [context].
          *

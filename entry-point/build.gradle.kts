@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.metro)
 }
 
 android {
@@ -47,11 +46,6 @@ android {
             }
         }
     }
-}
-
-metro {
-    enabled = true
-    debug = false
 }
 
 dependencies {

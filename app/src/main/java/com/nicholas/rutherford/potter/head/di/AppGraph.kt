@@ -2,104 +2,186 @@
 
 package com.nicholas.rutherford.potter.head.di
 
+import android.content.Context
+import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.core.Constants
-import com.nicholas.rutherford.potter.head.core.MetroModuleFactory
+import com.nicholas.rutherford.potter.head.database.AppDatabase
+import com.nicholas.rutherford.potter.head.database.DebugToggleKeys
+import com.nicholas.rutherford.potter.head.database.di.DatabaseModule
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModelFactory
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
 import com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule
-import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
-import dev.zacsweers.metro.DependencyGraph
-import dev.zacsweers.metro.Provides
+import com.nicholas.rutherford.potter.head.navigation.Navigator
+import com.nicholas.rutherford.potter.head.navigation.NavigatorImpl
+import com.nicholas.rutherford.potter.head.saved.state.SavedStateHandleFactory
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
+import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
+import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
+import com.nicholas.rutherford.potter.head.database.repository.CharacterRepositoryImpl
+import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
+import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
+import android.net.ConnectivityManager
+import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
+import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepositoryImpl
+import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
+import com.nicholas.rutherford.potter.head.network.NetworkMonitorImpl
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * Root dependency graph for the application.
  * Aggregates all feature modules and provides access to their dependencies.
  *
- * Metro will generate AppGraph$$$MetroGraph that provides NetworkModule, SavedStateModule,
- * and NavigatorModule. Each module is provided by creating its respective Metro-generated graph instance.
- *
  * @author Nicholas Rutherford
  */
-@DependencyGraph
 interface AppGraph {
     val networkModule: NetworkModule
     val navigatorModule: NavigatorModule
+    val databaseModule: DatabaseModule
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
+}
 
-    companion object {
-        /**
-         * Provides the NetworkModule instance using Metro's generated graph.
-         * Metro generates NetworkModule$$$MetroGraph which implements NetworkModule.
-         *
-         * This method delegates to [MetroModuleFactory] to handle the actual creation logic,
-         * keeping the AppGraph interface clean and focused on dependency provision.
-         *
-         * @return A [NetworkModule] instance created from the Metro-generated graph.
-         * @throws IllegalStateException if the NetworkModule instance cannot be created.
-         */
-        @Provides
-        fun provideNetworkModule(): NetworkModule =
-            MetroModuleFactory.create(
-                interfaceClassName = Constants.NETWORK_MODULE_CLASS_NAME,
-                implementationClassName = Constants.NETWORK_MODULE_METRO_GRAPH_CLASS_NAME,
-                moduleName = Constants.NETWORK_MODULE_NAME
-            )
+/**
+ * Implementation of NavigatorModule that provides navigation-related dependencies.
+ */
+private class NavigatorModuleImpl : NavigatorModule {
+    private val navigatorInstance: Navigator by lazy { NavigatorImpl() }
+    override val navigator: Navigator = navigatorInstance
+}
 
-        /**
-         * Provides the SavedStateModule instance using Metro's generated graph.
-         * Metro generates SavedStateModule$$$MetroGraph which implements SavedStateModule.
-         *
-         * This method delegates to [MetroModuleFactory] to handle the actual creation logic,
-         * keeping the AppGraph interface clean and focused on dependency provision.
-         *
-         * @return A [SavedStateModule] instance created from the Metro-generated graph.
-         * @throws IllegalStateException if the SavedStateModule instance cannot be created.
-         */
-        @Provides
-        fun provideSavedStateModule(): SavedStateModule =
-            MetroModuleFactory.create(
-                interfaceClassName = Constants.SAVED_STATE_MODULE_CLASS_NAME,
-                implementationClassName = Constants.SAVED_STATE_MODULE_METRO_GRAPH_CLASS_NAME,
-                moduleName = Constants.SAVED_STATE_MODULE_NAME
-            )
+/**
+ * Implementation of SavedStateModule that provides saved state-related dependencies.
+ */
+private class SavedStateModuleImpl : SavedStateModule {
+    override val savedStateHandleFactory: SavedStateHandleFactory = SavedStateHandleFactory
+}
 
-        /**
-         * Provides the NavigatorModule instance using Metro's generated graph.
-         * Metro generates NavigatorModule$$$MetroGraph which implements NavigatorModule.
-         *
-         * This method delegates to [MetroModuleFactory] to handle the actual creation logic,
-         * keeping the AppGraph interface clean and focused on dependency provision.
-         *
-         * @return A [NavigatorModule] instance created from the Metro-generated graph.
-         * @throws IllegalStateException if the NavigatorModule instance cannot be created.
-         */
-        @Provides
-        fun provideNavigatorModule(): NavigatorModule =
-            MetroModuleFactory.create(
-                interfaceClassName = Constants.NAVIGATOR_MODULE_CLASS_NAME,
-                implementationClassName = Constants.NAVIGATOR_MODULE_METRO_GRAPH_CLASS_NAME,
-                moduleName = Constants.NAVIGATOR_MODULE_NAME
-            )
+/**
+ * Implementation of NetworkModule that provides network-related dependencies.
+ */
+private class NetworkModuleImpl(
+    private val context: Context
+) : NetworkModule {
+    private val connectivityManager: ConnectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
-        /**
-         * Provides a [CharacterDetailViewModelFactory] instance.
-         *
-         * This factory is used to create [CharacterDetailViewModel] instances with SavedStateHandle
-         * as an assisted parameter. The repository and navigator are injected via Metro.
-         *
-         * @param networkModule The [NetworkModule] providing the repository.
-         * @param navigatorModule The [NavigatorModule] providing the navigator.
-         * @return A [CharacterDetailViewModelFactory] instance with dependencies injected.
-         */
-        @Provides
-        fun provideCharacterDetailViewModelFactory(
-            networkModule: NetworkModule,
-            navigatorModule: NavigatorModule
-        ): CharacterDetailViewModelFactory =
-            CharacterDetailViewModelFactory(
-                repository = networkModule.harryPotterApiRepository,
-                navigator = navigatorModule.navigator
+    override val gson: Gson by lazy {
+        GsonBuilder()
+            .setStrictness(Strictness.LENIENT)
+            .create()
+    }
+
+    override val retrofit: Retrofit by lazy {
+        Retrofit
+            .Builder()
+            .baseUrl(Constants.BASE_API_URL)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
+    override val harryPotterApiService: HarryPotterApiService by lazy { retrofit.create(HarryPotterApiService::class.java) }
+
+    override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
+        HarryPotterApiRepositoryImpl(
+            apiService = harryPotterApiService
+        )
+    }
+
+    override val networkMonitor: NetworkMonitor by lazy {
+        NetworkMonitorImpl(
+            context = context,
+            connectivityManager = connectivityManager
+        )
+    }
+}
+
+/**
+ * Implementation of DatabaseModule that provides database-related dependencies.
+ */
+private class DatabaseModuleImpl(
+    private val context: Context
+) : DatabaseModule {
+    /**
+     * Coroutine scope for database initialization tasks.
+     * Uses SupervisorJob to ensure that if one initialization task fails, others can still run.
+     */
+    private val initializationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override val appDatabase: AppDatabase by lazy {
+        AppDatabase.create(context).also { database ->
+            initializeDefaultData(database)
+        }
+    }
+
+    override val debugToggleDao = appDatabase.debugToggleDao()
+
+    override val characterDao: CharacterDao = appDatabase.characterDao()
+
+    override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao) }
+
+    override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
+
+    /**
+     * Initializes default data in the database asynchronously.
+     * This runs on a background thread (Dispatchers.IO) to avoid blocking the main thread.
+     *
+     * This method is designed to be extensible - add initialization logic for
+     * new tables here as they are added to the database.
+     */
+    private fun initializeDefaultData(database: AppDatabase) {
+        val log = Logger.withTag(tag = "DatabaseModule")
+
+        initializationScope.launch {
+            try {
+                initializeDebugToggles(database)
+            } catch (e: Exception) {
+                log.e("Failed to initialize default database data: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     * Initializes default debug toggles in the database.
+     * Only sets defaults if the toggle doesn't already exist.
+     */
+    private suspend fun initializeDebugToggles(database: AppDatabase) {
+        val repository = DebugToggleRepositoryImpl(dao = database.debugToggleDao())
+
+        val existingToggle = repository.getToggleSync(DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION)
+        if (existingToggle == null) {
+            repository.setToggleEnabled(
+                key = DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION,
+                isEnabled = true
             )
+        }
+    }
+}
+
+/**
+ * Implementation of AppGraph that creates and provides all dependency modules.
+ */
+internal class AppGraphImpl(
+    private val context: Context
+) : AppGraph {
+    override val networkModule: NetworkModule by lazy { NetworkModuleImpl(context = context) }
+
+    override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }
+
+    override val databaseModule: DatabaseModule by lazy { DatabaseModuleImpl(context = context) }
+
+    override val characterDetailViewModelFactory: CharacterDetailViewModelFactory by lazy {
+        CharacterDetailViewModelFactory(
+            repository = networkModule.harryPotterApiRepository,
+            navigator = navigatorModule.navigator
+        )
     }
 }

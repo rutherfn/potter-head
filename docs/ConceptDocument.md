@@ -8,7 +8,7 @@ The app provides an immersive fan experience that lets users explore characters,
 ## Overview
 
 Potter Head combines the charm of the wizarding world with modern Android development practices.  
-It is designed with a clean and maintainable architecture based on **MVVM**, using **Metro** for dependency injection and planned integration of **Room** and **Retrofit** for data handling.
+It is designed with a clean and maintainable architecture based on **MVVM**, using manual dependency injection and planned integration of **Room** and **Retrofit** for data handling.
 
 This project emphasizes Compose as the forefront of the UI layer, ensuring a modern, declarative, and fluid user experience.
 
@@ -45,8 +45,8 @@ Planned ideas for later releases include:
 **Primary Language:** Kotlin  
 **UI Framework:** Jetpack Compose  
 **Architecture Pattern:** MVVM  
-**Dependency Injection:** Metro  
-**Planned Libraries:** Room (for local caching), Retrofit (for network data)
+**Dependency Injection:** Manual dependency injection via AppGraph  
+**Data Libraries:** Room (for local caching, implemented), Retrofit (for network data, planned)
 
 The project follows modern Android design principles focused on simplicity, scalability, and clean architecture.
 

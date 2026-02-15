@@ -7,6 +7,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
@@ -14,10 +15,10 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
- * Factory for creating ViewModels with Metro dependency injection.
+ * Factory for creating ViewModels with dependency injection.
  *
  * This factory uses AppGraph from Application to provide dependencies.
- * Following Metro best practices, dependencies are injected via constructor injection.
+ * Dependencies are injected via constructor injection.
  *
  * @param appGraph The root dependency graph from Application, providing access to all modules.
  *
@@ -42,12 +43,9 @@ class ViewModelFactory(
      * [SavedStateHandle] which contains navigation arguments. Otherwise, it creates an empty
      * [SavedStateHandle] for ViewModels that require it.
      *
-     * The `@Suppress("UNCHECKED_CAST")` annotation is required because we're casting from a
-     * specific ViewModel type to the generic type parameter `T`. This is safe because we verify
-     * the class type before creating the instance.
-     *
      * @param modelClass The [Class] of the ViewModel to create.
      * @param extras Optional [CreationExtras] that may contain SavedStateHandle from navigation arguments.
+     *
      * @return A new instance of the requested ViewModel type with dependencies injected.
      * @throws IllegalArgumentException if the requested ViewModel class is not supported.
      */
@@ -67,14 +65,17 @@ class ViewModelFactory(
     /**
      * Creates a [CharactersViewModel] instance with its dependencies injected.
      *
-     * This method retrieves the [HarryPotterApiRepository] and [Navigator] from the [AppGraph]
+     * This method retrieves the [HarryPotterApiRepository], [NetworkMonitor], and [Navigator] from the [AppGraph]
      * and passes them to the ViewModel constructor. All dependencies are provided via constructor injection.
      *
-     * @return A new [CharactersViewModel] instance with the repository and navigator dependencies injected.
+     * @return A new [CharactersViewModel] instance with the repository, network monitor, and navigator dependencies injected.
      */
     private fun createCharacterViewModel(): CharactersViewModel =
         CharactersViewModel(
-            repository = appGraph.networkModule.harryPotterApiRepository,
+            harryPotterAPiRepository = appGraph.networkModule.harryPotterApiRepository,
+            characterRepository = appGraph.databaseModule.characterRepository,
+            debugToggleRepository = appGraph.databaseModule.debugToggleRepository,
+            networkMonitor = appGraph.networkModule.networkMonitor,
             navigator = appGraph.navigatorModule.navigator
         )
 

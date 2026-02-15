@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.metro)
 }
 
 android {
@@ -38,14 +37,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
 
-metro {
-    enabled = true
-    debug = true
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
 }
 
 dependencies {
@@ -56,6 +53,7 @@ dependencies {
     api(libs.retrofit)
     api(libs.converter.gson)
     api(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.core.ktx)
 
     debugImplementation(libs.kermit.android.debug)
     debugImplementation(libs.kermit.core.android.debug)

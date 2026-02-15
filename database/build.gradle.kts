@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.room)
+    kotlin("kapt")
 }
 
 android {
@@ -27,9 +29,26 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 
-dependencies {}
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    implementation(project(path = ":core"))
+    api(project(path = ":model"))
+
+    api(libs.androidx.room.runtime)
+    api(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.gson)
+}

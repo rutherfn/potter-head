@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint)
-    alias(libs.plugins.metro)
 }
 
 android {
@@ -43,11 +42,6 @@ android {
     }
 }
 
-metro {
-    enabled = true
-    debug = false
-}
-
 dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":entry-point"))
@@ -57,6 +51,7 @@ dependencies {
     implementation(project(path = ":navigation"))
     implementation(project(path = ":network"))
     implementation(project(path = ":saved-state"))
+    implementation(project(path = ":database"))
     implementation(project(path = ":core"))
 
     debugImplementation(libs.kermit.android.debug)

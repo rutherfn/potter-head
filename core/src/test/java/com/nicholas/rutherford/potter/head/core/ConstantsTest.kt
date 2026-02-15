@@ -11,18 +11,8 @@ class ConstantsTest {
     }
 
     @Test
-    fun `APP_GRAPH_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        Constants.APP_GRAPH_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.di.AppGraph$$\$MetroGraph"
-    }
-
-    @Test
     fun `NETWORK_MODULE_CLASS_NAME should be set to the correct NetworkModule class name`() {
         Constants.NETWORK_MODULE_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
-    }
-
-    @Test
-    fun `NETWORK_MODULE_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        Constants.NETWORK_MODULE_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.network.di.NetworkModule$$\$MetroGraph"
     }
 
     @Test
@@ -41,11 +31,6 @@ class ConstantsTest {
     }
 
     @Test
-    fun `SAVED_STATE_MODULE_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        Constants.SAVED_STATE_MODULE_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule$$\$MetroGraph"
-    }
-
-    @Test
     fun `NAVIGATOR_MODULE_NAME should be set to correct expected name`() {
         Constants.NAVIGATOR_MODULE_NAME shouldBe "NavigatorModule"
     }
@@ -53,11 +38,6 @@ class ConstantsTest {
     @Test
     fun `NAVIGATOR_MODULE_CLASS_NAME should be set to the correct NavigatorModule class name`() {
         Constants.NAVIGATOR_MODULE_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule"
-    }
-
-    @Test
-    fun `NAVIGATOR_MODULE_METRO_GRAPH_CLASS_NAME should be set to the correct Metro-generated class name`() {
-        Constants.NAVIGATOR_MODULE_METRO_GRAPH_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule$$\$MetroGraph"
     }
 
     @Test

@@ -1,0 +1,67 @@
+package com.nicholas.rutherford.potter.head.database.typeconverter
+
+import androidx.room.TypeConverter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.nicholas.rutherford.potter.head.database.entity.WandEntity
+
+/**
+ * Type converters for Room database.
+ * Handles conversion between complex types and database-compatible types.
+ *
+ * @author Nicholas Rutherford
+ */
+object DatabaseTypeConverters {
+
+    private val gson = Gson()
+
+    /**
+     * Converts a List<String> to a JSON string for database storage.
+     */
+    @TypeConverter
+    fun fromStringList(value: List<String>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    /**
+     * Converts a JSON string to a List<String> from database storage.
+     */
+    @TypeConverter
+    fun toStringList(value: String?): List<String>? {
+        return if (value == null) {
+            null
+        } else {
+            val listType = object : TypeToken<List<String>>() {}.type
+            gson.fromJson(value, listType)
+        }
+    }
+
+    /**
+     * Converts a WandEntity to a JSON string for database storage.
+     */
+    @TypeConverter
+    fun fromWandEntity(value: WandEntity?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    /**
+     * Converts a JSON string to a WandEntity from database storage.
+     */
+    @TypeConverter
+    fun toWandEntity(value: String?): WandEntity? {
+        return if (value == null) {
+            null
+        } else {
+            gson.fromJson(value, WandEntity::class.java)
+        }
+    }
+}
+

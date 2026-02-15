@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.metro)
 }
 
 android {
@@ -29,9 +28,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         compose = true
     }
@@ -43,13 +39,9 @@ kotlin {
     }
 }
 
-metro {
-    enabled = true
-    debug = false
-}
-
 dependencies {
-    // Module dependencies
+
+    api(project(path = ":database"))
     api(project(path = ":navigation"))
     api(project(path = ":network"))
     implementation(project(path = ":core"))

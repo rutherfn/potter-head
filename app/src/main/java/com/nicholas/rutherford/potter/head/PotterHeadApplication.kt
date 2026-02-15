@@ -30,7 +30,6 @@ class PotterHeadApplication :
     Application(),
     ViewModelFactoryProvider,
     NavigatorProvider {
-
     /**
      * Kermit Logger for this class.
      */
@@ -70,7 +69,6 @@ class PotterHeadApplication :
     override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
 
     companion object {
-
         /**
          * Retrieves the [PotterHeadApplication] instance from the given [context].
          *

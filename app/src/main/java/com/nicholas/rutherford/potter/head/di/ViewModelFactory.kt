@@ -26,7 +26,6 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
 class ViewModelFactory(
     private val appGraph: AppGraph
 ) : ViewModelProvider.Factory {
-
     /**
      * Kermit Logger for this class.
      */

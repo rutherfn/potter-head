@@ -69,7 +69,8 @@ private class NetworkModuleImpl : NetworkModule {
     }
 
     override val retrofit: Retrofit by lazy {
-        Retrofit.Builder()
+        Retrofit
+            .Builder()
             .baseUrl(Constants.BASE_API_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -77,7 +78,11 @@ private class NetworkModuleImpl : NetworkModule {
 
     override val harryPotterApiService: HarryPotterApiService by lazy { retrofit.create(HarryPotterApiService::class.java) }
 
-    override val harryPotterApiRepository: HarryPotterApiRepository by lazy { HarryPotterApiRepositoryImpl(apiService = harryPotterApiService) }
+    override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
+        HarryPotterApiRepositoryImpl(
+            apiService = harryPotterApiService
+        )
+    }
 }
 
 /**
@@ -94,13 +99,12 @@ private class DatabaseModuleImpl(
 
     override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao) }
 
-
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
 
     /**
      * Initializes default data in the database synchronously.
      * This runs in a blocking coroutine to ensure defaults are set before use.
-     * 
+     *
      * This method is designed to be extensible - add initialization logic for
      * new tables here as they are added to the database.
      */
@@ -136,7 +140,9 @@ private class DatabaseModuleImpl(
 /**
  * Implementation of AppGraph that creates and provides all dependency modules.
  */
-internal class AppGraphImpl(private val context: Context) : AppGraph {
+internal class AppGraphImpl(
+    private val context: Context
+) : AppGraph {
     override val networkModule: NetworkModule by lazy { NetworkModuleImpl() }
 
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }

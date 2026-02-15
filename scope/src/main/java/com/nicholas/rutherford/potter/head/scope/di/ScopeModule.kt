@@ -17,8 +17,7 @@ interface ScopeModule {
     /**
      * Coroutine scope for ViewModel operations.
      * Uses Dispatchers.Default as the base dispatcher, which is optimal for most
-     * ViewModel operations. Switch to Dispatchers.Main when UI updates are needed,
-     * or use Dispatchers.IO for I/O operations.
+     * ViewModel operations.
      * Can be injected for testing purposes.
      */
     val viewModelScope: CoroutineScope

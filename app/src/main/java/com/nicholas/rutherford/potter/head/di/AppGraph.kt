@@ -68,7 +68,7 @@ private class SavedStateModuleImpl : SavedStateModule {
 
 /**
  * Implementation of ScopeModule that provides coroutine scope-related dependencies.
- * 
+ *
  * This implementation provides different scopes for various use cases:
  * - viewModelScope: A general-purpose scope for ViewModel operations.
  *   Note: ViewModels typically use their built-in viewModelScope, but this can be
@@ -78,7 +78,6 @@ private class SavedStateModuleImpl : SavedStateModule {
  * - defaultScope: For CPU-intensive work
  */
 private class ScopeModuleImpl : ScopeModule {
-
     /**
      * ViewModel scope for ViewModel operations.
      * This is a general-purpose scope that can be injected into ViewModels.

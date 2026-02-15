@@ -65,14 +65,15 @@ class ViewModelFactory(
     /**
      * Creates a [CharactersViewModel] instance with its dependencies injected.
      *
-     * This method retrieves the [HarryPotterApiRepository], [NetworkMonitor], and [Navigator] from the [AppGraph]
-     * and passes them to the ViewModel constructor. All dependencies are provided via constructor injection.
+     * This method retrieves the [HarryPotterApiRepository], [NetworkMonitor], [Navigator], and [CoroutineScope]
+     * from the [AppGraph] and passes them to the ViewModel constructor. All dependencies are provided via constructor injection.
      *
-     * @return A new [CharactersViewModel] instance with the repository, network monitor, and navigator dependencies injected.
+     * @return A new [CharactersViewModel] instance with the repository, network monitor, navigator, and scope dependencies injected.
      */
     private fun createCharacterViewModel(): CharactersViewModel =
         CharactersViewModel(
-            harryPotterAPiRepository = appGraph.networkModule.harryPotterApiRepository,
+            scope = appGraph.scopeModule.viewModelScope,
+            harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
             characterRepository = appGraph.databaseModule.characterRepository,
             debugToggleRepository = appGraph.databaseModule.debugToggleRepository,
             networkMonitor = appGraph.networkModule.networkMonitor,

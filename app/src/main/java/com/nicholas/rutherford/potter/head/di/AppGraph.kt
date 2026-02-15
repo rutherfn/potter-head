@@ -12,6 +12,7 @@ import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.Ch
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
 import com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule
+import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.NavigatorImpl
 import com.nicholas.rutherford.potter.head.saved.state.SavedStateHandleFactory
@@ -46,6 +47,7 @@ interface AppGraph {
     val networkModule: NetworkModule
     val navigatorModule: NavigatorModule
     val databaseModule: DatabaseModule
+    val scopeModule: ScopeModule
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
 }
 
@@ -62,6 +64,55 @@ private class NavigatorModuleImpl : NavigatorModule {
  */
 private class SavedStateModuleImpl : SavedStateModule {
     override val savedStateHandleFactory: SavedStateHandleFactory = SavedStateHandleFactory
+}
+
+/**
+ * Implementation of ScopeModule that provides coroutine scope-related dependencies.
+ * 
+ * This implementation provides different scopes for various use cases:
+ * - viewModelScope: A general-purpose scope for ViewModel operations.
+ *   Note: ViewModels typically use their built-in viewModelScope, but this can be
+ *   injected for testing or when a custom scope is needed.
+ * - ioScope: For IO operations (database, network, file I/O)
+ * - mainScope: For main/UI thread operations
+ * - defaultScope: For CPU-intensive work
+ */
+private class ScopeModuleImpl : ScopeModule {
+
+    /**
+     * ViewModel scope for ViewModel operations.
+     * This is a general-purpose scope that can be injected into ViewModels.
+     * Uses Dispatchers.Default as the base dispatcher, which is optimal for most
+     * ViewModel operations. Switch to Dispatchers.Main when UI updates are needed,
+     * or use Dispatchers.IO for I/O operations.
+     */
+    override val viewModelScope: CoroutineScope by lazy {
+        CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
+
+    /**
+     * Coroutine scope for IO operations.
+     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
+     */
+    override val ioScope: CoroutineScope by lazy {
+        CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    }
+
+    /**
+     * Coroutine scope for main/UI thread operations.
+     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
+     */
+    override val mainScope: CoroutineScope by lazy {
+        CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    }
+
+    /**
+     * Coroutine scope for default/CPU-intensive operations.
+     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
+     */
+    override val defaultScope: CoroutineScope by lazy {
+        CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    }
 }
 
 /**
@@ -177,6 +228,8 @@ internal class AppGraphImpl(
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }
 
     override val databaseModule: DatabaseModule by lazy { DatabaseModuleImpl(context = context) }
+
+    override val scopeModule: ScopeModule by lazy { ScopeModuleImpl() }
 
     override val characterDetailViewModelFactory: CharacterDetailViewModelFactory by lazy {
         CharacterDetailViewModelFactory(

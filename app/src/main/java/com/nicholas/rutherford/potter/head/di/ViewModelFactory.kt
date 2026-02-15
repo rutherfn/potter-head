@@ -110,7 +110,7 @@ class ViewModelFactory(
      * Handles the case when an unknown or unsupported ViewModel class is requested.
      *
      * This method logs an error message and throws an [IllegalArgumentException] with a
-     * descriptive error message. The error message logs out to directly add the ViewModel
+     * descriptive error message. The error message instructs developers to add the ViewModel
      * to the factory's `create` method to support dependency injection.
      *
      * @param modelClass The [Class] of the unsupported ViewModel.

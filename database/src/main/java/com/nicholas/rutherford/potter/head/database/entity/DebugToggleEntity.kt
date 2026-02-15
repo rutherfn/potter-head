@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey
  *
  * @author Nicholas Rutherford
  */
-@Entity(tableName = "debug_toggles")
+@Entity(tableName = "debugToggles")
 data class DebugToggleEntity(
     @PrimaryKey
     val toggleKey: String,

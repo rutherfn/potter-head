@@ -72,7 +72,8 @@ class ViewModelFactory(
      */
     private fun createCharacterViewModel(): CharactersViewModel =
         CharactersViewModel(
-            repository = appGraph.networkModule.harryPotterApiRepository,
+            harryPotterAPiRepository = appGraph.networkModule.harryPotterApiRepository,
+            characterRepository = appGraph.databaseModule.characterRepository,
             debugToggleRepository = appGraph.databaseModule.debugToggleRepository,
             navigator = appGraph.navigatorModule.navigator
         )

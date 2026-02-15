@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository interface for managing debug toggles.
- * Provides a clean API for accessing and modifying debug toggle state.
+ * Provides a clean way for accessing and modifying debug toggle state.
  *
  * @author Nicholas Rutherford
  */

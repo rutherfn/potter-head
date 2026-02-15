@@ -18,6 +18,9 @@ import com.nicholas.rutherford.potter.head.saved.state.SavedStateHandleFactory
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.Strictness
+import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
+import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
+import com.nicholas.rutherford.potter.head.database.repository.CharacterRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -72,13 +75,9 @@ private class NetworkModuleImpl : NetworkModule {
             .build()
     }
 
-    override val harryPotterApiService: HarryPotterApiService by lazy {
-        retrofit.create(HarryPotterApiService::class.java)
-    }
+    override val harryPotterApiService: HarryPotterApiService by lazy { retrofit.create(HarryPotterApiService::class.java) }
 
-    override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
-        HarryPotterApiRepositoryImpl(apiService = harryPotterApiService)
-    }
+    override val harryPotterApiRepository: HarryPotterApiRepository by lazy { HarryPotterApiRepositoryImpl(apiService = harryPotterApiService) }
 }
 
 /**
@@ -87,15 +86,14 @@ private class NetworkModuleImpl : NetworkModule {
 private class DatabaseModuleImpl(
     private val context: Context
 ) : DatabaseModule {
-    override val appDatabase: AppDatabase by lazy {
-        AppDatabase.create(context).also { database ->
-            // Initialize default data synchronously on first database access
-            // This ensures defaults are set before the database is used
-            initializeDefaultData(database)
-        }
-    }
+    override val appDatabase: AppDatabase by lazy { AppDatabase.create(context).also { database -> initializeDefaultData(database) } }
 
     override val debugToggleDao = appDatabase.debugToggleDao()
+
+    override val characterDao: CharacterDao = appDatabase.characterDao()
+
+    override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao) }
+
 
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
 
@@ -112,11 +110,6 @@ private class DatabaseModuleImpl(
         runBlocking {
             try {
                 initializeDebugToggles(database)
-                
-                // Add initialization for future tables here:
-                // initializeUserData(database)
-                // initializeAppSettings(database)
-                // etc.
             } catch (e: Exception) {
                 log.e("Failed to initialize default database data: ${e.message}")
             }
@@ -143,20 +136,12 @@ private class DatabaseModuleImpl(
 /**
  * Implementation of AppGraph that creates and provides all dependency modules.
  */
-internal class AppGraphImpl(
-    private val context: Context
-) : AppGraph {
-    override val networkModule: NetworkModule by lazy {
-        NetworkModuleImpl()
-    }
+internal class AppGraphImpl(private val context: Context) : AppGraph {
+    override val networkModule: NetworkModule by lazy { NetworkModuleImpl() }
 
-    override val navigatorModule: NavigatorModule by lazy {
-        NavigatorModuleImpl()
-    }
+    override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }
 
-    override val databaseModule: DatabaseModule by lazy {
-        DatabaseModuleImpl(context = context)
-    }
+    override val databaseModule: DatabaseModule by lazy { DatabaseModuleImpl(context = context) }
 
     override val characterDetailViewModelFactory: CharacterDetailViewModelFactory by lazy {
         CharacterDetailViewModelFactory(

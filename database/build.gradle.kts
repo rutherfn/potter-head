@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.androidx.room)
     kotlin("kapt")
 }
 
@@ -36,6 +37,10 @@ kotlin {
     }
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
 dependencies {
     implementation(project(path = ":core"))
     api(project(path = ":model"))
@@ -45,4 +50,5 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
     implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.gson)
 }

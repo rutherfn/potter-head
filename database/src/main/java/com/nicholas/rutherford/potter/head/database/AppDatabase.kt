@@ -4,9 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.migration.Migration
+import androidx.room.TypeConverters
+import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
 import com.nicholas.rutherford.potter.head.database.dao.DebugToggleDao
+import com.nicholas.rutherford.potter.head.database.entity.CharacterEntity
 import com.nicholas.rutherford.potter.head.database.entity.DebugToggleEntity
+import com.nicholas.rutherford.potter.head.database.entity.WandEntity
+import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeConverters
 
 /**
  * Room database for the application.
@@ -15,22 +19,30 @@ import com.nicholas.rutherford.potter.head.database.entity.DebugToggleEntity
  * @author Nicholas Rutherford
  */
 @Database(
-    entities = [DebugToggleEntity::class],
+    entities = [CharacterEntity::class, DebugToggleEntity::class, WandEntity::class],
     version = 1,
     exportSchema = true
 )
+@TypeConverters(DatabaseTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
+
     /**
      * Provides access to the DebugToggleDao.
      */
     abstract fun debugToggleDao(): DebugToggleDao
+
+    /**
+     * Provides access to the CharacterDao.
+     */
+    abstract fun characterDao(): CharacterDao
+
 
     companion object {
         private const val DATABASE_NAME = "potter_head_database"
 
         /**
          * Creates an instance of AppDatabase.
-         * Uses Room's database builder with auto migrations enabled.
+         * Uses Room's database builder.
          *
          * @param context The application context.
          * @return An instance of AppDatabase.
@@ -40,26 +52,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context,
                 AppDatabase::class.java,
                 DATABASE_NAME
-            )
-                .addMigrations(*getMigrations())
-                .build()
-        }
-
-        /**
-         * Returns all database migrations.
-         * Currently empty as we're starting with version 1.
-         * Add migrations here as the database schema evolves.
-         *
-         * @return Array of Migration objects.
-         */
-        private fun getMigrations(): Array<Migration> {
-            return arrayOf(
-                // Add migrations here as the database schema evolves
-                // Example:
-                // Migration(1, 2) { database ->
-                //     database.execSQL("ALTER TABLE debug_toggles ADD COLUMN new_column TEXT")
-                // }
-            )
+            ).build()
         }
     }
 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Data Access Object for DebugToggleEntity.
- * Provides methods to interact with the debug_toggles table.
+ * Provides methods to interact with the debugToggles table.
  *
  * @author Nicholas Rutherford
  */
@@ -19,19 +19,19 @@ interface DebugToggleDao {
     /**
      * Gets all debug toggles as a Flow.
      */
-    @Query("SELECT * FROM debug_toggles")
+    @Query("SELECT * FROM debugToggles")
     fun getAllToggles(): Flow<List<DebugToggleEntity>>
 
     /**
      * Gets a specific toggle by key as a Flow.
      */
-    @Query("SELECT * FROM debug_toggles WHERE toggleKey = :key")
+    @Query("SELECT * FROM debugToggles WHERE toggleKey = :key")
     fun getToggle(key: String): Flow<DebugToggleEntity?>
 
     /**
      * Gets a specific toggle by key synchronously.
      */
-    @Query("SELECT * FROM debug_toggles WHERE toggleKey = :key")
+    @Query("SELECT * FROM debugToggles WHERE toggleKey = :key")
     suspend fun getToggleSync(key: String): DebugToggleEntity?
 
     /**
@@ -49,19 +49,19 @@ interface DebugToggleDao {
     /**
      * Updates the enabled state of a toggle by key.
      */
-    @Query("UPDATE debug_toggles SET isEnabled = :isEnabled WHERE toggleKey = :key")
+    @Query("UPDATE debugToggles SET isEnabled = :isEnabled WHERE toggleKey = :key")
     suspend fun updateToggleState(key: String, isEnabled: Boolean)
 
     /**
      * Deletes a toggle by key.
      */
-    @Query("DELETE FROM debug_toggles WHERE toggleKey = :key")
+    @Query("DELETE FROM debugToggles WHERE toggleKey = :key")
     suspend fun deleteToggle(key: String)
 
     /**
      * Deletes all toggles.
      */
-    @Query("DELETE FROM debug_toggles")
+    @Query("DELETE FROM debugToggles")
     suspend fun deleteAllToggles()
 }
 

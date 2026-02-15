@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository interface for managing characters.
- * Provides a clean way for accessing and modifying debug toggle state.
+ * Provides a clean way to access and modify cached character data in the database.
  *
  * @author Nicholas Rutherford
  */

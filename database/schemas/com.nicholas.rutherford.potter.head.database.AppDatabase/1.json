@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5c10847906338dbcec79c7d2a75edfa5",
+    "identityHash": "a7e285b865616680c606be4761a7c570",
     "entities": [
       {
         "tableName": "characters",
@@ -144,40 +144,11 @@
             "toggleKey"
           ]
         }
-      },
-      {
-        "tableName": "wands",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`core` TEXT NOT NULL, `wood` TEXT, `length` REAL NOT NULL, PRIMARY KEY(`core`))",
-        "fields": [
-          {
-            "fieldPath": "core",
-            "columnName": "core",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "wood",
-            "columnName": "wood",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "length",
-            "columnName": "length",
-            "affinity": "REAL",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "core"
-          ]
-        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5c10847906338dbcec79c7d2a75edfa5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a7e285b865616680c606be4761a7c570')"
     ]
   }
 }

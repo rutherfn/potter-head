@@ -9,7 +9,6 @@ import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
 import com.nicholas.rutherford.potter.head.database.dao.DebugToggleDao
 import com.nicholas.rutherford.potter.head.database.entity.CharacterEntity
 import com.nicholas.rutherford.potter.head.database.entity.DebugToggleEntity
-import com.nicholas.rutherford.potter.head.database.entity.WandEntity
 import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeConverters
 
 /**
@@ -19,7 +18,7 @@ import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeCo
  * @author Nicholas Rutherford
  */
 @Database(
-    entities = [CharacterEntity::class, DebugToggleEntity::class, WandEntity::class],
+    entities = [CharacterEntity::class, DebugToggleEntity::class],
     version = 1,
     exportSchema = true
 )

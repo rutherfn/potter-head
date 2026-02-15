@@ -29,7 +29,10 @@ import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import com.nicholas.rutherford.potter.head.network.NetworkMonitorImpl
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -107,7 +110,17 @@ private class NetworkModuleImpl(
 private class DatabaseModuleImpl(
     private val context: Context
 ) : DatabaseModule {
-    override val appDatabase: AppDatabase by lazy { AppDatabase.create(context).also { database -> initializeDefaultData(database) } }
+    /**
+     * Coroutine scope for database initialization tasks.
+     * Uses SupervisorJob to ensure that if one initialization task fails, others can still run.
+     */
+    private val initializationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override val appDatabase: AppDatabase by lazy {
+        AppDatabase.create(context).also { database ->
+            initializeDefaultData(database)
+        }
+    }
 
     override val debugToggleDao = appDatabase.debugToggleDao()
 
@@ -118,8 +131,8 @@ private class DatabaseModuleImpl(
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
 
     /**
-     * Initializes default data in the database synchronously.
-     * This runs in a blocking coroutine to ensure defaults are set before use.
+     * Initializes default data in the database asynchronously.
+     * This runs on a background thread (Dispatchers.IO) to avoid blocking the main thread.
      *
      * This method is designed to be extensible - add initialization logic for
      * new tables here as they are added to the database.
@@ -127,7 +140,7 @@ private class DatabaseModuleImpl(
     private fun initializeDefaultData(database: AppDatabase) {
         val log = Logger.withTag(tag = "DatabaseModule")
 
-        runBlocking {
+        initializationScope.launch {
             try {
                 initializeDebugToggles(database)
             } catch (e: Exception) {

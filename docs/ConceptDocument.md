@@ -46,7 +46,7 @@ Planned ideas for later releases include:
 **UI Framework:** Jetpack Compose  
 **Architecture Pattern:** MVVM  
 **Dependency Injection:** Manual dependency injection via AppGraph  
-**Planned Libraries:** Room (for local caching), Retrofit (for network data)
+**Data Libraries:** Room (for local caching, implemented), Retrofit (for network data, planned)
 
 The project follows modern Android design principles focused on simplicity, scalability, and clean architecture.
 

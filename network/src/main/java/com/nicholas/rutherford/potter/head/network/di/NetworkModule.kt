@@ -3,11 +3,12 @@ package com.nicholas.rutherford.potter.head.network.di
 import com.google.gson.Gson
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import retrofit2.Retrofit
 
 /**
  * Dependency graph interface for network-related components.
- * Provides Retrofit, Gson, API services, and repositories for the network layer.
+ * Provides Retrofit, Gson, API services, repositories, and network monitoring for the network layer.
  *
  * @author Nicholas Rutherford
  */
@@ -32,4 +33,9 @@ interface NetworkModule {
      * Repository for fetching character data from the API.
      */
     val harryPotterApiRepository: HarryPotterApiRepository
+
+    /**
+     * Network monitor for checking internet connectivity status.
+     */
+    val networkMonitor: NetworkMonitor
 }

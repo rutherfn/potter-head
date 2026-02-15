@@ -23,9 +23,12 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterReposito
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
+import android.net.ConnectivityManager
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
+import com.nicholas.rutherford.potter.head.network.NetworkMonitorImpl
 import kotlinx.coroutines.runBlocking
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -61,7 +64,13 @@ private class SavedStateModuleImpl : SavedStateModule {
 /**
  * Implementation of NetworkModule that provides network-related dependencies.
  */
-private class NetworkModuleImpl : NetworkModule {
+private class NetworkModuleImpl(
+    private val context: Context
+) : NetworkModule {
+    private val connectivityManager: ConnectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
     override val gson: Gson by lazy {
         GsonBuilder()
             .setStrictness(Strictness.LENIENT)
@@ -81,6 +90,13 @@ private class NetworkModuleImpl : NetworkModule {
     override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
         HarryPotterApiRepositoryImpl(
             apiService = harryPotterApiService
+        )
+    }
+
+    override val networkMonitor: NetworkMonitor by lazy {
+        NetworkMonitorImpl(
+            context = context,
+            connectivityManager = connectivityManager
         )
     }
 }
@@ -143,7 +159,7 @@ private class DatabaseModuleImpl(
 internal class AppGraphImpl(
     private val context: Context
 ) : AppGraph {
-    override val networkModule: NetworkModule by lazy { NetworkModuleImpl() }
+    override val networkModule: NetworkModule by lazy { NetworkModuleImpl(context = context) }
 
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
@@ -64,16 +65,17 @@ class ViewModelFactory(
     /**
      * Creates a [CharactersViewModel] instance with its dependencies injected.
      *
-     * This method retrieves the [HarryPotterApiRepository] and [Navigator] from the [AppGraph]
+     * This method retrieves the [HarryPotterApiRepository], [NetworkMonitor], and [Navigator] from the [AppGraph]
      * and passes them to the ViewModel constructor. All dependencies are provided via constructor injection.
      *
-     * @return A new [CharactersViewModel] instance with the repository and navigator dependencies injected.
+     * @return A new [CharactersViewModel] instance with the repository, network monitor, and navigator dependencies injected.
      */
     private fun createCharacterViewModel(): CharactersViewModel =
         CharactersViewModel(
             harryPotterAPiRepository = appGraph.networkModule.harryPotterApiRepository,
             characterRepository = appGraph.databaseModule.characterRepository,
             debugToggleRepository = appGraph.databaseModule.debugToggleRepository,
+            networkMonitor = appGraph.networkModule.networkMonitor,
             navigator = appGraph.navigatorModule.navigator
         )
 

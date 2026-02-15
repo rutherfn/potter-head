@@ -8,12 +8,14 @@ import com.nicholas.rutherford.potter.head.database.repository.DebugToggleReposi
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
+import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import kotlinx.coroutines.launch
 
 class CharactersViewModel(
     private val harryPotterAPiRepository: HarryPotterApiRepository,
     private val characterRepository: CharacterRepository,
     private val debugToggleRepository: DebugToggleRepository,
+    private val networkMonitor: NetworkMonitor,
     private val navigator: Navigator
 ) : ViewModel() {
 

@@ -53,6 +53,7 @@ dependencies {
     api(libs.retrofit)
     api(libs.converter.gson)
     api(libs.androidx.lifecycle.viewmodel.android)
+    implementation(libs.androidx.core.ktx)
 
     debugImplementation(libs.kermit.android.debug)
     debugImplementation(libs.kermit.core.android.debug)

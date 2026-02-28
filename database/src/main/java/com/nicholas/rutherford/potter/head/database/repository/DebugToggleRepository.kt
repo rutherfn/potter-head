@@ -11,29 +11,14 @@ import kotlinx.coroutines.flow.Flow
  */
 interface DebugToggleRepository {
 
-    /**
-     * Gets all debug toggles as a Flow.
-     */
     fun getAllToggles(): Flow<List<DebugToggleConverter>>
 
-    /**
-     * Gets a specific toggle by key as a Flow.
-     */
     fun getToggle(key: String): Flow<DebugToggleConverter?>
 
-    /**
-     * Gets a specific toggle by key synchronously.
-     */
     suspend fun getToggleSync(key: String): DebugToggleConverter?
 
-    /**
-     * Sets the enabled state of a toggle.
-     */
     suspend fun setToggleEnabled(key: String, isEnabled: Boolean)
 
-    /**
-     * Checks if a toggle is enabled. Returns false if the toggle doesn't exist.
-     */
     suspend fun isToggleEnabled(key: String): Boolean
 }
 

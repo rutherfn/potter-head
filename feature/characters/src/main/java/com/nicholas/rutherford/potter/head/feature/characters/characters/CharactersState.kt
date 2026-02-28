@@ -3,6 +3,19 @@ package com.nicholas.rutherford.potter.head.feature.characters.characters
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 
+/**
+ * Defines UI data for the Characters Screen.
+ * Gets defined in the viewModel and manages through there.
+ *
+ * @param characters The list of characters to display.
+ * @param errorType The type of error to display.
+ * @param isLoading Whether the screen is currently loading data.
+ * @param isLoadingMore Whether the screen is currently loading more data.
+ * @param hasMoreToLoad Whether there is more data to load.
+ * @param pageSize The number of items to load at a time.
+ *
+ * @author Nicholas Rutherford
+ */
 data class CharactersState(
     val characters: List<CharacterConverter> = emptyList(),
     val errorType: CharactersErrorType = CharactersErrorType.NONE,

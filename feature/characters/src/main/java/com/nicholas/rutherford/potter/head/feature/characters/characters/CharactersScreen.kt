@@ -28,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -193,8 +192,7 @@ private fun ShimmerCharacterCard() {
 @Composable
 private fun CharactersContent(state: CharactersState, params: CharactersParams) {
     val listState = rememberLazyListState()
-    
-    // Load more when scrolling near the end (within 3 items)
+
     LaunchedEffect(key1 = state.hasMoreToLoad, key2 = state.isLoadingMore) {
         snapshotFlow {
             val layoutInfo = listState.layoutInfo
@@ -318,14 +316,11 @@ private fun CharacterCard(character: CharacterConverter, onClick: () -> Unit) {
 @Composable
 private fun CharacterAvatar(imageUrl: String?, characterName: String, house: String?) {
     val initial = characterName.firstOrNull()?.uppercase() ?: ""
-    
-    // Get house color if available, otherwise use primary color
     val houseColor = if (house != null && house.isNotEmpty()) {
         getHouseColor(house)
     } else {
         MaterialTheme.colorScheme.primary
     }
-    
     val backgroundColor = houseColor.copy(alpha = if (house != null && house.isNotEmpty()) 0.3f else 0.2f)
     val textColor = houseColor
     
@@ -336,7 +331,6 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
             .background(color = backgroundColor),
         contentAlignment = Alignment.Center
     ) {
-        // Show initial letter as placeholder (behind image)
         Text(
             text = initial,
             style = MaterialTheme.typography.headlineMedium,

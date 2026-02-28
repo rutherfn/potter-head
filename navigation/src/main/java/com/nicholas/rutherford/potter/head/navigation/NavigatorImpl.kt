@@ -25,22 +25,10 @@ import kotlinx.coroutines.flow.update
  */
 class NavigatorImpl : Navigator {
 
-    /**
-     * Internal mutable StateFlow for navigation actions.
-     * Exposed as read-only [StateFlow] via [navActions].
-     */
     private val navActionsMutableStateFlow = MutableStateFlow<NavigationAction?>(value = null)
 
-    /**
-     * Internal mutable StateFlow for pop route actions.
-     * Exposed as read-only [StateFlow] via [popRouteActions].
-     */
     private val popRouteActionsMutableStateFlow = MutableStateFlow<String?>(value = null)
 
-    /**
-     * Internal mutable StateFlow for progress action.
-     * Exposed as read-only [StateFlow] via [progressActions].
-     */
     private val progressActionsMutableStateFlow = MutableStateFlow<ProgressAction?>(value = null)
 
     override val navActions: StateFlow<NavigationAction?> = navActionsMutableStateFlow.asStateFlow()

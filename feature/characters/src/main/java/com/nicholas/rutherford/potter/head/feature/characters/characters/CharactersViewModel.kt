@@ -24,6 +24,14 @@ import kotlinx.coroutines.launch
  * ViewModel for managing the characters list screen state and business logic.
  * Follows a cache-first strategy: loads from local database, fetches from API if empty.
  *
+ * @param scope The coroutine scope for launching coroutines.
+ * @param harryPotterApiRepository The repository for fetching characters from the Harry Potter API.
+ * @param characterImageRepository The repository for managing character image URLs.
+ * @param characterRepository The repository for managing characters in the local database.
+ * @param debugToggleRepository The repository for managing debug toggle settings.
+ * @param networkMonitor The network monitor for checking network connectivity.
+ * @param navigator The navigator for navigating between screens.
+ *
  * @author Nicholas Rutherford
  */
 class CharactersViewModel(
@@ -40,8 +48,6 @@ class CharactersViewModel(
     val charactersStateFlow: StateFlow<CharactersState> = charactersMutableStateFlow.asStateFlow()
     
     private var hasInitiatedFetch = false
-    
-    // Track all characters from database (for pagination)
     private val allCharacters = MutableStateFlow<List<CharacterConverter>>(value = emptyList())
     private var currentVisibleCount = Constants.INITIAL_PAGE_SIZE
 
@@ -50,7 +56,7 @@ class CharactersViewModel(
     }
 
     private suspend fun loadAllCharacters() {
-        ensureCharacterImageUrlsInitialized()
+        checkForCharacterImageUrlsForDb()
 
         charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
 
@@ -67,7 +73,7 @@ class CharactersViewModel(
         }
     }
 
-    private suspend fun ensureCharacterImageUrlsInitialized() {
+    private suspend fun checkForCharacterImageUrlsForDb() {
         val characterImageUrls = characterImageRepository.getAllCharacterImages().first()
         if (characterImageUrls.isEmpty()) {
             characterImageRepository.insertAllCharacterImageUrls()
@@ -75,18 +81,24 @@ class CharactersViewModel(
     }
     
     private fun updatePaginatedCharacters() {
-        val allChars = allCharacters.value
-        val paginatedList = allChars.take(n = currentVisibleCount)
-        val hasMore = allChars.size > currentVisibleCount
-        
         charactersMutableStateFlow.update { state ->
             state.copy(
-                characters = paginatedList,
+                characters =  allCharacters.value.take(n = currentVisibleCount),
                 errorType = CharactersErrorType.NONE,
                 isLoading = false,
-                hasMoreToLoad = hasMore
+                hasMoreToLoad = allCharacters.value.size > currentVisibleCount
             )
         }
+    }
+
+    private fun failedFetchingCharacters(error: Throwable) {
+        charactersMutableStateFlow.update { state ->
+            state.copy(
+                errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                isLoading = false
+            )
+        }
+        log.e("Failed to fetch characters from API with error message: ${error.message}")
     }
 
 
@@ -95,15 +107,7 @@ class CharactersViewModel(
             harryPotterApiRepository.getAllCharacters().first().onSuccess { characters ->
                 val characterConverters = characters.map { characterResponse -> CharacterConverter.fromResponse(response = characterResponse) }
                 characterRepository.insertAllCharacters(characters = characterConverters)
-            }.onFailure { error ->
-                charactersMutableStateFlow.update { state ->
-                    state.copy(
-                        errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
-                        isLoading = false
-                    )
-                }
-                log.e("Failed to fetch characters from API with error message: ${error.message}")
-            }
+            }.onFailure { error -> failedFetchingCharacters(error = error) }
         } else {
             charactersMutableStateFlow.update { state ->
                 state.copy(
@@ -133,8 +137,7 @@ class CharactersViewModel(
             charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = true) }
 
             delay(Constants.DELAY_LOADING_MORE_CHARACTERS )
-            
-            // Increase visible count by page size
+
             currentVisibleCount += charactersMutableStateFlow.value.pageSize
             updatePaginatedCharacters()
             

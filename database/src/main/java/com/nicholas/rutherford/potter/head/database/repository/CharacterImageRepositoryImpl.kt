@@ -39,10 +39,6 @@ class CharacterImageRepositoryImpl(
         }
     }
 
-    /**
-     * Goes in and fetches characters image urls via the Json.
-     * Then inserts it to the Room database everytime it gets called and replaces it if it already exists.
-     */
     override suspend fun insertAllCharacterImageUrls() {
         val characterUrlsJson = CharacterImageUrlReader.getCharacterImageUrls(context = context)
         val characterImageUrlConverters = characterUrlsJson.map { jsonResponse -> CharacterImageUrlConverter.fromJsonResponse(json = jsonResponse) }
@@ -52,7 +48,5 @@ class CharacterImageRepositoryImpl(
 
     override suspend fun deleteCharacterImageUrlById(id: Int) = dao.deleteCharacterImageUrlById(id = id)
 
-
     override suspend fun deleteAllCharacterImageUrls() = dao.deleteAllCharacterImageUrls()
-
 }

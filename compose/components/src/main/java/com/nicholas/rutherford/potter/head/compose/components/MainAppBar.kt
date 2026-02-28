@@ -62,7 +62,6 @@ fun MainAppBar(
                 .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon button (back button or other action)
             if (imageVector != null && onIconButtonClicked != null) {
                 IconButton(
                     onClick = { onIconButtonClicked.invoke() },
@@ -75,8 +74,7 @@ fun MainAppBar(
                     )
                 }
             } else {
-                // Spacer to maintain alignment when no icon
-                Spacer(modifier = Modifier.width(48.dp))
+                Spacer(modifier = Modifier.width(18.dp))
             }
 
             Text(

@@ -20,11 +20,6 @@ class HarryPotterApiRepositoryImpl(
      */
     private val log = Logger.withTag(tag = "HarryPotterApiRepositoryImpl")
 
-    /**
-     * Fetches all characters from the API.
-     *
-     * @return A [Flow] emitting a [Result] containing a list of [CharacterResponse] objects.
-     */
     override fun getAllCharacters(): Flow<Result<List<CharacterResponse>>> = flow {
         val characters = apiService.fetchAllCharacters()
         log.i("Fetched ${characters.size} characters from API")
@@ -34,12 +29,6 @@ class HarryPotterApiRepositoryImpl(
         emit(value = Result.failure(exception = exception))
     }
 
-    /**
-     * Fetches a character by the id from the API
-     *
-     * @param id The ID of the character to fetch.
-     *
-     */
     override fun getCharacterById(id: String): Flow<Result<List<CharacterResponse>>> = flow {
         log.d("Attempting to fetch character with id: $id")
         val character = apiService.fetchCharacterById(id = id)

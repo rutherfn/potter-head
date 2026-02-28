@@ -24,24 +24,8 @@ import androidx.navigation.NavOptions
  * @author Nicholas Rutherford
  */
 interface NavigationAction {
-    /**
-     * The route string to navigate to.
-     *
-     * This should match a route defined in the navigation graph.
-     */
     val destination: String
 
-    /**
-     * The navigation options to use for this navigation action.
-     *
-     * Provides customization options such as:
-     * - Pop behavior
-     * - Launch mode
-     * - Animation transitions
-     * - And other navigation configurations
-     *
-     * Defaults to basic [NavOptions] with no special configuration.
-     */
     val navOptions: NavOptions
         get() = NavOptions.Builder().build()
 }

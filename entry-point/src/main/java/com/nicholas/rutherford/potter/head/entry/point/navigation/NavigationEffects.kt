@@ -56,7 +56,6 @@ fun NavigationEffects(
 
     var progress: ProgressAction? by remember { mutableStateOf(value = null) }
 
-
     LaunchedEffect(navActionState?.destination) {
         navActionState?.let { state ->
             navController.navigate(state.destination, state.navOptions)

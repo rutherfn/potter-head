@@ -94,8 +94,12 @@ private class ScopeModuleImpl : ScopeModule {
 /**
  * Implementation of NetworkModule that provides network-related dependencies.
  */
-private class NetworkModuleImpl(private val context: Context) : NetworkModule {
-    private val connectivityManager: ConnectivityManager by lazy { context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+private class NetworkModuleImpl(
+    private val context: Context
+) : NetworkModule {
+    private val connectivityManager: ConnectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
     override val gson: Gson by lazy {
         GsonBuilder()
@@ -113,7 +117,11 @@ private class NetworkModuleImpl(private val context: Context) : NetworkModule {
 
     override val harryPotterApiService: HarryPotterApiService by lazy { retrofit.create(HarryPotterApiService::class.java) }
 
-    override val harryPotterApiRepository: HarryPotterApiRepository by lazy { HarryPotterApiRepositoryImpl(apiService = harryPotterApiService) }
+    override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
+        HarryPotterApiRepositoryImpl(
+            apiService = harryPotterApiService
+        )
+    }
 
     override val networkMonitor: NetworkMonitor by lazy { NetworkMonitorImpl(context = context, connectivityManager = connectivityManager) }
 }
@@ -121,17 +129,14 @@ private class NetworkModuleImpl(private val context: Context) : NetworkModule {
 /**
  * Implementation of DatabaseModule that provides database-related dependencies.
  */
-private class DatabaseModuleImpl(private val context: Context) : DatabaseModule {
-
+private class DatabaseModuleImpl(
+    private val context: Context
+) : DatabaseModule {
     /**
      * Kermit Logger for DatabaseModule interactions.
      */
     val log = Logger.withTag(tag = "DatabaseModule")
 
-    /**
-     * Coroutine scope for database initialization tasks.
-     * Uses SupervisorJob to ensure that if one initialization task fails, others can still run.
-     */
     private val initializationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override val appDatabase: AppDatabase by lazy {
@@ -146,33 +151,26 @@ private class DatabaseModuleImpl(private val context: Context) : DatabaseModule 
 
     override val characterImageDao: CharacterImageDao = appDatabase.characterImageDao()
 
-    override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao, characterImageDao = characterImageDao) }
+    override val characterRepository: CharacterRepository by lazy {
+        CharacterRepositoryImpl(dao = characterDao, characterImageDao = characterImageDao)
+    }
 
-    override val characterImageRepository: CharacterImageRepository by lazy { CharacterImageRepositoryImpl(dao = characterImageDao, context = context) }
+    override val characterImageRepository: CharacterImageRepository by lazy {
+        CharacterImageRepositoryImpl(dao = characterImageDao, context = context)
+    }
 
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
 
-    /**
-     * Initializes default data in the database asynchronously.
-     * This runs on a background thread (Dispatchers.IO) to avoid blocking the main thread.
-     *
-     * This method is designed to be extensible - add initialization logic for
-     * new tables here as they are added to the database.
-     */
     private fun initializeDefaultData(database: AppDatabase) {
         initializationScope.launch {
             try {
-                initializeDebugToggles(database)
+                initializeDebugToggles(database = database)
             } catch (e: Exception) {
                 log.e("Failed to initialize default database data: ${e.message}")
             }
         }
     }
 
-    /**
-     * Initializes default debug toggles in the database.
-     * Only sets defaults if the toggle doesn't already exist.
-     */
     private suspend fun initializeDebugToggles(database: AppDatabase) {
         val repository = DebugToggleRepositoryImpl(dao = database.debugToggleDao())
 
@@ -189,10 +187,9 @@ private class DatabaseModuleImpl(private val context: Context) : DatabaseModule 
     }
 }
 
-/**
- * Implementation of AppGraph that creates and provides all dependency modules.
- */
-internal class AppGraphImpl(private val context: Context) : AppGraph {
+internal class AppGraphImpl(
+    private val context: Context
+) : AppGraph {
     override val networkModule: NetworkModule by lazy { NetworkModuleImpl(context = context) }
 
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }

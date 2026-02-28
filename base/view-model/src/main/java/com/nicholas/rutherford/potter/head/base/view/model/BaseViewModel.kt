@@ -128,9 +128,6 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         }
     }
 
-    /**
-     * Determines if flow collection should happen based on the current lifecycle state and trigger.
-     */
     private fun shouldCollectFlow(): Boolean {
         return when (getFlowCollectionTrigger()) {
             FlowCollectionTrigger.INIT -> true
@@ -139,80 +136,40 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is created.
-     * Logs the `onCreate` event using Kermit.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
         log.d { "${this::class.simpleName} → onCreate" }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is started.
-     * Logs the `onStart` event using Kermit.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
         isStart = true
         log.d { "${this::class.simpleName} → onStart" }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is resumed.
-     * Logs the `onResume` event using Kermit and enables Flow collection.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
         isResumed = true
         log.d { "${this::class.simpleName} → onResume" }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is paused.
-     * Logs the `onPause` event using Kermit and disables Flow collection.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
         isResumed = false
         log.d { "${this::class.simpleName} → onPause" }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is stopped.
-     * Logs the `onStop` event using Kermit.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
         isStart = false
         log.d { "${this::class.simpleName} → onStop" }
     }
 
-    /**
-     * Called when the ViewModel's lifecycle is destroyed.
-     * Logs the `onDestroy` event using Kermit.
-     *
-     * @param owner The `LifecycleOwner` associated with the ViewModel.
-     */
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
         log.d { "${this::class.simpleName} → onDestroy" }
     }
 
-    /**
-     * Called when the ViewModel is cleared.
-     * Cancels all active Flow collections and cleans up resources.
-     */
     override fun onCleared() {
         super.onCleared()
         activeFlowCollections.forEach { activeFlow -> activeFlow.cancel() }

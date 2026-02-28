@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val DATABASE_NAME = "potter_head_database"
     const val INITIAL_PAGE_SIZE = 20
     const val DELAY_LOADING_MORE_CHARACTERS = 300L
     const val SHIMMER_CHARACTER_COUNT = 20

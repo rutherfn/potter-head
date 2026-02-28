@@ -41,27 +41,6 @@ val bottomNavItems = listOf(
     )
 )
 
-/**
- * Composable function that builds the bottom navigation bar with all configured items.
- *
- * This function creates a [NavigationBar] containing [NavigationBarItem] composables
- * for each item in [bottomNavItems]. Each item:
- * - Shows as selected when the current destination's hierarchy contains its route
- * - Navigates to the screen's route when clicked
- * - Uses the screen's title for the label and content description
- * - Uses the configured icon
- *
- * Navigation behavior:
- * - Pops up to the start destination when navigating
- * - Saves and restores state when navigating between items
- * - Uses single top launch mode to prevent multiple instances
- *
- * @param navController The [NavController] used for navigation
- * @param currentDestination The current navigation destination,
- * used to determine which item should be selected by checking its hierarchy
- *
- * @author Nicholas Rutherford
- */
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
@@ -69,7 +48,7 @@ fun BottomNavigationBar(
 ) {
     NavigationBar(
         windowInsets = NavigationBarDefaults.windowInsets,
-        containerColor = Color(0xFFFFF8F5), // Very light orange-tinted background to complement theme
+        containerColor = Color(0xFFFFF8F5),
         contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         bottomNavItems.forEach { item ->
@@ -84,17 +63,12 @@ fun BottomNavigationBar(
                         restoreState = true
                     }
                 },
-                icon = {
-                    Icon(
-                        imageVector = item.icon,
-                        contentDescription = item.screen.title
-                    )
-                },
+                icon = { Icon(imageVector = item.icon, contentDescription = item.screen.title) },
                 label = { Text(item.screen.title) },
                 colors = NavigationBarItemColors(
                     selectedIconColor = PotterOrange,
                     selectedTextColor = PotterOrange,
-                    selectedIndicatorColor = PotterOrange.copy(alpha = 0.15f), // Light orange background for contrast
+                    selectedIndicatorColor = PotterOrange.copy(alpha = 0.15f),
                     unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     disabledIconColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),

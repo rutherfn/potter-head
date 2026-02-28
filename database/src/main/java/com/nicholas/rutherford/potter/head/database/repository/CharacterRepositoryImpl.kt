@@ -37,21 +37,12 @@ class CharacterRepositoryImpl(
 
     override suspend fun insertAllCharacters(characters: List<CharacterConverter>) {
         val imageUrlMap = characterImageDao.getAllCharacterImageUrlsSync().associateBy { entity -> entity.characterName.trim().lowercase() }
-        val charactersWithMergedUrls = characters.map { character -> character.mergeImageUrlIfNeeded(imageUrlMap) }
+        val charactersWithMergedUrls = characters.map { character -> character.mergeImageUrlIfNeeded(imageUrlMap = imageUrlMap) }
         
         dao.insertAllCharacters(characters = charactersWithMergedUrls.map { it.toEntity() })
     }
 
-    /**
-     * Merges the image URL from the map if the character needs one.
-     * If the character already has an image URL, it returns the character unchanged.
-     * If the character needs an image URL, it looks it up in the map and returns a copy with the URL if found.
-     *
-     * @param imageUrlMap Map of normalized character names to their image URL entities.
-     * @return The character with merged image URL if needed, otherwise the original character.
-     */
     private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {
-        
         if (image.isNullOrBlank()) {
             return imageUrlMap[name.trim().lowercase()]?.let { imageUrl ->
                 copy(image = imageUrl.imageUrl)

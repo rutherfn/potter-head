@@ -7,7 +7,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
 import com.nicholas.rutherford.potter.head.base.view.model.ObserveLifecycle
-import com.nicholas.rutherford.potter.head.entry.point.navigation.AppNavigationGraph.screenSetupFunctions
 import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBar
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailParams
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailScreen
@@ -193,19 +192,6 @@ object AppNavigationGraph {
         { settingsScreen() }
     )
 
-    /**
-     * Sets up all screens in the navigation graph.
-     *
-     * This function iterates through all screen setup functions defined in
-     * [screenSetupFunctions] and calls them with the provided [NavGraphBuilder] receiver.
-     * This allows for a centralized way to manage which screens are included in the graph.
-     *
-     * To add a new screen to the navigation graph:
-     * 1. Create the screen setup extension function (e.g., `fun NavGraphBuilder.newScreen()`)
-     * 2. Add it to the [screenSetupFunctions] list as a lambda: `{ newScreen() }`
-     *
-     * @param builder The [NavGraphBuilder] to use for setting up the screens.
-     */
     fun setupAllScreens(builder: NavGraphBuilder) {
         with(this@AppNavigationGraph) {
             screenSetupFunctions.forEach { setupFunction ->

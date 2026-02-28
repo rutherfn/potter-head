@@ -11,7 +11,4 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.Screens
  *
  * @author Nicholas Rutherford
  */
-data class BottomNavItem(
-    val screen: Screens,
-    val icon: ImageVector
-)
+data class BottomNavItem(val screen: Screens, val icon: ImageVector)

@@ -12,11 +12,6 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarF
  */
 interface AppBarFactoryProvider {
 
-    /**
-     * Returns the [AppBarFactory] instance for creating AppBar instances.
-     *
-     * @return The [AppBarFactory] instance.
-     */
     fun getAppBarFactory(): AppBarFactory
 }
 

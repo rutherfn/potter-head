@@ -15,8 +15,5 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarF
  */
 interface AppBarFactoryModule {
 
-    /**
-     * The factory instance used to create AppBar instances.
-     */
     val appBarFactory: AppBarFactory
 }

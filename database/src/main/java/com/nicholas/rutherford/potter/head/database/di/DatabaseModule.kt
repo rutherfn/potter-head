@@ -16,39 +16,13 @@ import com.nicholas.rutherford.potter.head.database.repository.DebugToggleReposi
  */
 interface DatabaseModule {
 
-    /**
-     * The Room database instance.
-     */
     val appDatabase: AppDatabase
-
-    /**
-     * DAO for accessing characters.
-     */
     val characterDao: CharacterDao
-
-    /**
-     * DAO for accessing characters urls.
-     */
     val characterImageDao: CharacterImageDao
-
-    /**
-     * DAO for accessing debug toggles.
-     */
     val debugToggleDao: DebugToggleDao
-
-    /**
-     * Repository for managing characters.
-     */
     val characterRepository: CharacterRepository
 
-    /**
-     * Repository for managing character urls.
-     */
     val characterImageRepository: CharacterImageRepository
-
-    /**
-     * Repository for managing debug toggles.
-     */
     val debugToggleRepository: DebugToggleRepository
 }
 

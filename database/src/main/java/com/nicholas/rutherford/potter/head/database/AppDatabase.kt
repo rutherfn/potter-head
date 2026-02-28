@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
 import com.nicholas.rutherford.potter.head.database.dao.DebugToggleDao
@@ -33,42 +34,19 @@ import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeCo
 @TypeConverters(DatabaseTypeConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    /**
-     * Provides access to the DebugToggleDao.
-     */
     abstract fun debugToggleDao(): DebugToggleDao
 
-    /**
-     * Provides access to the CharacterDao.
-     */
     abstract fun characterDao(): CharacterDao
 
-    /**
-     * Provides access to the CharacterImageDao.
-     */
     abstract fun characterImageDao(): CharacterImageDao
-
-
 
     companion object {
 
-        /**
-         * Database name for the application.
-         */
-        private const val DATABASE_NAME = "potter_head_database"
-
-        /**
-         * Creates an instance of AppDatabase.
-         * Uses Room's database builder.
-         *
-         * @param context The application context.
-         * @return An instance of AppDatabase.
-         */
         fun create(context: Context): AppDatabase {
             return Room.databaseBuilder(
                 context,
                 AppDatabase::class.java,
-                DATABASE_NAME
+                Constants.DATABASE_NAME
             ).build()
         }
     }

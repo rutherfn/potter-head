@@ -3,9 +3,12 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
+import com.nicholas.rutherford.potter.head.base.view.model.ObserveLifecycle
+import com.nicholas.rutherford.potter.head.entry.point.navigation.AppNavigationGraph.screenSetupFunctions
+import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBar
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailParams
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailScreen
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
@@ -18,6 +21,9 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsParams
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsScreen
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * Object providing extension functions to build the application's navigation graph.
@@ -39,10 +45,26 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 object AppNavigationGraph {
 
     /**
+     * Holds the currently displayed AppBar as a StateFlow.
+     * Should be observed and rendered from the top-level UI NavigationComponent.
+     */
+    private val _currentAppBar = MutableStateFlow<AppBar?>(null)
+    val currentAppBar: StateFlow<AppBar?> = _currentAppBar.asStateFlow()
+
+    /**
+     * Call this function from within a screen to set or update the AppBar.
+     *
+     * @param appBar The [AppBar] to display or null to hide the app bar.
+     */
+    fun updateAppBar(appBar: AppBar?) {
+        _currentAppBar.value = appBar
+    }
+
+    /**
      * Defines the characters screen in the navigation graph.
      *
      * This function sets up the characters list screen with:
-     * - Route: [com.nicholas.rutherford.potter.head.entry.point.navigation.Screens.Characters.route]
+     * - Route: Characters.route
      * - ViewModel: [CharactersViewModel] created via [LocalViewModelFactory]
      * - Screen: [CharactersScreen] with parameters for character click handling
      *
@@ -54,10 +76,18 @@ object AppNavigationGraph {
 
             val factory = LocalViewModelFactory.current
             val viewModel: CharactersViewModel = viewModel(factory = factory)
+            val appBarFactory = LocalAppBarFactory.current
+            val state = viewModel.charactersStateFlow.collectAsState().value
+
+            ObserveLifecycle(viewModel = viewModel)
+            updateAppBar(appBar = appBarFactory.createCharactersAppBar())
 
             CharactersScreen(
                 params = CharactersParams(
-                    onCharacterClicked = { viewModel.onCharacterClicked() }
+                    state = state,
+                    onCharacterClicked = { characterName -> viewModel.onCharacterClicked(characterName) },
+                    onRetryClicked = { viewModel.retryLoadingCharacters() },
+                    onLoadMore = { viewModel.loadMoreCharacters() }
                 )
             )
         }
@@ -67,7 +97,7 @@ object AppNavigationGraph {
      * Defines the character detail screen in the navigation graph.
      *
      * This function sets up the character detail screen with:
-     * - Route: [Screens.CharactersDetail.route] (includes ID parameter)
+     * - Route: CharactersDetail.route (includes ID parameter)
      * - Arguments: [NavArguments.characterDetail] (defines the ID string parameter)
      * - ViewModel: [CharacterDetailViewModel] scoped to the back stack entry
      * - Screen: [CharacterDetailScreen] with state from the ViewModel
@@ -76,7 +106,6 @@ object AppNavigationGraph {
      * configuration changes and is properly cleared when the screen is removed
      * from the back stack.
      *
-     * @param backStackEntry The navigation back stack entry for this screen,
      * used to scope the ViewModel lifecycle.
      */
     fun NavGraphBuilder.characterDetailScreen() {
@@ -102,7 +131,7 @@ object AppNavigationGraph {
      * Defines the quizzes screen in the navigation graph.
      *
      * This function sets up the quizzes list screen with:
-     * - Route: [Screens.Quizzes.route]
+     * - Route: Quizzes.route
      * - ViewModel: [QuizzesViewModel] created via [LocalViewModelFactory]
      * - Screen: [QuizzesScreen] with parameters for quiz click handling
      *
@@ -127,7 +156,7 @@ object AppNavigationGraph {
      * Defines the settings screen in the navigation graph.
      *
      * This function sets up the settings screen with:
-     * - Route: [Screens.Settings.route]
+     * - Route: Settings.route
      * - ViewModel: [SettingsViewModel] created via [LocalViewModelFactory]
      * - Screen: [SettingsScreen] with parameters for settings item click handling
      *

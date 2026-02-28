@@ -27,6 +27,11 @@ interface CharacterRepository {
     suspend fun insertCharacter(character: CharacterConverter)
 
     /**
+     * Inserts multiple characters into the database in a single transaction.
+     */
+    suspend fun insertAllCharacters(characters: List<CharacterConverter>)
+
+    /**
      * Updates a current character in the database
      */
     suspend fun updateCharacter(character: CharacterConverter)

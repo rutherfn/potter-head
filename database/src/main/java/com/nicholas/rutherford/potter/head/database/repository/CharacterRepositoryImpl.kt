@@ -2,6 +2,8 @@ package com.nicholas.rutherford.potter.head.database.repository
 
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
+import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
+import com.nicholas.rutherford.potter.head.database.entity.CharacterImageUrlEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -10,61 +12,58 @@ import kotlinx.coroutines.flow.map
  * Handles the conversion between entities and converters.
  *
  * @param dao The DAO for accessing characters.
+ * @param characterImageDao The DAO for accessing character urls.
  *
  * @author Nicholas Rutherford
  */
-class CharacterRepositoryImpl(private val dao: CharacterDao) : CharacterRepository {
+class CharacterRepositoryImpl(
+    private val dao: CharacterDao,
+    private val characterImageDao: CharacterImageDao
+) : CharacterRepository {
 
-    /**
-     * Gets all characters from the database as a Flow.
-     * Converts entities to converters for use in the domain layer.
-     *
-     * @return A [Flow] emitting a list of [CharacterConverter] objects.
-     */
     override fun getAllCharacters(): Flow<List<CharacterConverter>> {
         return dao.getAllCharacters().map { entities ->
             entities.map { characterEntity -> CharacterConverter.fromEntity(entity = characterEntity) }
         }
     }
 
-    /**
-     * Gets a specific character by name from the database as a Flow.
-     * Converts the entity to a converter for use in the domain layer.
-     *
-     * @param name The name of the character to fetch.
-     * @return A [Flow] emitting a [CharacterConverter] object.
-     */
     override fun getCharacterByName(name: String): Flow<CharacterConverter> {
         return dao.getCharacterByName(name).map { entity ->
             CharacterConverter.fromEntity(entity = entity)
         }
     }
 
-    /**
-     * Inserts a new character into the database.
-     * Converts the converter to an entity before inserting.
-     *
-     * @param character The [CharacterConverter] to insert.
-     */
     override suspend fun insertCharacter(character: CharacterConverter) = dao.insertCharacter(character = character.toEntity())
 
+    override suspend fun insertAllCharacters(characters: List<CharacterConverter>) {
+        val imageUrlMap = characterImageDao.getAllCharacterImageUrlsSync().associateBy { entity -> entity.characterName.trim().lowercase() }
+        val charactersWithMergedUrls = characters.map { character -> character.mergeImageUrlIfNeeded(imageUrlMap) }
+        
+        dao.insertAllCharacters(characters = charactersWithMergedUrls.map { it.toEntity() })
+    }
+
     /**
-     * Updates an existing character in the database.
-     * Converts the converter to an entity before updating.
+     * Merges the image URL from the map if the character needs one.
+     * If the character already has an image URL, it returns the character unchanged.
+     * If the character needs an image URL, it looks it up in the map and returns a copy with the URL if found.
      *
-     * @param character The [CharacterConverter] to update.
+     * @param imageUrlMap Map of normalized character names to their image URL entities.
+     * @return The character with merged image URL if needed, otherwise the original character.
      */
+    private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {
+        
+        if (image.isNullOrBlank()) {
+            return imageUrlMap[name.trim().lowercase()]?.let { imageUrl ->
+                copy(image = imageUrl.imageUrl)
+            } ?: this
+        } else {
+            return this
+        }
+    }
+
     override suspend fun updateCharacter(character: CharacterConverter) = dao.updateCharacter(character = character.toEntity())
 
-    /**
-     * Deletes a character from the database by name.
-     *
-     * @param name The name of the character to delete.
-     */
-    override suspend fun deleteCharacterByName(name: String) = dao.deleteCharacterByName(name)
+    override suspend fun deleteCharacterByName(name: String) = dao.deleteCharacterByName(name = name)
 
-    /**
-     * Deletes all characters from the database.
-     */
     override suspend fun deleteAllCharacters() = dao.deleteAllCharacters()
 }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface DebugToggleRepository {
+
     /**
      * Gets all debug toggles as a Flow.
      */

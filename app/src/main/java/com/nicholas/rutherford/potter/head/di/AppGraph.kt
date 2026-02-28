@@ -25,6 +25,12 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterReposito
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
 import android.net.ConnectivityManager
+import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
+import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
+import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepositoryImpl
+import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryModule
+import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
+import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepositoryImpl
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
@@ -46,9 +52,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 interface AppGraph {
     val networkModule: NetworkModule
     val navigatorModule: NavigatorModule
+    val appBarModule: AppBarFactoryModule
     val databaseModule: DatabaseModule
     val scopeModule: ScopeModule
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
+}
+
+/**
+ * Implementation of AppBarFactoryModule that provides AppBar factory instances.
+ */
+private class AppBarFactoryModuleImpl : AppBarFactoryModule {
+    private val appBarFactoryInstance: AppBarFactory by lazy { AppBarFactoryImpl() }
+    override val appBarFactory: AppBarFactory = appBarFactoryInstance
 }
 
 /**
@@ -68,61 +83,19 @@ private class SavedStateModuleImpl : SavedStateModule {
 
 /**
  * Implementation of ScopeModule that provides coroutine scope-related dependencies.
- *
- * This implementation provides different scopes for various use cases:
- * - viewModelScope: A general-purpose scope for ViewModel operations.
- *   Note: ViewModels typically use their built-in viewModelScope, but this can be
- *   injected for testing or when a custom scope is needed.
- * - ioScope: For IO operations (database, network, file I/O)
- * - mainScope: For main/UI thread operations
- * - defaultScope: For CPU-intensive work
  */
 private class ScopeModuleImpl : ScopeModule {
-    /**
-     * ViewModel scope for ViewModel operations.
-     * This is a general-purpose scope that can be injected into ViewModels.
-     * Uses Dispatchers.Default as the base dispatcher, which is optimal for most
-     * ViewModel operations. Switch to Dispatchers.Main when UI updates are needed,
-     * or use Dispatchers.IO for I/O operations.
-     */
-    override val viewModelScope: CoroutineScope by lazy {
-        CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    }
-
-    /**
-     * Coroutine scope for IO operations.
-     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
-     */
-    override val ioScope: CoroutineScope by lazy {
-        CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    }
-
-    /**
-     * Coroutine scope for main/UI thread operations.
-     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
-     */
-    override val mainScope: CoroutineScope by lazy {
-        CoroutineScope(SupervisorJob() + Dispatchers.Main)
-    }
-
-    /**
-     * Coroutine scope for default/CPU-intensive operations.
-     * Uses SupervisorJob to ensure that if one operation fails, others can still run.
-     */
-    override val defaultScope: CoroutineScope by lazy {
-        CoroutineScope(SupervisorJob() + Dispatchers.Default)
-    }
+    override val viewModelScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
+    override val ioScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
+    override val mainScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
+    override val defaultScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
 }
 
 /**
  * Implementation of NetworkModule that provides network-related dependencies.
  */
-private class NetworkModuleImpl(
-    private val context: Context
-) : NetworkModule {
-    private val connectivityManager: ConnectivityManager by lazy {
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    }
+private class NetworkModuleImpl(private val context: Context) : NetworkModule {
+    private val connectivityManager: ConnectivityManager by lazy { context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
 
     override val gson: Gson by lazy {
         GsonBuilder()
@@ -140,26 +113,21 @@ private class NetworkModuleImpl(
 
     override val harryPotterApiService: HarryPotterApiService by lazy { retrofit.create(HarryPotterApiService::class.java) }
 
-    override val harryPotterApiRepository: HarryPotterApiRepository by lazy {
-        HarryPotterApiRepositoryImpl(
-            apiService = harryPotterApiService
-        )
-    }
+    override val harryPotterApiRepository: HarryPotterApiRepository by lazy { HarryPotterApiRepositoryImpl(apiService = harryPotterApiService) }
 
-    override val networkMonitor: NetworkMonitor by lazy {
-        NetworkMonitorImpl(
-            context = context,
-            connectivityManager = connectivityManager
-        )
-    }
+    override val networkMonitor: NetworkMonitor by lazy { NetworkMonitorImpl(context = context, connectivityManager = connectivityManager) }
 }
 
 /**
  * Implementation of DatabaseModule that provides database-related dependencies.
  */
-private class DatabaseModuleImpl(
-    private val context: Context
-) : DatabaseModule {
+private class DatabaseModuleImpl(private val context: Context) : DatabaseModule {
+
+    /**
+     * Kermit Logger for DatabaseModule interactions.
+     */
+    val log = Logger.withTag(tag = "DatabaseModule")
+
     /**
      * Coroutine scope for database initialization tasks.
      * Uses SupervisorJob to ensure that if one initialization task fails, others can still run.
@@ -176,7 +144,11 @@ private class DatabaseModuleImpl(
 
     override val characterDao: CharacterDao = appDatabase.characterDao()
 
-    override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao) }
+    override val characterImageDao: CharacterImageDao = appDatabase.characterImageDao()
+
+    override val characterRepository: CharacterRepository by lazy { CharacterRepositoryImpl(dao = characterDao, characterImageDao = characterImageDao) }
+
+    override val characterImageRepository: CharacterImageRepository by lazy { CharacterImageRepositoryImpl(dao = characterImageDao, context = context) }
 
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
 
@@ -188,8 +160,6 @@ private class DatabaseModuleImpl(
      * new tables here as they are added to the database.
      */
     private fun initializeDefaultData(database: AppDatabase) {
-        val log = Logger.withTag(tag = "DatabaseModule")
-
         initializationScope.launch {
             try {
                 initializeDebugToggles(database)
@@ -208,10 +178,13 @@ private class DatabaseModuleImpl(
 
         val existingToggle = repository.getToggleSync(DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION)
         if (existingToggle == null) {
+            log.d("Initializing default debug toggle since existing toggles where null")
             repository.setToggleEnabled(
                 key = DebugToggleKeys.SHOULD_SIMULATE_NO_INTERNET_CONNECTION,
                 isEnabled = true
             )
+        } else {
+            log.d("Default debug toggle already exists, skipping initialization")
         }
     }
 }
@@ -219,9 +192,7 @@ private class DatabaseModuleImpl(
 /**
  * Implementation of AppGraph that creates and provides all dependency modules.
  */
-internal class AppGraphImpl(
-    private val context: Context
-) : AppGraph {
+internal class AppGraphImpl(private val context: Context) : AppGraph {
     override val networkModule: NetworkModule by lazy { NetworkModuleImpl(context = context) }
 
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }
@@ -229,6 +200,8 @@ internal class AppGraphImpl(
     override val databaseModule: DatabaseModule by lazy { DatabaseModuleImpl(context = context) }
 
     override val scopeModule: ScopeModule by lazy { ScopeModuleImpl() }
+
+    override val appBarModule: AppBarFactoryModule by lazy { AppBarFactoryModuleImpl() }
 
     override val characterDetailViewModelFactory: CharacterDetailViewModelFactory by lazy {
         CharacterDetailViewModelFactory(

@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface DebugToggleDao {
+
     /**
      * Gets all debug toggles as a Flow.
      */

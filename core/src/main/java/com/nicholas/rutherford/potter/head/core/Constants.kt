@@ -1,6 +1,10 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val INITIAL_PAGE_SIZE = 20
+    const val DELAY_LOADING_MORE_CHARACTERS = 300L
+    const val SHIMMER_CHARACTER_COUNT = 20
+    const val RETRY_LOADING_CHARACTERS_DELAY = 2000L
     const val BASE_API_URL = "https://hp-api.onrender.com/api/"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_NAME = "NetworkModule"

@@ -1,0 +1,272 @@
+[
+  {
+    "id": 1,
+    "characterName": "Mr Goyle",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/d/de/Goyledad_recolored.jpg/revision/latest?cb=20200418011822"
+  },
+  {
+    "id": 2,
+    "characterName": "Mr Crabbe",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/c/cc/Crabbesnr.PNG/revision/latest/thumbnail/width/360/height/360?cb=20200418010245"
+  },
+  {
+    "id": 3,
+    "characterName": "Vernon Dursley",
+    "imageUrl": "https://images.immediate.co.uk/production/volatile/sites/3/2016/03/103519.jpg"
+  },
+  {
+    "id": 4,
+    "characterName": "Petunia Dursley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/6/64/Petunia_DH1.png/revision/latest?cb=20200413045426"
+  },
+  {
+    "id": 5,
+    "characterName": "Dudley Dursley",
+    "imageUrl": "https://townsquare.media/site/252/files/2020/10/Harry-Melling-harry-potter-netflix-.jpg?w=780&q=75"
+  },
+  {
+    "id": 6,
+    "characterName": "Boa constrictor",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/72/B1C2M2_cropped_Boa_Constrictor.jpg/revision/latest/thumbnail/width/360/height/360?cb=20161210161434"
+  },
+  {
+    "id": 7,
+    "characterName": "Albus Dumbledore",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/75/Albus_Dumbledore_%28HBPF_promo%29.jpg/revision/latest?cb=20150822232849"
+  },
+  {
+    "id": 8,
+    "characterName": "Fawkes",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/f/f8/Fawkes_WB_F2_FawkesCloseUpIllustration_Illust_100615_Port.jpg/revision/latest?cb=20151218225509"
+  },
+  {
+    "id": 9,
+    "characterName": "Madam Pomfrey",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/56/Madam_Pomfrey.png/revision/latest?cb=20131110073338"
+  },
+  {
+    "id": 10,
+    "characterName": "Mrs Figg",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/8/82/Figg.jpg/revision/latest/thumbnail/width/360/height/360?cb=20080102062404"
+  },
+  {
+    "id": 11,
+    "characterName": "Marge Dursley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/7e/Marjorie_dursley_promo.jpg/revision/latest?cb=20141106101744"
+  },
+  {
+    "id": 12,
+    "characterName": "Ripper",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/d/d8/Ripper.jpg/revision/latest?cb=20100409165801"
+  },
+  {
+    "id": 13,
+    "characterName": "Yvonne",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/a/a0/Yvonne_Bampton.png/revision/latest?cb=20250429204231"
+  },
+  {
+    "id": 14,
+    "characterName": "Piers Polkiss",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/1/13/Piers_Polkiss_OOTPF.jpg/revision/latest/thumbnail/width/360/height/360?cb=20100710103125"
+  },
+  {
+    "id": 15,
+    "characterName": "Dennis",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/b/bd/Dennis.png/revision/latest?cb=20121108112043"
+  },
+  {
+    "id": 16,
+    "characterName": "Malcolm",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/e/e4/Malcolm.png/revision/latest?cb=20121108111856"
+  },
+  {
+    "id": 17,
+    "characterName": "Gordon",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/2/23/Gordon.png/revision/latest?cb=20121108111426"
+  },
+  {
+    "id": 18,
+    "characterName": "Miranda Gaushawk",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/53/Miranda_Goshawk_HM.png/revision/latest?cb=20210830183735"
+  },
+  {
+    "id": 19,
+    "characterName": "Bathilda Bagshot",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/0/0d/Bathilda_Bagshot_profile.jpg/revision/latest/scale-to-width-down/1200?cb=20161119223158"
+  },
+  {
+    "id": 20,
+    "characterName": "Adalbert Waffling",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/5b/Adalbert_Waffling_HM.png/revision/latest?cb=20220720143427"
+  },
+  {
+    "id": 21,
+    "characterName": "Emeric Switch",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/e/e0/EmericSwitch.jpg/revision/latest?cb=20120621220339"
+  },
+  {
+    "id": 22,
+    "characterName": "Phyllida Spore",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/5d/PhyllidaSporeHead.jpg/revision/latest?cb=20161001235643"
+  },
+  {
+    "id": 23,
+    "characterName": "Arsenius Jigger",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/5f/ArseniusJigger.JPG/revision/latest?cb=20130211211044"
+  },
+  {
+    "id": 24,
+    "characterName": "Newt Scamander",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/3/36/Newton_Scamander_Profile_crop.png/revision/latest?cb=20190609204955"
+  },
+  {
+    "id": 25,
+    "characterName": "Quentin Trimble",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/76/QuentinTrimblePortrait.png/revision/latest?cb=20151022023432"
+  },
+  {
+    "id": 26,
+    "characterName": "Tom",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/f/fd/Tom_the_barman_POAF.jpg/revision/latest?cb=20180620004307"
+  },
+  {
+    "id": 27,
+    "characterName": "Doris Crockford",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/a/ad/Doris_Crockford.JPG/revision/latest?cb=20090328173127"
+  },
+  {
+    "id": 28,
+    "characterName": "Quirinus Quirrel",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/d/d2/Quirinus_Quirrell_PS_promo.jpg/revision/latest/thumbnail/width/360/height/360?cb=20110806132643"
+  },
+  {
+    "id": 29,
+    "characterName": "Griphook",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/53/Griphook_TDH_SF.png/revision/latest?cb=20161215062124"
+  },
+  {
+    "id": 30,
+    "characterName": "Madam Malkin",
+    "imageUrl": "https://static.wikia.nocookie.net/esharrypotter/images/3/3e/Madam_Malkin.jpg/revision/latest?cb=20121118172328"
+  },
+  {
+    "id": 31,
+    "characterName": "Vindictus Viridian",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/e/ec/VindictusProfile.jpg/revision/latest?cb=20110915224702"
+  },
+  {
+    "id": 32,
+    "characterName": "Garrick Ollivander",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/c/c2/Ollivander_ProfileClearer.gif/revision/latest?cb=20090524162239"
+  },
+  {
+    "id": 33,
+    "characterName": "Hedwig",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/1/1e/Hedwig_Snowy_Owl_PM.png/revision/latest?cb=20161123234010"
+  },
+  {
+    "id": 34,
+    "characterName": "Trevor",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/4/41/Trevor_PM.png/revision/latest?cb=20170117131957"
+  },
+  {
+    "id": 35,
+    "characterName": "Hermes",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/c/ce/Pigwidgeon.jpg/revision/latest/smart/width/386/height/259?cb=20161123054507"
+  },
+  {
+    "id": 36,
+    "characterName": "Errol",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/c/c3/Errol_LEGO.jpg/revision/latest/scale-to-width-down/645?cb=20250823220242"
+  },
+  {
+    "id": 37,
+    "characterName": "Pigwidgeon",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/c/ce/Pigwidgeon.jpg/revision/latest?cb=20161123054507"
+  },
+  {
+    "id": 38,
+    "characterName": "Molly Weasley",
+    "imageUrl": "https://contentful.harrypotter.com/usf1vwtuqyxm/31X8p9ewf6aeYse2sCayCm/2b4ecbc9e20cfc1b3941a63394cbb3d9/MollyWeasley_WB_F6_MollyWeasleyFullbody_Promo_080615_Port.jpg"
+  },
+  {
+    "id": 39,
+    "characterName": "Percy Weasley",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVwMtKXLkkMxFDTY-fdQ1nVkrpZGsKix1oAQ&s"
+  },
+  {
+    "id": 40,
+    "characterName": "Fred Weasley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotterfanon/images/9/9a/Fred_Weasley_II.jpg/revision/latest?cb=20160417155917"
+  },
+  {
+    "id": 41,
+    "characterName": "George Weasley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/b/b5/George_Weasley_promo_DHF1.jpg/revision/latest?cb=20161119235305"
+  },
+  {
+    "id": 42,
+    "characterName": "Lee Jordan",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/4/44/LeeJordan.jpg/revision/latest?cb=20240416013149"
+  },
+  {
+    "id": 43,
+    "characterName": "Bill Weasley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/6/66/BillWeasleyDH2.png/revision/latest/scale-to-width-down/1200?cb=20160212193938"
+  },
+  {
+    "id": 44,
+    "characterName": "Charlie Weasley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotterfanon/images/6/67/Charlie_Weasley.jpg/revision/latest?cb=20160411040902"
+  },
+  {
+    "id": 45,
+    "characterName": "Fat Friar",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/e/ea/Fat_Friar_Profile.png/revision/latest?cb=20160409230657"
+  },
+  {
+    "id": 46,
+    "characterName": "Peeves",
+    "imageUrl": "https://contentful.harrypotter.com/usf1vwtuqyxm/5jsf2rpwncScodENrRmdEy/69ece176dd7cedb03e7ca59e7efa920a/peeves_16_1800x1248.png"
+  },
+  {
+    "id": 47,
+    "characterName": "Hannah Abbott",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/b/b7/Harry-potter-goblet-of-fire-hannah.jpg/revision/latest/thumbnail/width/360/height/360?cb=20170731215859"
+  },
+  {
+    "id": 48,
+    "characterName": "Susan Bones",
+    "imageUrl": "https://static.wikia.nocookie.net/esharrypotter/images/7/7f/SusanBones.png/revision/latest/thumbnail/width/360/height/360?cb=20150824184232"
+  },
+  {
+    "id": 49,
+    "characterName": "Terry Boot",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/77/Terry_Boot_HP5_PC.jpg/revision/latest?cb=20180709223304"
+  },
+  {
+    "id": 50,
+    "characterName": "Mandy Brocklehurst",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/1/17/Amanda4.jpg/revision/latest?cb=20100101055032"
+  },
+  {
+    "id": 51,
+    "characterName": "Lavender Brown",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/b/b6/Lavender_Brown_HBP.jpg/revision/latest/scale-to-width-down/1200?cb=20180203062638"
+  },
+  {
+    "id": 52,
+    "characterName": "Millicent Bulstrode",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/4/48/Millicent_Bulstrode_2.jpg/revision/latest?cb=20240714065325"
+  },
+  {
+    "id": 52,
+    "characterName": "Justin Finch-Fletchley",
+    "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/1/16/Justin_Finch-Fletchley_%28McGonagall%27s_Class%29_%281%29.png/revision/latest?cb=20180308172742"
+  },
+  {
+    "id": 53,
+    "characterName": "Seamus Finnigan",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSnvfjBTweyjm43WVSpWODcgMSwFZ2Pq12Fg&s"
+  }
+]

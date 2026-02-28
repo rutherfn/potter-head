@@ -10,6 +10,8 @@ import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvi
 import com.nicholas.rutherford.potter.head.di.AppGraph
 import com.nicholas.rutherford.potter.head.di.AppGraphImpl
 import com.nicholas.rutherford.potter.head.di.ViewModelFactory
+import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryProvider
+import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
 
@@ -29,7 +31,9 @@ import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
 class PotterHeadApplication :
     Application(),
     ViewModelFactoryProvider,
-    NavigatorProvider {
+    NavigatorProvider,
+    AppBarFactoryProvider {
+
     /**
      * Kermit Logger for this class.
      */
@@ -67,6 +71,16 @@ class PotterHeadApplication :
      * @return The [Navigator] instance from the AppGraph.
      */
     override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
+
+    /**
+     * Returns the [AppBarFactory] instance for creating AppBar instances.
+     *
+     * This provides access to the AppBarFactory which can be used to create
+     * AppBar instances for different screens in the application.
+     *
+     * @return The [AppBarFactory] instance from the AppGraph.
+     */
+    override fun getAppBarFactory(): AppBarFactory = appGraph.appBarModule.appBarFactory
 
     companion object {
         /**

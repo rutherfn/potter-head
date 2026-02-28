@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.converter
 
 import com.nicholas.rutherford.potter.head.database.entity.CharacterEntity
+import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
 
 /**
  * Converter data class for CharacterEntity.
@@ -33,7 +34,7 @@ data class CharacterConverter(
     val alternateNames: List<String>,
     val species: String,
     val gender: String,
-    val house: String,
+    val house: String?,
     val dateOfBirth: String?,
     val yearOfBirth: Int?,
     val isWizard: Boolean,
@@ -100,6 +101,31 @@ data class CharacterConverter(
             alternateActors = entity.alternateActors,
             isAlive = entity.isAlive,
             image = entity.image
+        )
+
+        /**
+         * Creates a CharacterConverter from a CharacterResponse.
+         */
+        fun fromResponse(response: CharacterResponse): CharacterConverter = CharacterConverter(
+            name = response.name,
+            alternateNames = response.alternateNames,
+            species = response.species,
+            gender = response.gender,
+            house = response.house,
+            dateOfBirth = response.dateOfBirth,
+            yearOfBirth = response.yearOfBirth,
+            isWizard = response.isWizard,
+            ancestry = response.ancestry,
+            eyeColour = response.eyeColour,
+            hairColour = response.hairColour,
+            wandConverter = response.wand?.let { wand -> WandConverter.fromResponse(response = wand) },
+            patronus = response.patronus,
+            isHogwartsStudent = response.isHogwartsStudent,
+            isHogwartsStaff = response.isHogwartsStaff,
+            actor = response.actor,
+            alternateActors = response.alternateActors,
+            isAlive = response.isAlive,
+            image = response.image
         )
     }
 }

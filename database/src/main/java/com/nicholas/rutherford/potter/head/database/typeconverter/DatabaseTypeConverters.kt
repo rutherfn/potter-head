@@ -13,6 +13,9 @@ import com.nicholas.rutherford.potter.head.database.entity.WandEntity
  */
 object DatabaseTypeConverters {
 
+    /**
+     * Gson declaration for this class to use for conversion.
+     */
     private val gson = Gson()
 
     /**

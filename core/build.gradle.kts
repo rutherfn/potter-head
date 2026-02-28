@@ -46,6 +46,9 @@ kotlin {
 }
 
 dependencies {
+    api(libs.gson)
+    implementation(libs.androidx.core.ktx)
+
     debugApi(libs.kermit.android.debug)
     debugImplementation(libs.kermit.core.android.debug)
 

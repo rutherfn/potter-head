@@ -40,11 +40,14 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(path = ":core"))
+
     api(libs.androidx.compose.material3.android)
     api(libs.androidx.compose.runtime.android)
     api(libs.androidx.lifecycle.common)
     api(libs.kotlinx.coroutines.core)
 
+    implementation(libs.androidx.compose.animation.android)
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.graphics.android)

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
+import kotlinx.coroutines.CoroutineScope
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
@@ -24,9 +25,8 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  *
  * @author Nicholas Rutherford
  */
-class ViewModelFactory(
-    private val appGraph: AppGraph
-) : ViewModelProvider.Factory {
+class ViewModelFactory(private val appGraph: AppGraph) : ViewModelProvider.Factory {
+
     /**
      * Kermit Logger for this class.
      */
@@ -74,6 +74,7 @@ class ViewModelFactory(
         CharactersViewModel(
             scope = appGraph.scopeModule.viewModelScope,
             harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
+            characterImageRepository = appGraph.databaseModule.characterImageRepository,
             characterRepository = appGraph.databaseModule.characterRepository,
             debugToggleRepository = appGraph.databaseModule.debugToggleRepository,
             networkMonitor = appGraph.networkModule.networkMonitor,

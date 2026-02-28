@@ -45,6 +45,15 @@ interface Navigator {
     val popRouteActions: StateFlow<String?>
 
     /**
+     * StateFlow that emits progress actions to be consumed by the UI layer.
+     *
+     * When a [ProgressAction] is emitted, the UI should observe it and
+     * show the progress action until it has been updated.
+     */
+    val progressActions: StateFlow<ProgressAction?>
+
+
+    /**
      * Triggers a navigation action to the specified destination.
      *
      * This method updates the [navActions] StateFlow, which will be observed
@@ -64,6 +73,16 @@ interface Navigator {
      * @param routeAction The route to pop back to. If `null`, pops back without a specific route.
      */
     fun pop(routeAction: String?)
+
+    /**
+     * Triggers a progress action.
+     *
+     * This method updates the [progressAction] StateFlow, which will be observed
+     * by the UI layer to show the progress Compose UI
+     *
+     * @param routeAction The route to pop back to. If `null`, pops back without a specific route.
+     */
+    fun progress(progressAction: ProgressAction?)
     
     /**
      * Resets the navigation action StateFlow after navigation has been handled.

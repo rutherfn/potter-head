@@ -8,6 +8,12 @@ import androidx.room.Update
 import com.nicholas.rutherford.potter.head.database.entity.CharacterEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Data Access Object for CharacterEntity.
+ * Provides methods to interact with the characters table in the Room database.
+ *
+ * @author Nicholas Rutherford
+ */
 @Dao
 interface CharacterDao {
 
@@ -19,6 +25,9 @@ interface CharacterDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCharacter(character: CharacterEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllCharacters(characters: List<CharacterEntity>)
 
     @Update
     suspend fun updateCharacter(character: CharacterEntity)

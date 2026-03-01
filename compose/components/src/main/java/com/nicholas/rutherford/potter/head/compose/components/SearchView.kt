@@ -109,14 +109,11 @@ fun SearchView(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextField(
-                value = currentTextFieldValue.text,
-                onValueChange = { newValue ->
-                    currentTextFieldValue = TextFieldValue(
-                        text = newValue,
-                        selection = TextRange(newValue.length)
-                    )
-                    lastSentText = newValue
-                    onSearchQueryChange.invoke(newValue)
+                value = currentTextFieldValue,
+                onValueChange = { newValue: TextFieldValue ->
+                    currentTextFieldValue = newValue
+                    lastSentText = newValue.text
+                    onSearchQueryChange.invoke(newValue.text)
                 },
                 modifier = Modifier.weight(1f),
                 placeholder = {

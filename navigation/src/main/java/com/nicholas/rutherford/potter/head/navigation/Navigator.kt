@@ -77,10 +77,10 @@ interface Navigator {
     /**
      * Triggers a progress action.
      *
-     * This method updates the [progressAction] StateFlow, which will be observed
-     * by the UI layer to show the progress Compose UI
+     * This method updates the [progressActions] StateFlow, which will be observed
+     * by the UI layer to show the progress Compose UI.
      *
-     * @param routeAction The route to pop back to. If `null`, pops back without a specific route.
+     * @param progressAction The [ProgressAction] to display. If `null`, hides the progress dialog.
      */
     fun progress(progressAction: ProgressAction?)
     

@@ -418,7 +418,7 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
             color = textColor
         )
         
-        imageUrl?.takeIf { it.isNotBlank() }?.let { url ->
+        imageUrl?.takeIf { image -> image.isNotBlank() }?.let { url ->
             AsyncImage(
                 model = ImageRequest.Builder(context = androidx.compose.ui.platform.LocalContext.current)
                     .data(url)

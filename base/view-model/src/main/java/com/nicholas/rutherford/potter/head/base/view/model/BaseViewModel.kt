@@ -65,7 +65,7 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
      * @return The Job that was launched
      */
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job? {
-        return getScope()?.let { scope ->
+        return getScope().let { scope ->
             val job = scope.launch(block = block)
             activeJobs.add(job)
             job
@@ -90,7 +90,7 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         flow: Flow<T>,
         onCollect: suspend (T) -> Unit
     ) {
-        getScope()?.let { scope ->
+        getScope().let { scope ->
             val job = scope.launch {
                 flow.collectLatest { value ->
                     if (shouldCollectFlow()) {
@@ -115,7 +115,7 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         flow2: Flow<T2>,
         onCollect: suspend (T1, T2) -> Unit
     ) {
-        getScope()?.let { scope ->
+        getScope().let { scope ->
             val job = scope.launch {
                 combine(flow1, flow2) { t1, t2 ->
                     if (shouldCollectFlow()) {
@@ -144,7 +144,7 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         flow4: Flow<T4>,
         onCollect: suspend (T1, T2, T3, T4) -> Unit
     ) {
-        getScope()?.let { scope ->
+        getScope().let { scope ->
             val job = scope.launch {
                 combine(flow1, flow2, flow3, flow4) { t1, t2, t3, t4 ->
                     if (shouldCollectFlow()) {
@@ -204,7 +204,6 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         activeFlowCollections.clear()
         activeJobs.forEach { job -> job.cancel() }
         activeJobs.clear()
-        // Cancel the ViewModel scope job to ensure all coroutines are properly cleaned up
         viewModelJob.cancel()
         log.d { "${this::class.simpleName} → onCleared" }
     }

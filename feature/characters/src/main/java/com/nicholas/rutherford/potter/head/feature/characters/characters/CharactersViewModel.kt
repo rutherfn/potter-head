@@ -9,7 +9,6 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRep
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.navigation.Navigator
-import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
@@ -47,8 +46,6 @@ class CharactersViewModel(
 
     private val charactersMutableStateFlow = MutableStateFlow(CharactersState())
     val charactersStateFlow: StateFlow<CharactersState> = charactersMutableStateFlow.asStateFlow()
-    
-    private var hasInitiatedFetch = false
     private val allCharacters = MutableStateFlow<List<CharacterConverter>>(value = emptyList())
     private var currentVisibleCount = Constants.INITIAL_PAGE_SIZE
 
@@ -125,7 +122,6 @@ class CharactersViewModel(
         scope.launch {
             charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
             delay(timeMillis = Constants.RETRY_LOADING_CHARACTERS_DELAY)
-            hasInitiatedFetch = false
             currentVisibleCount = charactersMutableStateFlow.value.pageSize
             fetchCharactersFromApiAndUpdateDb()
         }

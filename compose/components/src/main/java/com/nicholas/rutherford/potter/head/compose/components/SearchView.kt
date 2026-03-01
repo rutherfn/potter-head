@@ -150,10 +150,7 @@ fun SearchView(
                             imageVector = Icons.Default.Clear,
                             contentDescription = "Clear Search",
                             tint = Color.Black.copy(alpha = 0.6f),
-                            modifier = Modifier
-                                .clickable {
-                                    onClearClicked.invoke()
-                                }
+                            modifier = Modifier.clickable { onClearClicked.invoke() }
                         )
                     }
                 },

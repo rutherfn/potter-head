@@ -5,7 +5,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 
 /**
  * Defines UI data for the Characters Screen.
- * Gets defined in the viewModel and manages through there.
+ * Defined and managed in the ViewModel.
  *
  * @param characters The list of characters to display.
  * @param errorType The type of error to display.

@@ -1,6 +1,6 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -81,8 +81,9 @@ object AppNavigationGraph {
 
             ObserveLifecycle(viewModel = viewModel)
             
-            LaunchedEffect(Unit) {
+            DisposableEffect(Unit) {
                 updateAppBar(appBar = appBarFactory.createCharactersAppBar())
+                onDispose { updateAppBar(appBar = null) }
             }
 
             CharactersScreen(

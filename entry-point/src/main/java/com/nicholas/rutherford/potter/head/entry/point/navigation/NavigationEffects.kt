@@ -17,25 +17,23 @@ import com.nicholas.rutherford.potter.head.compose.components.ProgressDialog
 import com.nicholas.rutherford.potter.head.base.view.model.asLifecycleAwareState
 import com.nicholas.rutherford.potter.head.entry.point.navigation.bottom.BottomNavigationBar
 import com.nicholas.rutherford.potter.head.navigation.Navigator
-import com.nicholas.rutherford.potter.head.navigation.ProgressAction
 
 /**
- * Composable that handles navigation effects and provides the main navigation scaffold.
+ * Composable that handles navigation side effects.
  * Sets up LaunchedEffect handlers for navigation actions and manages progress dialogs.
+ * This composable only handles side effects and does not render UI layout.
  *
  * @param navController The NavController for handling navigation.
  * @param navigator The Navigator for managing navigation actions.
  * @param lifecycleOwner The LifecycleOwner for observing state changes.
- * @param currentDestination The current destination in the navigation graph.
  *
  * @author Nicholas Rutherford
  */
 @Composable
-fun NavigationEffects(
+fun NavigationSideEffects(
     navController: NavHostController,
     navigator: Navigator,
-    lifecycleOwner: LifecycleOwner,
-    currentDestination: NavDestination?
+    lifecycleOwner: LifecycleOwner
 ) {
     val navActionState by navigator.navActions.asLifecycleAwareState(
         lifecycleOwner = lifecycleOwner,
@@ -75,7 +73,24 @@ fun NavigationEffects(
             }
         )
     }
+}
 
+/**
+ * Composable that provides the main navigation scaffold with AppBar and NavHost.
+ * Handles the UI layout for the main navigation structure.
+ *
+ * @param navController The NavController for handling navigation.
+ * @param lifecycleOwner The LifecycleOwner for observing state changes.
+ * @param currentDestination The current destination in the navigation graph.
+ *
+ * @author Nicholas Rutherford
+ */
+@Composable
+fun MainNavigationScaffold(
+    navController: NavHostController,
+    lifecycleOwner: LifecycleOwner,
+    currentDestination: NavDestination?
+) {
     val currentAppBar by AppNavigationGraph.currentAppBar.asLifecycleAwareState(
         lifecycleOwner = lifecycleOwner,
         initialState = null
@@ -100,7 +115,6 @@ fun NavigationEffects(
             )
         }
     ) { innerPadding ->
-        
         NavHost(
             navController = navController,
             startDestination = Screens.Characters.route,

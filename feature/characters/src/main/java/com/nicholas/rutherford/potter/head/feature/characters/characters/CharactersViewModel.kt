@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characters
 
+import android.net.Uri
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
@@ -7,8 +8,6 @@ import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
-import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
-import android.net.Uri
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -28,7 +27,6 @@ import java.util.concurrent.atomic.AtomicInteger
  * @param harryPotterApiRepository The repository for fetching characters from the Harry Potter API.
  * @param characterImageRepository The repository for managing character image URLs.
  * @param characterRepository The repository for managing characters in the local database.
- * @param debugToggleRepository The repository for managing debug toggle settings.
  * @param networkMonitor The network monitor for checking network connectivity.
  * @param navigator The navigator for navigating between screens.
  *
@@ -38,7 +36,6 @@ class CharactersViewModel(
     private val harryPotterApiRepository: HarryPotterApiRepository,
     private val characterImageRepository: CharacterImageRepository,
     private val characterRepository: CharacterRepository,
-    private val debugToggleRepository: DebugToggleRepository,
     private val networkMonitor: NetworkMonitor,
     private val navigator: Navigator
 ) : BaseViewModel() {
@@ -59,7 +56,15 @@ class CharactersViewModel(
         charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
         
         collectFlow(flow = characterRepository.getAllCharacters()) { characters ->
-            if (charactersMutableStateFlow.value.searchQuery.isEmpty()) {
+            if (charactersMutableStateFlow.value.searchQuery.isNotEmpty()) {
+                allCharacters.value = characters
+
+                if (characters.isNotEmpty() && charactersMutableStateFlow.value.isLoading) {
+                    charactersMutableStateFlow.update { state ->
+                        state.copy(isLoading = false, errorType = CharactersErrorType.NONE)
+                    }
+                }
+            } else {
                 allCharacters.value = characters
                 
                 if (characters.isNotEmpty()) {

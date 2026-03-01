@@ -8,14 +8,14 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.view.WindowCompat
-import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
 import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
 import com.nicholas.rutherford.potter.head.entry.point.navigation.LocalAppBarFactory
-import com.nicholas.rutherford.potter.head.entry.point.navigation.NavigationEffects
+import com.nicholas.rutherford.potter.head.entry.point.navigation.MainNavigationScaffold
+import com.nicholas.rutherford.potter.head.entry.point.navigation.NavigationSideEffects
 
 /**
  * Main entry point Activity for the Potter Head application.
@@ -45,9 +45,14 @@ class MainActivity : ComponentActivity() {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
 
-                    NavigationEffects(
+                    NavigationSideEffects(
                         navController = navController,
                         navigator = dependencies.navigator,
+                        lifecycleOwner = lifecycleOwner
+                    )
+                    
+                    MainNavigationScaffold(
+                        navController = navController,
                         lifecycleOwner = lifecycleOwner,
                         currentDestination = currentDestination
                     )

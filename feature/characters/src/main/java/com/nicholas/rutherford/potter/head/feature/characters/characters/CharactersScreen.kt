@@ -43,6 +43,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.CircleCropTransformation
+import com.nicholas.rutherford.potter.head.compose.components.SearchView
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.shimmerEffect
 import com.nicholas.rutherford.potter.head.core.Constants
@@ -212,30 +213,43 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
             }
     }
     
-    LazyColumn(
-        state = listState,
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(color = MaterialTheme.colorScheme.background)
     ) {
-        items(items = state.characters) { character ->
-            CharacterCard(
-                character = character,
-                onClick = { params.onCharacterClicked(character.name) }
-            )
-        }
+        SearchView(
+            searchQuery = state.searchQuery,
+            onSearchQueryChange = params.onSearchQueryChange,
+            onFilterClick = params.onFilterClick,
+            filterCount = 5,
+            placeholderText = "Search characters..."
+        )
+        
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(items = state.characters) { character ->
+                CharacterCard(
+                    character = character,
+                    onClick = { params.onCharacterClicked(character.name) },
+                    buildCharacterStatusIds = params.buildCharacterStatusIds
+                )
+            }
 
-        if (state.isLoadingMore) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+            if (state.isLoadingMore) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
                 }
             }
         }
@@ -243,7 +257,13 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
 }
 
 @Composable
-private fun CharacterCard(character: CharacterConverter, onClick: () -> Unit) {
+private fun CharacterCard(
+    character: CharacterConverter,
+    onClick: () -> Unit,
+    buildCharacterStatusIds: (CharacterConverter) -> List<Int>
+) {
+    val statusIds = buildCharacterStatusIds(character)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -285,27 +305,18 @@ private fun CharacterCard(character: CharacterConverter, onClick: () -> Unit) {
                     }
                 }
 
-                Text(
-                    text = stringResource( id = if (character.isHogwartsStaff) {
-                        StringIds.staff
-                    } else {
-                        StringIds.student
-                    }
-                    ),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontSize = 12.sp
-                )
-
-                if (character.species.isNotEmpty() && character.gender.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(2.dp))
+                if (statusIds.isNotEmpty()) {
                     Text(
-                        text = stringResource(id = StringIds.speciesGenderFormat, character.species, character.gender),
+                        text = buildString {
+                            statusIds.forEachIndexed { index, id ->
+                                if (index > 0) {
+                                    append(", ")
+                                }
+                                append(stringResource(id = id))
+                            }},
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 11.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        fontSize = 12.sp
                     )
                 }
             }
@@ -428,7 +439,10 @@ private fun CharacterScreenPreview() {
                 ),
                 onCharacterClicked = {},
                 onRetryClicked = {},
-                onLoadMore = {}
+                onLoadMore = {},
+                buildCharacterStatusIds = { _ -> emptyList() },
+                onSearchQueryChange = {},
+                onFilterClick = {}
             )
         )
     }

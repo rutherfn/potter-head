@@ -2,6 +2,7 @@ package com.nicholas.rutherford.potter.head.feature.characters.characters
 
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
@@ -145,15 +146,40 @@ class CharactersViewModel(
         }
     }
 
+    fun buildCharacterStatusIds(characterConverter: CharacterConverter): List<Int> {
+        return buildList {
+            if (characterConverter.isHogwartsStudent) {
+                add(StringIds.student)
+            }
+
+            if (characterConverter.isHogwartsStaff) {
+                add(StringIds.staff)
+            }
+
+            if (characterConverter.isWizard) {
+                add(StringIds.wizard)
+            }
+        }
+    }
+
+    fun onSearchQueryChange(query: String) {
+        charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
+    }
+
+    fun onFilterClick() {
+        // TODO: Navigate to filter screen when implemented
+        log.d("Filter button clicked")
+    }
+
     fun onCharacterClicked(characterName: String) {
         // Navigate to character detail screen
         // Using character name as identifier since it's the primary key in the database
         val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
             .replace("{id}", characterName)
-        navigator.navigate(
-            SimpleNavigationAction(
-                destination = route
-            )
-        )
+//        navigator.navigate(
+//            SimpleNavigationAction(
+//                destination = route
+//            )
+//        )
     }
 }

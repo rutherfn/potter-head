@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.core
 
 object StringIds {
+    val wizard = R.string.wizard
     val characters = R.string.characters
     val couldNotRetrieveCharacters = R.string.could_not_retrieve_characters
     val gryffindor = R.string.gryffindor

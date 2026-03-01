@@ -13,6 +13,8 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
  * @param isLoadingMore Whether the screen is currently loading more data.
  * @param hasMoreToLoad Whether there is more data to load.
  * @param pageSize The number of items to load at a time.
+ * @param searchQuery The current search query text.
+ * @param filterCount The number of active filters.
  *
  * @author Nicholas Rutherford
  */
@@ -22,5 +24,7 @@ data class CharactersState(
     val isLoading: Boolean = true,
     val isLoadingMore: Boolean = false,
     val hasMoreToLoad: Boolean = true,
-    val pageSize: Int = Constants.INITIAL_PAGE_SIZE
+    val pageSize: Int = Constants.INITIAL_PAGE_SIZE,
+    val searchQuery: String = "",
+    val filterCount: Int = 0
 )

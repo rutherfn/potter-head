@@ -43,6 +43,7 @@ dependencies {
 
     api(project(path = ":base:view-model"))
     api(project(path = ":core"))
+    api(project(path = ":compose:components"))
     api(project(path = ":compose:ui-theme"))
     api(project(path = ":database"))
     api(project(path = ":navigation"))

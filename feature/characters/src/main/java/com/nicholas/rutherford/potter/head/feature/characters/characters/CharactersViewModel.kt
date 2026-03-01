@@ -1,45 +1,236 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characters
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.net.Uri
+import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
+import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.StringIds
+import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
+import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
-import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.update
+import java.util.concurrent.atomic.AtomicInteger
 
+/**
+ * ViewModel for managing the characters list screen state and business logic.
+ * Follows a cache-first strategy: loads from local database, fetches from API if empty.
+ *
+ * @param harryPotterApiRepository The repository for fetching characters from the Harry Potter API.
+ * @param characterImageRepository The repository for managing character image URLs.
+ * @param characterRepository The repository for managing characters in the local database.
+ * @param networkMonitor The network monitor for checking network connectivity.
+ * @param navigator The navigator for navigating between screens.
+ *
+ * @author Nicholas Rutherford
+ */
 class CharactersViewModel(
-    private val harryPotterAPiRepository: HarryPotterApiRepository,
+    private val harryPotterApiRepository: HarryPotterApiRepository,
+    private val characterImageRepository: CharacterImageRepository,
     private val characterRepository: CharacterRepository,
-    private val debugToggleRepository: DebugToggleRepository,
     private val networkMonitor: NetworkMonitor,
     private val navigator: Navigator
-) : ViewModel() {
+) : BaseViewModel() {
+
+    private val charactersMutableStateFlow = MutableStateFlow(CharactersState())
+    val charactersStateFlow: StateFlow<CharactersState> = charactersMutableStateFlow.asStateFlow()
+    private val allCharacters = MutableStateFlow<List<CharacterConverter>>(value = emptyList())
+    private val currentVisibleCount = AtomicInteger(Constants.INITIAL_PAGE_SIZE)
 
     init {
-        loadAllCharacters()
+        launch { checkForCharacterImageUrlsForDb() }
+        collectAllCharacters()
     }
-    private fun loadAllCharacters() {
-        //todo -> More work on this its just placeholder for now
-        viewModelScope.launch {
-            harryPotterAPiRepository.getAllCharacters().collect { result ->
-                result.onSuccess { characters ->
 
-                }.onFailure { error ->
+    override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
 
+    private fun collectAllCharacters() {
+        charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
+        
+        collectFlow(flow = characterRepository.getAllCharacters()) { characters ->
+            if (charactersMutableStateFlow.value.searchQuery.isNotEmpty()) {
+                allCharacters.value = characters
+
+                if (characters.isNotEmpty() && charactersMutableStateFlow.value.isLoading) {
+                    charactersMutableStateFlow.update { state ->
+                        state.copy(isLoading = false, errorType = CharactersErrorType.NONE)
+                    }
+                }
+            } else {
+                allCharacters.value = characters
+                
+                if (characters.isNotEmpty()) {
+                    updatePaginatedCharacters()
+                } else {
+                    fetchCharactersFromApiAndUpdateDb()
                 }
             }
         }
     }
 
-    fun onCharacterClicked(characterId: String = "9e3f7ce4-b9a7-4244-b709-dae5c1f1d4a8") {
-        // Navigate to character detail screen
-        // Replace {id} placeholder in the route with the actual character ID
+    private suspend fun checkForCharacterImageUrlsForDb() {
+        val characterImageUrls = characterImageRepository.getAllCharacterImages().first()
+
+        if (characterImageUrls.isEmpty()) {
+            characterImageRepository.insertAllCharacterImageUrls()
+        }
+    }
+    
+    private fun updatePaginatedCharacters() {
+        val visibleCount = currentVisibleCount.get()
+        charactersMutableStateFlow.update { state ->
+            state.copy(
+                characters =  allCharacters.value.take(n = visibleCount),
+                errorType = CharactersErrorType.NONE,
+                isLoading = false,
+                hasMoreToLoad = allCharacters.value.size > visibleCount
+            )
+        }
+    }
+
+    private fun failedFetchingCharacters(error: Throwable) {
+        charactersMutableStateFlow.update { state ->
+            state.copy(
+                errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                isLoading = false
+            )
+        }
+        log.e("Failed to fetch characters from API with error message: ${error.message}")
+    }
+
+
+    private suspend fun fetchCharactersFromApiAndUpdateDb(): Boolean {
+        return if (networkMonitor.isConnected()) {
+            val result = harryPotterApiRepository.getAllCharacters().first()
+            result.getOrNull()?.let { characters ->
+                val characterConverters = characters.map { characterResponse -> CharacterConverter.fromResponse(response = characterResponse) }
+                characterRepository.insertAllCharacters(characters = characterConverters)
+                true
+            } ?: run {
+
+                result.exceptionOrNull()?.let { error -> 
+                    failedFetchingCharacters(error = error)
+                } ?: run {
+                    charactersMutableStateFlow.update { state ->
+                        state.copy(
+                            errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                            isLoading = false
+                        )
+                    }
+                    log.e("Failed to fetch characters: result was null without exception")
+                }
+                false
+            }
+        } else {
+            charactersMutableStateFlow.update { state ->
+                state.copy(
+                    errorType = CharactersErrorType.NO_INTERNET_CONNECTION,
+                    isLoading = false
+                )
+            }
+            false
+        }
+    }
+
+    fun retryLoadingCharacters() {
+        launch {
+            charactersMutableStateFlow.update { state -> 
+                state.copy(
+                    isLoading = true,
+                    errorType = CharactersErrorType.NONE
+                )
+            }
+            delay(timeMillis = Constants.RETRY_LOADING_CHARACTERS_DELAY)
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
+
+            if (!fetchCharactersFromApiAndUpdateDb()) {
+                charactersMutableStateFlow.update { state ->
+                    if (state.isLoading) {
+                        state.copy(isLoading = false)
+                    } else {
+                        state
+                    }
+                }
+            }
+        }
+    }
+
+    fun loadMoreCharacters() {
+        if (currentVisibleCount.get() >=  allCharacters.value.size) {
+            return
+        }
+        
+        launch {
+            charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = true) }
+
+            delay(timeMillis = Constants.DELAY_LOADING_MORE_CHARACTERS )
+
+            currentVisibleCount.addAndGet(charactersMutableStateFlow.value.pageSize)
+            updatePaginatedCharacters()
+            
+            charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = false) }
+        }
+    }
+
+    fun buildCharacterStatusIds(characterConverter: CharacterConverter): List<Int> {
+        return buildList {
+            if (characterConverter.isHogwartsStudent) {
+                add(StringIds.student)
+            }
+
+            if (characterConverter.isHogwartsStaff) {
+                add(StringIds.staff)
+            }
+
+            if (characterConverter.isWizard) {
+                add(StringIds.wizard)
+            }
+        }
+    }
+
+    fun onSearchQueryChange(query: String) {
+        launch {
+            val newCharacters = characterRepository.searchCharacters(query = query)
+
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
+            
+            allCharacters.value = newCharacters
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
+
+            updatePaginatedCharacters()
+        }
+    }
+
+    fun onClearClicked() {
+        launch {
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = "") }
+
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
+
+            val currentCharacters = characterRepository.getAllCharacters().first()
+            allCharacters.value = currentCharacters
+
+            updatePaginatedCharacters()
+        }
+    }
+
+    fun onFilterClicked() {
+        // TODO: Navigate to filter screen when implemented
+        log.d("Filter button clicked")
+    }
+
+    fun onCharacterClicked(characterName: String) {
+        val encodedCharacterName = Uri.encode(characterName)
         val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
-            .replace("{id}", characterId)
+            .replace("{id}", encodedCharacterName)
         navigator.navigate(
             SimpleNavigationAction(
                 destination = route

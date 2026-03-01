@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.converter
 
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
+import com.nicholas.rutherford.potter.head.model.network.WandResponse
 
 /**
  * Converter data class for WandEntity.
@@ -13,9 +14,9 @@ import com.nicholas.rutherford.potter.head.database.entity.WandEntity
  * @author Nicholas Rutherford
  */
 data class WandConverter(
-    val core: String,
+    val core: String?,
     val wood: String?,
-    val length: Double
+    val length: Double?
 ) {
 
     /**
@@ -37,6 +38,16 @@ data class WandConverter(
                 core = entity.core,
                 wood = entity.wood,
                 length = entity.length
+            )
+
+        /**
+         * Creates a WandConverter from a WandResponse.
+         */
+        fun fromResponse(response: WandResponse): WandConverter =
+            WandConverter(
+                core = response.core,
+                wood = response.wood,
+                length = response.length
             )
     }
 }

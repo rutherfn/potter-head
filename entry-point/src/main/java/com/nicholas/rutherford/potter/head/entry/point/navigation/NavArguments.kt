@@ -19,18 +19,5 @@ import com.nicholas.rutherford.potter.head.core.Constants
  * @author Nicholas Rutherford
  */
 object NavArguments {
-
-    /**
-     * Navigation arguments for the character detail screen.
-     *
-     * Defines a single string argument for the character ID parameter.
-     * This is used when navigating to [Screens.CharactersDetail] screen.
-     *
-     * @return A list containing a single [androidx.navigation.NavArgument] with:
-     * - Name: [Constants.NamedArguments.ID]
-     * - Type: [NavType.StringType]
-     */
-    val characterDetail = listOf(
-        navArgument(Constants.NamedArguments.ID) { type = NavType.StringType }
-    )
+    val characterDetail = listOf(navArgument(Constants.NamedArguments.ID) { type = NavType.StringType })
 }

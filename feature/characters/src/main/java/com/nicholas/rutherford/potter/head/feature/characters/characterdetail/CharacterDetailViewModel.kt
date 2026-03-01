@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characterdetail
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +20,10 @@ class CharacterDetailViewModel(
     private var characterDetailMutableStateFlow = MutableStateFlow(value = CharacterDetailState())
     val characterDetailStateFlow = characterDetailMutableStateFlow.asStateFlow()
 
-    internal val idParam: String = savedStateHandle.get<String>(Constants.NamedArguments.ID) ?: ""
+    // Decode the URL-encoded character name parameter
+    // Navigation Component may decode automatically, but we decode explicitly to be safe
+    internal val idParam: String = savedStateHandle.get<String>(Constants.NamedArguments.ID)
+        ?.let { Uri.decode(it) } ?: ""
 
     init {
         loadCharacterDetail()

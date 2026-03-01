@@ -2,30 +2,28 @@ package com.nicholas.rutherford.potter.head.compose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val OrangePrimary = Color(0xFFFFA500)
-val RedPrimary = Color(0xFFFF4500)
-val OrangeLight = Color(0xFFFFB84D)
-val RedDark = Color(0xFFE03D00)
+val SurfaceVariant = Color(0xFF2B2B2B)
+val PotterOrange = Color(0xFFFF6B35)
+val PotterRed = Color(0xFFE63946)
+val PotterWhite = Color(0xFFFFFFFF)
+val PotterGrey = Color(0xFF2B2B2B)
 
-val Black = Color(0xFF000000)
-val White = Color(0xFFFFFFFF)
+val SurfaceLight = Color(0xFFFAFAFA)
+val SurfaceDark = Color(0xFF121212)
 
-val OrangeAccent = Color(0xFFFF8C00)
-val RedAccent = Color(0xFFFF0000)
-
-val SurfaceLight = Color(0xFFF5F5F5)
-val SurfaceDark = Color(0xFF1A1A1A)
-
-val TextPrimary = Color(0xFF000000)
+val TextPrimary = Color(0xFF1A1A1A)
 val TextSecondary = Color(0xFF666666)
 val TextOnPrimary = Color(0xFFFFFFFF)
+val TextOnDark = Color(0xFFE0E0E0)
 
-val Orange80 = Color(0xFFFFB84D)
-val Red80 = Color(0xFFFF6B35)
+val OrangePrimary = PotterOrange
+val RedPrimary = PotterRed
+val Orange80 = Color(0xFFFF8C69)
+val Red80 = Color(0xFFFF6B6B)
 val OrangeGrey80 = Color(0xFFCC8A4D)
-val RedGrey80 = Color(0xFFCC4A1A)
-
-val Orange40 = Color(0xFFE03D00)
-val Red40 = Color(0xFFB32B00)
 val OrangeGrey40 = Color(0xFF8A5A00)
-val RedGrey40 = Color(0xFF8A2B00)
+
+val GryffindorRed = Color(0xFF740001)
+val SlytherinGreen = Color(0xFF1A472A)
+val RavenclawBlue = Color(0xFF0E1A40)
+val HufflepuffYellow = Color(0xFFECB939)

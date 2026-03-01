@@ -1,6 +1,19 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val DATABASE_NAME = "potter_head_database"
+    const val GRYFFINDOR_HOUSE = "gryffindor"
+    const val GRYFFINDOR_HOUSE_URL = "https://thenichollsworth.com/wp-content/uploads/2020/11/C0441055-AEE4-4C0D-8F43-A708DDEB6C3B.jpeg"
+    const val HUFFLEPUFF_HOUSE = "hufflepuff"
+    const val HUFFLEPUFF_HOUSE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQgWJon5IQx6E_koDwYjuHXwPGEBPY3Jj_hg&s"
+    const val SLYTHERIN_HOUSE = "slytherin"
+    const val SLYTHERIN_HOUSE_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq8004tQqlFrUIQUciLx9rPllG_92LZnnyqw&s"
+    const val RAVENCLAW_HOUSE = "ravenclaw"
+    const val RAVENCLAW_HOUSE_URL = "https://m.media-amazon.com/images/I/81TLC+duJ0L.jpg"
+    const val INITIAL_PAGE_SIZE = 20
+    const val DELAY_LOADING_MORE_CHARACTERS = 300L
+    const val SHIMMER_CHARACTER_COUNT = 20
+    const val RETRY_LOADING_CHARACTERS_DELAY = 2000L
     const val BASE_API_URL = "https://hp-api.onrender.com/api/"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_NAME = "NetworkModule"

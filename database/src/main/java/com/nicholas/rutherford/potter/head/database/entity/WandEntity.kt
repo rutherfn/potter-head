@@ -12,7 +12,7 @@ package com.nicholas.rutherford.potter.head.database.entity
  * @author Nicholas Rutherford
  */
 data class WandEntity(
-    val core: String,
+    val core: String?,
     val wood: String?,
-    val length: Double
+    val length: Double?
 )

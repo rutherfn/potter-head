@@ -25,26 +25,24 @@ import kotlinx.coroutines.flow.update
  */
 class NavigatorImpl : Navigator {
 
-    /**
-     * Internal mutable StateFlow for navigation actions.
-     * Exposed as read-only [StateFlow] via [navActions].
-     */
-    private val _navActions = MutableStateFlow<NavigationAction?>(value = null)
+    private val navActionsMutableStateFlow = MutableStateFlow<NavigationAction?>(value = null)
 
-    /**
-     * Internal mutable StateFlow for pop route actions.
-     * Exposed as read-only [StateFlow] via [popRouteActions].
-     */
-    private val _popRouteActions = MutableStateFlow<String?>(value = null)
+    private val popRouteActionsMutableStateFlow = MutableStateFlow<String?>(value = null)
 
-    override val navActions: StateFlow<NavigationAction?> = _navActions.asStateFlow()
-    override val popRouteActions: StateFlow<String?> = _popRouteActions.asStateFlow()
+    private val progressActionsMutableStateFlow = MutableStateFlow<ProgressAction?>(value = null)
 
-    override fun navigate(navigationAction: NavigationAction?) = _navActions.update { navigationAction }
+    override val navActions: StateFlow<NavigationAction?> = navActionsMutableStateFlow.asStateFlow()
+    override val popRouteActions: StateFlow<String?> = popRouteActionsMutableStateFlow.asStateFlow()
 
-    override fun pop(routeAction: String?) = _popRouteActions.update { routeAction }
+    override val progressActions: StateFlow<ProgressAction?> = progressActionsMutableStateFlow.asStateFlow()
+
+    override fun navigate(navigationAction: NavigationAction?) = navActionsMutableStateFlow.update { navigationAction }
+
+    override fun pop(routeAction: String?) = popRouteActionsMutableStateFlow.update { routeAction }
+
+    override fun progress(progressAction: ProgressAction?) = progressActionsMutableStateFlow.update { progressAction }
     
-    override fun resetNavAction() = _navActions.update { null }
+    override fun resetNavAction() = navActionsMutableStateFlow.update { null }
     
-    override fun resetPopAction() = _popRouteActions.update { null }
+    override fun resetPopAction() = popRouteActionsMutableStateFlow.update { null }
 }

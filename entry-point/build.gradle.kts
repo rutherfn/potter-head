@@ -55,6 +55,7 @@ dependencies {
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
     implementation(project(path = ":feature:settings"))
+    implementation(project(path = ":compose:components"))
     implementation(project(path = ":core"))
 
     api(libs.androidx.compose.runtime.android)

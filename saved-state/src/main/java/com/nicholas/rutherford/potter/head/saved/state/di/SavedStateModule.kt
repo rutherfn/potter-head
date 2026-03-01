@@ -9,6 +9,7 @@ import com.nicholas.rutherford.potter.head.saved.state.SavedStateHandleFactory
  * @author Nicholas Rutherford
  */
 interface SavedStateModule {
+
     /**
      * Provides access to [SavedStateHandleFactory] for creating SavedStateHandle instances.
      */

@@ -11,33 +11,19 @@ import kotlinx.coroutines.flow.Flow
  */
 interface CharacterRepository {
 
-    /**
-     * Gets all characters as a Flow List.
-     */
     fun getAllCharacters(): Flow<List<CharacterConverter>>
 
-    /**
-     * Gets a character by name as a Flow.
-     */
     fun getCharacterByName(name: String): Flow<CharacterConverter>
 
-    /**
-     * Creates a new character.
-     */
     suspend fun insertCharacter(character: CharacterConverter)
 
-    /**
-     * Updates a current character in the database
-     */
+    suspend fun insertAllCharacters(characters: List<CharacterConverter>)
+
+    suspend fun searchCharacters(query: String): List<CharacterConverter>
+
     suspend fun updateCharacter(character: CharacterConverter)
 
-    /**
-     * Deletes a character existing in the database.
-     */
     suspend fun deleteCharacterByName(name: String)
 
-    /**
-     * Clears all characters in the database
-     */
     suspend fun deleteAllCharacters()
 }

@@ -3,6 +3,7 @@ package com.nicholas.rutherford.potter.head.network
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 /**
@@ -19,39 +20,23 @@ class HarryPotterApiRepositoryImpl(
      */
     private val log = Logger.withTag(tag = "HarryPotterApiRepositoryImpl")
 
-    /**
-     * Fetches all characters from the API.
-     *
-     * @return A [Flow] emitting a [Result] containing a list of [CharacterResponse] objects.
-     */
     override fun getAllCharacters(): Flow<Result<List<CharacterResponse>>> = flow {
-        try {
-            val characters = apiService.fetchAllCharacters()
-            emit(value = Result.success(value = characters))
-            log.i("Was able to successfully fetch all characters by list with following being the first character -- ${characters.first()}")
-        } catch (exception: Exception) {
-            emit(value = Result.failure(exception = exception))
-            log.e("Was not able to successfully fetch all characters by list with a exception message -- ${exception.message}")
-        }
+        val characters = apiService.fetchAllCharacters()
+        log.i("Fetched ${characters.size} characters from API")
+        emit(value = Result.success(value = characters))
+    }.catch { exception ->
+        log.e("Was not able to successfully fetch all characters by list with a exception message -- ${exception.message}")
+        emit(value = Result.failure(exception = exception))
     }
 
-    /**
-     * Fetches a character by the id from the API
-     *
-     * @param id The ID of the character to fetch.
-     *
-     */
     override fun getCharacterById(id: String): Flow<Result<List<CharacterResponse>>> = flow {
-        try {
-            log.d("Attempting to fetch character with id: $id")
-            val character = apiService.fetchCharacterById(id = id)
-            emit(value = Result.success(value = character))
-            log.i("Was able to successfully fetch character with id $id with following being the character that was fetched -- $character")
-        } catch (exception: Exception) {
-            emit(value = Result.failure(exception = exception))
-            log.e("Was not able to successfully fetch character with id $id with a exception message -- ${exception.message}")
-            println("DEBUG Repository: Failed to fetch character with id: $id, error: ${exception.message}")
-        }
+        log.d("Attempting to fetch character with id: $id")
+        val character = apiService.fetchCharacterById(id = id)
+        log.i("Was able to successfully fetch character with id $id with following being the character that was fetched -- $character")
+        emit(value = Result.success(value = character))
+    }.catch { exception ->
+        log.e("Was not able to successfully fetch character with id $id with a exception message -- ${exception.message}")
+        emit(value = Result.failure(exception = exception))
     }
 
 }

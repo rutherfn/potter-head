@@ -1,0 +1,154 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "a7e285b865616680c606be4761a7c570",
+    "entities": [
+      {
+        "tableName": "characters",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `alternateNames` TEXT NOT NULL, `species` TEXT NOT NULL, `gender` TEXT NOT NULL, `house` TEXT NOT NULL, `dateOfBirth` TEXT, `yearOfBirth` INTEGER, `isWizard` INTEGER NOT NULL, `ancestry` TEXT, `eyeColour` TEXT, `hairColour` TEXT, `wand` TEXT, `patronus` TEXT, `isHogwartsStudent` INTEGER NOT NULL, `isHogwartsStaff` INTEGER NOT NULL, `actor` TEXT, `alternateActors` TEXT NOT NULL, `isAlive` INTEGER NOT NULL, `image` TEXT, PRIMARY KEY(`name`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "alternateNames",
+            "columnName": "alternateNames",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "species",
+            "columnName": "species",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "gender",
+            "columnName": "gender",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "house",
+            "columnName": "house",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateOfBirth",
+            "columnName": "dateOfBirth",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "yearOfBirth",
+            "columnName": "yearOfBirth",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "isWizard",
+            "columnName": "isWizard",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ancestry",
+            "columnName": "ancestry",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "eyeColour",
+            "columnName": "eyeColour",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "hairColour",
+            "columnName": "hairColour",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "wand",
+            "columnName": "wand",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "patronus",
+            "columnName": "patronus",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "isHogwartsStudent",
+            "columnName": "isHogwartsStudent",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isHogwartsStaff",
+            "columnName": "isHogwartsStaff",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "actor",
+            "columnName": "actor",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "alternateActors",
+            "columnName": "alternateActors",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isAlive",
+            "columnName": "isAlive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "image",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "name"
+          ]
+        }
+      },
+      {
+        "tableName": "debugToggles",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`toggleKey` TEXT NOT NULL, `isEnabled` INTEGER NOT NULL, PRIMARY KEY(`toggleKey`))",
+        "fields": [
+          {
+            "fieldPath": "toggleKey",
+            "columnName": "toggleKey",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "isEnabled",
+            "columnName": "isEnabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "toggleKey"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a7e285b865616680c606be4761a7c570')"
+    ]
+  }
+}

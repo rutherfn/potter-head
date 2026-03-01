@@ -18,11 +18,6 @@ import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
  */
 object TestCharacterResponse {
 
-    /**
-     * Creates a default [CharacterResponse] instance with test data.
-     *
-     * @return A [CharacterResponse] instance with default test values representing Harry Potter.
-     */
     fun build(): CharacterResponse =
         CharacterResponse(
             id = CHARACTER_RESPONSE_ID,
@@ -47,12 +42,6 @@ object TestCharacterResponse {
             image = CHARACTER_RESPONSE_IMAGE
         )
 
-    /**
-     * Creates a list of [CharacterResponse] instances with default test data.
-     *
-     * @param count The number of character responses to create. Defaults to 3.
-     * @return A list of [CharacterResponse] instances, each with unique IDs and names.
-     */
     fun buildList(count: Int = 3): List<CharacterResponse> = List(size = count) { index ->
         build().copy(
             id = "$CHARACTER_RESPONSE_ID-$index",
@@ -60,15 +49,9 @@ object TestCharacterResponse {
         )
     }
 
-    /**
-     * Creates a list of [CharacterResponse] instances with varied test data.
-     *
-     * @return A list of [CharacterResponse] instances representing different characters
-     *         from all four Hogwarts houses with varied properties.
-     */
     fun buildVariedList(): List<CharacterResponse> {
         return listOf(
-            build(), // Default: Harry Potter
+            build(),
             build().copy(
                 id = "hermione-granger-id",
                 name = "Hermione Granger",

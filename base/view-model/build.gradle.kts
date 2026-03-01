@@ -42,6 +42,13 @@ kotlin {
 dependencies {
     api(libs.androidx.compose.runtime.android)
     api(libs.androidx.lifecycle.viewmodel.android)
+    api(libs.androidx.lifecycle.runtime.compose.android)
+
+    debugApi(libs.kermit.android.debug)
+    debugImplementation(libs.kermit.core.android.debug)
+
+    releaseApi(libs.kermit.android)
+    releaseImplementation(libs.kermit.core.android)
 
     api(project(path = ":navigation"))
 }

@@ -13,11 +13,11 @@ import com.nicholas.rutherford.potter.head.database.entity.WandEntity
  */
 object DatabaseTypeConverters {
 
+    /**
+     * Gson instance for JSON parsing.
+     */
     private val gson = Gson()
 
-    /**
-     * Converts a List<String> to a JSON string for database storage.
-     */
     @TypeConverter
     fun fromStringList(value: List<String>?): String? {
         return if (value == null) {
@@ -27,9 +27,6 @@ object DatabaseTypeConverters {
         }
     }
 
-    /**
-     * Converts a JSON string to a List<String> from database storage.
-     */
     @TypeConverter
     fun toStringList(value: String?): List<String>? {
         return if (value == null) {
@@ -40,9 +37,6 @@ object DatabaseTypeConverters {
         }
     }
 
-    /**
-     * Converts a WandEntity to a JSON string for database storage.
-     */
     @TypeConverter
     fun fromWandEntity(value: WandEntity?): String? {
         return if (value == null) {
@@ -52,9 +46,6 @@ object DatabaseTypeConverters {
         }
     }
 
-    /**
-     * Converts a JSON string to a WandEntity from database storage.
-     */
     @TypeConverter
     fun toWandEntity(value: String?): WandEntity? {
         return if (value == null) {

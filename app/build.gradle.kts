@@ -52,6 +52,7 @@ dependencies {
     implementation(project(path = ":network"))
     implementation(project(path = ":saved-state"))
     implementation(project(path = ":database"))
+    implementation(project(path = ":scope"))
     implementation(project(path = ":core"))
 
     debugImplementation(libs.kermit.android.debug)

@@ -28,12 +28,6 @@ class TestHarryPotterApiService(
     private val shouldThrowException: Boolean = false
 ) : HarryPotterApiService {
 
-    /**
-     * Fetches all characters from the test API service.
-     *
-     * @return A list of [CharacterResponse] objects. Returns test data if [shouldReturnData] is `true`,
-     *         otherwise returns an empty list.
-     */
     override suspend fun fetchAllCharacters(): List<CharacterResponse> {
         return if (shouldReturnData) {
             TestCharacterResponse.buildVariedList()
@@ -42,17 +36,6 @@ class TestHarryPotterApiService(
         }
     }
 
-    /**
-     * Fetches a character by ID from the test API service.
-     *
-     * Behavior depends on the constructor parameters:
-     * - If [shouldThrowException] is `true`: Throws an [IllegalStateException] to simulate API errors
-     * - Otherwise: Returns a list containing a single test character with the provided ID
-     *
-     * @param id The ID of the character to fetch.
-     * @return A list containing a single [CharacterResponse] with the provided ID.
-     * @throws IllegalStateException if [shouldThrowException] is `true`.
-     */
     override suspend fun fetchCharacterById(id: String): List<CharacterResponse> {
         if (shouldThrowException) {
             throw IllegalStateException("Simulated API exception for testing error handling")

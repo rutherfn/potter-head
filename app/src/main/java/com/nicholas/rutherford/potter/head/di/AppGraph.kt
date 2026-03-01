@@ -59,8 +59,7 @@ interface AppGraph {
 }
 
 private class AppBarFactoryModuleImpl : AppBarFactoryModule {
-    private val appBarFactoryInstance: AppBarFactory by lazy { AppBarFactoryImpl() }
-    override val appBarFactory: AppBarFactory = appBarFactoryInstance
+    override val appBarFactory: AppBarFactory by lazy { AppBarFactoryImpl() }
 }
 
 private class NavigatorModuleImpl : NavigatorModule {

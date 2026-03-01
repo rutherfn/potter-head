@@ -2,6 +2,7 @@ package com.nicholas.rutherford.potter.head.compose.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val SurfaceVariant = Color(0xFF2B2B2B)
 val PotterOrange = Color(0xFFFF6B35)
 val PotterRed = Color(0xFFE63946)
 val PotterWhite = Color(0xFFFFFFFF)

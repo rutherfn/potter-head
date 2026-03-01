@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
+import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
@@ -20,6 +21,18 @@ class CharacterRepositoryImpl(
     private val dao: CharacterDao,
     private val characterImageDao: CharacterImageDao
 ) : CharacterRepository {
+
+    private val houseUrlMap = mapOf(
+        Constants.GRYFFINDOR_HOUSE.lowercase() to Constants.GRYFFINDOR_HOUSE_URL,
+        Constants.RAVENCLAW_HOUSE.lowercase() to Constants.RAVENCLAW_HOUSE_URL,
+        Constants.HUFFLEPUFF_HOUSE.lowercase() to Constants.HUFFLEPUFF_HOUSE_URL,
+        Constants.SLYTHERIN_HOUSE.lowercase() to Constants.SLYTHERIN_HOUSE_URL
+    )
+
+    private fun buildConverterWithHouseUrl(characterConverter: CharacterConverter): CharacterConverter {
+        val houseUrl = characterConverter.house?.lowercase()?.let { house -> houseUrlMap[house] }
+        return houseUrl?.let { characterConverter.copy(image = it) } ?: characterConverter
+    }
 
     override fun getAllCharacters(): Flow<List<CharacterConverter>> {
         return dao.getAllCharacters().map { entities ->
@@ -43,12 +56,12 @@ class CharacterRepositoryImpl(
     }
 
     private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {
-        if (image.isNullOrBlank()) {
-            return imageUrlMap[name.trim().lowercase()]?.let { imageUrl ->
+        return if (image.isNullOrBlank()) {
+            imageUrlMap[name.trim().lowercase()]?.let { imageUrl ->
                 copy(image = imageUrl.imageUrl)
-            } ?: this
+            } ?: buildConverterWithHouseUrl(characterConverter = this)
         } else {
-            return this
+            this
         }
     }
 

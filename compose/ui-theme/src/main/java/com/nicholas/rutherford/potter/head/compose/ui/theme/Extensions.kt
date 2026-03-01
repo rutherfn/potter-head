@@ -67,10 +67,10 @@ fun Modifier.shimmerEffect(): Modifier {
 @Composable
 fun getHouseColor(house: String): Color {
     return when (house.lowercase()) {
-        stringResource(StringIds.gryffindor) -> GryffindorRed
-        stringResource(StringIds.slytherin) -> SlytherinGreen
-        stringResource(StringIds.ravenclaw)-> RavenclawBlue
-        stringResource(StringIds.hufflepuff) -> HufflepuffYellow
+        stringResource(id = StringIds.gryffindor) -> GryffindorRed
+        stringResource(id = StringIds.slytherin) -> SlytherinGreen
+        stringResource(id = StringIds.ravenclaw)-> RavenclawBlue
+        stringResource(id = StringIds.hufflepuff) -> HufflepuffYellow
         else -> MaterialTheme.colorScheme.primary
     }
 }

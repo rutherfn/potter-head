@@ -9,6 +9,5 @@ import com.nicholas.rutherford.potter.head.core.StringIds
  */
 class AppBarFactoryImpl : AppBarFactory {
 
-    override fun createCharactersAppBar(): AppBar =
-        AppBar(titleId = StringIds.characters, imageVector = null)
+    override fun createCharactersAppBar(): AppBar = AppBar(titleId = StringIds.characters, imageVector = null)
 }

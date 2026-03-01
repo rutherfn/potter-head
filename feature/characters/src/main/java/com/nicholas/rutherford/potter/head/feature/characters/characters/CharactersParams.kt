@@ -5,6 +5,14 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 /**
  * Parameters data class for the Characters Screen.
  *
+ * @param state The current state of the Characters Screen.
+ * @param onCharacterClicked Callback for when a character is clicked.
+ * @param onRetryClicked Callback for when the retry button is clicked.
+ * @param onLoadMore Callback for when the user scrolls to the end of the list.
+ * @param buildCharacterStatusIds Function to build the list of status IDs for a character.
+ * @param onSearchQueryChange Callback for when the search query changes.
+ * @param onFilterClicked Callback for when the filter button is clicked.
+ *
  * @author Nicholas Rutherford
  */
 data class CharactersParams(
@@ -14,5 +22,5 @@ data class CharactersParams(
     val onLoadMore: () -> Unit,
     val buildCharacterStatusIds: (CharacterConverter) -> List<Int>,
     val onSearchQueryChange: (String) -> Unit,
-    val onFilterClick: () -> Unit
+    val onFilterClicked: () -> Unit
 )

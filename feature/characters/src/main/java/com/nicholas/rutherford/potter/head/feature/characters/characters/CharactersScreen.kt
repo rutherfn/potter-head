@@ -125,15 +125,56 @@ private fun EmptyOrErrorContent(
 
 @Composable
 private fun ShimmerCharactersContent() {
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(MaterialTheme.colorScheme.background)
     ) {
-        items(count = Constants.SHIMMER_CHARACTER_COUNT) {
-            ShimmerCharacterCard()
+        ShimmerSearchView()
+        
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(count = Constants.SHIMMER_CHARACTER_COUNT) {
+                ShimmerCharacterCard()
+            }
+        }
+    }
+}
+
+@Composable
+private fun ShimmerSearchView() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .shimmerEffect()
+            )
+            
+            Box(
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .shimmerEffect()
+            )
         }
     }
 }
@@ -221,9 +262,9 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
         SearchView(
             searchQuery = state.searchQuery,
             onSearchQueryChange = params.onSearchQueryChange,
-            onFilterClick = params.onFilterClick,
-            filterCount = 5,
-            placeholderText = "Search characters..."
+            onFilterClick = params.onFilterClicked,
+            filterCount = state.filterCount,
+            placeholderText = stringResource(id = StringIds.searchCharacters)
         )
         
         LazyColumn(
@@ -242,17 +283,22 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
 
             if (state.isLoadingMore) {
                 item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
-                    }
+                    LoadingMoreContent()
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun LoadingMoreContent() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
     }
 }
 
@@ -442,7 +488,7 @@ private fun CharacterScreenPreview() {
                 onLoadMore = {},
                 buildCharacterStatusIds = { _ -> emptyList() },
                 onSearchQueryChange = {},
-                onFilterClick = {}
+                onFilterClicked = {}
             )
         )
     }

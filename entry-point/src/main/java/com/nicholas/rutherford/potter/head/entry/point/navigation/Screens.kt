@@ -6,6 +6,9 @@ import com.nicholas.rutherford.potter.head.core.Constants
  * Sealed class representing all navigation screens in the application.
  * All routes and titles are defined in [Constants].
  *
+ * @param route The route string for the screen.
+ * @param title The title string for the screen.
+ *
  * @author Nicholas Rutherford
  */
 sealed class Screens(val route: String, val title: String) {

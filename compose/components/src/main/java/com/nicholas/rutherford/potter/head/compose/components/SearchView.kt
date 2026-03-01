@@ -35,22 +35,22 @@ import androidx.compose.ui.unit.sp
  * Reusable across different screens in the application.
  *
  * @param searchQuery The current search query text.
+ * @param modifier Optional modifier for the search view.
  * @param onSearchQueryChange Callback when the search query changes.
  * @param onFilterClick Callback when the filter button is clicked.
  * @param filterCount The number of active filters. When greater than 0, a badge will be displayed.
  * @param placeholderText Optional placeholder text for the search field.
- * @param modifier Optional modifier for the component.
  *
  * @author Nicholas Rutherford
  */
 @Composable
 fun SearchView(
     searchQuery: String,
+    modifier: Modifier = Modifier,
     onSearchQueryChange: (String) -> Unit,
     onFilterClick: () -> Unit,
     filterCount: Int = 0,
-    placeholderText: String = "Search...",
-    modifier: Modifier = Modifier
+    placeholderText: String = ""
 ) {
     Card(
         modifier = modifier
@@ -131,7 +131,7 @@ fun SearchView(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = if (filterCount > 99) "99+" else filterCount.toString(),
+                            text = filterCount.toString(),
                             color = MaterialTheme.colorScheme.onError,
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,

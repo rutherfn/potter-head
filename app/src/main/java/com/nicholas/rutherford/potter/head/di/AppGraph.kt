@@ -58,32 +58,20 @@ interface AppGraph {
     val characterDetailViewModelFactory: CharacterDetailViewModelFactory
 }
 
-/**
- * Implementation of AppBarFactoryModule that provides AppBar factory instances.
- */
 private class AppBarFactoryModuleImpl : AppBarFactoryModule {
     private val appBarFactoryInstance: AppBarFactory by lazy { AppBarFactoryImpl() }
     override val appBarFactory: AppBarFactory = appBarFactoryInstance
 }
 
-/**
- * Implementation of NavigatorModule that provides navigation-related dependencies.
- */
 private class NavigatorModuleImpl : NavigatorModule {
     private val navigatorInstance: Navigator by lazy { NavigatorImpl() }
     override val navigator: Navigator = navigatorInstance
 }
 
-/**
- * Implementation of SavedStateModule that provides saved state-related dependencies.
- */
 private class SavedStateModuleImpl : SavedStateModule {
     override val savedStateHandleFactory: SavedStateHandleFactory = SavedStateHandleFactory
 }
 
-/**
- * Implementation of ScopeModule that provides coroutine scope-related dependencies.
- */
 private class ScopeModuleImpl : ScopeModule {
     override val viewModelScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
     override val ioScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.IO) }
@@ -91,9 +79,6 @@ private class ScopeModuleImpl : ScopeModule {
     override val defaultScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
 }
 
-/**
- * Implementation of NetworkModule that provides network-related dependencies.
- */
 private class NetworkModuleImpl(
     private val context: Context
 ) : NetworkModule {
@@ -126,12 +111,10 @@ private class NetworkModuleImpl(
     override val networkMonitor: NetworkMonitor by lazy { NetworkMonitorImpl(context = context, connectivityManager = connectivityManager) }
 }
 
-/**
- * Implementation of DatabaseModule that provides database-related dependencies.
- */
 private class DatabaseModuleImpl(
     private val context: Context
 ) : DatabaseModule {
+
     /**
      * Kermit Logger for DatabaseModule interactions.
      */

@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characters
 
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
+import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
@@ -16,7 +17,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -53,20 +53,21 @@ class CharactersViewModel(
     private var currentVisibleCount = Constants.INITIAL_PAGE_SIZE
 
     init {
-        scope.launch { loadAllCharacters() }
+        scope.launch { checkForCharacterImageUrlsForDb() }
+        collectAllCharacters()
     }
 
-    private suspend fun loadAllCharacters() {
-        checkForCharacterImageUrlsForDb()
+    override fun getScope(): CoroutineScope = scope
 
+    override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
+
+    private fun collectAllCharacters() {
         charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
-
-        characterRepository.getAllCharacters().collectLatest { storedCharacters ->
-
-            // Store all characters for pagination
-            allCharacters.value = storedCharacters
+        
+        collectFlow(flow = characterRepository.getAllCharacters()) { characters ->
+            allCharacters.value = characters
             
-            if (storedCharacters.isNotEmpty()) {
+            if (characters.isNotEmpty()) {
                 updatePaginatedCharacters()
             } else {
                 fetchCharactersFromApiAndUpdateDb()
@@ -76,6 +77,7 @@ class CharactersViewModel(
 
     private suspend fun checkForCharacterImageUrlsForDb() {
         val characterImageUrls = characterImageRepository.getAllCharacterImages().first()
+
         if (characterImageUrls.isEmpty()) {
             characterImageRepository.insertAllCharacterImageUrls()
         }
@@ -137,7 +139,7 @@ class CharactersViewModel(
         scope.launch {
             charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = true) }
 
-            delay(Constants.DELAY_LOADING_MORE_CHARACTERS )
+            delay(timeMillis = Constants.DELAY_LOADING_MORE_CHARACTERS )
 
             currentVisibleCount += charactersMutableStateFlow.value.pageSize
             updatePaginatedCharacters()
@@ -166,7 +168,7 @@ class CharactersViewModel(
         charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
     }
 
-    fun onFilterClick() {
+    fun onFilterClicked() {
         // TODO: Navigate to filter screen when implemented
         log.d("Filter button clicked")
     }

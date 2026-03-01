@@ -14,6 +14,7 @@ object Constants {
     const val DELAY_LOADING_MORE_CHARACTERS = 300L
     const val SHIMMER_CHARACTER_COUNT = 20
     const val RETRY_LOADING_CHARACTERS_DELAY = 2000L
+    const val DELAY_WAIT_FOR_DB_FLOW_EMISSION = 100L
     const val BASE_API_URL = "https://hp-api.onrender.com/api/"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_NAME = "NetworkModule"

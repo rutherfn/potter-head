@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -79,7 +80,10 @@ object AppNavigationGraph {
             val state = viewModel.charactersStateFlow.collectAsState().value
 
             ObserveLifecycle(viewModel = viewModel)
-            updateAppBar(appBar = appBarFactory.createCharactersAppBar())
+            
+            LaunchedEffect(Unit) {
+                updateAppBar(appBar = appBarFactory.createCharactersAppBar())
+            }
 
             CharactersScreen(
                 params = CharactersParams(

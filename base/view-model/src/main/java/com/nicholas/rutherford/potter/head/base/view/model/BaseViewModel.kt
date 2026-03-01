@@ -34,6 +34,7 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
     protected val log: Logger = Logger.withTag(tag = this::class.simpleName ?: "BaseViewModel")
 
     private val activeFlowCollections = mutableListOf<Job>()
+    private val activeJobs = mutableListOf<Job>()
     private var isResumed = false
     private var isStart = false
 
@@ -43,6 +44,21 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
      * This prevents breaking existing unit tests that don't mock BaseViewModel.
      */
     protected open fun getScope(): CoroutineScope? = null
+
+    /**
+     * Launches a coroutine in the ViewModel's scope and tracks it for cleanup.
+     * All jobs launched through this method will be cancelled when the ViewModel is cleared.
+     *
+     * @param block The coroutine code to execute
+     * @return The Job that was launched
+     */
+    protected fun launch(block: suspend CoroutineScope.() -> Unit): Job? {
+        return getScope()?.let { scope ->
+            val job = scope.launch(block = block)
+            activeJobs.add(job)
+            job
+        }
+    }
 
     /**
      * Optional method for subclasses to specify when flow collection should start.
@@ -174,6 +190,8 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         super.onCleared()
         activeFlowCollections.forEach { activeFlow -> activeFlow.cancel() }
         activeFlowCollections.clear()
+        activeJobs.forEach { job -> job.cancel() }
+        activeJobs.clear()
         log.d { "${this::class.simpleName} → onCleared" }
     }
 }

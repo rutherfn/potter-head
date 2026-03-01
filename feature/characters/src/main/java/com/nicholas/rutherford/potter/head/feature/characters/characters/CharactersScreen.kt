@@ -306,19 +306,22 @@ private fun EmptySearchResultsContent() {
 private fun CharactersContent(state: CharactersState, params: CharactersParams) {
     val listState = rememberLazyListState()
 
-    LaunchedEffect(key1 = state.hasMoreToLoad, key2 = state.isLoadingMore) {
+    LaunchedEffect(Unit) {
         snapshotFlow {
             val layoutInfo = listState.layoutInfo
             val totalItems = layoutInfo.totalItemsCount
             val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
-            lastVisibleItem to totalItems
+            val hasMoreToLoad = state.hasMoreToLoad
+            val isLoadingMore = state.isLoadingMore
+            Triple(lastVisibleItem, totalItems, hasMoreToLoad to isLoadingMore)
         }
             .distinctUntilChanged()
-            .filter { (lastVisibleItem, totalItems) ->
+            .filter { (lastVisibleItem, totalItems, stateFlags) ->
+                val (hasMoreToLoad, isLoadingMore) = stateFlags
                 totalItems > 0 && 
                 lastVisibleItem >= totalItems - 3 && 
-                state.hasMoreToLoad && 
-                !state.isLoadingMore
+                hasMoreToLoad && 
+                !isLoadingMore
             }
             .collect {
                 params.onLoadMore()

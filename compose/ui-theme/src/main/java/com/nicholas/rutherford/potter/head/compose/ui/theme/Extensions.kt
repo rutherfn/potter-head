@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import com.nicholas.rutherford.potter.head.core.StringIds
+import com.nicholas.rutherford.potter.head.core.Constants
 
 /**
  * Extension function that applies a shimmer effect to a modifier.
@@ -67,10 +66,10 @@ fun Modifier.shimmerEffect(): Modifier {
 @Composable
 fun getHouseColor(house: String): Color {
     return when (house.lowercase()) {
-        stringResource(id = StringIds.gryffindor) -> GryffindorRed
-        stringResource(id = StringIds.slytherin) -> SlytherinGreen
-        stringResource(id = StringIds.ravenclaw)-> RavenclawBlue
-        stringResource(id = StringIds.hufflepuff) -> HufflepuffYellow
+        Constants.GRYFFINDOR_HOUSE -> GryffindorRed
+        Constants.SLYTHERIN_HOUSE -> SlytherinGreen
+        Constants.RAVENCLAW_HOUSE -> RavenclawBlue
+        Constants.HUFFLEPUFF_HOUSE -> HufflepuffYellow
         else -> MaterialTheme.colorScheme.primary
     }
 }

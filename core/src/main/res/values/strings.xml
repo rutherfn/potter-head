@@ -6,7 +6,7 @@
     <string name="gryffindor" translatable="false">gryffindor</string>
     <string name="hufflepuff" translatable="false">hufflepuff</string>
     <string name="no_characters_found" translatable="false">No Characters Found</string>
-    <string name="no_characters_yet">No Characters Yet</string>
+    <string name="no_characters_yet" translatable="false">No Characters Yet</string>
     <string name="no_internet_connection" translatable="false">No Internet Connection</string>
     <string name="ravenclaw" translatable="false">ravenclaw</string>
     <string name="retry" translatable="false">Retry</string>

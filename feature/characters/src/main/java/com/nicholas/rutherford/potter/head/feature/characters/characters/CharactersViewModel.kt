@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 /**
  * ViewModel for managing the characters list screen state and business logic.
@@ -51,7 +50,7 @@ class CharactersViewModel(
     private var currentVisibleCount = Constants.INITIAL_PAGE_SIZE
 
     init {
-        scope.launch { checkForCharacterImageUrlsForDb() }
+        launch { checkForCharacterImageUrlsForDb() }
         collectAllCharacters()
     }
 
@@ -103,12 +102,17 @@ class CharactersViewModel(
     }
 
 
-    private suspend fun fetchCharactersFromApiAndUpdateDb() {
-        if (networkMonitor.isConnected()) {
-            harryPotterApiRepository.getAllCharacters().first().onSuccess { characters ->
+    private suspend fun fetchCharactersFromApiAndUpdateDb(): Boolean {
+        return if (networkMonitor.isConnected()) {
+            val result = harryPotterApiRepository.getAllCharacters().first()
+            result.getOrNull()?.let { characters ->
                 val characterConverters = characters.map { characterResponse -> CharacterConverter.fromResponse(response = characterResponse) }
                 characterRepository.insertAllCharacters(characters = characterConverters)
-            }.onFailure { error -> failedFetchingCharacters(error = error) }
+                true
+            } ?: run {
+                result.exceptionOrNull()?.let { error -> failedFetchingCharacters(error = error) }
+                false
+            }
         } else {
             charactersMutableStateFlow.update { state ->
                 state.copy(
@@ -116,15 +120,29 @@ class CharactersViewModel(
                     isLoading = false
                 )
             }
+            false
         }
     }
 
     fun retryLoadingCharacters() {
-        scope.launch {
+        launch {
             charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
             delay(timeMillis = Constants.RETRY_LOADING_CHARACTERS_DELAY)
             currentVisibleCount = charactersMutableStateFlow.value.pageSize
-            fetchCharactersFromApiAndUpdateDb()
+            
+            val success = fetchCharactersFromApiAndUpdateDb()
+
+            if (success) {
+                delay(timeMillis = Constants.DELAY_WAIT_FOR_DB_FLOW_EMISSION)
+
+                charactersMutableStateFlow.update { state ->
+                    if (state.isLoading) {
+                        state.copy(isLoading = false)
+                    } else {
+                        state
+                    }
+                }
+            }
         }
     }
 
@@ -133,7 +151,7 @@ class CharactersViewModel(
             return
         }
         
-        scope.launch {
+        launch {
             charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = true) }
 
             delay(timeMillis = Constants.DELAY_LOADING_MORE_CHARACTERS )
@@ -162,20 +180,32 @@ class CharactersViewModel(
     }
 
     fun onSearchQueryChange(query: String) {
-        scope.launch {
+        launch {
             val newCharacters = characterRepository.searchCharacters(query = query)
-
+            
+            // Reset pagination when search query changes
+            currentVisibleCount = charactersMutableStateFlow.value.pageSize
+            
             allCharacters.value = newCharacters
-            charactersMutableStateFlow.update { state -> state.copy(searchQuery = query, characters = newCharacters) }
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
+            
+            // Apply pagination to search results
+            updatePaginatedCharacters()
         }
     }
 
     fun onClearClicked() {
-        scope.launch {
+        launch {
             val newCharacters = characterRepository.searchCharacters(query = "")
-
+            
+            // Reset pagination when clearing search
+            currentVisibleCount = charactersMutableStateFlow.value.pageSize
+            
             allCharacters.value = newCharacters
-            charactersMutableStateFlow.update { state -> state.copy(searchQuery = "", characters = newCharacters) }
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = "") }
+            
+            // Apply pagination after clearing
+            updatePaginatedCharacters()
         }
     }
 

@@ -9,6 +9,7 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRep
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.navigation.Navigator
+import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
@@ -188,10 +189,10 @@ class CharactersViewModel(
         // Using character name as identifier since it's the primary key in the database
         val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
             .replace("{id}", characterName)
-//        navigator.navigate(
-//            SimpleNavigationAction(
-//                destination = route
-//            )
-//        )
+        navigator.navigate(
+            SimpleNavigationAction(
+                destination = route
+            )
+        )
     }
 }

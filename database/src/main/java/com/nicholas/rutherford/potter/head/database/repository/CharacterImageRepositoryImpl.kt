@@ -29,7 +29,7 @@ class CharacterImageRepositoryImpl(
 
     override fun getCharacterImageUrlById(id: Int): Flow<CharacterImageUrlConverter?> {
         return dao.getCharacterImageUrlById(id = id).map { entity ->
-            CharacterImageUrlConverter.fromEntity(entity = entity)
+            entity?.let { characterImageUrlEntity -> CharacterImageUrlConverter.fromEntity(entity = characterImageUrlEntity) }
         }
     }
 

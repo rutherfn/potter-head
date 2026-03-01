@@ -24,7 +24,7 @@ interface CharacterImageDao {
     suspend fun getAllCharacterImageUrlsSync(): List<CharacterImageUrlEntity>
 
     @Query("SELECT * FROM characterUrls WHERE id = :id")
-    fun getCharacterImageUrlById(id: Int): Flow<CharacterImageUrlEntity>
+    fun getCharacterImageUrlById(id: Int): Flow<CharacterImageUrlEntity?>
 
     @Query("SELECT * FROM characterUrls WHERE characterName = :characterName")
     fun getCharacterImageUrlByName(characterName: String): Flow<CharacterImageUrlEntity>

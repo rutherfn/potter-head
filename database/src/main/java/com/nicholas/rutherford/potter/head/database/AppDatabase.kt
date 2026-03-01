@@ -8,9 +8,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
+import com.nicholas.rutherford.potter.head.database.dao.CharacterFilterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
 import com.nicholas.rutherford.potter.head.database.dao.DebugToggleDao
 import com.nicholas.rutherford.potter.head.database.entity.CharacterEntity
+import com.nicholas.rutherford.potter.head.database.entity.CharacterFilterEntity
 import com.nicholas.rutherford.potter.head.database.entity.CharacterImageUrlEntity
 import com.nicholas.rutherford.potter.head.database.entity.DebugToggleEntity
 import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeConverters
@@ -22,11 +24,12 @@ import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeCo
  * @author Nicholas Rutherford
  */
 @Database(
-    entities = [CharacterEntity::class, CharacterImageUrlEntity::class, DebugToggleEntity::class],
+    entities = [CharacterEntity::class, CharacterFilterEntity::class, CharacterImageUrlEntity::class, DebugToggleEntity::class],
     autoMigrations = [
         AutoMigration(from = 1, to = 2),
         AutoMigration(from = 2, to = 3),
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 3, to = 4),
+        AutoMigration(from = 4, to = 5)
     ],
     version = 4,
     exportSchema = true
@@ -35,6 +38,8 @@ import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeCo
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun debugToggleDao(): DebugToggleDao
+
+    abstract fun characterFilterDao(): CharacterFilterDao
 
     abstract fun characterDao(): CharacterDao
 

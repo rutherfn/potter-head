@@ -25,7 +25,10 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterReposito
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
 import android.net.ConnectivityManager
+import com.nicholas.rutherford.potter.head.database.dao.CharacterFilterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
+import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
+import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepositoryImpl
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryModule
@@ -128,12 +131,18 @@ private class DatabaseModuleImpl(
 
     override val debugToggleDao = appDatabase.debugToggleDao()
 
+    override val characterFilterDao: CharacterFilterDao = appDatabase.characterFilterDao()
+
     override val characterDao: CharacterDao = appDatabase.characterDao()
 
     override val characterImageDao: CharacterImageDao = appDatabase.characterImageDao()
 
     override val characterRepository: CharacterRepository by lazy {
         CharacterRepositoryImpl(dao = characterDao, characterImageDao = characterImageDao)
+    }
+
+    override val characterFilterRepository: CharacterFilterRepository by lazy {
+        CharacterFilterRepositoryImpl(dao = characterFilterDao)
     }
 
     override val characterImageRepository: CharacterImageRepository by lazy {

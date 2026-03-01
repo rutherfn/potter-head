@@ -55,6 +55,12 @@ class CharacterRepositoryImpl(
         dao.insertAllCharacters(characters = charactersWithMergedUrls.map { it.toEntity() })
     }
 
+    override suspend fun searchCharacters(query: String): List<CharacterConverter> {
+        val searchedCharacters = dao.searchCharacter(query = query).map { entity -> CharacterConverter.fromEntity(entity = entity) }
+
+        return searchedCharacters
+    }
+
     private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {
         return if (image.isNullOrBlank()) {
             imageUrlMap[name.trim().lowercase()]?.let { imageUrl ->

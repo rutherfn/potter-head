@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="clear_search_results" translatable="false">Clear Search Results</string>
     <string name="characters" translatable="false">Characters</string>
     <string name="could_not_retrieve_characters" translatable="false">Could Not Retrieve Characters</string>
     <string name="gryffindor" translatable="false">gryffindor</string>
     <string name="hufflepuff" translatable="false">hufflepuff</string>
+    <string name="no_characters_found" translatable="false">No Characters Found</string>
     <string name="no_characters_yet">No Characters Yet</string>
     <string name="no_internet_connection" translatable="false">No Internet Connection</string>
     <string name="ravenclaw" translatable="false">ravenclaw</string>
     <string name="retry" translatable="false">Retry</string>
-    <string name="search_characters" translatable="false">Search characters...</string>
+    <string name="search_characters" translatable="false">Search characters by name...</string>
     <string name="staff" translatable="false">Staff</string>
     <string name="slytherin" translatable="false">slytherin</string>
     <string name="student" translatable="false">Student</string>
+    <string name="try_adjusting_your_search" translatable="false">Try Adjusting Your Search</string>
     <string name="unable_to_connect_to_internet_please_check_your_internet_connection" translatable="false">Unable to connect to the internet. Please check your internet connection</string>
     <string name="was_unable_to_retrieve_the_characters_please_try_again_later" translatable="false">Was unable to retrieve the characters. Please try again later</string>
     <string name="we_could_not_find_any_characters_tap_retry_to_load_items" translatable="false">We couldn\'t find any characters. Tap retry to load them</string>

@@ -165,7 +165,21 @@ class CharactersViewModel(
     }
 
     fun onSearchQueryChange(query: String) {
-        charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
+        scope.launch {
+            val newCharacters = characterRepository.searchCharacters(query = query)
+
+            allCharacters.value = newCharacters
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = query, characters = newCharacters) }
+        }
+    }
+
+    fun onClearClicked() {
+        scope.launch {
+            val newCharacters = characterRepository.searchCharacters(query = "")
+
+            allCharacters.value = newCharacters
+            charactersMutableStateFlow.update { state -> state.copy(searchQuery = "", characters = newCharacters) }
+        }
     }
 
     fun onFilterClicked() {

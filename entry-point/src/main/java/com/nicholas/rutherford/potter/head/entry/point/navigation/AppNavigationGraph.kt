@@ -89,6 +89,7 @@ object AppNavigationGraph {
                     onLoadMore = { viewModel.loadMoreCharacters() },
                     buildCharacterStatusIds = { character -> viewModel.buildCharacterStatusIds(character) },
                     onSearchQueryChange = { query -> viewModel.onSearchQueryChange(query) },
+                    onClearClicked = { viewModel.onClearClicked() },
                     onFilterClicked = { viewModel.onFilterClicked() }
                 )
             )

@@ -19,6 +19,8 @@ interface CharacterRepository {
 
     suspend fun insertAllCharacters(characters: List<CharacterConverter>)
 
+    suspend fun searchCharacters(query: String): List<CharacterConverter>
+
     suspend fun updateCharacter(character: CharacterConverter)
 
     suspend fun deleteCharacterByName(name: String)

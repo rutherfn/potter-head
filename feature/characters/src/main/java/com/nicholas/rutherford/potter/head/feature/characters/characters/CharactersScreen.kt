@@ -61,14 +61,16 @@ fun CharactersScreen(params: CharactersParams) {
         state.errorType.isValidErrorType() -> EmptyOrErrorContent(
             title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
             description = state.errorType.descriptionId?.let { id -> stringResource(id = id) } ?: "",
-            onRetryClicked = params.onRetryClicked
+            buttonText = stringResource(id = StringIds.retry),
+            onRetryOrClearClicked = params.onRetryClicked
         )
-        state.characters.isEmpty() -> EmptyOrErrorContent(
-            title = stringResource(id = StringIds.noCharactersYet),
-            description = stringResource(id = StringIds.weCouldNotFindAnyCharactersTapRetryToLoadItems),
-            onRetryClicked = params.onRetryClicked
+        state.characters.isEmpty() && state.searchQuery.isEmpty() -> EmptyOrErrorContent(
+                title = stringResource(id = StringIds.noCharactersYet),
+                description = stringResource(id = StringIds.weCouldNotFindAnyCharactersTapRetryToLoadItems),
+                buttonText = stringResource(id = StringIds.retry),
+                onRetryOrClearClicked = params.onRetryClicked
         )
-        else -> CharactersContent(state = state, params = params)
+        else -> CharactersContentWithSearch(state = state, params = params)
     }
 }
 
@@ -76,7 +78,8 @@ fun CharactersScreen(params: CharactersParams) {
 private fun EmptyOrErrorContent(
     title: String,
     description: String,
-    onRetryClicked: () -> Unit
+    buttonText: String,
+    onRetryOrClearClicked: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -106,7 +109,7 @@ private fun EmptyOrErrorContent(
             )
 
             Button(
-                onClick = onRetryClicked,
+                onClick = onRetryOrClearClicked,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
@@ -114,7 +117,7 @@ private fun EmptyOrErrorContent(
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text(
-                    text = stringResource(id = StringIds.retry),
+                    text = buttonText,
                     style = MaterialTheme.typography.labelLarge,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -232,6 +235,74 @@ private fun ShimmerCharacterCard() {
 
 
 @Composable
+private fun CharactersContentWithSearch(state: CharactersState, params: CharactersParams) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = MaterialTheme.colorScheme.background)
+    ) {
+        SearchView(
+            searchQuery = state.searchQuery,
+            onSearchQueryChange = params.onSearchQueryChange,
+            onFilterClick = params.onFilterClicked,
+            filterCount = state.filterCount,
+            onClearClicked = params.onClearClicked,
+            placeholderText = stringResource(id = StringIds.searchCharacters)
+        )
+
+        if (state.characters.isEmpty() && state.searchQuery.isNotEmpty()) {
+            EmptyOrErrorContent(
+                title = stringResource(id = StringIds.noCharactersFound),
+                description = stringResource(id = StringIds.tryAdjustingYourSearch),
+                buttonText = stringResource(id = StringIds.clearSearchResults),
+                onRetryOrClearClicked = params.onClearClicked
+            )
+            EmptySearchResultsContent()
+        } else {
+            CharactersContent(state = state, params = params)
+        }
+        
+        when {
+            state.characters.isEmpty() && state.searchQuery.isNotEmpty() -> {
+                EmptySearchResultsContent()
+            }
+            else -> {
+                CharactersContent(state = state, params = params)
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptySearchResultsContent() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                text = stringResource(id = StringIds.noCharactersFound),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Text(
+                text = stringResource(id = StringIds.tryAdjustingYourSearch),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+}
+
+@Composable
 private fun CharactersContent(state: CharactersState, params: CharactersParams) {
     val listState = rememberLazyListState()
 
@@ -254,22 +325,9 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
             }
     }
     
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
-    ) {
-        SearchView(
-            searchQuery = state.searchQuery,
-            onSearchQueryChange = params.onSearchQueryChange,
-            onFilterClick = params.onFilterClicked,
-            filterCount = state.filterCount,
-            placeholderText = stringResource(id = StringIds.searchCharacters)
-        )
-        
-        LazyColumn(
-            state = listState,
-            modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxSize(),
             contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -287,7 +345,6 @@ private fun CharactersContent(state: CharactersState, params: CharactersParams) 
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -488,6 +545,7 @@ private fun CharacterScreenPreview() {
                 onLoadMore = {},
                 buildCharacterStatusIds = { _ -> emptyList() },
                 onSearchQueryChange = {},
+                onClearClicked = {},
                 onFilterClicked = {}
             )
         )

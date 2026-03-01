@@ -114,7 +114,6 @@ private class NetworkModuleImpl(
 private class DatabaseModuleImpl(
     private val context: Context
 ) : DatabaseModule {
-
     /**
      * Kermit Logger for DatabaseModule interactions.
      */

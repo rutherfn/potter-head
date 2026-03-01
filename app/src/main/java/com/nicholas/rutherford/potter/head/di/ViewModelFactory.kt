@@ -23,7 +23,6 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 class ViewModelFactory(
     private val appGraph: AppGraph
 ) : ViewModelProvider.Factory {
-
     /**
      * Kermit Logger for this class.
      */

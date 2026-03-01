@@ -4,7 +4,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.collectLatest
@@ -39,11 +41,21 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
     private var isStart = false
 
     /**
-     * Optional method for subclasses to provide their own scope.
-     * If not overridden, returns null and flow collection will be skipped.
-     * This prevents breaking existing unit tests that don't mock BaseViewModel.
+     * ViewModel-scoped CoroutineScope that is tied to the ViewModel lifecycle.
+     * This scope is automatically cancelled when the ViewModel is cleared.
+     * Uses SupervisorJob() to ensure child job failures don't cancel sibling jobs.
      */
-    protected open fun getScope(): CoroutineScope? = null
+    private val viewModelJob = SupervisorJob()
+    private val viewModelScope: CoroutineScope = CoroutineScope(viewModelJob + Dispatchers.Default)
+
+    /**
+     * Returns the ViewModel's coroutine scope.
+     * Subclasses can override this to provide a custom scope for testing purposes.
+     * By default, returns a ViewModel-scoped scope that is cancelled in onCleared().
+     *
+     * @return The CoroutineScope to use for this ViewModel
+     */
+    protected open fun getScope(): CoroutineScope = viewModelScope
 
     /**
      * Launches a coroutine in the ViewModel's scope and tracks it for cleanup.
@@ -192,6 +204,8 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
         activeFlowCollections.clear()
         activeJobs.forEach { job -> job.cancel() }
         activeJobs.clear()
+        // Cancel the ViewModel scope job to ensure all coroutines are properly cleaned up
+        viewModelJob.cancel()
         log.d { "${this::class.simpleName} → onCleared" }
     }
 }

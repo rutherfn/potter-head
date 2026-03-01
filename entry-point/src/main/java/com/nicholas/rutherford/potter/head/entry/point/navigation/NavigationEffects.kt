@@ -6,9 +6,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LifecycleOwner
@@ -54,8 +51,6 @@ fun NavigationEffects(
         initialState = null
     )
 
-    var progress: ProgressAction? by remember { mutableStateOf(value = null) }
-
     LaunchedEffect(navActionState?.destination) {
         navActionState?.let { state ->
             navController.navigate(state.destination, state.navOptions)
@@ -70,22 +65,13 @@ fun NavigationEffects(
         }
     }
 
-    LaunchedEffect(progressState) {
-        progressState?.let { newProgress ->
-            progress = newProgress
-        } ?: run {
-            progress = null
-        }
-    }
-
-    progress?.let { newProgress ->
+    progressState?.let { progress ->
         ProgressDialog(
             onDismissClicked = {
-                if (newProgress.shouldBeAbleToBeDismissed) {
+                if (progress.shouldBeAbleToBeDismissed) {
                     navigator.progress(progressAction = null)
-                    progress = null
                 }
-                newProgress.onDismissClicked?.invoke()
+                progress.onDismissClicked?.invoke()
             }
         )
     }

@@ -33,9 +33,9 @@ class CharacterImageRepositoryImpl(
         }
     }
 
-    override fun getCharacterImageUrlByName(name: String): Flow<CharacterImageUrlConverter> {
+    override fun getCharacterImageUrlByName(name: String): Flow<CharacterImageUrlConverter?> {
         return dao.getCharacterImageUrlByName(characterName = name).map { entity ->
-            CharacterImageUrlConverter.fromEntity(entity = entity)
+            entity?.let { characterImageUrlEntity -> CharacterImageUrlConverter.fromEntity(entity = characterImageUrlEntity) }
         }
     }
 

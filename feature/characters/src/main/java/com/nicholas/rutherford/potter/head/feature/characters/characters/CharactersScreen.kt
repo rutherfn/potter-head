@@ -257,47 +257,8 @@ private fun CharactersContentWithSearch(state: CharactersState, params: Characte
                 buttonText = stringResource(id = StringIds.clearSearchResults),
                 onRetryOrClearClicked = params.onClearClicked
             )
-            EmptySearchResultsContent()
         } else {
             CharactersContent(state = state, params = params)
-        }
-        
-        when {
-            state.characters.isEmpty() && state.searchQuery.isNotEmpty() -> {
-                EmptySearchResultsContent()
-            }
-            else -> {
-                CharactersContent(state = state, params = params)
-            }
-        }
-    }
-}
-
-@Composable
-private fun EmptySearchResultsContent() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = stringResource(id = StringIds.noCharactersFound),
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = stringResource(id = StringIds.tryAdjustingYourSearch),
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
         }
     }
 }
@@ -306,7 +267,9 @@ private fun EmptySearchResultsContent() {
 private fun CharactersContent(state: CharactersState, params: CharactersParams) {
     val listState = rememberLazyListState()
 
-    LaunchedEffect(Unit) {
+    // Use state.characters as key to restart the effect when the data set changes
+    // This ensures the snapshotFlow observes the correct listState for the current data
+    LaunchedEffect(state.characters) {
         snapshotFlow {
             val layoutInfo = listState.layoutInfo
             val totalItems = layoutInfo.totalItemsCount
@@ -455,7 +418,7 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
             color = textColor
         )
         
-        imageUrl?.let { url ->
+        imageUrl?.takeIf { it.isNotBlank() }?.let { url ->
             AsyncImage(
                 model = ImageRequest.Builder(context = androidx.compose.ui.platform.LocalContext.current)
                     .data(url)

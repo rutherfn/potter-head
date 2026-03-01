@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterImageRepository {
     fun getAllCharacterImages(): Flow<List<CharacterImageUrlConverter>>
     fun getCharacterImageUrlById(id: Int): Flow<CharacterImageUrlConverter?>
-    fun getCharacterImageUrlByName(name: String): Flow<CharacterImageUrlConverter>
+    fun getCharacterImageUrlByName(name: String): Flow<CharacterImageUrlConverter?>
     suspend fun insertAllCharacterImageUrls()
     suspend fun deleteCharacterImageUrlById(id: Int)
     suspend fun deleteAllCharacterImageUrls()

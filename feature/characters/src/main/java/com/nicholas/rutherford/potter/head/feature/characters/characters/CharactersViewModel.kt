@@ -8,23 +8,23 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
+import android.net.Uri
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
 import com.nicholas.rutherford.potter.head.network.NetworkMonitor
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
+import java.util.concurrent.atomic.AtomicInteger
 
 /**
  * ViewModel for managing the characters list screen state and business logic.
  * Follows a cache-first strategy: loads from local database, fetches from API if empty.
  *
- * @param scope The coroutine scope for launching coroutines.
  * @param harryPotterApiRepository The repository for fetching characters from the Harry Potter API.
  * @param characterImageRepository The repository for managing character image URLs.
  * @param characterRepository The repository for managing characters in the local database.
@@ -35,7 +35,6 @@ import kotlinx.coroutines.flow.update
  * @author Nicholas Rutherford
  */
 class CharactersViewModel(
-    private val scope: CoroutineScope,
     private val harryPotterApiRepository: HarryPotterApiRepository,
     private val characterImageRepository: CharacterImageRepository,
     private val characterRepository: CharacterRepository,
@@ -47,14 +46,12 @@ class CharactersViewModel(
     private val charactersMutableStateFlow = MutableStateFlow(CharactersState())
     val charactersStateFlow: StateFlow<CharactersState> = charactersMutableStateFlow.asStateFlow()
     private val allCharacters = MutableStateFlow<List<CharacterConverter>>(value = emptyList())
-    private var currentVisibleCount = Constants.INITIAL_PAGE_SIZE
+    private val currentVisibleCount = AtomicInteger(Constants.INITIAL_PAGE_SIZE)
 
     init {
         launch { checkForCharacterImageUrlsForDb() }
         collectAllCharacters()
     }
-
-    override fun getScope(): CoroutineScope = scope
 
     override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
 
@@ -62,12 +59,14 @@ class CharactersViewModel(
         charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
         
         collectFlow(flow = characterRepository.getAllCharacters()) { characters ->
-            allCharacters.value = characters
-            
-            if (characters.isNotEmpty()) {
-                updatePaginatedCharacters()
-            } else {
-                fetchCharactersFromApiAndUpdateDb()
+            if (charactersMutableStateFlow.value.searchQuery.isEmpty()) {
+                allCharacters.value = characters
+                
+                if (characters.isNotEmpty()) {
+                    updatePaginatedCharacters()
+                } else {
+                    fetchCharactersFromApiAndUpdateDb()
+                }
             }
         }
     }
@@ -81,12 +80,13 @@ class CharactersViewModel(
     }
     
     private fun updatePaginatedCharacters() {
+        val visibleCount = currentVisibleCount.get()
         charactersMutableStateFlow.update { state ->
             state.copy(
-                characters =  allCharacters.value.take(n = currentVisibleCount),
+                characters =  allCharacters.value.take(n = visibleCount),
                 errorType = CharactersErrorType.NONE,
                 isLoading = false,
-                hasMoreToLoad = allCharacters.value.size > currentVisibleCount
+                hasMoreToLoad = allCharacters.value.size > visibleCount
             )
         }
     }
@@ -110,7 +110,18 @@ class CharactersViewModel(
                 characterRepository.insertAllCharacters(characters = characterConverters)
                 true
             } ?: run {
-                result.exceptionOrNull()?.let { error -> failedFetchingCharacters(error = error) }
+
+                result.exceptionOrNull()?.let { error -> 
+                    failedFetchingCharacters(error = error)
+                } ?: run {
+                    charactersMutableStateFlow.update { state ->
+                        state.copy(
+                            errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                            isLoading = false
+                        )
+                    }
+                    log.e("Failed to fetch characters: result was null without exception")
+                }
                 false
             }
         } else {
@@ -126,15 +137,16 @@ class CharactersViewModel(
 
     fun retryLoadingCharacters() {
         launch {
-            charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
+            charactersMutableStateFlow.update { state -> 
+                state.copy(
+                    isLoading = true,
+                    errorType = CharactersErrorType.NONE
+                )
+            }
             delay(timeMillis = Constants.RETRY_LOADING_CHARACTERS_DELAY)
-            currentVisibleCount = charactersMutableStateFlow.value.pageSize
-            
-            val success = fetchCharactersFromApiAndUpdateDb()
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
 
-            if (success) {
-                delay(timeMillis = Constants.DELAY_WAIT_FOR_DB_FLOW_EMISSION)
-
+            if (!fetchCharactersFromApiAndUpdateDb()) {
                 charactersMutableStateFlow.update { state ->
                     if (state.isLoading) {
                         state.copy(isLoading = false)
@@ -147,7 +159,7 @@ class CharactersViewModel(
     }
 
     fun loadMoreCharacters() {
-        if (currentVisibleCount >=  allCharacters.value.size) {
+        if (currentVisibleCount.get() >=  allCharacters.value.size) {
             return
         }
         
@@ -156,7 +168,7 @@ class CharactersViewModel(
 
             delay(timeMillis = Constants.DELAY_LOADING_MORE_CHARACTERS )
 
-            currentVisibleCount += charactersMutableStateFlow.value.pageSize
+            currentVisibleCount.addAndGet(charactersMutableStateFlow.value.pageSize)
             updatePaginatedCharacters()
             
             charactersMutableStateFlow.update { state -> state.copy(isLoadingMore = false) }
@@ -182,29 +194,25 @@ class CharactersViewModel(
     fun onSearchQueryChange(query: String) {
         launch {
             val newCharacters = characterRepository.searchCharacters(query = query)
-            
-            // Reset pagination when search query changes
-            currentVisibleCount = charactersMutableStateFlow.value.pageSize
+
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
             
             allCharacters.value = newCharacters
             charactersMutableStateFlow.update { state -> state.copy(searchQuery = query) }
-            
-            // Apply pagination to search results
+
             updatePaginatedCharacters()
         }
     }
 
     fun onClearClicked() {
         launch {
-            val newCharacters = characterRepository.searchCharacters(query = "")
-            
-            // Reset pagination when clearing search
-            currentVisibleCount = charactersMutableStateFlow.value.pageSize
-            
-            allCharacters.value = newCharacters
             charactersMutableStateFlow.update { state -> state.copy(searchQuery = "") }
-            
-            // Apply pagination after clearing
+
+            currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
+
+            val currentCharacters = characterRepository.getAllCharacters().first()
+            allCharacters.value = currentCharacters
+
             updatePaginatedCharacters()
         }
     }
@@ -215,10 +223,9 @@ class CharactersViewModel(
     }
 
     fun onCharacterClicked(characterName: String) {
-        // Navigate to character detail screen
-        // Using character name as identifier since it's the primary key in the database
+        val encodedCharacterName = Uri.encode(characterName)
         val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
-            .replace("{id}", characterName)
+            .replace("{id}", encodedCharacterName)
         navigator.navigate(
             SimpleNavigationAction(
                 destination = route

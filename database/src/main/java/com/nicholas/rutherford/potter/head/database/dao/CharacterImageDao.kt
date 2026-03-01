@@ -26,11 +26,8 @@ interface CharacterImageDao {
     @Query("SELECT * FROM characterUrls WHERE id = :id")
     fun getCharacterImageUrlById(id: Int): Flow<CharacterImageUrlEntity?>
 
-    @Query("SELECT * FROM characterUrls WHERE characterName = :characterName")
-    fun getCharacterImageUrlByName(characterName: String): Flow<CharacterImageUrlEntity>
-
     @Query("SELECT * FROM characterUrls WHERE LOWER(TRIM(characterName)) = LOWER(TRIM(:characterName))")
-    suspend fun getCharacterImageUrlByNameCaseInsensitive(characterName: String): CharacterImageUrlEntity?
+    fun getCharacterImageUrlByName(characterName: String): Flow<CharacterImageUrlEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllCharacterImageUrls(characterImageUrls: List<CharacterImageUrlEntity>)

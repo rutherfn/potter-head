@@ -43,7 +43,6 @@ class ViewModelFactory(
 
     private fun createCharacterViewModel(): CharactersViewModel =
         CharactersViewModel(
-            scope = appGraph.scopeModule.viewModelScope,
             harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
             characterImageRepository = appGraph.databaseModule.characterImageRepository,
             characterRepository = appGraph.databaseModule.characterRepository,

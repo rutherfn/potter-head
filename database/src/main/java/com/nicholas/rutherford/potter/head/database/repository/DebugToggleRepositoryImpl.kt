@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.map
  * @author Nicholas Rutherford
  */
 class DebugToggleRepositoryImpl(private val dao: DebugToggleDao) : DebugToggleRepository {
-
     override fun getAllToggles(): Flow<List<DebugToggleConverter>> {
         return dao.getAllToggles().map { entities ->
             entities.map { debugToggleEntity -> DebugToggleConverter.fromEntity(entity = debugToggleEntity) }
@@ -35,12 +34,7 @@ class DebugToggleRepositoryImpl(private val dao: DebugToggleDao) : DebugToggleRe
         if (existingToggle != null) {
             dao.updateToggleState(key, isEnabled)
         } else {
-            dao.insertToggle(
-                DebugToggleEntity(
-                    toggleKey = key,
-                    isEnabled = isEnabled
-                )
-            )
+            dao.insertToggle(toggle = DebugToggleEntity(toggleKey = key, isEnabled = isEnabled))
         }
     }
 

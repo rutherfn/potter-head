@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterFilterRepository {
     fun getCharacterFilters(): Flow<List<CharacterFilterConverter>>
     fun getCharacterFiltersByType(filterType: CharacterFilterType): Flow<List<CharacterFilterConverter>>
+    suspend fun getCharacterFiltersByTypeSync(filterType: CharacterFilterType): List<CharacterFilterConverter>
     fun getAllCharacterFiltersIsActive(isActive: Boolean): Flow<List<CharacterFilterConverter>>
     suspend fun insertFilter(filter: CharacterFilterConverter)
     suspend fun insertAllFilters(filters: List<CharacterFilterConverter>)

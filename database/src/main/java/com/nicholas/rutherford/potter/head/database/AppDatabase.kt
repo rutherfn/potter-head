@@ -31,7 +31,7 @@ import com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeCo
         AutoMigration(from = 3, to = 4),
         AutoMigration(from = 4, to = 5)
     ],
-    version = 4,
+    version = 5,
     exportSchema = true
 )
 @TypeConverters(DatabaseTypeConverters::class)

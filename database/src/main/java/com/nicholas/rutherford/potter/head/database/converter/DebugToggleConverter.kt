@@ -15,7 +15,6 @@ data class DebugToggleConverter(
     val toggleKey: String,
     val isEnabled: Boolean
 ) {
-
     /**
      * Converts this converter to a DebugToggleEntity.
      */
@@ -25,7 +24,6 @@ data class DebugToggleConverter(
     )
 
     companion object {
-
         /**
          * Creates a DebugToggleConverter from a DebugToggleEntity.
          */

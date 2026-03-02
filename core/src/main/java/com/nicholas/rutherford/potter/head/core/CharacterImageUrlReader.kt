@@ -11,10 +11,6 @@ import com.google.gson.reflect.TypeToken
  * @author Nicholas Rutherford
  */
 object CharacterImageUrlReader {
-
-    /**
-     * Kermit Logger for this class.
-     */
     private val log = Logger.withTag(tag = "CharacterImageUrlReader")
 
     /**
@@ -37,11 +33,11 @@ object CharacterImageUrlReader {
             val characterImageUrls = gson.fromJson<List<CharacterImagesUrlJsonResponse>>(jsonString, listType)
 
             characterImageUrls.ifEmpty {
-                log.w("Read character image URLS from JSON but was empty")
+                log.w(messageString = "Read character image URLS from JSON but was empty")
                 emptyList()
             }
         } catch (e: Exception) {
-            log.e("Failed to read character image URLs from JSON: ${e.message}")
+            log.e(messageString = "Failed to read character image URLs from JSON: ${e.message}")
             emptyList()
         }
     }

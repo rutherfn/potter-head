@@ -13,7 +13,6 @@ import retrofit2.Retrofit
  * @author Nicholas Rutherford
  */
 interface NetworkModule {
-
     /**
      * Gson instance for JSON serialization/deserialization.
      */

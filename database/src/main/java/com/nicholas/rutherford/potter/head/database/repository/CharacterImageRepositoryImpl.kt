@@ -20,7 +20,6 @@ class CharacterImageRepositoryImpl(
     private val dao: CharacterImageDao,
     private val context: Context
 ): CharacterImageRepository {
-
     override fun getAllCharacterImages(): Flow<List<CharacterImageUrlConverter>> {
         return dao.getAllCharacterImageUrls().map { entities ->
             entities.map { characterImageUrlEntity -> CharacterImageUrlConverter.fromEntity(entity = characterImageUrlEntity) }

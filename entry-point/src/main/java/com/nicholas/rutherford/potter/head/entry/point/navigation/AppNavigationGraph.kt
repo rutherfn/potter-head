@@ -1,8 +1,12 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -12,6 +16,9 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBar
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailParams
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailScreen
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
+import com.nicholas.rutherford.potter.head.feature.characters.characterfilters.CharacterFiltersParams
+import com.nicholas.rutherford.potter.head.feature.characters.characterfilters.CharacterFiltersScreen
+import com.nicholas.rutherford.potter.head.feature.characters.characterfilters.CharacterFiltersViewModel
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersParams
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersScreen
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
@@ -61,6 +68,38 @@ object AppNavigationGraph {
     }
 
     /**
+     * Composable function that manages the app bar lifecycle for a screen.
+     * Observes the back stack entry's lifecycle and updates the app bar when the screen becomes active.
+     *
+     * @param backStackEntry The navigation back stack entry for the current screen.
+     * @param appBarProvider A lambda that creates the [AppBar] to display for this screen.
+     *
+     * @author Nicholas Rutherford
+     */
+    @Composable
+    fun ManageAppBarLifecycle(
+        backStackEntry: NavBackStackEntry,
+        appBarProvider: () -> AppBar
+    ) {
+        DisposableEffect(backStackEntry) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    updateAppBar(appBar = appBarProvider())
+                }
+            }
+            backStackEntry.lifecycle.addObserver(observer)
+
+            // Set app bar immediately if already resumed
+            if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                updateAppBar(appBar = appBarProvider())
+            }
+            onDispose {
+                backStackEntry.lifecycle.removeObserver(observer)
+            }
+        }
+    }
+
+    /**
      * Defines the characters screen in the navigation graph.
      *
      * This function sets up the characters list screen with:
@@ -72,7 +111,7 @@ object AppNavigationGraph {
      * when navigating between screens within the same graph.
      */
     fun NavGraphBuilder.charactersScreen() {
-        composable(route = Screens.Characters.route) {
+        composable(route = Screens.Characters.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
             val viewModel: CharactersViewModel = viewModel(factory = factory)
@@ -81,10 +120,10 @@ object AppNavigationGraph {
 
             ObserveLifecycle(viewModel = viewModel)
             
-            DisposableEffect(Unit) {
-                updateAppBar(appBar = appBarFactory.createCharactersAppBar())
-                onDispose { updateAppBar(appBar = null) }
-            }
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createCharactersAppBar() }
+            )
 
             CharactersScreen(
                 params = CharactersParams(
@@ -96,6 +135,46 @@ object AppNavigationGraph {
                     onSearchQueryChange = { query -> viewModel.onSearchQueryChange(query) },
                     onClearClicked = { viewModel.onClearClicked() },
                     onFilterClicked = { viewModel.onFilterClicked() }
+                )
+            )
+        }
+    }
+
+    /**
+     * Defines the character filters screen in the navigation graph.
+     *
+     * This function sets up the character filters screen with:
+     * - Route: CharacterFilters.route
+     * - ViewModel: [CharacterFiltersViewModel] created via [LocalViewModelFactory]
+     * - Screen: [CharacterFiltersScreen] with parameters for character click handling
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
+    fun NavGraphBuilder.charactersFiltersScreen() {
+        composable(route = Screens.CharacterFilters.route) { backStackEntry ->
+
+            val factory = LocalViewModelFactory.current
+            val viewModel: CharacterFiltersViewModel = viewModel(factory = factory)
+            val appBarFactory = LocalAppBarFactory.current
+            val state = viewModel.characterFiltersStateFlow.collectAsState().value
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { 
+                    appBarFactory.createFiltersAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
+            )
+
+            CharacterFiltersScreen(
+                params = CharacterFiltersParams(
+                    state = state,
+                    houses = viewModel.buildHouses(),
+                    onFilterHouseClicked = { type, value -> viewModel.onFilterHouseClicked(type, value) }
                 )
             )
         }
@@ -196,6 +275,7 @@ object AppNavigationGraph {
      */
     private val screenSetupFunctions: List<NavGraphBuilder.() -> Unit> = listOf(
         { charactersScreen() },
+        { charactersFiltersScreen() },
         { characterDetailScreen() },
         { quizzesScreen() },
         { settingsScreen() }

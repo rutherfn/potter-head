@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface DebugToggleRepository {
-
     fun getAllToggles(): Flow<List<DebugToggleConverter>>
 
     fun getToggle(key: String): Flow<DebugToggleConverter?>

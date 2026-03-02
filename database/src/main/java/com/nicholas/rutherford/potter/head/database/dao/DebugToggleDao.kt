@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface DebugToggleDao {
-
     @Query("SELECT * FROM debugToggles")
     fun getAllToggles(): Flow<List<DebugToggleEntity>>
 

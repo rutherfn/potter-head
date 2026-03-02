@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface NetworkMonitor {
-
     /**
      * A Flow that emits the current network connectivity status.
      * Emits true when connected to the internet, false when disconnected.

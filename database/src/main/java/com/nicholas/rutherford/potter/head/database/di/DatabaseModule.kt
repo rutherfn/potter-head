@@ -17,7 +17,6 @@ import com.nicholas.rutherford.potter.head.database.repository.DebugToggleReposi
  * @author Nicholas Rutherford
  */
 interface DatabaseModule {
-
     val appDatabase: AppDatabase
     val characterDao: CharacterDao
     val characterImageDao: CharacterImageDao

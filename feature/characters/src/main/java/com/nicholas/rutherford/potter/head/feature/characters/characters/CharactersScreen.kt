@@ -57,6 +57,7 @@ fun CharactersScreen(params: CharactersParams) {
     val state = params.state
 
     when {
+        state.shouldShowNoContent -> {}
         state.isLoading -> ShimmerCharactersContent()
         state.errorType.isValidErrorType() -> EmptyOrErrorContent(
             title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
@@ -64,7 +65,7 @@ fun CharactersScreen(params: CharactersParams) {
             buttonText = stringResource(id = StringIds.retry),
             onRetryOrClearClicked = params.onRetryClicked
         )
-        state.characters.isEmpty() && state.searchQuery.isEmpty() -> EmptyOrErrorContent(
+        state.characters.isEmpty() && state.searchQuery.isEmpty() && !state.isLoading -> EmptyOrErrorContent(
                 title = stringResource(id = StringIds.noCharactersYet),
                 description = stringResource(id = StringIds.weCouldNotFindAnyCharactersTapRetryToLoadItems),
                 buttonText = stringResource(id = StringIds.retry),

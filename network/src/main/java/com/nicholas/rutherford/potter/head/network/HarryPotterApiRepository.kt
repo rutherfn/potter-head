@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface HarryPotterApiRepository {
-
     fun getAllCharacters(): Flow<Result<List<CharacterResponse>>>
 
     fun getCharacterById(id: String): Flow<Result<List<CharacterResponse>>>

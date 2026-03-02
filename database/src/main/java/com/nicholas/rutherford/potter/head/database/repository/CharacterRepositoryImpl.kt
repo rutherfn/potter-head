@@ -21,7 +21,6 @@ class CharacterRepositoryImpl(
     private val dao: CharacterDao,
     private val characterImageDao: CharacterImageDao
 ) : CharacterRepository {
-
     private val houseUrlMap = mapOf(
         Constants.GRYFFINDOR_HOUSE.lowercase() to Constants.GRYFFINDOR_HOUSE_URL,
         Constants.RAVENCLAW_HOUSE.lowercase() to Constants.RAVENCLAW_HOUSE_URL,
@@ -31,8 +30,10 @@ class CharacterRepositoryImpl(
 
     private fun buildConverterWithHouseUrl(characterConverter: CharacterConverter): CharacterConverter {
         val houseUrl = characterConverter.house?.lowercase()?.let { house -> houseUrlMap[house] }
-        return houseUrl?.let { characterConverter.copy(image = it) } ?: characterConverter
+        return houseUrl?.let { image -> characterConverter.copy(image = image) } ?: characterConverter
     }
+
+    override suspend fun getCharacterCount(): Int = dao.getCharacterCount()
 
     override fun getAllCharacters(): Flow<List<CharacterConverter>> {
         return dao.getAllCharacters().map { entities ->

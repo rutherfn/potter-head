@@ -1,6 +1,5 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
-import com.nicholas.rutherford.potter.head.core.CharacterImageUrlReader
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.converter.CharacterFilterConverter
 import com.nicholas.rutherford.potter.head.database.dao.CharacterFilterDao
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.map
  * @author Nicholas Rutherford
  */
 class CharacterFilterRepositoryImpl(private val dao: CharacterFilterDao) : CharacterFilterRepository {
-
     override fun getCharacterFilters(): Flow<List<CharacterFilterConverter>> {
         return dao.getAllCharacterFilters().map { entities ->
             entities.map { characterFilterEntity -> CharacterFilterConverter.fromEntity(entity = characterFilterEntity) }
@@ -26,6 +24,12 @@ class CharacterFilterRepositoryImpl(private val dao: CharacterFilterDao) : Chara
     override fun getCharacterFiltersByType(filterType: CharacterFilterType): Flow<List<CharacterFilterConverter>> {
         return dao.getCharacterFiltersByType(filterType = filterType).map { entities ->
             entities.map { characterFilterEntity -> CharacterFilterConverter.fromEntity(entity = characterFilterEntity) }
+        }
+    }
+
+    override suspend fun getCharacterFiltersByTypeSync(filterType: CharacterFilterType): List<CharacterFilterConverter> {
+        return dao.getCharacterFiltersByTypeSync(filterType = filterType).map { entity ->
+            CharacterFilterConverter.fromEntity(entity = entity)
         }
     }
 

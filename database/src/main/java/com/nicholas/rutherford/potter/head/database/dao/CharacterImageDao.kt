@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface CharacterImageDao {
-
     @Query("SELECT * FROM characterUrls")
     fun getAllCharacterImageUrls(): Flow<List<CharacterImageUrlEntity>>
 

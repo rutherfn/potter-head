@@ -11,7 +11,6 @@ import retrofit2.http.Path
  * @author Nicholas Rutherford
  */
 interface HarryPotterApiService {
-
     /**
      * Fetches all characters from the API.
      *

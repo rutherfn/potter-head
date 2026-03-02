@@ -50,7 +50,6 @@ dependencies {
     implementation(project(path = ":feature:settings"))
     implementation(project(path = ":navigation"))
     implementation(project(path = ":network"))
-    implementation(project(path = ":saved-state"))
     implementation(project(path = ":database"))
     implementation(project(path = ":scope"))
     implementation(project(path = ":core"))

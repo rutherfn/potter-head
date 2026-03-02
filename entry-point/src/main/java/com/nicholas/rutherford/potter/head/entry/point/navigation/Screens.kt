@@ -8,28 +8,70 @@ import com.nicholas.rutherford.potter.head.core.Constants
  *
  * @param route The route string for the screen.
  * @param title The title string for the screen.
+ * @param showBottomNavigation Whether the bottom navigation bar should be displayed on this screen.
+ *                             Defaults to true. Set to false for modal-like screens (e.g., filters, detail screens).
  *
  * @author Nicholas Rutherford
  */
-sealed class Screens(val route: String, val title: String) {
+sealed class Screens(
+    val route: String,
+    val title: String,
+    val showBottomNavigation: Boolean = true
+) {
 
     object Characters : Screens(
         route = Constants.NavigationDestinations.CHARACTERS_SCREEN,
-        title = Constants.ScreenTitles.CHARACTERS
+        title = Constants.ScreenTitles.CHARACTERS,
+        showBottomNavigation = true
     )
 
     object CharactersDetail : Screens(
         route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS,
-        title = Constants.ScreenTitles.CHARACTER_DETAIL
+        title = Constants.ScreenTitles.CHARACTER_DETAIL,
+        showBottomNavigation = false
+    )
+
+    object CharacterFilters : Screens(
+        route = Constants.NavigationDestinations.CHARACTERS_FILTERS_SCREEN,
+        title = Constants.ScreenTitles.CHARACTERS_FILTERS,
+        showBottomNavigation = false
     )
 
     object Quizzes : Screens(
         route = Constants.NavigationDestinations.QUIZZES_SCREEN,
-        title = Constants.ScreenTitles.QUIZZES
+        title = Constants.ScreenTitles.QUIZZES,
+        showBottomNavigation = true
     )
 
     object Settings : Screens(
         route = Constants.NavigationDestinations.SETTINGS_SCREEN,
-        title = Constants.ScreenTitles.SETTINGS
+        title = Constants.ScreenTitles.SETTINGS,
+        showBottomNavigation = true
     )
+
+    /**
+     * Helper function to find a screen by its route and check if it should show bottom navigation.
+     *
+     * This function handles both exact route matches and parameterized routes (e.g., routes with query params or path params).
+     *
+     * @param route The route string to match. Can be null, an exact route, or a parameterized route.
+     * @return true if the screen should show bottom navigation, false otherwise.
+     *         Returns false by default if the route doesn't match any known screen.
+     */
+    companion object {
+        fun shouldShowBottomNavigation(route: String?): Boolean {
+            if (route == null) {
+                return false
+            }
+
+            return when (route) {
+                Characters.route -> Characters.showBottomNavigation
+                CharacterFilters.route -> CharacterFilters.showBottomNavigation
+                Quizzes.route -> Quizzes.showBottomNavigation
+                Settings.route -> Settings.showBottomNavigation
+                CharactersDetail.route -> CharactersDetail.showBottomNavigation
+                else -> false
+            }
+        }
+    }
 }

@@ -21,31 +21,33 @@ import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterOrange
 import com.nicholas.rutherford.potter.head.entry.point.navigation.Screens
 
 /**
- * List of all bottom navigation bar items in the application.
- *
- * Defines the screens that should appear in the bottom navigation bar,
- * along with their corresponding icons.
+ * Bottom navigation bar component that displays the main navigation items for the application.
+ * 
+ * @param navController The [NavController] used for handling navigation actions.
+ * @param currentDestination The current [NavDestination] used to determine which item is selected.
+ * 
+ * @author Nicholas Rutherford
  */
-val bottomNavItems = listOf(
-    BottomNavItem(
-        screen = Screens.Characters,
-        icon = Icons.Default.Group
-    ),
-    BottomNavItem(
-        screen = Screens.Quizzes,
-        icon = Icons.Default.Quiz
-    ),
-    BottomNavItem(
-        screen = Screens.Settings,
-        icon = Icons.Default.Settings
-    )
-)
-
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
     currentDestination: NavDestination?
 ) {
+    val bottomNavItems = listOf(
+        BottomNavItem(
+            screen = Screens.Characters,
+            icon = Icons.Default.Group
+        ),
+        BottomNavItem(
+            screen = Screens.Quizzes,
+            icon = Icons.Default.Quiz
+        ),
+        BottomNavItem(
+            screen = Screens.Settings,
+            icon = Icons.Default.Settings
+        )
+    )
+
     NavigationBar(
         windowInsets = NavigationBarDefaults.windowInsets,
         containerColor = Color(0xFFFFF8F5),
@@ -53,7 +55,7 @@ fun BottomNavigationBar(
     ) {
         bottomNavItems.forEach { item ->
             NavigationBarItem(
-                selected = currentDestination?.hierarchy?.any { it.route == item.screen.route } == true,
+                selected = currentDestination?.hierarchy?.any { navDestination -> navDestination.route == item.screen.route } == true,
                 onClick = {
                     navController.navigate(item.screen.route) {
                         popUpTo(navController.graph.findStartDestination().id) {

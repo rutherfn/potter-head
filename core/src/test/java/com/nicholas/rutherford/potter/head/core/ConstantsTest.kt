@@ -21,16 +21,6 @@ class ConstantsTest {
     }
 
     @Test
-    fun `SAVED_STATE_MODULE_NAME should be set to correct expected name`() {
-        Constants.SAVED_STATE_MODULE_NAME shouldBe "SavedStateModule"
-    }
-
-    @Test
-    fun `SAVED_STATE_MODULE_CLASS_NAME should be set to the correct SavedStateModule class name`() {
-        Constants.SAVED_STATE_MODULE_CLASS_NAME shouldBe "com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule"
-    }
-
-    @Test
     fun `NAVIGATOR_MODULE_NAME should be set to correct expected name`() {
         Constants.NAVIGATOR_MODULE_NAME shouldBe "NavigatorModule"
     }

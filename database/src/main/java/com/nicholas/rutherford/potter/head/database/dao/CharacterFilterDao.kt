@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.database.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -14,13 +15,16 @@ import kotlinx.coroutines.flow.Flow
  *
  * @author Nicholas Rutherford
  */
+@Dao
 interface CharacterFilterDao {
-
     @Query("SELECT * FROM characterFilters")
     fun getAllCharacterFilters(): Flow<List<CharacterFilterEntity>>
 
     @Query("SELECT * FROM characterFilters WHERE filterType = :filterType")
     fun getCharacterFiltersByType(filterType: CharacterFilterType): Flow<List<CharacterFilterEntity>>
+
+    @Query("SELECT * FROM characterFilters WHERE filterType = :filterType")
+    suspend fun getCharacterFiltersByTypeSync(filterType: CharacterFilterType): List<CharacterFilterEntity>
 
     @Query("SELECT * FROM characterFilters WHERE isActive = :isActive")
     fun getAllCharacterFiltersIsActive(isActive: Boolean): Flow<List<CharacterFilterEntity>>

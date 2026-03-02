@@ -14,30 +14,12 @@ import kotlinx.coroutines.CoroutineScope
  * @author Nicholas Rutherford
  */
 interface ScopeModule {
-    /**
-     * Coroutine scope for ViewModel operations.
-     * Uses Dispatchers.Default as the base dispatcher, which is optimal for most
-     * ViewModel operations.
-     * Can be injected for testing purposes.
-     */
     val viewModelScope: CoroutineScope
 
-    /**
-     * Coroutine scope for IO operations (database, network, file I/O).
-     * Uses Dispatchers.IO for optimal performance on background threads.
-     */
     val ioScope: CoroutineScope
 
-    /**
-     * Coroutine scope for main/UI thread operations.
-     * Uses Dispatchers.Main for operations that need to update the UI.
-     */
     val mainScope: CoroutineScope
 
-    /**
-     * Coroutine scope for default operations.
-     * Uses Dispatchers.Default for CPU-intensive work.
-     */
     val defaultScope: CoroutineScope
 }
 

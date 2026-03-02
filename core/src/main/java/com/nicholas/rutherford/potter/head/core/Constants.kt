@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val CHECKMARK = "✓"
     const val DATABASE_NAME = "potter_head_database"
     const val GRYFFINDOR_HOUSE = "gryffindor"
     const val GRYFFINDOR_HOUSE_URL = "https://thenichollsworth.com/wp-content/uploads/2020/11/C0441055-AEE4-4C0D-8F43-A708DDEB6C3B.jpeg"
@@ -17,15 +18,13 @@ object Constants {
     const val BASE_API_URL = "https://hp-api.onrender.com/api/"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_NAME = "NetworkModule"
-    const val SAVED_STATE_MODULE_NAME = "SavedStateModule"
-    const val SAVED_STATE_MODULE_CLASS_NAME =
-        "com.nicholas.rutherford.potter.head.saved.state.di.SavedStateModule"
     const val NAVIGATOR_MODULE_NAME = "NavigatorModule"
     const val NAVIGATOR_MODULE_CLASS_NAME =
         "com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule"
 
     object NavigationDestinations {
         const val CHARACTERS_SCREEN = "charactersScreen"
+        const val CHARACTERS_FILTERS_SCREEN = "charactersFiltersScreen"
         const val CHARACTER_DETAIL_SCREEN = "characterDetailScreen"
         const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{id}"
         const val QUIZZES_SCREEN = "quizzesScreen"
@@ -36,6 +35,7 @@ object Constants {
 
     object ScreenTitles {
         const val CHARACTERS = "Characters"
+        const val CHARACTERS_FILTERS = "Filters"
         const val CHARACTER_DETAIL = "Details"
         const val QUIZZES = "Quizzes"
         const val SETTINGS = "Settings"

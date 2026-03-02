@@ -3,6 +3,8 @@
     <string name="clear_search_results" translatable="false">Clear Search Results</string>
     <string name="characters" translatable="false">Characters</string>
     <string name="could_not_retrieve_characters" translatable="false">Could Not Retrieve Characters</string>
+    <string name="filter_by_house" translatable="false">Filter by House</string>
+    <string name="filters" translatable="false">Filters</string>
     <string name="gryffindor" translatable="false">gryffindor</string>
     <string name="hufflepuff" translatable="false">hufflepuff</string>
     <string name="no_characters_found" translatable="false">No Characters Found</string>
@@ -10,6 +12,7 @@
     <string name="no_internet_connection" translatable="false">No Internet Connection</string>
     <string name="ravenclaw" translatable="false">ravenclaw</string>
     <string name="retry" translatable="false">Retry</string>
+    <string name="select_one_or_more_houses_to_filter_the_character_list_only_characters_from_selected_houses_will_be_displayed" translatable="false">Select one or more houses to filter the character list. Only characters from selected houses will be displayed.</string>
     <string name="search_characters" translatable="false">Search characters by name...</string>
     <string name="staff" translatable="false">Staff</string>
     <string name="slytherin" translatable="false">slytherin</string>

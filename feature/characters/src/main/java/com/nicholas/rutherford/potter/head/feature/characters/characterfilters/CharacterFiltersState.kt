@@ -5,9 +5,11 @@ package com.nicholas.rutherford.potter.head.feature.characters.characterfilters
  * Defined and managed in the ViewModel.
  *
  * @param houseFiltersSelected The list of selected house filters.
+ * @param genderFiltersSelected The list of selected gender filters.
  *
  * @author Nicholas Rutherford
  */
 data class CharacterFiltersState(
-    val houseFiltersSelected: List<String> = emptyList()
+    val houseFiltersSelected: List<String> = emptyList(),
+    val genderFiltersSelected: List<String> = emptyList()
 )

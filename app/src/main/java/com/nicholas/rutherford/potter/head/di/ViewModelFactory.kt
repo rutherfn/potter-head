@@ -45,6 +45,7 @@ class ViewModelFactory(
             harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
             characterImageRepository = appGraph.databaseModule.characterImageRepository,
             characterRepository = appGraph.databaseModule.characterRepository,
+            characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
             networkMonitor = appGraph.networkModule.networkMonitor,
             navigator = appGraph.navigatorModule.navigator
         )

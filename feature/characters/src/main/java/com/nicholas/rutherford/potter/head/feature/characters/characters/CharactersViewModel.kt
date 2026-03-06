@@ -6,8 +6,10 @@ import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
+import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
+import com.nicholas.rutherford.potter.head.database.repository.getActiveFilterCount
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -27,6 +29,7 @@ import java.util.concurrent.atomic.AtomicInteger
  * @param harryPotterApiRepository The repository for fetching characters from the Harry Potter API.
  * @param characterImageRepository The repository for managing character image URLs.
  * @param characterRepository The repository for managing characters in the local database.
+ * @param characterFilterRepository The repository for managing character filters.
  * @param networkMonitor The network monitor for checking network connectivity.
  * @param navigator The navigator for navigating between screens.
  *
@@ -36,6 +39,7 @@ class CharactersViewModel(
     private val harryPotterApiRepository: HarryPotterApiRepository,
     private val characterImageRepository: CharacterImageRepository,
     private val characterRepository: CharacterRepository,
+    private val characterFilterRepository: CharacterFilterRepository,
     private val networkMonitor: NetworkMonitor,
     private val navigator: Navigator
 ) : BaseViewModel() {
@@ -48,6 +52,7 @@ class CharactersViewModel(
     init {
         launch { checkForCharacterImageUrlsForDb() }
         launch { collectAllCharacters() }
+        collectFilterCount()
     }
 
     override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
@@ -71,6 +76,14 @@ class CharactersViewModel(
                             errorType = CharactersErrorType.NONE
                         )
                     }
+                } else if (characters.isEmpty() && charactersMutableStateFlow.value.isLoading) {
+                    charactersMutableStateFlow.update { state ->
+                        state.copy(
+                            isLoading = false,
+                            shouldShowNoContent = false,
+                            errorType = CharactersErrorType.NONE
+                        )
+                    }
                 }
             } else {
                 allCharacters.value = characters
@@ -78,7 +91,22 @@ class CharactersViewModel(
                 if (characters.isNotEmpty()) {
                     updatePaginatedCharacters()
                 } else {
-                    fetchCharactersFromApiAndUpdateDb()
+                    // Only fetch from API if there are no active filters
+                    // If filters are active and result in 0 characters, show empty state
+                    val currentFilterCount = charactersMutableStateFlow.value.filterCount
+                    if (currentFilterCount > 0) {
+                        charactersMutableStateFlow.update { state ->
+                            state.copy(
+                                characters = emptyList(),
+                                errorType = CharactersErrorType.NONE,
+                                isLoading = false,
+                                shouldShowNoContent = false,
+                                hasMoreToLoad = false
+                            )
+                        }
+                    } else {
+                        fetchCharactersFromApiAndUpdateDb()
+                    }
                 }
             }
         }
@@ -89,6 +117,15 @@ class CharactersViewModel(
 
         if (characterImageUrls.isEmpty()) {
             characterImageRepository.insertAllCharacterImageUrls()
+        }
+    }
+
+    private fun collectFilterCount() {
+        collectFlow(flow = characterFilterRepository.getCharacterFilters()) {
+            val filterCount = characterFilterRepository.getActiveFilterCount()
+            charactersMutableStateFlow.update { state ->
+                state.copy(filterCount = filterCount)
+            }
         }
     }
     
@@ -223,7 +260,12 @@ class CharactersViewModel(
 
     fun onClearClicked() {
         launch {
-            charactersMutableStateFlow.update { state -> state.copy(searchQuery = "") }
+            charactersMutableStateFlow.update { state -> 
+                state.copy(
+                    searchQuery = "",
+                    shouldShowNoContent = true
+                )
+            }
 
             currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
 
@@ -235,6 +277,13 @@ class CharactersViewModel(
     }
 
     fun onFilterClicked() = navigator.navigate(navigationAction = SimpleNavigationAction(destination = Constants.NavigationDestinations.CHARACTERS_FILTERS_SCREEN))
+
+    fun onClearFiltersClicked() {
+        launch {
+            characterFilterRepository.resetFilters()
+
+        }
+    }
 
     fun onCharacterClicked(characterName: String) {
         val encodedCharacterName = Uri.encode(characterName)

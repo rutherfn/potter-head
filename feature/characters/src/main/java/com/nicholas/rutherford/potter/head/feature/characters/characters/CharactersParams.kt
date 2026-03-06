@@ -13,6 +13,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
  * @param onSearchQueryChange Callback for when the search query changes.
  * @param onClearClicked Callback for when the clear button is clicked.
  * @param onFilterClicked Callback for when the filter button is clicked.
+ * @param onClearFiltersClicked Callback for when the clear filters button is clicked.
  *
  * @author Nicholas Rutherford
  */
@@ -24,5 +25,6 @@ data class CharactersParams(
     val buildCharacterStatusIds: (CharacterConverter) -> List<Int>,
     val onSearchQueryChange: (String) -> Unit,
     val onClearClicked: () -> Unit,
-    val onFilterClicked: () -> Unit
+    val onFilterClicked: () -> Unit,
+    val onClearFiltersClicked: () -> Unit
 )

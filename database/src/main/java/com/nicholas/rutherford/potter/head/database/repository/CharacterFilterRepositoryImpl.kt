@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
+import com.nicholas.rutherford.potter.head.database.DefaultFilters
 import com.nicholas.rutherford.potter.head.database.converter.CharacterFilterConverter
 import com.nicholas.rutherford.potter.head.database.dao.CharacterFilterDao
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,12 @@ class CharacterFilterRepositoryImpl(private val dao: CharacterFilterDao) : Chara
     override fun getCharacterFilters(): Flow<List<CharacterFilterConverter>> {
         return dao.getAllCharacterFilters().map { entities ->
             entities.map { characterFilterEntity -> CharacterFilterConverter.fromEntity(entity = characterFilterEntity) }
+        }
+    }
+
+    override suspend fun getAllCharacterFiltersSync(): List<CharacterFilterConverter> {
+        return dao.getAllCharacterFiltersSync().map { entity ->
+            CharacterFilterConverter.fromEntity(entity = entity)
         }
     }
 
@@ -52,4 +59,17 @@ class CharacterFilterRepositoryImpl(private val dao: CharacterFilterDao) : Chara
     override suspend fun deleteFilterByType(filterType: CharacterFilterType) = dao.deleteFilterByType(filterType = filterType)
 
     override suspend fun deleteAllFilters() = dao.deleteAllFilters()
+
+    override suspend fun resetFilters() {
+        val defaultFiltersByType =
+            mapOf(
+                CharacterFilterType.HOUSE to DefaultFilters.HouseFilter,
+                CharacterFilterType.GENDER to DefaultFilters.genderFilter
+            )
+
+        defaultFiltersByType.forEach { (filterType, defaultFilter) ->
+            deleteFilterByType(filterType = filterType)
+            insertFilter(filter = defaultFilter)
+        }
+    }
 }

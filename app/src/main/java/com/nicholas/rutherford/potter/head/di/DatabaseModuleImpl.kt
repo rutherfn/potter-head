@@ -52,7 +52,7 @@ class DatabaseModuleImpl(
     override val characterImageDao: CharacterImageDao = appDatabase.characterImageDao()
 
     override val characterRepository: CharacterRepository by lazy {
-        CharacterRepositoryImpl(dao = characterDao, characterImageDao = characterImageDao)
+        CharacterRepositoryImpl(dao = characterDao, characterFilterDao = characterFilterDao, characterImageDao = characterImageDao)
     }
 
     override val characterFilterRepository: CharacterFilterRepository by lazy { CharacterFilterRepositoryImpl(dao = characterFilterDao) }
@@ -93,7 +93,8 @@ class DatabaseModuleImpl(
         val repository = CharacterFilterRepositoryImpl(dao = database.characterFilterDao())
         val defaultFiltersByType =
             mapOf(
-                CharacterFilterType.HOUSE to DefaultFilters.HouseFilter
+                CharacterFilterType.HOUSE to DefaultFilters.HouseFilter,
+                CharacterFilterType.GENDER to DefaultFilters.genderFilter
             )
 
         defaultFiltersByType.forEach { (filterType, defaultFilter) ->

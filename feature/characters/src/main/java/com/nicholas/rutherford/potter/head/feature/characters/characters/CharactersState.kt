@@ -22,7 +22,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 data class CharactersState(
     val characters: List<CharacterConverter> = emptyList(),
     val errorType: CharactersErrorType = CharactersErrorType.NONE,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val shouldShowNoContent: Boolean = false,
     val isLoadingMore: Boolean = false,
     val hasMoreToLoad: Boolean = true,

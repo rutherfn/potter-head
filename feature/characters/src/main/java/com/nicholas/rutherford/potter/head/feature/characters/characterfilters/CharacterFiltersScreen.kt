@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -43,30 +44,79 @@ fun CharacterFiltersScreen(params: CharacterFiltersParams) {
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item {
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Text(
-                    text = stringResource(id = StringIds.filterByHouse),
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                Text(
-                    text = stringResource(id = StringIds.selectOneOrMoreHousesToFilterTheCharacterListOnlyCharactersFromSelectedHousesWillBeDisplayed),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 20.sp
-                )
-            }
-        }
+        houseFilterSection(
+            houses = params.houses,
+            selectedHouses = state.houseFiltersSelected,
+            onFilterHouseClicked = { house -> params.onFilterHouseClicked(CharacterFilterType.HOUSE, house) }
+        )
 
-        items(items = params.houses) { house ->
-            HouseFilterItem(
-                house = house,
-                isSelected = state.houseFiltersSelected.contains(house),
-                onClick = { params.onFilterHouseClicked(CharacterFilterType.HOUSE, house) }
+        genderFilterSection(
+            genders = params.genders,
+            selectedGenders = state.genderFiltersSelected,
+            onFilterGenderClicked = { gender -> params.onFilterGenderClicked(CharacterFilterType.GENDER, gender) }
+        )
+    }
+}
+
+private fun LazyListScope.houseFilterSection(
+    houses: List<String>,
+    selectedHouses: List<String>,
+    onFilterHouseClicked: (String) -> Unit
+) {
+    item {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(id = StringIds.filterByHouse),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                text = stringResource(id = StringIds.selectOneOrMoreHousesToFilterTheCharacterListOnlyCharactersFromSelectedHousesWillBeDisplayed),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 20.sp
             )
         }
+    }
+
+    items(items = houses) { house ->
+        HouseFilterItem(
+            house = house,
+            isSelected = selectedHouses.contains(house),
+            onClick = { onFilterHouseClicked(house) }
+        )
+    }
+}
+
+private fun LazyListScope.genderFilterSection(
+    genders: List<String>,
+    selectedGenders: List<String>,
+    onFilterGenderClicked: (String) -> Unit
+) {
+    item {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(id = StringIds.filterByGender),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                text = stringResource(id = StringIds.selectOneOrMoreGendersToFilterTheCharacterListOnlyCharactersFromSelectedGendersWillBeDisplayed),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 20.sp
+            )
+        }
+    }
+
+    items(items = genders) { gender ->
+        GenderFilterItem(
+            gender = gender,
+            isSelected = selectedGenders.contains(gender),
+            onClick = { onFilterGenderClicked(gender) }
+        )
     }
 }
 
@@ -102,19 +152,35 @@ private fun HouseBadge(
     house: String,
     isSelected: Boolean
 ) {
-    val houseColor = getHouseColor(house)
-    val houseDisplayName = house.replaceFirstChar { value -> value.uppercaseChar() }
+    val isNoHouse = house == Constants.NO_HOUSE_FILTER
+    val houseColor = if (isNoHouse) {
+        MaterialTheme.colorScheme.onSurfaceVariant
+    } else {
+        getHouseColor(house)
+    }
+    val houseDisplayName = if (isNoHouse) {
+        stringResource(id = StringIds.noHouse)
+    } else {
+        house.replaceFirstChar { value -> value.uppercaseChar() }
+    }
     
     Box(
         modifier = Modifier
             .clip(shape = RoundedCornerShape(8.dp))
             .background(
-                color = houseColor.copy(alpha = if (isSelected) {
-                    0.3f
+                color = if (isNoHouse) {
+                    MaterialTheme.colorScheme.surfaceVariant.copy(alpha = if (isSelected) {
+                        0.5f
+                    } else {
+                        0.3f
+                    })
                 } else {
-                    0.2f
+                    houseColor.copy(alpha = if (isSelected) {
+                        0.3f
+                    } else {
+                        0.2f
+                    })
                 }
-                )
             )
             .padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
@@ -133,29 +199,133 @@ private fun SelectionIndicator(
     isSelected: Boolean,
     house: String
 ) {
-    val houseColor = getHouseColor(house = house)
+    val isNoHouse = house == Constants.NO_HOUSE_FILTER
+    val indicatorColor = if (isSelected) {
+        if (isNoHouse) {
+            MaterialTheme.colorScheme.onSurfaceVariant
+        } else {
+            getHouseColor(house = house)
+        }
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    
+    val checkmarkColor = if (isSelected) {
+        if (isNoHouse) {
+            MaterialTheme.colorScheme.surface
+        } else if (house == Constants.HUFFLEPUFF_HOUSE) {
+            MaterialTheme.colorScheme.onSurface
+        } else {
+            Color.White
+        }
+    } else {
+        Color.Transparent
+    }
     
     Box(
         modifier = Modifier
             .size(28.dp)
             .clip(RoundedCornerShape(14.dp))
-            .background(
-                if (isSelected) {
-                    houseColor
-                } else {
-                    MaterialTheme.colorScheme.surfaceVariant
-                }
-            ),
+            .background(indicatorColor),
         contentAlignment = Alignment.Center
     ) {
         if (isSelected) {
             Text(
                 text = Constants.CHECKMARK,
-                color = if (house == Constants.HUFFLEPUFF_HOUSE) {
-                    MaterialTheme.colorScheme.onSurface
+                color = checkmarkColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun GenderFilterItem(
+    gender: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            GenderBadge(gender = gender, isSelected = isSelected)
+            GenderSelectionIndicator(isSelected = isSelected)
+        }
+    }
+}
+
+@Composable
+private fun GenderBadge(
+    gender: String,
+    isSelected: Boolean
+) {
+    val genderColor = MaterialTheme.colorScheme.primary
+    val genderDisplayName = when (gender) {
+        Constants.MALE -> "Male"
+        Constants.FEMALE -> "Female"
+        else -> gender.replaceFirstChar { value -> value.uppercaseChar() }
+    }
+    
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(
+                color = genderColor.copy(alpha = if (isSelected) {
+                    0.3f
                 } else {
-                    Color.White
-                },
+                    0.2f
+                })
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = genderDisplayName,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Medium,
+            color = genderColor,
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+private fun GenderSelectionIndicator(isSelected: Boolean) {
+    val indicatorColor = if (isSelected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    
+    val checkmarkColor = if (isSelected) {
+        Color.White
+    } else {
+        Color.Transparent
+    }
+    
+    Box(
+        modifier = Modifier
+            .size(28.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(indicatorColor),
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Text(
+                text = Constants.CHECKMARK,
+                color = checkmarkColor,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )

@@ -134,7 +134,8 @@ object AppNavigationGraph {
                     buildCharacterStatusIds = { character -> viewModel.buildCharacterStatusIds(character) },
                     onSearchQueryChange = { query -> viewModel.onSearchQueryChange(query) },
                     onClearClicked = { viewModel.onClearClicked() },
-                    onFilterClicked = { viewModel.onFilterClicked() }
+                    onFilterClicked = { viewModel.onFilterClicked() },
+                    onClearFiltersClicked = { viewModel.onClearFiltersClicked() }
                 )
             )
         }
@@ -174,7 +175,9 @@ object AppNavigationGraph {
                 params = CharacterFiltersParams(
                     state = state,
                     houses = viewModel.buildHouses(),
-                    onFilterHouseClicked = { type, value -> viewModel.onFilterHouseClicked(type, value) }
+                    genders = viewModel.buildGenders(),
+                    onFilterHouseClicked = { type, value -> viewModel.onFilterHouseClicked(type, value) },
+                    onFilterGenderClicked = { type, value -> viewModel.onFilterGenderClicked(type, value) }
                 )
             )
         }

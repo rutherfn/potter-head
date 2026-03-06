@@ -21,6 +21,7 @@ class CharacterFiltersViewModel(
     val characterFiltersStateFlow: StateFlow<CharacterFiltersState> = characterFiltersMutableStateFlow.asStateFlow()
 
     internal var houseFilterValues: List<String> = emptyList()
+    internal var genderFilterValues: List<String> = emptyList()
 
 
     init {
@@ -47,7 +48,10 @@ class CharacterFiltersViewModel(
                     houseFilterValues = values
                     state.copy(houseFiltersSelected = values)
                 }
-                CharacterFilterType.GENDER -> state // TODO: Add genderFiltersSelected to state when implemented
+                CharacterFilterType.GENDER -> {
+                    genderFilterValues = values
+                    state.copy(genderFiltersSelected = values)
+                }
                 CharacterFilterType.SPECIES -> state // TODO: Add speciesFiltersSelected to state when implemented
                 CharacterFilterType.HOGWARTS_AFFILIATION -> state // TODO: Add hogwartsAffiliationFiltersSelected to state when implemented
                 CharacterFilterType.WIZARD_STATUS -> state // TODO: Add wizardStatusFiltersSelected to state when implemented
@@ -77,15 +81,40 @@ class CharacterFiltersViewModel(
                 )
                 val existingFilter = existingFilters.firstOrNull()
 
+                val updatedFilter = existingFilter?.copy(values = updatedValues)
+                updatedFilter?.let { characterFilterRepository.updateFilter(it) }
+            }
+        }
+    }
+
+    fun onFilterGenderClicked(type: CharacterFilterType, value: String) {
+        launch {
+            if (type == CharacterFilterType.GENDER) {
+                val updatedValues = if (genderFilterValues.contains(value)) {
+                    genderFilterValues.filter { it != value }
+                } else {
+                    genderFilterValues + value
+                }
+
+                // Update state
+                characterFiltersMutableStateFlow.update { state ->
+                    genderFilterValues = updatedValues
+                    state.copy(genderFiltersSelected = updatedValues)
+                }
+
+                // Update database
+                val existingFilters = characterFilterRepository.getCharacterFiltersByTypeSync(
+                    filterType = CharacterFilterType.GENDER
+                )
+                val existingFilter = existingFilters.firstOrNull()
+
                 if (existingFilter != null) {
-                    // Update existing filter
                     val updatedFilter = existingFilter.copy(values = updatedValues)
                     characterFilterRepository.updateFilter(updatedFilter)
                 } else {
-                    // Create new filter if it doesn't exist
                     val newFilter = CharacterFilterConverter(
-                        id = 0, // Will be auto-generated
-                        filterType = CharacterFilterType.HOUSE,
+                        id = 0,
+                        filterType = CharacterFilterType.GENDER,
                         values = updatedValues,
                         isActive = true
                     )
@@ -100,7 +129,14 @@ class CharacterFiltersViewModel(
             Constants.GRYFFINDOR_HOUSE,
             Constants.RAVENCLAW_HOUSE,
             Constants.SLYTHERIN_HOUSE,
-            Constants.HUFFLEPUFF_HOUSE
+            Constants.HUFFLEPUFF_HOUSE,
+            Constants.NO_HOUSE_FILTER
+        )
+
+    fun buildGenders(): List<String> =
+        listOf(
+            Constants.MALE,
+            Constants.FEMALE
         )
 
     fun onBackClicked() = navigator.pop(routeAction = Constants.NavigationDestinations.CHARACTERS_SCREEN)

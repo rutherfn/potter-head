@@ -20,6 +20,9 @@ interface CharacterFilterDao {
     @Query("SELECT * FROM characterFilters")
     fun getAllCharacterFilters(): Flow<List<CharacterFilterEntity>>
 
+    @Query("SELECT * FROM characterFilters")
+    suspend fun getAllCharacterFiltersSync(): List<CharacterFilterEntity>
+
     @Query("SELECT * FROM characterFilters WHERE filterType = :filterType")
     fun getCharacterFiltersByType(filterType: CharacterFilterType): Flow<List<CharacterFilterEntity>>
 

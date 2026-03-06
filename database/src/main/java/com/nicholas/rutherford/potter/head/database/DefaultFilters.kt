@@ -17,7 +17,18 @@ object DefaultFilters {
             Constants.GRYFFINDOR_HOUSE,
             Constants.RAVENCLAW_HOUSE,
             Constants.SLYTHERIN_HOUSE,
-            Constants.HUFFLEPUFF_HOUSE
+            Constants.HUFFLEPUFF_HOUSE,
+            Constants.NO_HOUSE_FILTER
+        ),
+        isActive = true
+    )
+
+    val genderFilter = CharacterFilterConverter(
+        id = 0,
+        filterType = CharacterFilterType.GENDER,
+        values = listOf(
+            Constants.MALE,
+            Constants.FEMALE
         ),
         isActive = true
     )

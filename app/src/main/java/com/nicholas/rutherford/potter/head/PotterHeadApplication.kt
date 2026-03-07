@@ -33,7 +33,6 @@ class PotterHeadApplication :
     ViewModelFactoryProvider,
     NavigatorProvider,
     AppBarFactoryProvider {
-
     /**
      * Kermit Logger for this class.
      */

@@ -21,7 +21,9 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
  *
  * @author Nicholas Rutherford
  */
-class ViewModelFactory(private val appGraph: AppGraph) : ViewModelProvider.Factory {
+class ViewModelFactory(
+    private val appGraph: AppGraph
+) : ViewModelProvider.Factory {
     private val log = Logger.withTag(tag = "ViewModelFactory")
 
     @Suppress("UNCHECKED_CAST")

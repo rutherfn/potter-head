@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.update
  * @author Nicholas Rutherford
  */
 class NavigatorImpl : Navigator {
-
     private val navActionsMutableStateFlow = MutableStateFlow<NavigationAction?>(value = null)
 
     private val popRouteActionsMutableStateFlow = MutableStateFlow<String?>(value = null)

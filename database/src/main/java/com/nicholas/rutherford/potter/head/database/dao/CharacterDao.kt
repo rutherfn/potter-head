@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface CharacterDao {
+    @Query("SELECT COUNT(*) FROM characters")
+    suspend fun getCharacterCount(): Int
 
     @Query("SELECT * FROM characters")
     fun getAllCharacters(): Flow<List<CharacterEntity>>

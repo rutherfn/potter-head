@@ -48,6 +48,7 @@ import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.shimmerEffect
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
+import com.nicholas.rutherford.potter.head.core.safeLet
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
@@ -57,18 +58,26 @@ fun CharactersScreen(params: CharactersParams) {
     val state = params.state
 
     when {
-        state.isLoading -> ShimmerCharactersContent()
+        state.isLoading && state.characters.isEmpty() -> ShimmerCharactersContent()
         state.errorType.isValidErrorType() -> EmptyOrErrorContent(
             title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
             description = state.errorType.descriptionId?.let { id -> stringResource(id = id) } ?: "",
             buttonText = stringResource(id = StringIds.retry),
-            onRetryOrClearClicked = params.onRetryClicked
+            onButtonClicked = params.onRetryClicked
         )
-        state.characters.isEmpty() && state.searchQuery.isEmpty() -> EmptyOrErrorContent(
+        state.characters.isEmpty() && state.searchQuery.isEmpty() && state.filterCount > 0 && !state.isLoading -> EmptyOrErrorContent(
+                title = stringResource(id = StringIds.noCharactersMatchFilters),
+                description = stringResource(id = StringIds.tryAdjustingYourFilters),
+                buttonText = stringResource(id = StringIds.viewFilters),
+                secondaryButtonText = stringResource(id = StringIds.clearFilters),
+                onButtonClicked = params.onFilterClicked,
+                onSecondaryButtonClicked = params.onClearFiltersClicked
+        )
+        state.characters.isEmpty() && state.searchQuery.isEmpty() && !state.isLoading -> EmptyOrErrorContent(
                 title = stringResource(id = StringIds.noCharactersYet),
                 description = stringResource(id = StringIds.weCouldNotFindAnyCharactersTapRetryToLoadItems),
                 buttonText = stringResource(id = StringIds.retry),
-                onRetryOrClearClicked = params.onRetryClicked
+                onButtonClicked = params.onRetryClicked
         )
         else -> CharactersContentWithSearch(state = state, params = params)
     }
@@ -79,7 +88,9 @@ private fun EmptyOrErrorContent(
     title: String,
     description: String,
     buttonText: String,
-    onRetryOrClearClicked: () -> Unit
+    onButtonClicked: () -> Unit,
+    secondaryButtonText: String? = null,
+    onSecondaryButtonClicked: (() -> Unit)? = null,
 ) {
     Box(
         modifier = Modifier
@@ -109,7 +120,7 @@ private fun EmptyOrErrorContent(
             )
 
             Button(
-                onClick = onRetryOrClearClicked,
+                onClick = onButtonClicked,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
@@ -122,6 +133,26 @@ private fun EmptyOrErrorContent(
                     fontWeight = FontWeight.SemiBold
                 )
             }
+
+            safeLet(secondaryButtonText, onSecondaryButtonClicked) { buttonText, onButtonClicked ->
+                Button(
+                    onClick = onButtonClicked,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = buttonText,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+
+            }
+
+
         }
     }
 }
@@ -250,15 +281,26 @@ private fun CharactersContentWithSearch(state: CharactersState, params: Characte
             placeholderText = stringResource(id = StringIds.searchCharacters)
         )
 
-        if (state.characters.isEmpty() && state.searchQuery.isNotEmpty()) {
-            EmptyOrErrorContent(
-                title = stringResource(id = StringIds.noCharactersFound),
-                description = stringResource(id = StringIds.tryAdjustingYourSearch),
-                buttonText = stringResource(id = StringIds.clearSearchResults),
-                onRetryOrClearClicked = params.onClearClicked
-            )
-        } else {
-            CharactersContent(state = state, params = params)
+        when {
+            state.characters.isEmpty() && state.searchQuery.isNotEmpty() -> {
+                EmptyOrErrorContent(
+                    title = stringResource(id = StringIds.noCharactersFound),
+                    description = stringResource(id = StringIds.tryAdjustingYourSearch),
+                    buttonText = stringResource(id = StringIds.clearSearchResults),
+                    onButtonClicked = params.onClearClicked
+                )
+            }
+            state.characters.isEmpty() && state.filterCount > 0 -> {
+                EmptyOrErrorContent(
+                    title = stringResource(id = StringIds.noCharactersMatchFilters),
+                    description = stringResource(id = StringIds.tryAdjustingYourFilters),
+                    buttonText = stringResource(id = StringIds.filters),
+                    onButtonClicked = params.onFilterClicked
+                )
+            }
+            else -> {
+                CharactersContent(state = state, params = params)
+            }
         }
     }
 }
@@ -422,11 +464,11 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
             AsyncImage(
                 model = ImageRequest.Builder(context = androidx.compose.ui.platform.LocalContext.current)
                     .data(url)
-                    .size(Size(80, 80))
+                    .size(Size(160, 160))
                     .transformations(CircleCropTransformation())
                     .build(),
                 contentDescription = characterName,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(CircleShape)
@@ -512,7 +554,8 @@ private fun CharacterScreenPreview() {
                 buildCharacterStatusIds = { _ -> emptyList() },
                 onSearchQueryChange = {},
                 onClearClicked = {},
-                onFilterClicked = {}
+                onFilterClicked = {},
+                onClearFiltersClicked = {}
             )
         )
     }

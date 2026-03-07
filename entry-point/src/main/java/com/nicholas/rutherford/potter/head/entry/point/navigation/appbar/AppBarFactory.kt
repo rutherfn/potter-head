@@ -6,6 +6,6 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation.appbar
  * @author Nicholas Rutherford
  */
 interface AppBarFactory {
-
     fun createCharactersAppBar(): AppBar
+    fun createFiltersAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
 }

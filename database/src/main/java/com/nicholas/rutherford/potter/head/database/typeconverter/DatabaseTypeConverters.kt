@@ -3,6 +3,7 @@ package com.nicholas.rutherford.potter.head.database.typeconverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
 
 /**
@@ -52,6 +53,20 @@ object DatabaseTypeConverters {
             null
         } else {
             gson.fromJson(value, WandEntity::class.java)
+        }
+    }
+
+    @TypeConverter
+    fun fromCharacterFilterType(value: CharacterFilterType?): String? {
+        return value?.name
+    }
+
+    @TypeConverter
+    fun toCharacterFilterType(value: String?): CharacterFilterType? {
+        return if (value == null) {
+            null
+        } else {
+            CharacterFilterType.valueOf(value)
         }
     }
 }

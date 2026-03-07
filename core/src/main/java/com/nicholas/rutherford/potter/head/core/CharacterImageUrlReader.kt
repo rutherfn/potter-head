@@ -37,11 +37,11 @@ object CharacterImageUrlReader {
             val characterImageUrls = gson.fromJson<List<CharacterImagesUrlJsonResponse>>(jsonString, listType)
 
             characterImageUrls.ifEmpty {
-                log.w("Read character image URLS from JSON but was empty")
+                log.w(messageString = "Read character image URLS from JSON but was empty")
                 emptyList()
             }
         } catch (e: Exception) {
-            log.e("Failed to read character image URLs from JSON: ${e.message}")
+            log.e(messageString = "Failed to read character image URLs from JSON: ${e.message}")
             emptyList()
         }
     }

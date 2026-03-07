@@ -12,7 +12,6 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  * @author Nicholas Rutherford
  */
 interface NavigatorModule {
-
     /**
      * Provides access to [Navigator] for handling navigation actions.
      * ViewModels can inject this to trigger navigation without directly accessing NavController.

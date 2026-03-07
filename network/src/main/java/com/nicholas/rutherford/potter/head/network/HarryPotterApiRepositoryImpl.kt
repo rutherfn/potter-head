@@ -14,10 +14,6 @@ import kotlinx.coroutines.flow.flow
 class HarryPotterApiRepositoryImpl(
     private val apiService: HarryPotterApiService
 ) : HarryPotterApiRepository {
-
-    /**
-     * Kermit Logger for this class.
-     */
     private val log = Logger.withTag(tag = "HarryPotterApiRepositoryImpl")
 
     override fun getAllCharacters(): Flow<Result<List<CharacterResponse>>> = flow {
@@ -38,5 +34,4 @@ class HarryPotterApiRepositoryImpl(
         log.e("Was not able to successfully fetch character with id $id with a exception message -- ${exception.message}")
         emit(value = Result.failure(exception = exception))
     }
-
 }

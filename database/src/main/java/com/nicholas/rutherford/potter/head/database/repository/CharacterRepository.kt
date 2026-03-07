@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface CharacterRepository {
+    suspend fun getCharacterCount(): Int
 
     fun getAllCharacters(): Flow<List<CharacterConverter>>
 

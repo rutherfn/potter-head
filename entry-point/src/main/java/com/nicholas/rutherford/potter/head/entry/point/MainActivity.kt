@@ -14,7 +14,6 @@ import androidx.navigation.compose.rememberNavController
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
 import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
 import com.nicholas.rutherford.potter.head.entry.point.navigation.LocalAppBarFactory
-import com.nicholas.rutherford.potter.head.entry.point.navigation.MainNavigationScaffold
 import com.nicholas.rutherford.potter.head.entry.point.navigation.NavigationSideEffects
 
 /**

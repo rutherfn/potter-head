@@ -1,21 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="clear_filters" translatable="false">Clear Filters</string>
     <string name="clear_search_results" translatable="false">Clear Search Results</string>
     <string name="characters" translatable="false">Characters</string>
     <string name="could_not_retrieve_characters" translatable="false">Could Not Retrieve Characters</string>
+    <string name="filter_by_gender" translatable="false">Filter by Gender</string>
+    <string name="filter_by_house" translatable="false">Filter by House</string>
+    <string name="filter_by_student_or_staff" translatable="false">Filter by Student/Staff</string>
+    <string name="filter_by_species" translatable="false">Filter by Species</string>
+    <string name="filter_by_wizard_status" translatable="false">Filter by Wizard Status</string>
+    <string name="filter_by_alive_status" translatable="false">Filter by Alive Status</string>
+    <string name="filters" translatable="false">Filters</string>
     <string name="gryffindor" translatable="false">gryffindor</string>
     <string name="hufflepuff" translatable="false">hufflepuff</string>
     <string name="no_characters_found" translatable="false">No Characters Found</string>
+    <string name="no_characters_match_filters" translatable="false">No Characters Match Filters</string>
     <string name="no_characters_yet" translatable="false">No Characters Yet</string>
+    <string name="no_gender" translatable="false">Other</string>
+    <string name="no_house" translatable="false">Other</string>
     <string name="no_internet_connection" translatable="false">No Internet Connection</string>
     <string name="ravenclaw" translatable="false">ravenclaw</string>
     <string name="retry" translatable="false">Retry</string>
+    <string name="select_one_or_more_genders_to_filter_the_character_list_only_characters_from_selected_genders_will_be_displayed" translatable="false">Select one or more genders to filter the character list. Only characters from selected genders will be displayed.</string>
+    <string name="select_one_or_more_houses_to_filter_the_character_list_only_characters_from_selected_houses_will_be_displayed" translatable="false">Select one or more houses to filter the character list. Only characters from selected houses will be displayed.</string>
+    <string name="select_one_or_more_species_to_filter_the_character_list_only_characters_from_selected_species_will_be_displayed" translatable="false">Select one or more species to filter the character list. Only characters from selected species will be displayed.</string>
+    <string name="select_whether_to_show_characters_who_are_students_or_staff_at_hogwarts_or_those_who_are_not" translatable="false">Select whether to show characters who are students or staff at Hogwarts, or those who are not affiliated with Hogwarts.</string>
+    <string name="select_whether_to_show_wizards_or_non_wizards" translatable="false">Select whether to show characters who are wizards or those who are not wizards.</string>
+    <string name="select_whether_to_show_alive_or_dead_characters" translatable="false">Select whether to show characters who are alive or those who are dead.</string>
     <string name="search_characters" translatable="false">Search characters by name...</string>
     <string name="staff" translatable="false">Staff</string>
     <string name="slytherin" translatable="false">slytherin</string>
     <string name="student" translatable="false">Student</string>
+    <string name="try_adjusting_your_filters" translatable="false">Try adjusting your filters to see more characters.</string>
     <string name="try_adjusting_your_search" translatable="false">Try Adjusting Your Search</string>
     <string name="unable_to_connect_to_internet_please_check_your_internet_connection" translatable="false">Unable to connect to the internet. Please check your internet connection</string>
+    <string name="view_filters" translatable="false">View Filters</string>
     <string name="was_unable_to_retrieve_the_characters_please_try_again_later" translatable="false">Was unable to retrieve the characters. Please try again later</string>
     <string name="we_could_not_find_any_characters_tap_retry_to_load_items" translatable="false">We couldn\'t find any characters. Tap retry to load them</string>
     <string name="wizard" translatable="false">Wizard</string>

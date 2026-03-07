@@ -26,10 +26,6 @@ class NetworkMonitorImpl(
     private val context: Context,
     private val connectivityManager: ConnectivityManager
 ) : NetworkMonitor {
-
-    /**
-     * Kermit Logger for this class.
-     */
     private val log = Logger.withTag(tag = "NetworkMonitorImpl")
 
     /**

@@ -47,6 +47,7 @@ dependencies {
     api(libs.androidx.lifecycle.common)
     api(libs.kotlinx.coroutines.core)
 
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.graphics.android)

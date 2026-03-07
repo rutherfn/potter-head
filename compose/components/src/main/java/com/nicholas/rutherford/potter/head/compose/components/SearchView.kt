@@ -1,7 +1,10 @@
 package com.nicholas.rutherford.potter.head.compose.components
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -40,8 +43,10 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
 
 /**
  * Search view component with search field and filter button.
@@ -80,6 +85,12 @@ fun SearchView(
     var lastSentText by remember { mutableStateOf(searchQuery) }
 
     val focusManager = LocalFocusManager.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
+
+    BackHandler(enabled = isFocused) {
+        focusManager.clearFocus()
+    }
 
     LaunchedEffect(key1 = searchQuery) {
         // If the external value is different from what we last sent, it's an external update
@@ -116,6 +127,7 @@ fun SearchView(
                     onSearchQueryChange.invoke(newValue.text)
                 },
                 modifier = Modifier.weight(1f),
+                interactionSource = interactionSource,
                 placeholder = {
                     Text(
                         text = placeholderText,
@@ -176,8 +188,8 @@ fun SearchView(
                 if (filterCount > 0) {
                     Box(
                         modifier = Modifier
-                            .offset(x = 8.dp, y = (-8).dp)
-                            .size(18.dp)
+                            .offset(x = 14.dp, y = (-8).dp)
+                            .size(16.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.error),
                         contentAlignment = Alignment.Center
@@ -187,12 +199,132 @@ fun SearchView(
                             color = MaterialTheme.colorScheme.onError,
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp
+                            fontSize = 9.sp
                         )
                     }
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - Empty (Light)")
+@Composable
+private fun SearchViewEmptyPreview() {
+    PotterHeadTheme(darkTheme = false) {
+        SearchView(
+            searchQuery = "",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 0,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Query (Light)")
+@Composable
+private fun SearchViewWithQueryPreview() {
+    PotterHeadTheme(darkTheme = false) {
+        SearchView(
+            searchQuery = "Harry Potter",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 0,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Filters (Light)")
+@Composable
+private fun SearchViewWithFiltersPreview() {
+    PotterHeadTheme(darkTheme = false) {
+        SearchView(
+            searchQuery = "",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 3,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Query and Filters (Light)")
+@Composable
+private fun SearchViewWithQueryAndFiltersPreview() {
+    PotterHeadTheme(darkTheme = false) {
+        SearchView(
+            searchQuery = "Hermione",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 2,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - Empty (Dark)")
+@Composable
+private fun SearchViewEmptyDarkPreview() {
+    PotterHeadTheme(darkTheme = true) {
+        SearchView(
+            searchQuery = "",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 0,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Query (Dark)")
+@Composable
+private fun SearchViewWithQueryDarkPreview() {
+    PotterHeadTheme(darkTheme = true) {
+        SearchView(
+            searchQuery = "Ron Weasley",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 0,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Filters (Dark)")
+@Composable
+private fun SearchViewWithFiltersDarkPreview() {
+    PotterHeadTheme(darkTheme = true) {
+        SearchView(
+            searchQuery = "",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 5,
+            placeholderText = "Search characters"
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "SearchView - With Query and Filters (Dark)")
+@Composable
+private fun SearchViewWithQueryAndFiltersDarkPreview() {
+    PotterHeadTheme(darkTheme = true) {
+        SearchView(
+            searchQuery = "Draco Malfoy",
+            onClearClicked = {},
+            onSearchQueryChange = {},
+            onFilterClick = {},
+            filterCount = 1,
+            placeholderText = "Search characters"
+        )
     }
 }
 

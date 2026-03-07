@@ -6,6 +6,7 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import co.touchlab.kermit.Logger
 import com.nicholas.rutherford.potter.head.feature.characters.characterdetail.CharacterDetailViewModel
+import com.nicholas.rutherford.potter.head.feature.characters.characterfilters.CharacterFiltersViewModel
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
@@ -23,9 +24,6 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 class ViewModelFactory(
     private val appGraph: AppGraph
 ) : ViewModelProvider.Factory {
-    /**
-     * Kermit Logger for this class.
-     */
     private val log = Logger.withTag(tag = "ViewModelFactory")
 
     @Suppress("UNCHECKED_CAST")
@@ -35,6 +33,7 @@ class ViewModelFactory(
     ): T =
         when (modelClass) {
             CharactersViewModel::class.java -> createCharacterViewModel() as T
+            CharacterFiltersViewModel::class.java -> createCharacterFiltersViewModel() as T
             CharacterDetailViewModel::class.java -> createCharacterDetailViewModel(extras) as T
             QuizzesViewModel::class.java -> createQuizzesViewModel() as T
             SettingsViewModel::class.java -> createSettingsViewModel() as T
@@ -46,12 +45,23 @@ class ViewModelFactory(
             harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
             characterImageRepository = appGraph.databaseModule.characterImageRepository,
             characterRepository = appGraph.databaseModule.characterRepository,
+            characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
             networkMonitor = appGraph.networkModule.networkMonitor,
             navigator = appGraph.navigatorModule.navigator
         )
 
+    private fun createCharacterFiltersViewModel(): CharacterFiltersViewModel =
+        CharacterFiltersViewModel(
+            characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
+            navigator = appGraph.navigatorModule.navigator
+        )
+
     private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel =
-        appGraph.characterDetailViewModelFactory.create(savedStateHandle = extras.createSavedStateHandle())
+        CharacterDetailViewModel(
+            savedStateHandle = extras.createSavedStateHandle(),
+            repository = appGraph.networkModule.harryPotterApiRepository,
+            navigator = appGraph.navigatorModule.navigator
+        )
 
     private fun createQuizzesViewModel(): QuizzesViewModel = QuizzesViewModel()
 

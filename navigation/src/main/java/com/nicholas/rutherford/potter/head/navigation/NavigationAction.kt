@@ -19,7 +19,6 @@ import androidx.navigation.NavOptions
  *                      Defaults to basic [NavOptions] with no special configuration.
  *
  * @see SimpleNavigationAction for a simple data class implementation
- * @see DefinedNavigationActions for predefined navigation actions
  *
  * @author Nicholas Rutherford
  */

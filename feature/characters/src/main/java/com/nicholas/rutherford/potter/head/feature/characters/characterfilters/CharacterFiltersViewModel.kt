@@ -22,6 +22,8 @@ class CharacterFiltersViewModel(
 
     internal var houseFilterValues: List<String> = emptyList()
     internal var genderFilterValues: List<String> = emptyList()
+    internal var speciesFilterValues: List<String> = emptyList()
+    internal var hogwartsAffiliationsFilterValues: List<String> = emptyList()
 
 
     init {
@@ -52,73 +54,106 @@ class CharacterFiltersViewModel(
                     genderFilterValues = values
                     state.copy(genderFiltersSelected = values)
                 }
-                CharacterFilterType.SPECIES -> state // TODO: Add speciesFiltersSelected to state when implemented
-                CharacterFilterType.HOGWARTS_AFFILIATION -> state // TODO: Add hogwartsAffiliationFiltersSelected to state when implemented
+                CharacterFilterType.SPECIES -> {
+                    speciesFilterValues = values
+                    state.copy(speciesFiltersSelected = values)
+                }
+                CharacterFilterType.HOGWARTS_AFFILIATION -> {
+                    hogwartsAffiliationsFilterValues = values
+                    state.copy(hogwartsAffiliationsSelected = values)
+                }
                 CharacterFilterType.WIZARD_STATUS -> state // TODO: Add wizardStatusFiltersSelected to state when implemented
                 CharacterFilterType.ALIVE_STATUS -> state // TODO: Add aliveStatusFiltersSelected to state when implemented
             }
         }
     }
 
-    fun onFilterHouseClicked(type: CharacterFilterType, value: String) {
-        launch {
-            if (type == CharacterFilterType.HOUSE) {
-                val updatedValues = if (houseFilterValues.contains(value)) {
-                    houseFilterValues.filter { it != value }
-                } else {
-                    houseFilterValues + value
-                }
+    private suspend fun updateFilterValue(
+        filterType: CharacterFilterType,
+        currentValues: List<String>,
+        value: String,
+        updateState: (List<String>) -> Unit
+    ) {
+        val updatedValues = if (currentValues.contains(value)) {
+            currentValues.filter { it != value }
+        } else {
+            currentValues + value
+        }
 
-                // Update state
+        updateState(updatedValues)
+
+        val existingFilters = characterFilterRepository.getCharacterFiltersByTypeSync(filterType = filterType)
+        val existingFilter = existingFilters.firstOrNull()
+
+        if (existingFilter != null) {
+            val updatedFilter = existingFilter.copy(values = updatedValues)
+            characterFilterRepository.updateFilter(updatedFilter)
+        } else {
+            val newFilter = CharacterFilterConverter(
+                id = 0,
+                filterType = filterType,
+                values = updatedValues,
+                isActive = true
+            )
+            characterFilterRepository.insertFilter(newFilter)
+        }
+    }
+
+    fun onFilterHouseClicked(value: String) {
+        launch {
+            updateFilterValue(
+                filterType = CharacterFilterType.HOUSE,
+                currentValues = houseFilterValues,
+                value = value
+            ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     houseFilterValues = updatedValues
                     state.copy(houseFiltersSelected = updatedValues)
                 }
-
-                // Update database
-                val existingFilters = characterFilterRepository.getCharacterFiltersByTypeSync(
-                    filterType = CharacterFilterType.HOUSE
-                )
-                val existingFilter = existingFilters.firstOrNull()
-
-                val updatedFilter = existingFilter?.copy(values = updatedValues)
-                updatedFilter?.let { characterFilterRepository.updateFilter(it) }
             }
         }
     }
 
-    fun onFilterGenderClicked(type: CharacterFilterType, value: String) {
+    fun onFilterGenderClicked(value: String) {
         launch {
-            if (type == CharacterFilterType.GENDER) {
-                val updatedValues = if (genderFilterValues.contains(value)) {
-                    genderFilterValues.filter { it != value }
-                } else {
-                    genderFilterValues + value
-                }
-
-                // Update state
+            updateFilterValue(
+                filterType = CharacterFilterType.GENDER,
+                currentValues = genderFilterValues,
+                value = value
+            ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     genderFilterValues = updatedValues
                     state.copy(genderFiltersSelected = updatedValues)
                 }
+            }
+        }
+    }
 
-                // Update database
-                val existingFilters = characterFilterRepository.getCharacterFiltersByTypeSync(
-                    filterType = CharacterFilterType.GENDER
-                )
-                val existingFilter = existingFilters.firstOrNull()
+    fun onFilterHogwartsAffiliationClicked(value: String) {
+        launch {
+            updateFilterValue(
+                filterType = CharacterFilterType.HOGWARTS_AFFILIATION,
+                currentValues = hogwartsAffiliationsFilterValues,
+                value = value
+            ) { updatedValues ->
+                characterFiltersMutableStateFlow.update { state ->
+                    hogwartsAffiliationsFilterValues = updatedValues
+                    state.copy(hogwartsAffiliationsSelected = updatedValues)
+                }
+            }
+        }
+    }
 
-                if (existingFilter != null) {
-                    val updatedFilter = existingFilter.copy(values = updatedValues)
-                    characterFilterRepository.updateFilter(updatedFilter)
-                } else {
-                    val newFilter = CharacterFilterConverter(
-                        id = 0,
-                        filterType = CharacterFilterType.GENDER,
-                        values = updatedValues,
-                        isActive = true
-                    )
-                    characterFilterRepository.insertFilter(newFilter)
+    fun onFilterSpeciesClicked(value: String) {
+        launch {
+            updateFilterValue(
+                filterType = CharacterFilterType.SPECIES,
+                currentValues = speciesFilterValues,
+                value = value
+            ) { updatedValues ->
+                characterFiltersMutableStateFlow.update { state ->
+                    speciesFilterValues = updatedValues
+                    state.copy(speciesFiltersSelected = updatedValues)
                 }
             }
         }
@@ -137,6 +172,42 @@ class CharacterFiltersViewModel(
         listOf(
             Constants.MALE,
             Constants.FEMALE
+        )
+
+    fun buildHogwartsAffiliations(): List<String> =
+        listOf(
+            Constants.HAS_HOUSE_AFFILIATION_FILTER,
+            Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER
+        )
+
+    fun buildSpecies(): List<String> =
+        listOf(
+            Constants.SPECIES_ACROMANTULA,
+            Constants.SPECIES_CAT,
+            Constants.SPECIES_CENTAUR,
+            Constants.SPECIES_CEPHALOPOD,
+            Constants.SPECIES_DOG,
+            Constants.SPECIES_DRAGON,
+            Constants.SPECIES_GHOST,
+            Constants.SPECIES_GIANT,
+            Constants.SPECIES_GOBLIN,
+            Constants.SPECIES_HALF_GIANT,
+            Constants.SPECIES_HALF_HUMAN,
+            Constants.SPECIES_HAT,
+            Constants.SPECIES_HIPPOGRIFF,
+            Constants.SPECIES_HOUSE_ELF,
+            Constants.SPECIES_HUMAN,
+            Constants.SPECIES_OWL,
+            Constants.SPECIES_PHOENIX,
+            Constants.SPECIES_POLTERGEIST,
+            Constants.SPECIES_PYGMY_PUFF,
+            Constants.SPECIES_SELKIE,
+            Constants.SPECIES_SERPENT,
+            Constants.SPECIES_SNAKE,
+            Constants.SPECIES_THREE_HEADED_DOG,
+            Constants.SPECIES_TOAD,
+            Constants.SPECIES_VAMPIRE,
+            Constants.SPECIES_WEREWOLF
         )
 
     fun onBackClicked() = navigator.pop(routeAction = Constants.NavigationDestinations.CHARACTERS_SCREEN)

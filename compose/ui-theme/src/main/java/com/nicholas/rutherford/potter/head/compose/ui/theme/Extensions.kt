@@ -74,3 +74,44 @@ fun getHouseColor(house: String): Color {
     }
 }
 
+/**
+ * Returns the color associated with a species name.
+ *
+ * @param species The species name (case-insensitive).
+ * @return The corresponding species color, or the theme's primary color if the species is not recognized.
+ *
+ * @author Nicholas Rutherford
+ */
+@Composable
+fun getSpeciesColor(species: String): Color {
+    return when (species.lowercase()) {
+        Constants.SPECIES_HUMAN -> SpeciesHuman
+        Constants.SPECIES_DRAGON -> SpeciesDragon
+        Constants.SPECIES_GHOST -> SpeciesGhost
+        Constants.SPECIES_GOBLIN -> SpeciesGoblin
+        Constants.SPECIES_GIANT -> SpeciesGiant
+        Constants.SPECIES_PHOENIX -> SpeciesPhoenix
+        Constants.SPECIES_WEREWOLF -> SpeciesWerewolf
+        Constants.SPECIES_VAMPIRE -> SpeciesVampire
+        Constants.SPECIES_CENTAUR -> SpeciesCentaur
+        Constants.SPECIES_HIPPOGRIFF -> SpeciesHippogriff
+        Constants.SPECIES_HOUSE_ELF -> SpeciesHouseElf
+        Constants.SPECIES_OWL -> SpeciesOwl
+        Constants.SPECIES_SNAKE -> SpeciesSnake
+        Constants.SPECIES_SERPENT -> SpeciesSerpent
+        Constants.SPECIES_CAT -> SpeciesCat
+        Constants.SPECIES_DOG -> SpeciesDog
+        Constants.SPECIES_THREE_HEADED_DOG -> SpeciesThreeHeadedDog
+        Constants.SPECIES_TOAD -> SpeciesToad
+        Constants.SPECIES_POLTERGEIST -> SpeciesPoltergeist
+        Constants.SPECIES_CEPHALOPOD -> SpeciesCephalopod
+        Constants.SPECIES_SELKIE -> SpeciesSelkie
+        Constants.SPECIES_ACROMANTULA -> SpeciesAcromantula
+        Constants.SPECIES_PYGMY_PUFF -> SpeciesPygmyPuff
+        Constants.SPECIES_HAT -> SpeciesHat
+        Constants.SPECIES_HALF_GIANT -> SpeciesHalfGiant
+        Constants.SPECIES_HALF_HUMAN -> SpeciesHalfHuman
+        else -> MaterialTheme.colorScheme.primary
+    }
+}
+

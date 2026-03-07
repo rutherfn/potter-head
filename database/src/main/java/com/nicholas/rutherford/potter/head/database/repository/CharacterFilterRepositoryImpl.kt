@@ -64,7 +64,9 @@ class CharacterFilterRepositoryImpl(private val dao: CharacterFilterDao) : Chara
         val defaultFiltersByType =
             mapOf(
                 CharacterFilterType.HOUSE to DefaultFilters.HouseFilter,
-                CharacterFilterType.GENDER to DefaultFilters.genderFilter
+                CharacterFilterType.GENDER to DefaultFilters.genderFilter,
+                CharacterFilterType.SPECIES to DefaultFilters.speciesFilter,
+                CharacterFilterType.HOGWARTS_AFFILIATION to DefaultFilters.hogwartsAffiliation
             )
 
         defaultFiltersByType.forEach { (filterType, defaultFilter) ->

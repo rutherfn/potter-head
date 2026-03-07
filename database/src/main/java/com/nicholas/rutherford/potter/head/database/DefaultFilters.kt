@@ -32,4 +32,48 @@ object DefaultFilters {
         ),
         isActive = true
     )
+
+    val speciesFilter = CharacterFilterConverter(
+        id = 0,
+        filterType = CharacterFilterType.SPECIES,
+        values = listOf(
+            Constants.SPECIES_ACROMANTULA,
+            Constants.SPECIES_CAT,
+            Constants.SPECIES_CENTAUR,
+            Constants.SPECIES_CEPHALOPOD,
+            Constants.SPECIES_DOG,
+            Constants.SPECIES_DRAGON,
+            Constants.SPECIES_GHOST,
+            Constants.SPECIES_GIANT,
+            Constants.SPECIES_GOBLIN,
+            Constants.SPECIES_HALF_GIANT,
+            Constants.SPECIES_HALF_HUMAN,
+            Constants.SPECIES_HAT,
+            Constants.SPECIES_HIPPOGRIFF,
+            Constants.SPECIES_HOUSE_ELF,
+            Constants.SPECIES_HUMAN,
+            Constants.SPECIES_OWL,
+            Constants.SPECIES_PHOENIX,
+            Constants.SPECIES_POLTERGEIST,
+            Constants.SPECIES_PYGMY_PUFF,
+            Constants.SPECIES_SELKIE,
+            Constants.SPECIES_SERPENT,
+            Constants.SPECIES_SNAKE,
+            Constants.SPECIES_THREE_HEADED_DOG,
+            Constants.SPECIES_TOAD,
+            Constants.SPECIES_VAMPIRE,
+            Constants.SPECIES_WEREWOLF
+        ),
+        isActive = true
+    )
+
+    val hogwartsAffiliation = CharacterFilterConverter(
+        id = 0,
+        filterType = CharacterFilterType.HOGWARTS_AFFILIATION,
+        values = listOf(
+            Constants.HAS_HOUSE_AFFILIATION_FILTER,
+            Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER
+        ),
+        isActive = true
+    )
 }

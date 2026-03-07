@@ -65,8 +65,16 @@ private fun isFilterAtDefault(filter: CharacterFilterConverter): Boolean {
             val filterValues = filter.values.toSet()
             filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
         }
-        CharacterFilterType.SPECIES,
-        CharacterFilterType.HOGWARTS_AFFILIATION,
+        CharacterFilterType.SPECIES -> {
+            val defaultValues = DefaultFilters.speciesFilter.values.toSet()
+            val filterValues = filter.values.toSet()
+            filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
+        }
+        CharacterFilterType.HOGWARTS_AFFILIATION -> {
+            val defaultValues = DefaultFilters.hogwartsAffiliation.values.toSet()
+            val filterValues = filter.values.toSet()
+            filterValues.containsAll(defaultValues)
+        }
         CharacterFilterType.WIZARD_STATUS,
         CharacterFilterType.ALIVE_STATUS -> {
             // For other filter types, no defaults are defined yet, so they're not at default

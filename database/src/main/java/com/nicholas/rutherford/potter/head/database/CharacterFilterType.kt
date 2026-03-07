@@ -8,6 +8,7 @@ package com.nicholas.rutherford.potter.head.database
  * @property SPECIES Species filter.
  * @property HOGWARTS_AFFILIATION Hogwarts affiliation filter.
  * @property WIZARD_STATUS Wizard status filter.
+ * @property ALIVE_STATUS Alive status filter.
  *
  * @author Nicholas Rutherford
  */

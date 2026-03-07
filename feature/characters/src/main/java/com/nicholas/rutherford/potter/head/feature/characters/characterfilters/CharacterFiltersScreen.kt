@@ -29,9 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
+import com.nicholas.rutherford.potter.head.compose.ui.theme.getSpeciesColor
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
-import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 
 @Composable
 fun CharacterFiltersScreen(params: CharacterFiltersParams) {
@@ -47,13 +47,25 @@ fun CharacterFiltersScreen(params: CharacterFiltersParams) {
         houseFilterSection(
             houses = params.houses,
             selectedHouses = state.houseFiltersSelected,
-            onFilterHouseClicked = { house -> params.onFilterHouseClicked(CharacterFilterType.HOUSE, house) }
+            onFilterHouseClicked = { house -> params.onFilterHouseClicked(house) }
         )
 
         genderFilterSection(
             genders = params.genders,
             selectedGenders = state.genderFiltersSelected,
-            onFilterGenderClicked = { gender -> params.onFilterGenderClicked(CharacterFilterType.GENDER, gender) }
+            onFilterGenderClicked = { gender -> params.onFilterGenderClicked(gender) }
+        )
+
+        speciesFilterSection(
+            species = params.species,
+            selectedSpecies = state.speciesFiltersSelected,
+            onFilterSpeciesClicked = { specie -> params.onFilterSpeciesClicked(specie) }
+        )
+
+        hogwartsAffiliationFilterSection(
+            hogwartsAffiliations = params.hogwartsAffiliations,
+            selectedHogwartsAffiliations = state.hogwartsAffiliationsSelected,
+            onFilterHogwartsAffiliationClicked = { hogwartsAffiliation -> params.onFilterHogwartsAffiliationClicked(hogwartsAffiliation) }
         )
     }
 }
@@ -116,6 +128,68 @@ private fun LazyListScope.genderFilterSection(
             gender = gender,
             isSelected = selectedGenders.contains(gender),
             onClick = { onFilterGenderClicked(gender) }
+        )
+    }
+}
+
+private fun LazyListScope.hogwartsAffiliationFilterSection(
+    hogwartsAffiliations: List<String>,
+    selectedHogwartsAffiliations: List<String>,
+    onFilterHogwartsAffiliationClicked: (String) -> Unit
+) {
+    item {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(id = StringIds.filterByStudentOrStaff),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                text = stringResource(id = StringIds.selectWhetherToShowCharactersWhoAreStudentsOrStaffAtHogwartsOrThoseWhoAreNot),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 20.sp
+            )
+        }
+    }
+
+    items(items = hogwartsAffiliations) { hogwartsAffiliationItem ->
+        HogwartsAffiliationFilterItem(
+            hogwartsAffiliation = hogwartsAffiliationItem,
+            isSelected = selectedHogwartsAffiliations.contains(hogwartsAffiliationItem),
+            onClick = { onFilterHogwartsAffiliationClicked(hogwartsAffiliationItem) }
+        )
+    }
+}
+
+private fun LazyListScope.speciesFilterSection(
+    species: List<String>,
+    selectedSpecies: List<String>,
+    onFilterSpeciesClicked: (String) -> Unit
+) {
+    item {
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(
+                text = stringResource(id = StringIds.filterBySpecies),
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Text(
+                text = stringResource(id = StringIds.selectOneOrMoreSpeciesToFilterTheCharacterListOnlyCharactersFromSelectedSpeciesWillBeDisplayed),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 20.sp
+            )
+        }
+    }
+
+    items(items = species) { speciesItem ->
+        SpeciesFilterItem(
+            species = speciesItem,
+            isSelected = selectedSpecies.contains(speciesItem),
+            onClick = { onFilterSpeciesClicked(speciesItem) }
         )
     }
 }
@@ -303,6 +377,203 @@ private fun GenderBadge(
 
 @Composable
 private fun GenderSelectionIndicator(isSelected: Boolean) {
+    val indicatorColor = if (isSelected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    
+    val checkmarkColor = if (isSelected) {
+        Color.White
+    } else {
+        Color.Transparent
+    }
+    
+    Box(
+        modifier = Modifier
+            .size(28.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(indicatorColor),
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Text(
+                text = Constants.CHECKMARK,
+                color = checkmarkColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun SpeciesFilterItem(
+    species: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            SpeciesBadge(species = species, isSelected = isSelected)
+            SpeciesSelectionIndicator(isSelected = isSelected, species = species)
+        }
+    }
+}
+
+@Composable
+private fun SpeciesBadge(
+    species: String,
+    isSelected: Boolean
+) {
+    val speciesColor = getSpeciesColor(species)
+    val speciesDisplayName = species.replaceFirstChar { value -> value.uppercaseChar() }
+        .replace("-", " ")
+        .replace("_", " ")
+    
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(
+                color = speciesColor.copy(alpha = if (isSelected) {
+                    0.3f
+                } else {
+                    0.2f
+                })
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = speciesDisplayName,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Medium,
+            color = speciesColor,
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+private fun SpeciesSelectionIndicator(
+    isSelected: Boolean,
+    species: String
+) {
+    val speciesColor = getSpeciesColor(species)
+    val indicatorColor = if (isSelected) {
+        speciesColor
+    } else {
+        MaterialTheme.colorScheme.surfaceVariant
+    }
+    
+    val checkmarkColor = if (isSelected) {
+        // Use white for most species, but adjust for lighter colors
+        when (species.lowercase()) {
+            Constants.SPECIES_PHOENIX,
+            Constants.SPECIES_PYGMY_PUFF -> MaterialTheme.colorScheme.onSurface
+            else -> Color.White
+        }
+    } else {
+        Color.Transparent
+    }
+    
+    Box(
+        modifier = Modifier
+            .size(28.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(indicatorColor),
+        contentAlignment = Alignment.Center
+    ) {
+        if (isSelected) {
+            Text(
+                text = Constants.CHECKMARK,
+                color = checkmarkColor,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+private fun HogwartsAffiliationFilterItem(
+    hogwartsAffiliation: String,
+    isSelected: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            HogwartsAffiliationBadge(hogwartsAffiliation = hogwartsAffiliation, isSelected = isSelected)
+            HogwartsAffiliationSelectionIndicator(isSelected = isSelected)
+        }
+    }
+}
+
+@Composable
+private fun HogwartsAffiliationBadge(
+    hogwartsAffiliation: String,
+    isSelected: Boolean
+) {
+    val affiliationColor = MaterialTheme.colorScheme.primary
+    val affiliationDisplayName = when (hogwartsAffiliation.lowercase()) {
+        Constants.HAS_HOUSE_AFFILIATION_FILTER.lowercase() -> "Student/Staff"
+        Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER.lowercase() -> "Other"
+        else -> hogwartsAffiliation.replaceFirstChar { value -> value.uppercaseChar() }
+            .replace("Hogwarts", "")
+            .replace("Affiliation", "Affiliation")
+            .replace("Filter", "")
+            .trim()
+    }
+    
+    Box(
+        modifier = Modifier
+            .clip(shape = RoundedCornerShape(8.dp))
+            .background(
+                color = affiliationColor.copy(alpha = if (isSelected) {
+                    0.3f
+                } else {
+                    0.2f
+                })
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Text(
+            text = affiliationDisplayName,
+            style = MaterialTheme.typography.labelSmall,
+            fontWeight = FontWeight.Medium,
+            color = affiliationColor,
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+private fun HogwartsAffiliationSelectionIndicator(isSelected: Boolean) {
     val indicatorColor = if (isSelected) {
         MaterialTheme.colorScheme.primary
     } else {

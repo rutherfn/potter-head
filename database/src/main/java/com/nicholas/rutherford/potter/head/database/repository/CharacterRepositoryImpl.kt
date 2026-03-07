@@ -9,6 +9,7 @@ import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
 import com.nicholas.rutherford.potter.head.database.entity.CharacterImageUrlEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 
 /**
@@ -38,6 +39,7 @@ class CharacterRepositoryImpl(
         return houseUrl?.let { image -> characterConverter.copy(image = image) } ?: characterConverter
     }
 
+
     private fun filterCharactersByHouse(
         characters: List<CharacterConverter>,
         selectedHouseValues: List<String>
@@ -63,6 +65,29 @@ class CharacterRepositoryImpl(
         }
     }
 
+    private fun filterCharactersByHouseAffiliation(
+        characters: List<CharacterConverter>,
+        selectedAffiliationsValues: List<String>
+    ): List<CharacterConverter> {
+        if (selectedAffiliationsValues.isEmpty()) {
+            return emptyList()
+        } else {
+            val normalizedSelectedAffiliations = selectedAffiliationsValues
+                .map { it.trim().lowercase() }
+                .toSet()
+
+            return characters.filter { character ->
+                val hasHouseAffiliation = character.isHogwartsStudent || character.isHogwartsStaff
+                val affiliationValue = if (hasHouseAffiliation) {
+                    Constants.HAS_HOUSE_AFFILIATION_FILTER.lowercase()
+                } else {
+                    Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER.lowercase()
+                }
+                normalizedSelectedAffiliations.contains(affiliationValue)
+            }
+        }
+    }
+
     private fun filterCharactersByGender(
         characters: List<CharacterConverter>,
         selectedGenderValues: List<String>
@@ -81,24 +106,50 @@ class CharacterRepositoryImpl(
         }
     }
 
+    private fun filterCharactersBySpecies(
+        characters: List<CharacterConverter>,
+        selectedSpeciesValues: List<String>
+    ): List<CharacterConverter> {
+        if (selectedSpeciesValues.isEmpty()) {
+            return emptyList()
+        } else {
+            val normalizedSelectedSpecies = selectedSpeciesValues
+                .map { it.trim().lowercase() }
+                .toSet()
+
+            return characters.filter { character ->
+                val species = character.species.trim().lowercase()
+                species.isNotEmpty() && normalizedSelectedSpecies.contains(species)
+            }
+        }
+    }
+
 
     override suspend fun getCharacterCount(): Int = dao.getCharacterCount()
 
     override fun getAllCharacters(): Flow<List<CharacterConverter>> {
         val houseFilterFlow = characterFilterDao.getCharacterFiltersByType(filterType = CharacterFilterType.HOUSE)
         val genderFilterFlow = characterFilterDao.getCharacterFiltersByType(filterType = CharacterFilterType.GENDER)
+        val speciesFilterFlow = characterFilterDao.getCharacterFiltersByType(filterType = CharacterFilterType.SPECIES)
+        val hogwartsAffiliationFilterFlow = characterFilterDao.getCharacterFiltersByType(filterType = CharacterFilterType.HOGWARTS_AFFILIATION)
         
         return combine(
-            dao.getAllCharacters(),
-            houseFilterFlow,
-            genderFilterFlow
-        ) { entities, houseFilters, genderFilters ->
+            flow = dao.getAllCharacters(),
+            flow2 = houseFilterFlow,
+            flow3 = genderFilterFlow,
+            flow4 = speciesFilterFlow,
+            flow5 = hogwartsAffiliationFilterFlow
+        ) { entities, houseFilters, genderFilters, speciesFilters, hogwartsAffiliationFilters ->
             val selectedHouseValues = houseFilters.firstOrNull()?.values ?: emptyList()
             val selectedGenderValues = genderFilters.firstOrNull()?.values ?: emptyList()
+            val selectedSpeciesValues = speciesFilters.firstOrNull()?.values ?: emptyList()
+            val selectedAffiliationsValues = hogwartsAffiliationFilters.firstOrNull()?.values ?: emptyList()
             val characters = entities.map { characterEntity -> CharacterConverter.fromEntity(entity = characterEntity) }
 
             val filteredByHouse = filterCharactersByHouse(characters = characters, selectedHouseValues = selectedHouseValues)
-            filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
+            val filteredByGender = filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
+            val filteredBySpecies = filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedSpeciesValues)
+            filterCharactersByHouseAffiliation(characters = filteredBySpecies, selectedAffiliationsValues = selectedAffiliationsValues)
         }
     }
 
@@ -120,15 +171,22 @@ class CharacterRepositoryImpl(
     override suspend fun searchCharacters(query: String): List<CharacterConverter> {
         val houseFilters = characterFilterDao.getCharacterFiltersByTypeSync(filterType = CharacterFilterType.HOUSE)
         val genderFilters = characterFilterDao.getCharacterFiltersByTypeSync(filterType = CharacterFilterType.GENDER)
+        val speciesFilters = characterFilterDao.getCharacterFiltersByTypeSync(filterType = CharacterFilterType.SPECIES)
+        val hogwartsAffiliationFilters = characterFilterDao.getCharacterFiltersByTypeSync(filterType = CharacterFilterType.HOGWARTS_AFFILIATION)
+
         val selectedHouseValues = houseFilters.firstOrNull()?.values ?: emptyList()
         val selectedGenderValues = genderFilters.firstOrNull()?.values ?: emptyList()
+        val selectedSpeciesValues = speciesFilters.firstOrNull()?.values ?: emptyList()
+        val selectedHogwartsAffiliationValues = hogwartsAffiliationFilters.firstOrNull()?.values ?: emptyList()
         
         val characters = dao.searchCharacter(query = query).map { entity -> 
             CharacterConverter.fromEntity(entity = entity) 
         }
         
         val filteredByHouse = filterCharactersByHouse(characters = characters, selectedHouseValues = selectedHouseValues)
-        return filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
+        val filteredByGender = filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
+        val filterBySpecies = filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedSpeciesValues)
+        return filterCharactersBySpecies(characters = filterBySpecies, selectedSpeciesValues = selectedHogwartsAffiliationValues)
     }
 
     private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {

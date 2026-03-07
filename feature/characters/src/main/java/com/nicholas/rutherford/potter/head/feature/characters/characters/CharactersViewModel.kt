@@ -91,8 +91,6 @@ class CharactersViewModel(
                 if (characters.isNotEmpty()) {
                     updatePaginatedCharacters()
                 } else {
-                    // Only fetch from API if there are no active filters
-                    // If filters are active and result in 0 characters, show empty state
                     val currentFilterCount = charactersMutableStateFlow.value.filterCount
                     if (currentFilterCount > 0) {
                         charactersMutableStateFlow.update { state ->

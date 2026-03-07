@@ -58,10 +58,9 @@ class CharactersViewModel(
     override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
 
     private suspend fun collectAllCharacters() {
-        if (characterRepository.getCharacterCount() == 0) {
+        val hasCharactersInDb = characterRepository.getCharacterCount() > 0
+        if (!hasCharactersInDb) {
             charactersMutableStateFlow.update { state -> state.copy(isLoading = true) }
-        } else {
-            charactersMutableStateFlow.update { state -> state.copy(shouldShowNoContent = true) }
         }
         
         collectFlow(flow = characterRepository.getAllCharacters()) { characters ->

@@ -47,8 +47,6 @@ suspend fun CharacterFilterRepository.getActiveFilterCount(): Int {
 
 /**
  * Checks if a filter is at its default values.
- * For HOUSE filter, checks if it contains all default house values.
- * For other filter types, returns false (not at default) until defaults are defined.
  *
  * @param filter The filter to check.
  * @return true if the filter matches its default values, false otherwise.

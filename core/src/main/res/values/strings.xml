@@ -6,7 +6,6 @@
     <string name="could_not_retrieve_characters" translatable="false">Could Not Retrieve Characters</string>
     <string name="filter_by_gender" translatable="false">Filter by Gender</string>
     <string name="filter_by_house" translatable="false">Filter by House</string>
-    //AFFILIATION
     <string name="filter_by_student_or_staff" translatable="false">Filter by Student/Staff</string>
     <string name="filter_by_species" translatable="false">Filter by Species</string>
     <string name="filter_by_wizard_status" translatable="false">Filter by Wizard Status</string>

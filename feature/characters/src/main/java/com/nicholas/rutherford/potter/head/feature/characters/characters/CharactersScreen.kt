@@ -58,15 +58,14 @@ fun CharactersScreen(params: CharactersParams) {
     val state = params.state
 
     when {
-        state.shouldShowNoContent -> {}
-        state.isLoading -> ShimmerCharactersContent()
+        state.isLoading && state.characters.isEmpty() -> ShimmerCharactersContent()
         state.errorType.isValidErrorType() -> EmptyOrErrorContent(
             title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
             description = state.errorType.descriptionId?.let { id -> stringResource(id = id) } ?: "",
             buttonText = stringResource(id = StringIds.retry),
             onButtonClicked = params.onRetryClicked
         )
-        state.characters.isEmpty() && state.searchQuery.isEmpty() && state.filterCount > 0 && !state.isLoading && !state.shouldShowNoContent -> EmptyOrErrorContent(
+        state.characters.isEmpty() && state.searchQuery.isEmpty() && state.filterCount > 0 && !state.isLoading -> EmptyOrErrorContent(
                 title = stringResource(id = StringIds.noCharactersMatchFilters),
                 description = stringResource(id = StringIds.tryAdjustingYourFilters),
                 buttonText = stringResource(id = StringIds.viewFilters),
@@ -74,7 +73,7 @@ fun CharactersScreen(params: CharactersParams) {
                 onButtonClicked = params.onFilterClicked,
                 onSecondaryButtonClicked = params.onClearFiltersClicked
         )
-        state.characters.isEmpty() && state.searchQuery.isEmpty() && !state.isLoading && !state.shouldShowNoContent -> EmptyOrErrorContent(
+        state.characters.isEmpty() && state.searchQuery.isEmpty() && !state.isLoading -> EmptyOrErrorContent(
                 title = stringResource(id = StringIds.noCharactersYet),
                 description = stringResource(id = StringIds.weCouldNotFindAnyCharactersTapRetryToLoadItems),
                 buttonText = stringResource(id = StringIds.retry),

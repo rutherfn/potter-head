@@ -1,6 +1,10 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val IS_NOT_ALIVE_FILTER = "isNotAliveFilter"
+    const val IS_ALIVE_FILTER = "isAliveFilter"
+    const val IS_WIZARD_FILTER = "isWizardFilter"
+    const val IS_NOT_WIZARD_FILTER = "isNotWizardFilter"
     const val HAS_HOUSE_AFFILIATION_FILTER = "hasHouseAffiliationFilter"
     const val HAS_NOT_HOUSE_AFFILIATION_FILTER = "hasNotHouseAffiliationFilter"
     const val CHECKMARK = "✓"

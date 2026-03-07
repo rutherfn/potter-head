@@ -189,8 +189,8 @@ fun SearchView(
                 if (filterCount > 0) {
                     Box(
                         modifier = Modifier
-                            .offset(x = 8.dp, y = (-8).dp)
-                            .size(18.dp)
+                            .offset(x = 14.dp, y = (-8).dp)
+                            .size(16.dp)
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.error),
                         contentAlignment = Alignment.Center
@@ -200,7 +200,7 @@ fun SearchView(
                             color = MaterialTheme.colorScheme.onError,
                             style = MaterialTheme.typography.labelSmall,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp
+                            fontSize = 9.sp
                         )
                     }
                 }

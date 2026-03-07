@@ -96,7 +96,9 @@ class DatabaseModuleImpl(
                 CharacterFilterType.HOUSE to DefaultFilters.HouseFilter,
                 CharacterFilterType.GENDER to DefaultFilters.genderFilter,
                 CharacterFilterType.SPECIES to DefaultFilters.speciesFilter,
-                CharacterFilterType.HOGWARTS_AFFILIATION to DefaultFilters.hogwartsAffiliation
+                CharacterFilterType.HOGWARTS_AFFILIATION to DefaultFilters.hogwartsAffiliationFilter,
+                CharacterFilterType.WIZARD_STATUS to DefaultFilters.isWizardFilter,
+                CharacterFilterType.ALIVE_STATUS to DefaultFilters.isAliveFilter
             )
 
         defaultFiltersByType.forEach { (filterType, defaultFilter) ->

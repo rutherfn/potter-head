@@ -5,6 +5,8 @@ object StringIds {
     val filterByGender = R.string.filter_by_gender
     val filterByHouse = R.string.filter_by_house
     val filterBySpecies = R.string.filter_by_species
+    val filterByWizardStatus = R.string.filter_by_wizard_status
+    val filterByAliveStatus = R.string.filter_by_alive_status
     val filters = R.string.filters
     val clearFilters = R.string.clear_filters
     val clearSearchResults = R.string.clear_search_results
@@ -24,6 +26,8 @@ object StringIds {
     val selectOneOrMoreHousesToFilterTheCharacterListOnlyCharactersFromSelectedHousesWillBeDisplayed = R.string.select_one_or_more_houses_to_filter_the_character_list_only_characters_from_selected_houses_will_be_displayed
     val selectOneOrMoreSpeciesToFilterTheCharacterListOnlyCharactersFromSelectedSpeciesWillBeDisplayed = R.string.select_one_or_more_species_to_filter_the_character_list_only_characters_from_selected_species_will_be_displayed
     val selectWhetherToShowCharactersWhoAreStudentsOrStaffAtHogwartsOrThoseWhoAreNot = R.string.select_whether_to_show_characters_who_are_students_or_staff_at_hogwarts_or_those_who_are_not
+    val selectWhetherToShowWizardsOrNonWizards = R.string.select_whether_to_show_wizards_or_non_wizards
+    val selectWhetherToShowAliveOrDeadCharacters = R.string.select_whether_to_show_alive_or_dead_characters
     val searchCharacters = R.string.search_characters
     val slytherin = R.string.slytherin
     val staff = R.string.staff

@@ -9,6 +9,8 @@
     //AFFILIATION
     <string name="filter_by_student_or_staff" translatable="false">Filter by Student/Staff</string>
     <string name="filter_by_species" translatable="false">Filter by Species</string>
+    <string name="filter_by_wizard_status" translatable="false">Filter by Wizard Status</string>
+    <string name="filter_by_alive_status" translatable="false">Filter by Alive Status</string>
     <string name="filters" translatable="false">Filters</string>
     <string name="gryffindor" translatable="false">gryffindor</string>
     <string name="hufflepuff" translatable="false">hufflepuff</string>
@@ -24,6 +26,8 @@
     <string name="select_one_or_more_houses_to_filter_the_character_list_only_characters_from_selected_houses_will_be_displayed" translatable="false">Select one or more houses to filter the character list. Only characters from selected houses will be displayed.</string>
     <string name="select_one_or_more_species_to_filter_the_character_list_only_characters_from_selected_species_will_be_displayed" translatable="false">Select one or more species to filter the character list. Only characters from selected species will be displayed.</string>
     <string name="select_whether_to_show_characters_who_are_students_or_staff_at_hogwarts_or_those_who_are_not" translatable="false">Select whether to show characters who are students or staff at Hogwarts, or those who are not affiliated with Hogwarts.</string>
+    <string name="select_whether_to_show_wizards_or_non_wizards" translatable="false">Select whether to show characters who are wizards or those who are not wizards.</string>
+    <string name="select_whether_to_show_alive_or_dead_characters" translatable="false">Select whether to show characters who are alive or those who are dead.</string>
     <string name="search_characters" translatable="false">Search characters by name...</string>
     <string name="staff" translatable="false">Staff</string>
     <string name="slytherin" translatable="false">slytherin</string>

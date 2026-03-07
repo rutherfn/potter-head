@@ -178,10 +178,14 @@ object AppNavigationGraph {
                     genders = viewModel.buildGenders(),
                     species = viewModel.buildSpecies(),
                     hogwartsAffiliations = viewModel.buildHogwartsAffiliations(),
+                    wizardStatuses = viewModel.buildWizardStatuses(),
+                    aliveStatuses = viewModel.buildAliveStatuses(),
                     onFilterHouseClicked = { value -> viewModel.onFilterHouseClicked(value) },
                     onFilterGenderClicked = { value -> viewModel.onFilterGenderClicked(value) },
                     onFilterSpeciesClicked = { value -> viewModel.onFilterSpeciesClicked(value) },
-                    onFilterHogwartsAffiliationClicked = { value -> viewModel.onFilterHogwartsAffiliationClicked(value) }
+                    onFilterHogwartsAffiliationClicked = { value -> viewModel.onFilterHogwartsAffiliationClicked(value) },
+                    onFilterWizardStatusClicked = { value -> viewModel.onFilterWizardStatusClicked(value) },
+                    onFilterAliveStatusClicked = { value -> viewModel.onFilterAliveStatusClicked(value) }
                 )
             )
         }

@@ -465,11 +465,11 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
             AsyncImage(
                 model = ImageRequest.Builder(context = androidx.compose.ui.platform.LocalContext.current)
                     .data(url)
-                    .size(Size(80, 80))
+                    .size(Size(160, 160))
                     .transformations(CircleCropTransformation())
                     .build(),
                 contentDescription = characterName,
-                contentScale = ContentScale.FillBounds,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(CircleShape)

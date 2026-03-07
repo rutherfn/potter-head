@@ -67,12 +67,32 @@ object DefaultFilters {
         isActive = true
     )
 
-    val hogwartsAffiliation = CharacterFilterConverter(
+    val hogwartsAffiliationFilter = CharacterFilterConverter(
         id = 0,
         filterType = CharacterFilterType.HOGWARTS_AFFILIATION,
         values = listOf(
             Constants.HAS_HOUSE_AFFILIATION_FILTER,
             Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER
+        ),
+        isActive = true
+    )
+
+    val isWizardFilter = CharacterFilterConverter(
+        id = 0,
+        filterType = CharacterFilterType.WIZARD_STATUS,
+        values = listOf(
+            Constants.IS_WIZARD_FILTER,
+            Constants.IS_NOT_WIZARD_FILTER
+        ),
+        isActive = true
+    )
+
+    val isAliveFilter = CharacterFilterConverter(
+        id = 0,
+        filterType = CharacterFilterType.ALIVE_STATUS,
+        values = listOf(
+            Constants.IS_ALIVE_FILTER,
+            Constants.IS_NOT_ALIVE_FILTER
         ),
         isActive = true
     )

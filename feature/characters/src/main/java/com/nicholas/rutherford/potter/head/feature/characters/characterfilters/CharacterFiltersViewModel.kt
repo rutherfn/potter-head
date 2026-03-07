@@ -24,6 +24,8 @@ class CharacterFiltersViewModel(
     internal var genderFilterValues: List<String> = emptyList()
     internal var speciesFilterValues: List<String> = emptyList()
     internal var hogwartsAffiliationsFilterValues: List<String> = emptyList()
+    internal var wizardStatusFilterValues: List<String> = emptyList()
+    internal var aliveStatusFilterValues: List<String> = emptyList()
 
 
     init {
@@ -62,8 +64,14 @@ class CharacterFiltersViewModel(
                     hogwartsAffiliationsFilterValues = values
                     state.copy(hogwartsAffiliationsSelected = values)
                 }
-                CharacterFilterType.WIZARD_STATUS -> state // TODO: Add wizardStatusFiltersSelected to state when implemented
-                CharacterFilterType.ALIVE_STATUS -> state // TODO: Add aliveStatusFiltersSelected to state when implemented
+                CharacterFilterType.WIZARD_STATUS -> {
+                    wizardStatusFilterValues = values
+                    state.copy(wizardStatusFiltersSelected = values)
+                }
+                CharacterFilterType.ALIVE_STATUS -> {
+                    aliveStatusFilterValues = values
+                    state.copy(aliveStatusFiltersSelected = values)
+                }
             }
         }
     }
@@ -208,6 +216,48 @@ class CharacterFiltersViewModel(
             Constants.SPECIES_TOAD,
             Constants.SPECIES_VAMPIRE,
             Constants.SPECIES_WEREWOLF
+        )
+
+    fun onFilterWizardStatusClicked(value: String) {
+        launch {
+            updateFilterValue(
+                filterType = CharacterFilterType.WIZARD_STATUS,
+                currentValues = wizardStatusFilterValues,
+                value = value
+            ) { updatedValues ->
+                characterFiltersMutableStateFlow.update { state ->
+                    wizardStatusFilterValues = updatedValues
+                    state.copy(wizardStatusFiltersSelected = updatedValues)
+                }
+            }
+        }
+    }
+
+    fun buildWizardStatuses(): List<String> =
+        listOf(
+            Constants.IS_WIZARD_FILTER,
+            Constants.IS_NOT_WIZARD_FILTER
+        )
+
+    fun onFilterAliveStatusClicked(value: String) {
+        launch {
+            updateFilterValue(
+                filterType = CharacterFilterType.ALIVE_STATUS,
+                currentValues = aliveStatusFilterValues,
+                value = value
+            ) { updatedValues ->
+                characterFiltersMutableStateFlow.update { state ->
+                    aliveStatusFilterValues = updatedValues
+                    state.copy(aliveStatusFiltersSelected = updatedValues)
+                }
+            }
+        }
+    }
+
+    fun buildAliveStatuses(): List<String> =
+        listOf(
+            Constants.IS_ALIVE_FILTER,
+            Constants.IS_NOT_ALIVE_FILTER
         )
 
     fun onBackClicked() = navigator.pop(routeAction = Constants.NavigationDestinations.CHARACTERS_SCREEN)

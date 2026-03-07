@@ -18,6 +18,7 @@ data class CharacterImageUrlConverter(
     val characterName: String,
     val imageUrl: String
 ) {
+
     /**
      * Converts this converter to a CharacterImageUrlEntity
      */
@@ -28,6 +29,7 @@ data class CharacterImageUrlConverter(
     )
 
     companion object{
+
         /**
          * Creates a CharacterImageUrlConverter from a CharacterImageUrlEntity.
          */

@@ -1,7 +1,5 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characterfilters
 
-import com.nicholas.rutherford.potter.head.database.CharacterFilterType
-
 /**
  * Parameters data class for the Character Filters Screen.
  *

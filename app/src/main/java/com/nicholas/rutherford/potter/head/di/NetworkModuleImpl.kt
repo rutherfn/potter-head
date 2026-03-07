@@ -23,9 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  *
  * @author Nicholas Rutherford
  */
-class NetworkModuleImpl(
-    private val context: Context
-) : NetworkModule {
+class NetworkModuleImpl(private val context: Context) : NetworkModule {
     private val connectivityManager: ConnectivityManager by lazy {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }

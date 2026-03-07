@@ -55,35 +55,45 @@ suspend fun CharacterFilterRepository.getActiveFilterCount(): Int {
  */
 private fun isFilterAtDefault(filter: CharacterFilterConverter): Boolean {
     return when (filter.filterType) {
-        CharacterFilterType.HOUSE -> {
-            val defaultValues = DefaultFilters.HouseFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
-        }
-        CharacterFilterType.GENDER -> {
-            val defaultValues = DefaultFilters.genderFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
-        }
-        CharacterFilterType.SPECIES -> {
-            val defaultValues = DefaultFilters.speciesFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
-        }
-        CharacterFilterType.HOGWARTS_AFFILIATION -> {
-            val defaultValues = DefaultFilters.hogwartsAffiliationFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues)
-        }
-        CharacterFilterType.WIZARD_STATUS -> {
-            val defaultValues = DefaultFilters.isWizardFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues)
-        }
-        CharacterFilterType.ALIVE_STATUS -> {
-            val defaultValues = DefaultFilters.isAliveFilter.values.toSet()
-            val filterValues = filter.values.toSet()
-            filterValues.containsAll(defaultValues)
-        }
+        CharacterFilterType.HOUSE -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.HouseFilter,
+            filter = filter
+        )
+        CharacterFilterType.GENDER -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.genderFilter,
+            filter = filter
+        )
+        CharacterFilterType.SPECIES -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.speciesFilter,
+            filter = filter
+        )
+        CharacterFilterType.HOGWARTS_AFFILIATION -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.hogwartsAffiliationFilter,
+            filter = filter
+        )
+        CharacterFilterType.WIZARD_STATUS -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.isWizardFilter,
+            filter = filter
+        )
+        CharacterFilterType.ALIVE_STATUS -> isFilterValuesAtDefault(
+            defaultFilter = DefaultFilters.isAliveFilter,
+            filter = filter
+        )
     }
+}
+
+/**
+ * Helper function to check if a filter's values match the default filter's values.
+ *
+ * @param defaultFilter The default filter to compare against.
+ * @param filter The filter to check.
+ * @return true if the filter values match the default filter values exactly, false otherwise.
+ */
+private fun isFilterValuesAtDefault(
+    defaultFilter: CharacterFilterConverter,
+    filter: CharacterFilterConverter
+): Boolean {
+    val defaultValues = defaultFilter.values.toSet()
+    val filterValues = filter.values.toSet()
+    return filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
 }

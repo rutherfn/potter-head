@@ -13,6 +13,7 @@ import com.nicholas.rutherford.potter.head.database.entity.WandEntity
  * @author Nicholas Rutherford
  */
 object DatabaseTypeConverters {
+
     /**
      * Gson instance for JSON parsing.
      */

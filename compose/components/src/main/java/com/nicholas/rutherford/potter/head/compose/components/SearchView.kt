@@ -88,7 +88,6 @@ fun SearchView(
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    // Handle back button press to clear focus when TextField is focused
     BackHandler(enabled = isFocused) {
         focusManager.clearFocus()
     }

@@ -11,6 +11,10 @@ import com.google.gson.reflect.TypeToken
  * @author Nicholas Rutherford
  */
 object CharacterImageUrlReader {
+
+    /**
+     * Kermit Logger for this class.
+     */
     private val log = Logger.withTag(tag = "CharacterImageUrlReader")
 
     /**

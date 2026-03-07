@@ -18,6 +18,7 @@ data class WandConverter(
     val wood: String?,
     val length: Double?
 ) {
+
     /**
      * Converts this converter to a WandEntity.
      */
@@ -28,6 +29,7 @@ data class WandConverter(
     )
 
     companion object {
+
         /**
          * Creates a WandConverter from a WandEntity.
          */

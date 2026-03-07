@@ -33,6 +33,33 @@ import com.nicholas.rutherford.potter.head.compose.ui.theme.getSpeciesColor
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 
+/**
+ * Main composable screen for character filtering functionality.
+ *
+ * This screen provides a comprehensive filtering interface that allows users to filter
+ * characters by multiple criteria including:
+ * - House affiliation (Gryffindor, Hufflepuff, Ravenclaw, Slytherin, or No House)
+ * - Gender (Male, Female)
+ * - Species (26 different species types)
+ * - Hogwarts affiliation (Student/Staff or Other)
+ * - Wizard status (Wizard or Non-Wizard)
+ * - Alive status (Alive or Dead)
+ *
+ * The screen displays each filter category in a scrollable list with:
+ * - A title and description for each filter section
+ * - Interactive filter items that can be selected/deselected
+ * - Visual indicators showing which filters are currently active
+ * - Badge displays with appropriate colors for each filter type
+ *
+ * Filter selections are managed through the [CharacterFiltersParams] which provides
+ * callbacks for filter interactions and the current filter state.
+ *
+ * @param params The parameters containing filter data, state, and interaction callbacks.
+ *               Includes lists of available filter options, selected filters, and
+ *               click handlers for each filter type.
+ *
+ * @author Nicholas Rutherford
+ */
 @Composable
 fun CharacterFiltersScreen(params: CharacterFiltersParams) {
     val state = params.state
@@ -491,7 +518,6 @@ private fun SpeciesSelectionIndicator(
     }
     
     val checkmarkColor = if (isSelected) {
-        // Use white for most species, but adjust for lighter colors
         when (species.lowercase()) {
             Constants.SPECIES_PHOENIX,
             Constants.SPECIES_PYGMY_PUFF -> MaterialTheme.colorScheme.onSurface
@@ -586,260 +612,6 @@ private fun HogwartsAffiliationBadge(
 
 @Composable
 private fun HogwartsAffiliationSelectionIndicator(isSelected: Boolean) {
-    val indicatorColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant
-    }
-    
-    val checkmarkColor = if (isSelected) {
-        Color.White
-    } else {
-        Color.Transparent
-    }
-    
-    Box(
-        modifier = Modifier
-            .size(28.dp)
-            .clip(RoundedCornerShape(14.dp))
-            .background(indicatorColor),
-        contentAlignment = Alignment.Center
-    ) {
-        if (isSelected) {
-            Text(
-                text = Constants.CHECKMARK,
-                color = checkmarkColor,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
-private fun LazyListScope.wizardStatusFilterSection(
-    wizardStatuses: List<String>,
-    selectedWizardStatuses: List<String>,
-    onFilterWizardStatusClicked: (String) -> Unit
-) {
-    item {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(
-                text = stringResource(id = StringIds.filterByWizardStatus),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = stringResource(id = StringIds.selectWhetherToShowWizardsOrNonWizards),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                lineHeight = 20.sp
-            )
-        }
-    }
-
-    items(items = wizardStatuses) { wizardStatusItem ->
-        WizardStatusFilterItem(
-            wizardStatus = wizardStatusItem,
-            isSelected = selectedWizardStatuses.contains(wizardStatusItem),
-            onClick = { onFilterWizardStatusClicked(wizardStatusItem) }
-        )
-    }
-}
-
-@Composable
-private fun WizardStatusFilterItem(
-    wizardStatus: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            WizardStatusBadge(wizardStatus = wizardStatus, isSelected = isSelected)
-            WizardStatusSelectionIndicator(isSelected = isSelected)
-        }
-    }
-}
-
-@Composable
-private fun WizardStatusBadge(
-    wizardStatus: String,
-    isSelected: Boolean
-) {
-    val wizardStatusColor = MaterialTheme.colorScheme.primary
-    val wizardStatusDisplayName = when (wizardStatus.lowercase()) {
-        Constants.IS_WIZARD_FILTER.lowercase() -> "Wizard"
-        Constants.IS_NOT_WIZARD_FILTER.lowercase() -> "Non-Wizard"
-        else -> wizardStatus.replaceFirstChar { value -> value.uppercaseChar() }
-            .replace("Wizard", "")
-            .replace("Filter", "")
-            .trim()
-    }
-    
-    Box(
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(
-                color = wizardStatusColor.copy(alpha = if (isSelected) {
-                    0.3f
-                } else {
-                    0.2f
-                })
-            )
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = wizardStatusDisplayName,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Medium,
-            color = wizardStatusColor,
-            fontSize = 12.sp
-        )
-    }
-}
-
-@Composable
-private fun WizardStatusSelectionIndicator(isSelected: Boolean) {
-    val indicatorColor = if (isSelected) {
-        MaterialTheme.colorScheme.primary
-    } else {
-        MaterialTheme.colorScheme.surfaceVariant
-    }
-    
-    val checkmarkColor = if (isSelected) {
-        Color.White
-    } else {
-        Color.Transparent
-    }
-    
-    Box(
-        modifier = Modifier
-            .size(28.dp)
-            .clip(RoundedCornerShape(14.dp))
-            .background(indicatorColor),
-        contentAlignment = Alignment.Center
-    ) {
-        if (isSelected) {
-            Text(
-                text = Constants.CHECKMARK,
-                color = checkmarkColor,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
-private fun LazyListScope.aliveStatusFilterSection(
-    aliveStatuses: List<String>,
-    selectedAliveStatuses: List<String>,
-    onFilterAliveStatusClicked: (String) -> Unit
-) {
-    item {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(
-                text = stringResource(id = StringIds.filterByAliveStatus),
-                style = MaterialTheme.typography.headlineSmall,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = stringResource(id = StringIds.selectWhetherToShowAliveOrDeadCharacters),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                lineHeight = 20.sp
-            )
-        }
-    }
-
-    items(items = aliveStatuses) { aliveStatusItem ->
-        AliveStatusFilterItem(
-            aliveStatus = aliveStatusItem,
-            isSelected = selectedAliveStatuses.contains(aliveStatusItem),
-            onClick = { onFilterAliveStatusClicked(aliveStatusItem) }
-        )
-    }
-}
-
-@Composable
-private fun AliveStatusFilterItem(
-    aliveStatus: String,
-    isSelected: Boolean,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            AliveStatusBadge(aliveStatus = aliveStatus, isSelected = isSelected)
-            AliveStatusSelectionIndicator(isSelected = isSelected)
-        }
-    }
-}
-
-@Composable
-private fun AliveStatusBadge(
-    aliveStatus: String,
-    isSelected: Boolean
-) {
-    val aliveStatusColor = MaterialTheme.colorScheme.primary
-    val aliveStatusDisplayName = when (aliveStatus.lowercase()) {
-        Constants.IS_ALIVE_FILTER.lowercase() -> "Alive"
-        Constants.IS_NOT_ALIVE_FILTER.lowercase() -> "Dead"
-        else -> aliveStatus.replaceFirstChar { value -> value.uppercaseChar() }
-            .replace("Alive", "")
-            .replace("Filter", "")
-            .trim()
-    }
-    
-    Box(
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(
-                color = aliveStatusColor.copy(alpha = if (isSelected) {
-                    0.3f
-                } else {
-                    0.2f
-                })
-            )
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = aliveStatusDisplayName,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Medium,
-            color = aliveStatusColor,
-            fontSize = 12.sp
-        )
-    }
-}
-
-@Composable
-private fun AliveStatusSelectionIndicator(isSelected: Boolean) {
     val indicatorColor = if (isSelected) {
         MaterialTheme.colorScheme.primary
     } else {

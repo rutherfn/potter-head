@@ -76,6 +76,7 @@ data class CharacterConverter(
     )
 
     companion object {
+
         /**
          * Creates a CharacterConverter from a CharacterEntity.
          */

@@ -20,6 +20,7 @@ data class CharacterFilterConverter(
     val values: List<String>,
     val isActive: Boolean
 ) {
+
     /**
      * Converts this converter to a CharacterFilterEntity.
      */
@@ -31,6 +32,7 @@ data class CharacterFilterConverter(
     )
 
     companion object {
+
         /**
          * Creates a CharacterFilterConverter from a CharacterFilterEntity.
          */

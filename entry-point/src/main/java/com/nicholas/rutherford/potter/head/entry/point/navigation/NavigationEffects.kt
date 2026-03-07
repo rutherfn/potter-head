@@ -1,21 +1,12 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import com.nicholas.rutherford.potter.head.compose.components.MainAppBar
-import com.nicholas.rutherford.potter.head.compose.components.ProgressDialog
 import com.nicholas.rutherford.potter.head.base.view.model.asLifecycleAwareState
-import com.nicholas.rutherford.potter.head.entry.point.navigation.bottom.BottomNavigationBar
+import com.nicholas.rutherford.potter.head.compose.components.ProgressDialog
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**

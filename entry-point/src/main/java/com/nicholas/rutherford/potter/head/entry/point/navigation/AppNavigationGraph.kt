@@ -89,7 +89,6 @@ object AppNavigationGraph {
             }
             backStackEntry.lifecycle.addObserver(observer)
 
-            // Set app bar immediately if already resumed
             if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
                 updateAppBar(appBar = appBarProvider())
             }

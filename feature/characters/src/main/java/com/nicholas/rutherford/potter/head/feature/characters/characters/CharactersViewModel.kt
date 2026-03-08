@@ -282,10 +282,10 @@ class CharactersViewModel(
         }
     }
 
-    fun onCharacterClicked(characterName: String) {
-        val encodedCharacterName = Uri.encode(characterName)
+    fun onCharacterClicked(name: String) {
+        val encodedCharacterName = Uri.encode(name)
         val route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS
-            .replace("{id}", encodedCharacterName)
+            .replace("{name}", encodedCharacterName)
         navigator.navigate(
             SimpleNavigationAction(
                 destination = route

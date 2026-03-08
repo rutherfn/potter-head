@@ -69,7 +69,6 @@ class HarryPotterApiRepositoryImplTest {
         fun `should return failure result when API service throws exception`() = runTest {
             val apiService = object : HarryPotterApiService {
                 override suspend fun fetchAllCharacters(): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
-                override suspend fun fetchCharacterById(id: String): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
             }
             val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
 
@@ -88,54 +87,6 @@ class HarryPotterApiRepositoryImplTest {
             exception shouldNotBe null
             exception.shouldBeInstanceOf<IllegalStateException>()
             exception!!.message shouldBe "Simulated API exception for testing error handling"
-        }
-    }
-
-    @Nested
-    inner class GetCharacterById {
-
-        @Test
-        fun `should return success result when API service returns character`() = runTest {
-            val apiService = TestHarryPotterApiService(shouldReturnData = true)
-            val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
-            val id = "test-character-id"
-
-            val results = repository.getCharacterById(id = id).toList()
-
-            results.isNotEmpty() shouldBe true
-
-            val result = results.first()
-
-            result.isSuccess shouldBe true
-            result.isFailure shouldBe false
-
-            val characters = result.getOrNull()
-
-            characters shouldNotBe null
-            characters!!.isNotEmpty() shouldBe true
-            characters.first().id shouldBe id
-        }
-
-        @Test
-        fun `should return failure result when API service throws exception`() = runTest {
-            val apiService = TestHarryPotterApiService(shouldReturnData = true, shouldThrowException = true)
-            val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
-            val id = "test-character-id"
-
-            val results = repository.getCharacterById(id = id).toList()
-
-            results.isNotEmpty() shouldBe true
-
-            val result = results.first()
-
-            result.isFailure shouldBe true
-            result.isSuccess shouldBe false
-
-            val exception = result.exceptionOrNull()
-
-            exception shouldNotBe null
-            exception.shouldBeInstanceOf<IllegalStateException>()
-            exception?.message shouldBe "Simulated API exception for testing error handling"
         }
     }
 }

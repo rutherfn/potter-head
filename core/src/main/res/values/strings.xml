@@ -2,6 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="clear_filters" translatable="false">Clear Filters</string>
     <string name="clear_search_results" translatable="false">Clear Search Results</string>
+    <string name="character_detail" translatable="false">Character Detail</string>
+    <string name="character_not_found" translatable="false">Character Not Found</string>
     <string name="characters" translatable="false">Characters</string>
     <string name="could_not_retrieve_characters" translatable="false">Could Not Retrieve Characters</string>
     <string name="filter_by_gender" translatable="false">Filter by Gender</string>
@@ -38,4 +40,26 @@
     <string name="was_unable_to_retrieve_the_characters_please_try_again_later" translatable="false">Was unable to retrieve the characters. Please try again later</string>
     <string name="we_could_not_find_any_characters_tap_retry_to_load_items" translatable="false">We couldn\'t find any characters. Tap retry to load them</string>
     <string name="wizard" translatable="false">Wizard</string>
+    <string name="details" translatable="false">Details</string>
+    <string name="basic_information" translatable="false">Basic Information</string>
+    <string name="personal_details" translatable="false">Personal Details</string>
+    <string name="hogwarts_information" translatable="false">Hogwarts Information</string>
+    <string name="additional_information" translatable="false">Additional Information</string>
+    <string name="species" translatable="false">Species</string>
+    <string name="gender" translatable="false">Gender</string>
+    <string name="alive" translatable="false">Alive</string>
+    <string name="date_of_birth" translatable="false">Date of Birth</string>
+    <string name="ancestry" translatable="false">Ancestry</string>
+    <string name="eye_colour" translatable="false">Eye Colour</string>
+    <string name="hair_colour" translatable="false">Hair Colour</string>
+    <string name="status" translatable="false">Status</string>
+    <string name="house" translatable="false">House</string>
+    <string name="patronus" translatable="false">Patronus</string>
+    <string name="actor" translatable="false">Actor</string>
+    <string name="alternate_actors" translatable="false">Alternate Actors</string>
+    <string name="alternate_names" translatable="false">Alternate Names</string>
+    <string name="yes" translatable="false">Yes</string>
+    <string name="no" translatable="false">No</string>
+    <string name="human" translatable="false">Human</string>
+    <string name="male" translatable="false">Male</string>
 </resources>

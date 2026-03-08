@@ -24,7 +24,7 @@ class NavArgumentsTest {
 
         @Test
         fun `should have argument with correct name`() {
-            NavArguments.characterDetail.first().name shouldBe Constants.NamedArguments.ID
+            NavArguments.characterDetail.first().name shouldBe Constants.NamedArguments.CHARACTER_NAME
         }
 
         @Test

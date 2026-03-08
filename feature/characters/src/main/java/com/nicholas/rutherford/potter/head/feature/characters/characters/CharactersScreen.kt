@@ -18,11 +18,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +46,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.CircleCropTransformation
+import com.nicholas.rutherford.potter.head.compose.components.HouseBadge
 import com.nicholas.rutherford.potter.head.compose.components.SearchView
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.shimmerEffect
@@ -387,50 +391,63 @@ private fun CharacterCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CharacterAvatar(
-                imageUrl = character.image,
-                characterName = character.name,
-                house = character.house
-            )
-
-            Spacer(modifier = Modifier.width(16.dp))
-
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = character.name,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurface
+            Row(
+                modifier = Modifier.weight(1f),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                CharacterAvatar(
+                    imageUrl = character.image,
+                    characterName = character.name,
+                    house = character.house
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.width(16.dp))
 
-                character.house?.let { house ->
-                    if (house.isNotEmpty()) {
-                        HouseBadge(house = house)
-                        Spacer(modifier = Modifier.height(4.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = character.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    character.house?.let { house ->
+                        if (house.isNotEmpty()) {
+                            HouseBadge(house = house)
+                            Spacer(modifier = Modifier.height(4.dp))
+                        }
+                    }
+
+                    if (statusIds.isNotEmpty()) {
+                        Text(
+                            text = buildString {
+                                statusIds.forEachIndexed { index, id ->
+                                    if (index > 0) {
+                                        append(", ")
+                                    }
+                                    append(stringResource(id = id))
+                                }},
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontSize = 12.sp
+                        )
                     }
                 }
-
-                if (statusIds.isNotEmpty()) {
-                    Text(
-                        text = buildString {
-                            statusIds.forEachIndexed { index, id ->
-                                if (index > 0) {
-                                    append(", ")
-                                }
-                                append(stringResource(id = id))
-                            }},
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontSize = 12.sp
-                    )
-                }
             }
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }
@@ -477,23 +494,6 @@ private fun CharacterAvatar(imageUrl: String?, characterName: String, house: Str
     }
 }
 
-@Composable
-private fun HouseBadge(house: String) {
-    Box(
-        modifier = Modifier
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(color = getHouseColor(house = house).copy(alpha = 0.2f))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        Text(
-            text = house,
-            style = MaterialTheme.typography.labelSmall,
-            fontWeight = FontWeight.Medium,
-            color = getHouseColor(house),
-            fontSize = 12.sp
-        )
-    }
-}
 
 
 @Preview(showBackground = true)

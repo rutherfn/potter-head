@@ -8,4 +8,5 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation.appbar
 interface AppBarFactory {
     fun createCharactersAppBar(): AppBar
     fun createFiltersAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
+    fun createCharacterDetailAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
 }

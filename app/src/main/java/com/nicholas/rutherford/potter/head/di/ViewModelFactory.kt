@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.di
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
@@ -22,7 +23,8 @@ import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
  * @author Nicholas Rutherford
  */
 class ViewModelFactory(
-    private val appGraph: AppGraph
+    private val appGraph: AppGraph,
+    private val application: Application
 ) : ViewModelProvider.Factory {
     private val log = Logger.withTag(tag = "ViewModelFactory")
 
@@ -59,8 +61,9 @@ class ViewModelFactory(
     private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel =
         CharacterDetailViewModel(
             savedStateHandle = extras.createSavedStateHandle(),
-            repository = appGraph.networkModule.harryPotterApiRepository,
-            navigator = appGraph.navigatorModule.navigator
+            characterDao = appGraph.databaseModule.characterDao,
+            navigator = appGraph.navigatorModule.navigator,
+            application = application
         )
 
     private fun createQuizzesViewModel(): QuizzesViewModel = QuizzesViewModel()

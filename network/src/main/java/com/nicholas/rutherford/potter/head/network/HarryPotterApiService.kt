@@ -18,16 +18,4 @@ interface HarryPotterApiService {
      */
     @GET("characters")
     suspend fun fetchAllCharacters(): List<CharacterResponse>
-
-    /**
-     * Fetches a character by the given [id] from the API.
-     *
-     * @param id The ID of the character to fetch.
-     * @return A list of  [CharacterResponse] object representing the character; or other entries if multiple characters have the same id.
-     */
-    @GET("character/{id}")
-    suspend fun fetchCharacterById(
-        @Path("id")
-        id: String
-    ): List<CharacterResponse>
 }

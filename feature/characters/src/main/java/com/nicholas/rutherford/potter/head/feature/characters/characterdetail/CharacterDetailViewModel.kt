@@ -16,6 +16,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlin.collections.buildList
 
+/**
+ * ViewModel for managing the characters detail screen state and business logic.
+ *
+ * @param savedStateHandle The saved state handle for retrieving navigation arguments.
+ * @param characterDao The DAO for accessing character data.
+ * @param navigator The navigator for navigating between screens.
+ * @param application The application context.
+ *
+ * @author Nicholas Rutherford
+ */
 class CharacterDetailViewModel(
     savedStateHandle: SavedStateHandle,
     private val characterDao: CharacterDao,
@@ -36,7 +46,7 @@ class CharacterDetailViewModel(
     private fun loadCharacterDetail() {
         if (characterNameParam.isNotEmpty()) {
             collectFlow(
-                characterDao.getCharacterByName(name = characterNameParam)
+                flow = characterDao.getCharacterByName(name = characterNameParam)
             ) { characterEntity ->
                 val character = CharacterConverter.fromEntity(entity = characterEntity)
                 characterDetailMutableStateFlow.update { state ->
@@ -72,11 +82,19 @@ class CharacterDetailViewModel(
             }
             add(CharacterDetailInfoItem(
                 labelId = StringIds.wizard,
-                value = if (character.isWizard) application.getString(StringIds.yes) else application.getString(StringIds.no)
+                value = if (character.isWizard) {
+                    application.getString(StringIds.yes)
+                } else {
+                    application.getString(StringIds.no)
+                }
             ))
             add(CharacterDetailInfoItem(
                 labelId = StringIds.alive,
-                value = if (character.isAlive) application.getString(StringIds.yes) else application.getString(StringIds.no)
+                value = if (character.isAlive) {
+                    application.getString(StringIds.yes)
+                } else {
+                    application.getString(StringIds.no)
+                }
             ))
         }
     }

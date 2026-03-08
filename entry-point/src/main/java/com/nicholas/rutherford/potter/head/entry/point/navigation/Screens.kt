@@ -65,11 +65,11 @@ sealed class Screens(
             }
 
             return when {
-                route?.startsWith(Characters.route) == true -> Characters.showBottomNavigation
-                route?.startsWith(CharacterFilters.route) == true -> CharacterFilters.showBottomNavigation
-                route?.startsWith(Quizzes.route) == true -> Quizzes.showBottomNavigation
-                route?.startsWith(Settings.route) == true -> Settings.showBottomNavigation
-                route?.startsWith(CharactersDetail.route) == true -> CharactersDetail.showBottomNavigation
+                route.startsWith(Characters.route) -> Characters.showBottomNavigation
+                route.startsWith(CharacterFilters.route) -> CharacterFilters.showBottomNavigation
+                route.startsWith(Quizzes.route) -> Quizzes.showBottomNavigation
+                route.startsWith(Settings.route) -> Settings.showBottomNavigation
+                route.startsWith(CharactersDetail.route) -> CharactersDetail.showBottomNavigation
                 else -> false
             }
         }

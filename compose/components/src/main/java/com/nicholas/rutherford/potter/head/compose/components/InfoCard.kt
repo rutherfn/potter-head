@@ -18,19 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-
-/**
- * Data class representing an information item to display in an [InfoCard].
- *
- * @param labelId The string resource ID for the label text.
- * @param value The value text to display.
- *
- * @author Nicholas Rutherford
- */
-data class InfoItem(
-    val labelId: Int,
-    val value: String
-)
+import com.nicholas.rutherford.potter.head.compose.components.data.InfoItem
 
 /**
  * Reusable composable for displaying a card containing a title and a list of information items.

@@ -30,11 +30,23 @@ import coil.size.Size
 import coil.transform.CircleCropTransformation
 import com.nicholas.rutherford.potter.head.compose.components.HouseBadge
 import com.nicholas.rutherford.potter.head.compose.components.InfoCard
-import com.nicholas.rutherford.potter.head.compose.components.InfoItem
+import com.nicholas.rutherford.potter.head.compose.components.data.InfoItem
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 
+/**
+ * Composable screen for displaying detailed information about a character.
+ *
+ * @param params The parameters containing the [CharacterDetailState] with character data
+ *               and processed information items for display.
+ *
+ * @see CharacterDetailState for the state structure
+ * @see CharacterDetailParams for parameter details
+ * @see InfoCard for the card component used to display information sections
+ *
+ * @author Nicholas Rutherford
+ */
 @Composable
 fun CharacterDetailScreen(params: CharacterDetailParams) {
     val state = params.state

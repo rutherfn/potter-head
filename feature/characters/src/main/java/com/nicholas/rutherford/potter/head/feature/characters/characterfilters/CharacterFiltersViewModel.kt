@@ -12,6 +12,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * ViewModel for managing the characters filters screen state and business logic.
+ * Manages all defined filters allowing the user to turn on and off filters
+ *
+ * @param characterFilterRepository The repository for managing character filters.
+ * @param navigator The navigator for navigating between screens.
+ *
+ * @author Nicholas Rutherford
+ */
 class CharacterFiltersViewModel(
     private val characterFilterRepository: CharacterFilterRepository,
     private val navigator: Navigator

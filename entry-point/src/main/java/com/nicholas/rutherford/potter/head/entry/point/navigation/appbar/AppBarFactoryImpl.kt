@@ -21,4 +21,12 @@ class AppBarFactoryImpl : AppBarFactory {
             onIconButtonClicked = onIconButtonClicked,
             iconContentDescription = "Close"
         )
+
+    override fun createCharacterDetailAppBar(onIconButtonClicked: (() -> Unit)?): AppBar =
+        AppBar(
+            titleId = StringIds.characterDetail,
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            onIconButtonClicked = onIconButtonClicked,
+            iconContentDescription = "Back"
+        )
 }

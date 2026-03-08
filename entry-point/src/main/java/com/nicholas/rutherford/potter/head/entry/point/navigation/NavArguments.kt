@@ -19,5 +19,5 @@ import com.nicholas.rutherford.potter.head.core.Constants
  * @author Nicholas Rutherford
  */
 object NavArguments {
-    val characterDetail = listOf(navArgument(Constants.NamedArguments.ID) { type = NavType.StringType })
+    val characterDetail = listOf(navArgument(Constants.NamedArguments.CHARACTER_NAME) { type = NavType.StringType })
 }

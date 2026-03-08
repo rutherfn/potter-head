@@ -40,7 +40,7 @@ class PotterHeadApplication :
 
     val appGraph: AppGraph by lazy { AppGraphImpl(context = this) }
 
-    val viewModelFactory: ViewModelFactory by lazy { ViewModelFactory(appGraph = appGraph) }
+    val viewModelFactory: ViewModelFactory by lazy { ViewModelFactory(appGraph = appGraph, application = this) }
 
     override fun getViewModelFactory(): LifeCycleViewModelProvider.Factory = viewModelFactory
 

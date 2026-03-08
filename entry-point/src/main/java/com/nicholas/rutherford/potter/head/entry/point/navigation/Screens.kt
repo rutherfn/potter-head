@@ -64,12 +64,12 @@ sealed class Screens(
                 return false
             }
 
-            return when (route) {
-                Characters.route -> Characters.showBottomNavigation
-                CharacterFilters.route -> CharacterFilters.showBottomNavigation
-                Quizzes.route -> Quizzes.showBottomNavigation
-                Settings.route -> Settings.showBottomNavigation
-                CharactersDetail.route -> CharactersDetail.showBottomNavigation
+            return when {
+                route?.startsWith(Characters.route) == true -> Characters.showBottomNavigation
+                route?.startsWith(CharacterFilters.route) == true -> CharacterFilters.showBottomNavigation
+                route?.startsWith(Quizzes.route) == true -> Quizzes.showBottomNavigation
+                route?.startsWith(Settings.route) == true -> Settings.showBottomNavigation
+                route?.startsWith(CharactersDetail.route) == true -> CharactersDetail.showBottomNavigation
                 else -> false
             }
         }

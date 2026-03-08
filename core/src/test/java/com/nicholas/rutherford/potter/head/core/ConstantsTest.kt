@@ -42,7 +42,7 @@ class ConstantsTest {
 
     @Test
     fun `NavigationDestinations CHARACTER_DETAIL_SCREEN_WITH_PARAMS should be set to correct expected value`() {
-        Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS shouldBe "characterDetailScreen/{id}"
+        Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS shouldBe "characterDetailScreen/{name}"
     }
 
     @Test
@@ -86,8 +86,8 @@ class ConstantsTest {
     }
 
     @Test
-    fun `NamedArguments ID should be set to correct expected value`() {
-        Constants.NamedArguments.ID shouldBe "id"
+    fun `NamedArguments CHARACTER_NAME should be set to correct expected value`() {
+        Constants.NamedArguments.CHARACTER_NAME shouldBe "name"
     }
 }
 

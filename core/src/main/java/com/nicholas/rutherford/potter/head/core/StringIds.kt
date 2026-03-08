@@ -1,6 +1,8 @@
 package com.nicholas.rutherford.potter.head.core
 
 object StringIds {
+    val characterDetail = R.string.character_detail
+    val characterNotFound = R.string.character_not_found
     val filterByStudentOrStaff = R.string.filter_by_student_or_staff
     val filterByGender = R.string.filter_by_gender
     val filterByHouse = R.string.filter_by_house
@@ -39,4 +41,26 @@ object StringIds {
     val wasUnableToRetrieveTheCharactersPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_characters_please_try_again_later
     val weCouldNotFindAnyCharactersTapRetryToLoadItems = R.string.we_could_not_find_any_characters_tap_retry_to_load_items
     val wizard = R.string.wizard
+    val details = R.string.details
+    val basicInformation = R.string.basic_information
+    val personalDetails = R.string.personal_details
+    val hogwartsInformation = R.string.hogwarts_information
+    val additionalInformation = R.string.additional_information
+    val species = R.string.species
+    val gender = R.string.gender
+    val alive = R.string.alive
+    val dateOfBirth = R.string.date_of_birth
+    val ancestry = R.string.ancestry
+    val eyeColour = R.string.eye_colour
+    val hairColour = R.string.hair_colour
+    val status = R.string.status
+    val house = R.string.house
+    val patronus = R.string.patronus
+    val actor = R.string.actor
+    val alternateActors = R.string.alternate_actors
+    val alternateNames = R.string.alternate_names
+    val yes = R.string.yes
+    val no = R.string.no
+    val human = R.string.human
+    val male = R.string.male
 }

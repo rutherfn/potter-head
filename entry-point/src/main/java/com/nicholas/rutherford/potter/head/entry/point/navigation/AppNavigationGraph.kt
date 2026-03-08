@@ -127,7 +127,7 @@ object AppNavigationGraph {
             CharactersScreen(
                 params = CharactersParams(
                     state = state,
-                    onCharacterClicked = { characterName -> viewModel.onCharacterClicked(characterName) },
+                    onCharacterClicked = { name -> viewModel.onCharacterClicked(name) },
                     onRetryClicked = { viewModel.retryLoadingCharacters() },
                     onLoadMore = { viewModel.loadMoreCharacters() },
                     buildCharacterStatusIds = { character -> viewModel.buildCharacterStatusIds(character) },
@@ -214,6 +214,18 @@ object AppNavigationGraph {
             val viewModel: CharacterDetailViewModel = viewModel(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
+            )
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = {
+                    appBarFactory.createCharacterDetailAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
             )
 
             CharacterDetailScreen(

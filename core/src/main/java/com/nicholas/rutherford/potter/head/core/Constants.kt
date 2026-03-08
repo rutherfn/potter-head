@@ -62,7 +62,7 @@ object Constants {
         const val CHARACTERS_SCREEN = "charactersScreen"
         const val CHARACTERS_FILTERS_SCREEN = "charactersFiltersScreen"
         const val CHARACTER_DETAIL_SCREEN = "characterDetailScreen"
-        const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{id}"
+        const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{name}"
         const val QUIZZES_SCREEN = "quizzesScreen"
         const val QUIZ_SELECTED_DETAIL_SCREEN = "quizSelectedDetailScreen"
         const val TOUR_THE_APP_SCREEN = "tourTheAppScreen"
@@ -78,6 +78,6 @@ object Constants {
     }
 
     object NamedArguments {
-        const val ID = "id"
+        const val CHARACTER_NAME = "name"
     }
 }

@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.test.utils.api
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
+import com.nicholas.rutherford.potter.head.model.network.SpellResponse
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiService
 import com.nicholas.rutherford.potter.head.test.utils.data.TestCharacterResponse
 
@@ -25,5 +26,9 @@ class TestHarryPotterApiService(
         } else {
             emptyList()
         }
+    }
+
+    override suspend fun fetchAllSpells(): List<SpellResponse> {
+        return emptyList()
     }
 }

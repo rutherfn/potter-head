@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.network
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
+import com.nicholas.rutherford.potter.head.model.network.SpellResponse
 import com.nicholas.rutherford.potter.head.test.utils.api.TestHarryPotterApiService
 import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBe
 import com.nicholas.rutherford.potter.head.test.utils.ext.shouldBeInstanceOf
@@ -69,6 +70,7 @@ class HarryPotterApiRepositoryImplTest {
         fun `should return failure result when API service throws exception`() = runTest {
             val apiService = object : HarryPotterApiService {
                 override suspend fun fetchAllCharacters(): List<CharacterResponse> { throw IllegalStateException("Simulated API exception for testing error handling") }
+                override suspend fun fetchAllSpells(): List<SpellResponse> = emptyList()
             }
             val repository = HarryPotterApiRepositoryImpl(apiService = apiService)
 

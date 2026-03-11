@@ -54,6 +54,7 @@ dependencies {
     implementation(project(path = ":navigation"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
+    implementation(project(path = ":feature:spells"))
     implementation(project(path = ":feature:settings"))
     implementation(project(path = ":compose:components"))
     implementation(project(path = ":core"))

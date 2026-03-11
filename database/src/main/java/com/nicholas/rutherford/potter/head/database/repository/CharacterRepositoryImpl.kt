@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.database.CharacterFilterExt
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.converter.CharacterFilterConverter
@@ -40,136 +41,6 @@ class CharacterRepositoryImpl(
         val houseUrl = characterConverter.house?.lowercase()?.let { house -> houseUrlMap[house] }
         return houseUrl?.let { image -> characterConverter.copy(image = image) } ?: characterConverter
     }
-
-
-    private fun filterCharactersByHouse(
-        characters: List<CharacterConverter>,
-        selectedHouseValues: List<String>
-    ): List<CharacterConverter> {
-        val normalizedSelectedHouses = selectedHouseValues
-            .map { it.trim().lowercase() }
-            .filter { it != Constants.NO_HOUSE_FILTER.lowercase() }
-            .toSet()
-        val includeNoHouse = selectedHouseValues.any { it.trim().lowercase() == Constants.NO_HOUSE_FILTER.lowercase() }
-
-        if (normalizedSelectedHouses.isEmpty()) {
-            return characters.filter { character ->
-                character.house.isNullOrBlank()
-            }
-        }
-
-        return characters.filter { character ->
-            val house = character.house?.trim()?.lowercase()
-            val hasSelectedHouse = house != null && normalizedSelectedHouses.contains(house)
-            val hasNoHouse = character.house.isNullOrBlank()
-            
-            hasSelectedHouse || (includeNoHouse && hasNoHouse)
-        }
-    }
-
-    private fun filterCharactersByHouseAffiliation(
-        characters: List<CharacterConverter>,
-        selectedAffiliationsValues: List<String>
-    ): List<CharacterConverter> {
-        if (selectedAffiliationsValues.isEmpty()) {
-            return emptyList()
-        } else {
-            val normalizedSelectedAffiliations = selectedAffiliationsValues
-                .map { it.trim().lowercase() }
-                .toSet()
-
-            return characters.filter { character ->
-                val hasHouseAffiliation = character.isHogwartsStudent || character.isHogwartsStaff
-                val affiliationValue = if (hasHouseAffiliation) {
-                    Constants.HAS_HOUSE_AFFILIATION_FILTER.lowercase()
-                } else {
-                    Constants.HAS_NOT_HOUSE_AFFILIATION_FILTER.lowercase()
-                }
-                normalizedSelectedAffiliations.contains(affiliationValue)
-            }
-        }
-    }
-
-    private fun filterCharactersByGender(
-        characters: List<CharacterConverter>,
-        selectedGenderValues: List<String>
-    ): List<CharacterConverter> {
-        if (selectedGenderValues.isEmpty()) {
-            return emptyList()
-        } else {
-            val normalizedSelectedGenders = selectedGenderValues
-                .map { it.trim().lowercase() }
-                .toSet()
-
-            return characters.filter { character ->
-                val gender = character.gender.trim().lowercase()
-                gender.isNotEmpty() && normalizedSelectedGenders.contains(gender)
-            }
-        }
-    }
-
-    private fun filterCharactersBySpecies(
-        characters: List<CharacterConverter>,
-        selectedSpeciesValues: List<String>
-    ): List<CharacterConverter> {
-        if (selectedSpeciesValues.isEmpty()) {
-            return emptyList()
-        } else {
-            val normalizedSelectedSpecies = selectedSpeciesValues
-                .map { it.trim().lowercase() }
-                .toSet()
-
-            return characters.filter { character ->
-                val species = character.species.trim().lowercase()
-                species.isNotEmpty() && normalizedSelectedSpecies.contains(species)
-            }
-        }
-    }
-
-    private fun filterCharactersByWizard(
-        characters: List<CharacterConverter>,
-        selectedWizardValues: List<String>
-    ): List<CharacterConverter> {
-        if (selectedWizardValues.isEmpty()) {
-            return emptyList()
-        } else {
-            val normalizedSelectedWizard = selectedWizardValues
-                .map { it.trim().lowercase() }
-                .toSet()
-
-            return characters.filter { character ->
-                val wizardValue = if (character.isWizard) {
-                    Constants.IS_WIZARD_FILTER.lowercase()
-                } else {
-                    Constants.IS_NOT_WIZARD_FILTER.lowercase()
-                }
-                normalizedSelectedWizard.contains(wizardValue)
-            }
-        }
-    }
-
-    private fun filterCharactersByAliveStatus(
-        characters: List<CharacterConverter>,
-        selectedAliveStatusValues: List<String>
-    ): List<CharacterConverter> {
-        if (selectedAliveStatusValues.isEmpty()) {
-            return emptyList()
-        } else {
-            val normalizedSelectedAliveStatus = selectedAliveStatusValues
-                .map { it.trim().lowercase() }
-                .toSet()
-
-            return characters.filter { character ->
-                val aliveStatusValue = if (character.isAlive) {
-                    Constants.IS_ALIVE_FILTER.lowercase()
-                } else {
-                    Constants.IS_NOT_ALIVE_FILTER.lowercase()
-                }
-                normalizedSelectedAliveStatus.contains(aliveStatusValue)
-            }
-        }
-    }
-
 
     override suspend fun getCharacterCount(): Int = dao.getCharacterCount()
 
@@ -261,10 +132,10 @@ class CharacterRepositoryImpl(
         characters: List<CharacterConverter>,
         selectedValues: SelectedValues
     ): List<CharacterConverter> {
-        val filteredByHouse = filterCharactersByHouse(characters = characters, selectedHouseValues = selectedValues.houseValues)
-        val filteredByGender = filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedValues.genderValues)
-        val filteredBySpecies = filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedValues.speciesValues)
-        return filterCharactersByHouseAffiliation(
+        val filteredByHouse = CharacterFilterExt.filterCharactersByHouse(characters = characters, selectedHouseValues = selectedValues.houseValues)
+        val filteredByGender = CharacterFilterExt.filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedValues.genderValues)
+        val filteredBySpecies = CharacterFilterExt.filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedValues.speciesValues)
+        return CharacterFilterExt.filterCharactersByHouseAffiliation(
             characters = filteredBySpecies,
             selectedAffiliationsValues = selectedValues.hogwartsAffiliationValues
         )
@@ -277,11 +148,11 @@ class CharacterRepositoryImpl(
     ): Flow<List<CharacterConverter>> {
         return combine(combinedFlow, wizardFilterFlow) { filteredCharacters, wizardFilters ->
             val selectedWizardValues = wizardFilters.firstOrNull()?.values ?: emptyList()
-            filterCharactersByWizard(characters = filteredCharacters, selectedWizardValues = selectedWizardValues)
+            CharacterFilterExt.filterCharactersByWizard(characters = filteredCharacters, selectedWizardValues = selectedWizardValues)
         }.let { combinedFlow ->
             combine(combinedFlow, aliveStatusFilterFlow) { filteredCharacters, aliveStatusFilters ->
                 val selectedAliveStatusValues = aliveStatusFilters.firstOrNull()?.values ?: emptyList()
-                filterCharactersByAliveStatus(characters = filteredCharacters, selectedAliveStatusValues = selectedAliveStatusValues)
+                CharacterFilterExt.filterCharactersByAliveStatus(characters = filteredCharacters, selectedAliveStatusValues = selectedAliveStatusValues)
             }
         }
     }
@@ -331,12 +202,12 @@ class CharacterRepositoryImpl(
             CharacterConverter.fromEntity(entity = entity) 
         }
         
-        val filteredByHouse = filterCharactersByHouse(characters = characters, selectedHouseValues = selectedHouseValues)
-        val filteredByGender = filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
-        val filteredBySpecies = filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedSpeciesValues)
-        val filteredByHogwartsAffiliation = filterCharactersByHouseAffiliation(characters = filteredBySpecies, selectedAffiliationsValues = selectedHogwartsAffiliationValues)
-        val filteredByWizard = filterCharactersByWizard(characters = filteredByHogwartsAffiliation, selectedWizardValues = selectedWizardValues)
-        return filterCharactersByAliveStatus(characters = filteredByWizard, selectedAliveStatusValues = selectedAliveStatusValues)
+        val filteredByHouse = CharacterFilterExt.filterCharactersByHouse(characters = characters, selectedHouseValues = selectedHouseValues)
+        val filteredByGender = CharacterFilterExt.filterCharactersByGender(characters = filteredByHouse, selectedGenderValues = selectedGenderValues)
+        val filteredBySpecies = CharacterFilterExt.filterCharactersBySpecies(characters = filteredByGender, selectedSpeciesValues = selectedSpeciesValues)
+        val filteredByHogwartsAffiliation = CharacterFilterExt.filterCharactersByHouseAffiliation(characters = filteredBySpecies, selectedAffiliationsValues = selectedHogwartsAffiliationValues)
+        val filteredByWizard = CharacterFilterExt.filterCharactersByWizard(characters = filteredByHogwartsAffiliation, selectedWizardValues = selectedWizardValues)
+        return CharacterFilterExt.filterCharactersByAliveStatus(characters = filteredByWizard, selectedAliveStatusValues = selectedAliveStatusValues)
     }
 
     private fun CharacterConverter.mergeImageUrlIfNeeded(imageUrlMap: Map<String, CharacterImageUrlEntity>): CharacterConverter {

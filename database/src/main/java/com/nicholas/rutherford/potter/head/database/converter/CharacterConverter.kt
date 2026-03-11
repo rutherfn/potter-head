@@ -50,6 +50,7 @@ data class CharacterConverter(
     val isAlive: Boolean,
     val image: String?
 ) {
+
     /**
      * Converts this converter to a CharacterEntity.
      */

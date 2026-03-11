@@ -31,6 +31,7 @@ object StringIds {
     val selectWhetherToShowWizardsOrNonWizards = R.string.select_whether_to_show_wizards_or_non_wizards
     val selectWhetherToShowAliveOrDeadCharacters = R.string.select_whether_to_show_alive_or_dead_characters
     val searchCharacters = R.string.search_characters
+    val searchSpells = R.string.search_spells
     val slytherin = R.string.slytherin
     val staff = R.string.staff
     val student = R.string.student
@@ -63,4 +64,10 @@ object StringIds {
     val no = R.string.no
     val human = R.string.human
     val male = R.string.male
+    val spells = R.string.spells
+    val couldNotRetrieveSpells = R.string.could_not_retrieve_spells
+    val wasUnableToRetrieveTheSpellsPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_spells_please_try_again_later
+    val noSpellsYet = R.string.no_spells_yet
+    val weCouldNotFindAnySpellsTapRetryToLoadItems = R.string.we_could_not_find_any_spells_tap_retry_to_load_items
+    val noSpellsFound = R.string.no_spells_found
 }

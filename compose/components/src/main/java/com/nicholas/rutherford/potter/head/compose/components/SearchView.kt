@@ -68,7 +68,7 @@ fun SearchView(
     modifier: Modifier = Modifier,
     onClearClicked: () -> Unit,
     onSearchQueryChange: (String) -> Unit,
-    onFilterClick: () -> Unit,
+    onFilterClick: (() -> Unit)? = null,
     filterCount: Int = 0,
     placeholderText: String = ""
 ) {
@@ -169,38 +169,40 @@ fun SearchView(
                 textStyle = MaterialTheme.typography.bodyMedium
             )
 
-            Box(
-                modifier = Modifier.size(48.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                IconButton(
-                    onClick = onFilterClick,
-                    modifier = Modifier.size(48.dp)
+            onFilterClick?.let { filterClicked ->
+                Box(
+                    modifier = Modifier.size(48.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.FilterList,
-                        contentDescription = "Filters",
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                
-                if (filterCount > 0) {
-                    Box(
-                        modifier = Modifier
-                            .offset(x = 14.dp, y = (-8).dp)
-                            .size(16.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.error),
-                        contentAlignment = Alignment.Center
+                    IconButton(
+                        onClick = filterClicked,
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        Text(
-                            text = filterCount.toString(),
-                            color = MaterialTheme.colorScheme.onError,
-                            style = MaterialTheme.typography.labelSmall,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 9.sp
+                        Icon(
+                            imageVector = Icons.Default.FilterList,
+                            contentDescription = "Filters",
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(24.dp)
                         )
+                    }
+
+                    if (filterCount > 0) {
+                        Box(
+                            modifier = Modifier
+                                .offset(x = 14.dp, y = (-8).dp)
+                                .size(16.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.error),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = filterCount.toString(),
+                                color = MaterialTheme.colorScheme.onError,
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 9.sp
+                            )
+                        }
                     }
                 }
             }

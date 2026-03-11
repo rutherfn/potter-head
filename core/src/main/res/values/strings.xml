@@ -30,6 +30,7 @@
     <string name="select_whether_to_show_wizards_or_non_wizards" translatable="false">Select whether to show characters who are wizards or those who are not wizards.</string>
     <string name="select_whether_to_show_alive_or_dead_characters" translatable="false">Select whether to show characters who are alive or those who are dead.</string>
     <string name="search_characters" translatable="false">Search characters by name...</string>
+    <string name="search_spells" translatable="false">Search spells by name...</string>
     <string name="staff" translatable="false">Staff</string>
     <string name="slytherin" translatable="false">slytherin</string>
     <string name="student" translatable="false">Student</string>
@@ -62,4 +63,10 @@
     <string name="no" translatable="false">No</string>
     <string name="human" translatable="false">Human</string>
     <string name="male" translatable="false">Male</string>
+    <string name="spells" translatable="false">Spells</string>
+    <string name="could_not_retrieve_spells" translatable="false">Could Not Retrieve Spells</string>
+    <string name="was_unable_to_retrieve_the_spells_please_try_again_later" translatable="false">Was unable to retrieve the spells. Please try again later</string>
+    <string name="no_spells_yet" translatable="false">No Spells Yet</string>
+    <string name="we_could_not_find_any_spells_tap_retry_to_load_items" translatable="false">We couldn\'t find any spells. Tap retry to load them</string>
+    <string name="no_spells_found" translatable="false">No Spells Found</string>
 </resources>

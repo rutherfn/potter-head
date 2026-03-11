@@ -293,7 +293,7 @@ object AppNavigationGraph {
 
             QuizzesScreen(
                 params = QuizzesParams(
-                    onSortingHatQuizClicked = { viewModel.onSortingHatQuizClicked() }
+                    onQuizClicked = { viewModel.onQuizClicked() }
                 )
             )
         }

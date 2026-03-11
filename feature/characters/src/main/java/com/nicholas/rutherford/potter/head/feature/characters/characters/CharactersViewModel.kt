@@ -4,6 +4,7 @@ import android.net.Uri
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
@@ -44,6 +45,8 @@ class CharactersViewModel(
     private val navigator: Navigator
 ) : BaseViewModel() {
 
+    override val screenTitle: String = Constants.ScreenTitles.CHARACTERS
+
     private val charactersMutableStateFlow = MutableStateFlow(CharactersState())
     val charactersStateFlow: StateFlow<CharactersState> = charactersMutableStateFlow.asStateFlow()
     private val allCharacters = MutableStateFlow<List<CharacterConverter>>(value = emptyList())
@@ -72,7 +75,7 @@ class CharactersViewModel(
                         state.copy(
                             isLoading = false,
                             shouldShowNoContent = false,
-                            errorType = CharactersErrorType.NONE
+                            errorType = DataErrorType.None
                         )
                     }
                 } else if (characters.isEmpty() && charactersMutableStateFlow.value.isLoading) {
@@ -80,7 +83,7 @@ class CharactersViewModel(
                         state.copy(
                             isLoading = false,
                             shouldShowNoContent = false,
-                            errorType = CharactersErrorType.NONE
+                            errorType = DataErrorType.None
                         )
                     }
                 }
@@ -95,7 +98,7 @@ class CharactersViewModel(
                         charactersMutableStateFlow.update { state ->
                             state.copy(
                                 characters = emptyList(),
-                                errorType = CharactersErrorType.NONE,
+                                errorType = DataErrorType.None,
                                 isLoading = false,
                                 shouldShowNoContent = false,
                                 hasMoreToLoad = false
@@ -131,7 +134,7 @@ class CharactersViewModel(
         charactersMutableStateFlow.update { state ->
             state.copy(
                 characters =  allCharacters.value.take(n = visibleCount),
-                errorType = CharactersErrorType.NONE,
+                errorType = DataErrorType.None,
                 isLoading = false,
                 shouldShowNoContent = false,
                 hasMoreToLoad = allCharacters.value.size > visibleCount
@@ -142,7 +145,7 @@ class CharactersViewModel(
     private fun failedFetchingCharacters(error: Throwable) {
         charactersMutableStateFlow.update { state ->
             state.copy(
-                errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                errorType = DataErrorType.FailedToFetchData(dataType = screenTitle),
                 isLoading = false,
                 shouldShowNoContent = false,
             )
@@ -164,7 +167,7 @@ class CharactersViewModel(
                 } ?: run {
                     charactersMutableStateFlow.update { state ->
                         state.copy(
-                            errorType = CharactersErrorType.FAILED_TO_FETCH_CHARACTERS,
+                            errorType = DataErrorType.FailedToFetchData(dataType = screenTitle),
                             isLoading = false,
                             shouldShowNoContent = false,
                         )
@@ -176,7 +179,7 @@ class CharactersViewModel(
         } else {
             charactersMutableStateFlow.update { state ->
                 state.copy(
-                    errorType = CharactersErrorType.NO_INTERNET_CONNECTION,
+                    errorType = DataErrorType.NoInternetConnection,
                     isLoading = false,
                     shouldShowNoContent = false,
                 )
@@ -191,7 +194,7 @@ class CharactersViewModel(
                 state.copy(
                     isLoading = true,
                     shouldShowNoContent = false,
-                    errorType = CharactersErrorType.NONE
+                    errorType = DataErrorType.None
                 )
             }
             delay(timeMillis = Constants.RETRY_LOADING_CHARACTERS_DELAY)

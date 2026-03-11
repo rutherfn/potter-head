@@ -70,4 +70,6 @@ object StringIds {
     val noSpellsYet = R.string.no_spells_yet
     val weCouldNotFindAnySpellsTapRetryToLoadItems = R.string.we_could_not_find_any_spells_tap_retry_to_load_items
     val noSpellsFound = R.string.no_spells_found
+    val couldNotRetrieveData = R.string.could_not_retrieve_data
+    val wasUnableToRetrieveTheDataPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_data_please_try_again_later
 }

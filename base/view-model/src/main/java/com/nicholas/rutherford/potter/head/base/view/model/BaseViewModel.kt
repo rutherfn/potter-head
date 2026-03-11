@@ -31,6 +31,14 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
 
     /**
+     * The screen title for this ViewModel's screen.
+     * Should be overridden by subclasses to return the appropriate title from [com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles].
+     *
+     * @return The screen title string
+     */
+    protected abstract val screenTitle: String
+
+    /**
      * Kermit Logger for this class.
      */
     protected val log: Logger = Logger.withTag(tag = this::class.simpleName ?: "BaseViewModel")

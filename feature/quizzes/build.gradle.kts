@@ -40,6 +40,9 @@ kotlin {
 }
 
 dependencies {
+    implementation(project(path = ":base:view-model"))
+    implementation(project(path = ":core"))
+
     androidTestImplementation(libs.androidx.test.monitor)
     api(libs.androidx.compose.runtime.android)
     api(libs.androidx.lifecycle.viewmodel.android)

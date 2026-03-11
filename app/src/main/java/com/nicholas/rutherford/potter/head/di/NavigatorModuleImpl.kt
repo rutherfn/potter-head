@@ -15,3 +15,4 @@ internal class NavigatorModuleImpl : NavigatorModule {
 
     override val navigator: Navigator = navigatorInstance
 }
+

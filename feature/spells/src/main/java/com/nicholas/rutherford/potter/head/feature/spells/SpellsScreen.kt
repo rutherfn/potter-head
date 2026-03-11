@@ -27,7 +27,9 @@ import com.nicholas.rutherford.potter.head.compose.components.EmptyOrErrorConten
 import com.nicholas.rutherford.potter.head.compose.components.SearchView
 import com.nicholas.rutherford.potter.head.compose.ui.theme.shimmerEffect
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
+import com.nicholas.rutherford.potter.head.core.isValidErrorType
 import com.nicholas.rutherford.potter.head.database.converter.SpellConverter
 
 @Composable
@@ -36,12 +38,26 @@ fun SpellsScreen(params: SpellsParams) {
 
     when {
         state.isLoading && state.spells.isEmpty() && state.searchQuery.isEmpty() -> ShimmerSpellsContent()
-        state.errorType.isValidErrorType() && state.searchQuery.isEmpty() -> EmptyOrErrorContent(
-            title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
-            description = state.errorType.descriptionId?.let { id -> stringResource(id = id) } ?: "",
-            buttonText = stringResource(id = StringIds.retry),
-            onButtonClicked = params.onRetryClicked
-        )
+        state.errorType.isValidErrorType() && state.searchQuery.isEmpty() -> {
+            val title = when (val error = state.errorType) {
+                is DataErrorType.FailedToFetchData -> {
+                    error.titleId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                }
+                else -> error.titleId?.let { id -> stringResource(id = id) } ?: ""
+            }
+            val description = when (val error = state.errorType) {
+                is DataErrorType.FailedToFetchData -> {
+                    error.descriptionId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                }
+                else -> error.descriptionId?.let { id -> stringResource(id = id) } ?: ""
+            }
+            EmptyOrErrorContent(
+                title = title,
+                description = description,
+                buttonText = stringResource(id = StringIds.retry),
+                onButtonClicked = params.onRetryClicked
+            )
+        }
         state.spells.isEmpty() && !state.isLoading && state.searchQuery.isEmpty() -> EmptyOrErrorContent(
             title = stringResource(id = StringIds.noSpellsYet),
             description = stringResource(id = StringIds.weCouldNotFindAnySpellsTapRetryToLoadItems),

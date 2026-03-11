@@ -13,3 +13,4 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarF
 class AppBarFactoryModuleImpl : AppBarFactoryModule {
     override val appBarFactory: AppBarFactory = AppBarFactoryImpl()
 }
+

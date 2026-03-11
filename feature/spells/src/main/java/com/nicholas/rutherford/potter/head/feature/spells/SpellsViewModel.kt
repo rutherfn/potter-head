@@ -2,6 +2,8 @@ package com.nicholas.rutherford.potter.head.feature.spells
 
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
+import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.database.converter.SpellConverter
 import com.nicholas.rutherford.potter.head.database.repository.SpellRepository
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -27,6 +29,8 @@ class SpellsViewModel(
     private val spellRepository: SpellRepository,
     private val networkMonitor: NetworkMonitor
 ) : BaseViewModel() {
+
+    override val screenTitle: String = Constants.ScreenTitles.SPELLS
 
     private val spellsMutableStateFlow = MutableStateFlow(SpellsState())
     val spellsStateFlow: StateFlow<SpellsState> = spellsMutableStateFlow.asStateFlow()
@@ -55,12 +59,12 @@ class SpellsViewModel(
                         state.copy(
                             spells = allSpellsFromDb,
                             isLoading = false,
-                            errorType = SpellsErrorType.NONE
+                            errorType = DataErrorType.None
                         )
                     }
                 } else {
                     val currentErrorType = spellsMutableStateFlow.value.errorType
-                    if (currentErrorType == SpellsErrorType.NONE) {
+                    if (currentErrorType is DataErrorType.None) {
                         fetchSpellsFromApiAndUpdateDb()
                     } else {
                         spellsMutableStateFlow.update { state ->
@@ -88,7 +92,7 @@ class SpellsViewModel(
                 } ?: run {
                     spellsMutableStateFlow.update { state ->
                         state.copy(
-                            errorType = SpellsErrorType.FAILED_TO_FETCH_SPELLS,
+                            errorType = DataErrorType.FailedToFetchData(dataType = screenTitle),
                             isLoading = false
                         )
                     }
@@ -99,7 +103,7 @@ class SpellsViewModel(
         } else {
             spellsMutableStateFlow.update { state ->
                 state.copy(
-                    errorType = SpellsErrorType.NO_INTERNET_CONNECTION,
+                    errorType = DataErrorType.NoInternetConnection,
                     isLoading = false
                 )
             }
@@ -110,7 +114,7 @@ class SpellsViewModel(
     private fun failedFetchingSpells(error: Throwable) {
         spellsMutableStateFlow.update { state ->
             state.copy(
-                errorType = SpellsErrorType.FAILED_TO_FETCH_SPELLS,
+                errorType = DataErrorType.FailedToFetchData(dataType = screenTitle),
                 isLoading = false
             )
         }
@@ -139,7 +143,7 @@ class SpellsViewModel(
     fun retryLoadingSpells() {
         spellsMutableStateFlow.update { state ->
             state.copy(
-                errorType = SpellsErrorType.NONE,
+                errorType = DataErrorType.None,
                 isLoading = true
             )
         }

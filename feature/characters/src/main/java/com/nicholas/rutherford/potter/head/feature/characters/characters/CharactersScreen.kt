@@ -52,7 +52,9 @@ import com.nicholas.rutherford.potter.head.compose.components.SearchView
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.shimmerEffect
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
+import com.nicholas.rutherford.potter.head.core.isValidErrorType
 import com.nicholas.rutherford.potter.head.core.safeLet
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -64,12 +66,26 @@ fun CharactersScreen(params: CharactersParams) {
 
     when {
         state.isLoading && state.characters.isEmpty() -> ShimmerCharactersContent()
-        state.errorType.isValidErrorType() -> EmptyOrErrorContent(
-            title = state.errorType.titleId?.let { id -> stringResource(id = id) } ?: "",
-            description = state.errorType.descriptionId?.let { id -> stringResource(id = id) } ?: "",
-            buttonText = stringResource(id = StringIds.retry),
-            onButtonClicked = params.onRetryClicked
-        )
+        state.errorType.isValidErrorType() -> {
+            val title = when (val error = state.errorType) {
+                is DataErrorType.FailedToFetchData -> {
+                    error.titleId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                }
+                else -> error.titleId?.let { id -> stringResource(id = id) } ?: ""
+            }
+            val description = when (val error = state.errorType) {
+                is DataErrorType.FailedToFetchData -> {
+                    error.descriptionId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                }
+                else -> error.descriptionId?.let { id -> stringResource(id = id) } ?: ""
+            }
+            EmptyOrErrorContent(
+                title = title,
+                description = description,
+                buttonText = stringResource(id = StringIds.retry),
+                onButtonClicked = params.onRetryClicked
+            )
+        }
         state.characters.isEmpty() && state.searchQuery.isEmpty() && state.filterCount > 0 && !state.isLoading -> EmptyOrErrorContent(
                 title = stringResource(id = StringIds.noCharactersMatchFilters),
                 description = stringResource(id = StringIds.tryAdjustingYourFilters),

@@ -1,8 +1,13 @@
 package com.nicholas.rutherford.potter.head.feature.quizzes
 
-import androidx.lifecycle.ViewModel
+import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
+import com.nicholas.rutherford.potter.head.core.Constants
 
-class QuizzesViewModel : ViewModel() {
+class QuizzesViewModel : BaseViewModel() {
 
-    fun onSortingHatQuizClicked() {}
+    override val screenTitle: String = Constants.ScreenTitles.QUIZZES
+
+    fun onQuizClicked() {
+
+    }
 }

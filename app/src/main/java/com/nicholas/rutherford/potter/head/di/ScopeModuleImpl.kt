@@ -17,3 +17,4 @@ class ScopeModuleImpl : ScopeModule {
     override val mainScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Main) }
     override val defaultScope: CoroutineScope by lazy { CoroutineScope(SupervisorJob() + Dispatchers.Default) }
 }
+

@@ -34,6 +34,7 @@ class SpellsViewModel(
 
     private val spellsMutableStateFlow = MutableStateFlow(SpellsState())
     val spellsStateFlow: StateFlow<SpellsState> = spellsMutableStateFlow.asStateFlow()
+
     private var allSpells: List<SpellConverter> = emptyList()
 
     init {

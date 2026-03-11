@@ -286,14 +286,24 @@ object AppNavigationGraph {
      * when navigating between screens within the same graph.
      */
     fun NavGraphBuilder.quizzesScreen() {
-        composable(route = Screens.Quizzes.route) {
+        composable(route = Screens.Quizzes.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
             val viewModel: QuizzesViewModel = viewModel(factory = factory)
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createQuizzesAppBar() }
+            )
 
             QuizzesScreen(
                 params = QuizzesParams(
-                    onQuizClicked = { viewModel.onQuizClicked() }
+                    state = viewModel.quizzesStateFlow.collectAsState().value,
+                    onQuizClicked = { viewModel.onQuizClicked() },
+                    onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) }
                 )
             )
         }

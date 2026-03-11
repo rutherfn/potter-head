@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="available_quizzes" translatable="false">Available Quizzes</string>
+    <string name="submitted_quizzes" translatable="false">Submitted Quizzes</string>
     <string name="clear_filters" translatable="false">Clear Filters</string>
     <string name="clear_search_results" translatable="false">Clear Search Results</string>
     <string name="character_detail" translatable="false">Character Detail</string>
@@ -64,6 +66,7 @@
     <string name="human" translatable="false">Human</string>
     <string name="male" translatable="false">Male</string>
     <string name="spells" translatable="false">Spells</string>
+    <string name="quizzes" translatable="false">Quizzes</string>
     <string name="could_not_retrieve_spells" translatable="false">Could Not Retrieve Spells</string>
     <string name="was_unable_to_retrieve_the_spells_please_try_again_later" translatable="false">Was unable to retrieve the spells. Please try again later</string>
     <string name="no_spells_yet" translatable="false">No Spells Yet</string>

@@ -32,4 +32,7 @@ class AppBarFactoryImpl : AppBarFactory {
 
     override fun createSpellsAppBar(): AppBar =
         AppBar(titleId = StringIds.spells, imageVector = null)
+
+    override fun createQuizzesAppBar(): AppBar =
+        AppBar(titleId = StringIds.quizzes, imageVector = null)
 }

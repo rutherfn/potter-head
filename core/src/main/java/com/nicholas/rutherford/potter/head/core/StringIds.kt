@@ -1,6 +1,8 @@
 package com.nicholas.rutherford.potter.head.core
 
 object StringIds {
+    val availableQuizzes = R.string.available_quizzes
+    val submittedQuizzes = R.string.submitted_quizzes
     val characterDetail = R.string.character_detail
     val characterNotFound = R.string.character_not_found
     val filterByStudentOrStaff = R.string.filter_by_student_or_staff
@@ -65,6 +67,7 @@ object StringIds {
     val human = R.string.human
     val male = R.string.male
     val spells = R.string.spells
+    val quizzes = R.string.quizzes
     val couldNotRetrieveSpells = R.string.could_not_retrieve_spells
     val wasUnableToRetrieveTheSpellsPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_spells_please_try_again_later
     val noSpellsYet = R.string.no_spells_yet

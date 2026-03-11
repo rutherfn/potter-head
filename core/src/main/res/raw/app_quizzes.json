@@ -1,0 +1,66 @@
+[
+  {
+    "id": "sorting_hat",
+    "title": "Sorting Hat Quiz",
+    "description": "Discover which Hogwarts house you belong to.",
+    "longDescription": "The legendary Sorting Hat can see into your mind and determine where you truly belong. Answer these questions honestly and the hat will decide whether your traits best match Gryffindor, Slytherin, Ravenclaw, or Hufflepuff.",
+    "results": [
+      "gryffindor",
+      "slytherin",
+      "ravenclaw",
+      "hufflepuff"
+    ],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "You discover a hidden door in a quiet corridor at Hogwarts. What do you do?",
+        "answers": [
+          { "text": "Open it immediately to see where it leads.", "points": { "gryffindor": 2 } },
+          { "text": "Think about how this discovery could benefit you.", "points": { "slytherin": 2 } },
+          { "text": "Study the door carefully before acting.", "points": { "ravenclaw": 2 } },
+          { "text": "Ask friends to explore it together.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "A classmate is struggling with a difficult spell. What do you do?",
+        "answers": [
+          { "text": "Encourage them to keep trying.", "points": { "gryffindor": 2 } },
+          { "text": "Suggest a clever shortcut.", "points": { "slytherin": 2 } },
+          { "text": "Explain the theory behind the spell.", "points": { "ravenclaw": 2 } },
+          { "text": "Help them practice patiently.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Which Hogwarts activity sounds most exciting?",
+        "answers": [
+          { "text": "Competing in Quidditch.", "points": { "gryffindor": 2 } },
+          { "text": "Achieving recognition and influence.", "points": { "slytherin": 2 } },
+          { "text": "Studying advanced magic.", "points": { "ravenclaw": 2 } },
+          { "text": "Spending time with close friends.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "You are given the chance to master a rare magical ability.",
+        "answers": [
+          { "text": "Defensive magic for dangerous situations.", "points": { "gryffindor": 2 } },
+          { "text": "Magic that gives strategic advantage.", "points": { "slytherin": 2 } },
+          { "text": "Ancient magical knowledge.", "points": { "ravenclaw": 2 } },
+          { "text": "Protective magic to help others.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Which trait matters most to you?",
+        "answers": [
+          { "text": "Courage", "points": { "gryffindor": 2 } },
+          { "text": "Ambition", "points": { "slytherin": 2 } },
+          { "text": "Intelligence", "points": { "ravenclaw": 2 } },
+          { "text": "Loyalty", "points": { "hufflepuff": 2 } }
+        ]
+      }
+    ]
+  }
+]

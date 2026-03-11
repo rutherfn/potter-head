@@ -60,6 +60,7 @@ object Constants {
 
     object NavigationDestinations {
         const val CHARACTERS_SCREEN = "charactersScreen"
+        const val SPELLS_SCREEN = "spellsScreen"
         const val CHARACTERS_FILTERS_SCREEN = "charactersFiltersScreen"
         const val CHARACTER_DETAIL_SCREEN = "characterDetailScreen"
         const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{name}"
@@ -71,6 +72,7 @@ object Constants {
 
     object ScreenTitles {
         const val CHARACTERS = "Characters"
+        const val SPELLS = "Spells"
         const val CHARACTERS_FILTERS = "Filters"
         const val CHARACTER_DETAIL = "Details"
         const val QUIZZES = "Quizzes"

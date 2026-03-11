@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
 import coil.transform.CircleCropTransformation
+import com.nicholas.rutherford.potter.head.compose.components.EmptyOrErrorContent
 import com.nicholas.rutherford.potter.head.compose.components.HouseBadge
 import com.nicholas.rutherford.potter.head.compose.components.SearchView
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
@@ -84,80 +85,6 @@ fun CharactersScreen(params: CharactersParams) {
                 onButtonClicked = params.onRetryClicked
         )
         else -> CharactersContentWithSearch(state = state, params = params)
-    }
-}
-
-@Composable
-private fun EmptyOrErrorContent(
-    title: String,
-    description: String,
-    buttonText: String,
-    onButtonClicked: () -> Unit,
-    secondaryButtonText: String? = null,
-    onSecondaryButtonClicked: (() -> Unit)? = null,
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-            .padding(24.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineLarge,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.primary
-            )
-
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Button(
-                onClick = onButtonClicked,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
-                ),
-                modifier = Modifier.padding(top = 8.dp)
-            ) {
-                Text(
-                    text = buttonText,
-                    style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-
-            safeLet(secondaryButtonText, onSecondaryButtonClicked) { buttonText, onButtonClicked ->
-                Button(
-                    onClick = onButtonClicked,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    modifier = Modifier.padding(top = 8.dp)
-                ) {
-                    Text(
-                        text = buttonText,
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                }
-
-            }
-
-
-        }
     }
 }
 

@@ -9,6 +9,7 @@ import com.nicholas.rutherford.potter.head.database.DebugToggleKeys
 import com.nicholas.rutherford.potter.head.database.dao.CharacterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterFilterDao
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
+import com.nicholas.rutherford.potter.head.database.dao.SpellDao
 import com.nicholas.rutherford.potter.head.database.di.DatabaseModule
 import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepositoryImpl
@@ -18,6 +19,8 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterReposito
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
+import com.nicholas.rutherford.potter.head.database.repository.SpellRepository
+import com.nicholas.rutherford.potter.head.database.repository.SpellRepositoryImpl
 import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
 import kotlinx.coroutines.launch
 
@@ -49,10 +52,16 @@ class DatabaseModuleImpl(
 
     override val characterDao: CharacterDao = appDatabase.characterDao()
 
+    override val spellDao: SpellDao = appDatabase.spellDao()
+
     override val characterImageDao: CharacterImageDao = appDatabase.characterImageDao()
 
     override val characterRepository: CharacterRepository by lazy {
         CharacterRepositoryImpl(dao = characterDao, characterFilterDao = characterFilterDao, characterImageDao = characterImageDao)
+    }
+
+    override val spellRepository: SpellRepository by lazy {
+        SpellRepositoryImpl(dao = appDatabase.spellDao())
     }
 
     override val characterFilterRepository: CharacterFilterRepository by lazy { CharacterFilterRepositoryImpl(dao = characterFilterDao) }

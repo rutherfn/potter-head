@@ -25,6 +25,12 @@ sealed class Screens(
         showBottomNavigation = true
     )
 
+    object Spells : Screens(
+        route = Constants.NavigationDestinations.SPELLS_SCREEN,
+        title = Constants.ScreenTitles.SPELLS,
+        showBottomNavigation = true
+    )
+
     object CharactersDetail : Screens(
         route = Constants.NavigationDestinations.CHARACTER_DETAIL_SCREEN_WITH_PARAMS,
         title = Constants.ScreenTitles.CHARACTER_DETAIL,
@@ -70,6 +76,7 @@ sealed class Screens(
                 route.startsWith(Quizzes.route) -> Quizzes.showBottomNavigation
                 route.startsWith(Settings.route) -> Settings.showBottomNavigation
                 route.startsWith(CharactersDetail.route) -> CharactersDetail.showBottomNavigation
+                route.startsWith(Spells.route) -> Spells.showBottomNavigation
                 else -> false
             }
         }

@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation.bottom
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Quiz
 import androidx.compose.material.icons.filled.Settings
@@ -37,6 +38,10 @@ fun BottomNavigationBar(
         BottomNavItem(
             screen = Screens.Characters,
             icon = Icons.Default.Group
+        ),
+        BottomNavItem(
+            screen = Screens.Spells,
+            icon = Icons.Default.AutoAwesome
         ),
         BottomNavItem(
             screen = Screens.Quizzes,

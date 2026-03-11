@@ -29,4 +29,7 @@ class AppBarFactoryImpl : AppBarFactory {
             onIconButtonClicked = onIconButtonClicked,
             iconContentDescription = "Back"
         )
+
+    override fun createSpellsAppBar(): AppBar =
+        AppBar(titleId = StringIds.spells, imageVector = null)
 }

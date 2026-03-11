@@ -11,6 +11,7 @@ import com.nicholas.rutherford.potter.head.feature.characters.characterfilters.C
 import com.nicholas.rutherford.potter.head.feature.characters.characters.CharactersViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import com.nicholas.rutherford.potter.head.feature.spells.SpellsViewModel
 
 /**
  * Factory for creating ViewModels with dependency injection.
@@ -36,6 +37,7 @@ class ViewModelFactory(
         when (modelClass) {
             CharactersViewModel::class.java -> createCharacterViewModel() as T
             CharacterFiltersViewModel::class.java -> createCharacterFiltersViewModel() as T
+            SpellsViewModel::class.java -> createSpellsViewModel() as T
             CharacterDetailViewModel::class.java -> createCharacterDetailViewModel(extras) as T
             QuizzesViewModel::class.java -> createQuizzesViewModel() as T
             SettingsViewModel::class.java -> createSettingsViewModel() as T
@@ -56,6 +58,13 @@ class ViewModelFactory(
         CharacterFiltersViewModel(
             characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
             navigator = appGraph.navigatorModule.navigator
+        )
+
+    private fun createSpellsViewModel(): SpellsViewModel =
+        SpellsViewModel(
+            harryPotterApiRepository = appGraph.networkModule.harryPotterApiRepository,
+            spellRepository = appGraph.databaseModule.spellRepository,
+            networkMonitor = appGraph.networkModule.networkMonitor
         )
 
     private fun createCharacterDetailViewModel(extras: CreationExtras): CharacterDetailViewModel =

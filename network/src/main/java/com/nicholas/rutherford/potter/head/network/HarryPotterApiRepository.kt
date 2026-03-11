@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.network
 
 import com.nicholas.rutherford.potter.head.model.network.CharacterResponse
+import com.nicholas.rutherford.potter.head.model.network.SpellResponse
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -10,4 +11,5 @@ import kotlinx.coroutines.flow.Flow
  */
 interface HarryPotterApiRepository {
     fun getAllCharacters(): Flow<Result<List<CharacterResponse>>>
+    fun getAllSpells(): Flow<Result<List<SpellResponse>>>
 }

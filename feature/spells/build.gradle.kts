@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nicholas.rutherford.potter.head.compose.components"
+    namespace = "com.nicholas.rutherford.potter.head.feature.spells"
     compileSdk = 36
 
     defaultConfig {
@@ -40,24 +40,33 @@ kotlin {
 }
 
 dependencies {
-    implementation(project(path = ":core"))
-    implementation(project(path = ":compose:ui-theme"))
 
-    api(libs.androidx.compose.material3.android)
+    api(project(path = ":base:view-model"))
+    api(project(path = ":core"))
+    api(project(path = ":compose:components"))
+    api(project(path = ":compose:ui-theme"))
+    api(project(path = ":database"))
+    api(project(path = ":navigation"))
+    api(project(path = ":network"))
+
+    androidTestImplementation(libs.androidx.test.monitor)
     api(libs.androidx.compose.runtime.android)
-    api(libs.androidx.lifecycle.common)
+    api(libs.androidx.lifecycle.viewmodel.android)
+    api(libs.androidx.lifecycle.viewmodel.savedstate.android)
     api(libs.kotlinx.coroutines.core)
-
-    implementation(libs.androidx.activity.compose)
+    api(libs.androidx.compose.foundation.layout.android)
     implementation(libs.androidx.compose.foundation.android)
+    implementation(libs.androidx.compose.material3.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.graphics.android)
     implementation(libs.androidx.compose.ui.text.android)
     implementation(libs.androidx.compose.ui.tooling.preview.android)
     implementation(libs.androidx.compose.ui.unit.android)
-    implementation(libs.androidx.lifecycle.runtime.compose.android)
-    implementation(libs.androidx.compose.material.icons.extended.android)
+    implementation(libs.androidx.navigation.common)
+    implementation(libs.coil.compose)
 
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
 
     debugRuntimeOnly(libs.androidx.compose.ui.test.manifest)

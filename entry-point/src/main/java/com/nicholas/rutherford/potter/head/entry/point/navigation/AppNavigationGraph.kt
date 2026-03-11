@@ -28,6 +28,9 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsParams
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsScreen
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import com.nicholas.rutherford.potter.head.feature.spells.SpellsParams
+import com.nicholas.rutherford.potter.head.feature.spells.SpellsScreen
+import com.nicholas.rutherford.potter.head.feature.spells.SpellsViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -95,6 +98,41 @@ object AppNavigationGraph {
             onDispose {
                 backStackEntry.lifecycle.removeObserver(observer)
             }
+        }
+    }
+
+    /**
+     * Defines the spells screen in the navigation graph.
+     *
+     * This function sets up the spells screen with:
+     * - Route: Characters.route
+     * - ViewModel: [SpellsViewModel] created via [LocalViewModelFactory]
+     * - Screen: [SpellsScreen] with parameters.
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
+    fun NavGraphBuilder.spellsScreen() {
+        composable(route = Screens.Spells.route) { backStackEntry ->
+
+            val factory = LocalViewModelFactory.current
+            val viewModel: SpellsViewModel = viewModel(factory = factory)
+            val appBarFactory = LocalAppBarFactory.current
+            val state = viewModel.spellsStateFlow.collectAsState().value
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createSpellsAppBar() }
+            )
+
+            SpellsScreen(params = SpellsParams(
+                state = state,
+                onRetryClicked = { viewModel.retryLoadingSpells() },
+                onSearchQueryChange = { query -> viewModel.onSearchQueryChange(query = query) },
+                onClearClicked = { viewModel.onClearClicked() }
+            ))
         }
     }
 
@@ -297,6 +335,7 @@ object AppNavigationGraph {
      */
     private val screenSetupFunctions: List<NavGraphBuilder.() -> Unit> = listOf(
         { charactersScreen() },
+        { spellsScreen() },
         { charactersFiltersScreen() },
         { characterDetailScreen() },
         { quizzesScreen() },

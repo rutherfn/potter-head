@@ -18,6 +18,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nicholas.rutherford.potter.head.core.safeLet
 
+/**
+ * Reusable composable for displaying empty or error content(used strictly on searching screens in the app)
+ *
+ * @param title The title to display.
+ * @param description The description to display.
+ * @param buttonText The text for the primary button.
+ * @param onButtonClicked Callback for when the primary button is clicked.
+ * @param secondaryButtonText Optional text for the secondary button.
+ * @param onSecondaryButtonClicked Optional callback for when the secondary button is clicked.
+ *
+ * @author Nicholas Rutherford
+ */
 @Composable
 fun EmptyOrErrorContent(
     title: String,

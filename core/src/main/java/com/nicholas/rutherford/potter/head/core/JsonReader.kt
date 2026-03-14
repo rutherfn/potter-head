@@ -63,8 +63,6 @@ object JsonReader {
             val listType = object : TypeToken<List<QuizJsonResponse>>() {}.type
             val quizzes = gson.fromJson<List<QuizJsonResponse>>(jsonString, listType)
 
-            log.d(messageString = "Successfully parsed ${quizzes.size} quizzes from JSON")
-            
             quizzes.ifEmpty {
                 log.w(messageString = "Read quizzes from JSON but was empty")
                 emptyList()

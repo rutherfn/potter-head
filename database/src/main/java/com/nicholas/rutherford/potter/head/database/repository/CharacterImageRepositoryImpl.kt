@@ -40,9 +40,6 @@ class CharacterImageRepositoryImpl(
 
     override suspend fun insertAllCharacterImageUrls() {
         val characterUrlsJson = JsonReader.getCharacterImageUrls(context = context)
-        val test = JsonReader.getQuizzes(context = context)
-
-        println("here is the full data $test")
         val characterImageUrlConverters = characterUrlsJson.map { jsonResponse -> CharacterImageUrlConverter.fromJsonResponse(json = jsonResponse) }
         
         dao.insertAllCharacterImageUrls(characterImageUrls = characterImageUrlConverters.map { converter -> converter.toEntity() })

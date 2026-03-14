@@ -19,6 +19,8 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterReposito
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepositoryImpl
+import com.nicholas.rutherford.potter.head.database.repository.QuizRepository
+import com.nicholas.rutherford.potter.head.database.repository.QuizRepositoryImpl
 import com.nicholas.rutherford.potter.head.database.repository.SpellRepository
 import com.nicholas.rutherford.potter.head.database.repository.SpellRepositoryImpl
 import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
@@ -71,6 +73,8 @@ class DatabaseModuleImpl(
     }
 
     override val debugToggleRepository: DebugToggleRepository by lazy { DebugToggleRepositoryImpl(dao = debugToggleDao) }
+
+    override val quizRepository: QuizRepository by lazy { QuizRepositoryImpl(dao = appDatabase.quizDao(), context = context) }
 
     private fun initializeDefaultData(database: AppDatabase) {
         scopeModule.ioScope.launch {

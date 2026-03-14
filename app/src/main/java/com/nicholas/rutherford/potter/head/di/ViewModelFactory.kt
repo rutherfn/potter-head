@@ -75,7 +75,10 @@ class ViewModelFactory(
             application = application
         )
 
-    private fun createQuizzesViewModel(): QuizzesViewModel = QuizzesViewModel(application = application)
+    private fun createQuizzesViewModel(): QuizzesViewModel = QuizzesViewModel(
+        application = application,
+        quizRepository = appGraph.databaseModule.quizRepository
+    )
 
     private fun createSettingsViewModel(): SettingsViewModel = SettingsViewModel()
 

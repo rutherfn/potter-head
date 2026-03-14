@@ -303,7 +303,8 @@ object AppNavigationGraph {
                 params = QuizzesParams(
                     state = viewModel.quizzesStateFlow.collectAsState().value,
                     onQuizClicked = { viewModel.onQuizClicked() },
-                    onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) }
+                    onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) },
+                    onRetryClicked = { viewModel.retryLoadingQuizzes() }
                 )
             )
         }

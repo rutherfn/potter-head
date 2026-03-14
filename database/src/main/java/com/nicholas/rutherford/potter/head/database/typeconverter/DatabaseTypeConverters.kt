@@ -4,6 +4,8 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
+import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
+import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
 
 /**
@@ -67,6 +69,63 @@ object DatabaseTypeConverters {
             null
         } else {
             CharacterFilterType.valueOf(value)
+        }
+    }
+
+    @TypeConverter
+    fun fromStringIntMap(value: Map<String, Int>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toStringIntMap(value: String?): Map<String, Int>? {
+        return if (value == null) {
+            null
+        } else {
+            val mapType = object : TypeToken<Map<String, Int>>() {}.type
+            gson.fromJson(value, mapType)
+        }
+    }
+
+    @TypeConverter
+    fun fromQuestionEntityList(value: List<QuestionEntity>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toQuestionEntityList(value: String?): List<QuestionEntity>? {
+        return if (value == null) {
+            null
+        } else {
+            val listType = object : TypeToken<List<QuestionEntity>>() {}.type
+            gson.fromJson(value, listType)
+        }
+    }
+
+    @TypeConverter
+    fun fromAnswerEntityList(value: List<AnswerEntity>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toAnswerEntityList(value: String?): List<AnswerEntity>? {
+        return if (value == null) {
+            null
+        } else {
+            val listType = object : TypeToken<List<AnswerEntity>>() {}.type
+            gson.fromJson(value, listType)
         }
     }
 }

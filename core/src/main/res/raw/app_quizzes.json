@@ -3,62 +3,343 @@
     "id": "sorting_hat",
     "title": "Sorting Hat Quiz",
     "description": "Discover which Hogwarts house you belong to.",
-    "longDescription": "The legendary Sorting Hat can see into your mind and determine where you truly belong. Answer these questions honestly and the hat will decide whether your traits best match Gryffindor, Slytherin, Ravenclaw, or Hufflepuff.",
-    "results": [
-      "gryffindor",
-      "slytherin",
-      "ravenclaw",
-      "hufflepuff"
-    ],
+    "longDescription": "The legendary Sorting Hat looks deep into your personality and determines your true Hogwarts house.",
+    "quizImageUrl": "https://miro.medium.com/v2/resize:fit:1200/0*TVvcb08UBLeL919-.jpeg",
+    "results": ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"],
     "questions": [
       {
         "id": "q1",
-        "text": "You discover a hidden door in a quiet corridor at Hogwarts. What do you do?",
+        "text": "You discover a hidden door in Hogwarts.",
         "answers": [
-          { "text": "Open it immediately to see where it leads.", "points": { "gryffindor": 2 } },
-          { "text": "Think about how this discovery could benefit you.", "points": { "slytherin": 2 } },
-          { "text": "Study the door carefully before acting.", "points": { "ravenclaw": 2 } },
-          { "text": "Ask friends to explore it together.", "points": { "hufflepuff": 2 } }
+          { "text": "Open it immediately.", "points": { "gryffindor": 2 } },
+          { "text": "Think how it could benefit you.", "points": { "slytherin": 2 } },
+          { "text": "Study it first.", "points": { "ravenclaw": 2 } },
+          { "text": "Bring friends.", "points": { "hufflepuff": 2 } }
         ]
       },
       {
         "id": "q2",
-        "text": "A classmate is struggling with a difficult spell. What do you do?",
+        "text": "A student is being treated unfairly.",
         "answers": [
-          { "text": "Encourage them to keep trying.", "points": { "gryffindor": 2 } },
-          { "text": "Suggest a clever shortcut.", "points": { "slytherin": 2 } },
-          { "text": "Explain the theory behind the spell.", "points": { "ravenclaw": 2 } },
-          { "text": "Help them practice patiently.", "points": { "hufflepuff": 2 } }
+          { "text": "Stand up for them.", "points": { "gryffindor": 2 } },
+          { "text": "Find a strategic solution.", "points": { "slytherin": 2 } },
+          { "text": "Understand both sides.", "points": { "ravenclaw": 2 } },
+          { "text": "Comfort them.", "points": { "hufflepuff": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wand_quiz",
+    "title": "Wand Quiz",
+    "description": "Find out which wand chooses you.",
+    "longDescription": "Wands choose the wizard. Answer honestly to discover your magical wand core and style.",
+    "quizImageUrl": "https://thecraftyblogstalker.com/wp-content/uploads/2023/07/harry-potter-diy-wands-21.jpg",
+    "results": [
+      "phoenix_feather",
+      "dragon_heartstring",
+      "unicorn_hair",
+      "thestral_hair",
+      "basilisk_fang"
+    ],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What trait defines you most?",
+        "answers": [
+          { "text": "Bravery", "points": { "phoenix_feather": 2 } },
+          { "text": "Power", "points": { "dragon_heartstring": 2 } },
+          { "text": "Kindness", "points": { "unicorn_hair": 2 } },
+          { "text": "Mystery", "points": { "thestral_hair": 2 } },
+          { "text": "Cunning", "points": { "basilisk_fang": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "What environment feels magical to you?",
+        "answers": [
+          { "text": "Sunrise fields", "points": { "unicorn_hair": 2 } },
+          { "text": "Dark forests", "points": { "thestral_hair": 2 } },
+          { "text": "Battle arenas", "points": { "dragon_heartstring": 2 } },
+          { "text": "Ancient castles", "points": { "phoenix_feather": 2 } },
+          { "text": "Hidden chambers", "points": { "basilisk_fang": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "patronus_quiz",
+    "title": "Patronus Quiz",
+    "description": "Reveal your spirit guardian.",
+    "longDescription": "Your Patronus represents your inner strength and happiest memories.",
+    "quizImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRzyh_GGcoaLVDv6jiqyFZhZ2t3f-I2iUJMw&s",
+    "results": ["stag", "wolf", "otter", "eagle", "horse"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Where do you feel most at peace?",
+        "answers": [
+          { "text": "Forest", "points": { "wolf": 2 } },
+          { "text": "River", "points": { "otter": 2 } },
+          { "text": "Mountains", "points": { "eagle": 2 } },
+          { "text": "Open fields", "points": { "horse": 2 } },
+          { "text": "Castle grounds", "points": { "stag": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "What motivates you most?",
+        "answers": [
+          { "text": "Protecting loved ones", "points": { "stag": 2 } },
+          { "text": "Freedom", "points": { "eagle": 2 } },
+          { "text": "Adventure", "points": { "wolf": 2 } },
+          { "text": "Joy", "points": { "otter": 2 } },
+          { "text": "Strength", "points": { "horse": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "character_quiz",
+    "title": "Character Quiz",
+    "description": "Which character are you most like?",
+    "longDescription": "Your personality may match one of the famous witches or wizards of Hogwarts.",
+    "quizImageUrl": "https://static.wikia.nocookie.net/heroes-and-villain/images/2/25/Harry_Potter_characters_poster.png/revision/latest/thumbnail/width/360/height/360?cb=20251023180919",
+    "results": ["harry", "hermione", "ron", "draco", "luna"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "How do your friends describe you?",
+        "answers": [
+          { "text": "Brave", "points": { "harry": 2 } },
+          { "text": "Smart", "points": { "hermione": 2 } },
+          { "text": "Funny", "points": { "ron": 2 } },
+          { "text": "Ambitious", "points": { "draco": 2 } },
+          { "text": "Unique", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "What would you do on a free day at Hogwarts?",
+        "answers": [
+          { "text": "Practice spells", "points": { "hermione": 2 } },
+          { "text": "Explore secrets", "points": { "harry": 2 } },
+          { "text": "Relax with friends", "points": { "ron": 2 } },
+          { "text": "Plan your future", "points": { "draco": 2 } },
+          { "text": "Dream and wander", "points": { "luna": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "trivia_quiz",
+    "title": "Harry Potter Trivia Quiz",
+    "description": "Test your wizarding knowledge.",
+    "longDescription": "Only true Potterheads can answer all these questions correctly.",
+    "quizImageUrl": "https://parade.com/.image/c_fill,w_1200,h_1200,g_faces:center/MTkwNTc2MDQ0MzE0NDcwMjY4/harry-potter-trivia.jpg",
+    "results": ["muggle", "student", "prefect", "potterhead"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What platform does the Hogwarts Express depart from?",
+        "answers": [
+          { "text": "Platform 9¾", "isCorrect": true },
+          { "text": "Platform 7", "isCorrect": false },
+          { "text": "Platform 10", "isCorrect": false },
+          { "text": "Platform 8½", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Who teaches Potions in Harry's first year?",
+        "answers": [
+          { "text": "Snape", "isCorrect": true },
+          { "text": "McGonagall", "isCorrect": false },
+          { "text": "Lupin", "isCorrect": false },
+          { "text": "Flitwick", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "house_values_quiz",
+    "title": "House Values Quiz",
+    "description": "Discover which house values align with your principles.",
+    "longDescription": "Each Hogwarts house represents different core values. Find out which house's principles resonate most with your beliefs and actions.",
+    "quizImageUrl": "https://64.media.tumblr.com/cea427576fb040bc2fbd35c1a1467e15/tumblr_inline_nx2ao0ntyc1tc8ofw_1280.png",
+    "results": ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What do you value most in a friend?",
+        "answers": [
+          { "text": "Courage and loyalty", "points": { "gryffindor": 2 } },
+          { "text": "Ambition and determination", "points": { "slytherin": 2 } },
+          { "text": "Intelligence and wisdom", "points": { "ravenclaw": 2 } },
+          { "text": "Kindness and fairness", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "How do you approach challenges?",
+        "answers": [
+          { "text": "Face them head-on with bravery", "points": { "gryffindor": 2 } },
+          { "text": "Find the most strategic path", "points": { "slytherin": 2 } },
+          { "text": "Analyze and research first", "points": { "ravenclaw": 2 } },
+          { "text": "Work together with others", "points": { "hufflepuff": 2 } }
         ]
       },
       {
         "id": "q3",
-        "text": "Which Hogwarts activity sounds most exciting?",
+        "text": "What motivates you to succeed?",
         "answers": [
-          { "text": "Competing in Quidditch.", "points": { "gryffindor": 2 } },
-          { "text": "Achieving recognition and influence.", "points": { "slytherin": 2 } },
-          { "text": "Studying advanced magic.", "points": { "ravenclaw": 2 } },
-          { "text": "Spending time with close friends.", "points": { "hufflepuff": 2 } }
+          { "text": "Proving your courage", "points": { "gryffindor": 2 } },
+          { "text": "Achieving power and status", "points": { "slytherin": 2 } },
+          { "text": "Gaining knowledge", "points": { "ravenclaw": 2 } },
+          { "text": "Helping others succeed", "points": { "hufflepuff": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "magical_creatures_quiz",
+    "title": "Magical Creatures Quiz",
+    "description": "Which magical creature matches your personality?",
+    "longDescription": "The wizarding world is full of fascinating creatures. Discover which magical being best represents your inner nature.",
+    "quizImageUrl": "https://contentful.harrypotter.com/usf1vwtuqyxm/24Q70NrWZPY623EH4sOZ0d/3279b0dd1c28ac6b304f5ca1c7921483/WB-HP-F3-prisoner-of-azkaban-buckbeak.jpg?q=75&fm=jpg&w=2560",
+    "results": ["phoenix", "dragon", "hippogriff", "thestral", "unicorn"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "How do you handle difficult situations?",
+        "answers": [
+          { "text": "Rise from the ashes stronger", "points": { "phoenix": 2 } },
+          { "text": "Face them with fierce determination", "points": { "dragon": 2 } },
+          { "text": "Approach with respect and caution", "points": { "hippogriff": 2 } },
+          { "text": "Navigate through unseen paths", "points": { "thestral": 2 } },
+          { "text": "Bring light and purity", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "What is your ideal environment?",
+        "answers": [
+          { "text": "A place of rebirth and renewal", "points": { "phoenix": 2 } },
+          { "text": "A powerful, commanding space", "points": { "dragon": 2 } },
+          { "text": "A place of honor and respect", "points": { "hippogriff": 2 } },
+          { "text": "A mysterious, hidden realm", "points": { "thestral": 2 } },
+          { "text": "A peaceful, enchanted forest", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "What quality do others see in you?",
+        "answers": [
+          { "text": "Resilience and rebirth", "points": { "phoenix": 2 } },
+          { "text": "Power and strength", "points": { "dragon": 2 } },
+          { "text": "Dignity and nobility", "points": { "hippogriff": 2 } },
+          { "text": "Mystery and depth", "points": { "thestral": 2 } },
+          { "text": "Purity and grace", "points": { "unicorn": 2 } }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "spells_quiz",
+    "title": "Spells Knowledge Quiz",
+    "description": "Test your knowledge of wizarding spells.",
+    "longDescription": "How well do you know the spells used in the wizarding world? Answer these questions to prove your magical knowledge.",
+    "quizImageUrl": "https://hips.hearstapps.com/hmg-prod/images/mv5bogi0ogi5ztmtnwm4ys00zwizlthmymytzgnknzdkotnjndkxxkeyxkfqcgdeqxvynjq4ode4mzqat-v1-sy1000-cr0-0-1528-1000-al-1589922130.jpg",
+    "results": ["novice", "apprentice", "wizard", "master"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What spell is used to unlock doors?",
+        "answers": [
+          { "text": "Alohomora", "isCorrect": true },
+          { "text": "Accio", "isCorrect": false },
+          { "text": "Expelliarmus", "isCorrect": false },
+          { "text": "Lumos", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Which spell creates light?",
+        "answers": [
+          { "text": "Lumos", "isCorrect": true },
+          { "text": "Nox", "isCorrect": false },
+          { "text": "Incendio", "isCorrect": false },
+          { "text": "Aguamenti", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "What does the spell 'Expelliarmus' do?",
+        "answers": [
+          { "text": "Disarms your opponent", "isCorrect": true },
+          { "text": "Summons an object", "isCorrect": false },
+          { "text": "Creates a shield", "isCorrect": false },
+          { "text": "Turns objects into animals", "isCorrect": false }
         ]
       },
       {
         "id": "q4",
-        "text": "You are given the chance to master a rare magical ability.",
+        "text": "Which spell is used to summon objects?",
         "answers": [
-          { "text": "Defensive magic for dangerous situations.", "points": { "gryffindor": 2 } },
-          { "text": "Magic that gives strategic advantage.", "points": { "slytherin": 2 } },
-          { "text": "Ancient magical knowledge.", "points": { "ravenclaw": 2 } },
-          { "text": "Protective magic to help others.", "points": { "hufflepuff": 2 } }
+          { "text": "Accio", "isCorrect": true },
+          { "text": "Wingardium Leviosa", "isCorrect": false },
+          { "text": "Reparo", "isCorrect": false },
+          { "text": "Petrificus Totalus", "isCorrect": false }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "potions_quiz",
+    "title": "Potions Mastery Quiz",
+    "description": "Prove your knowledge of potion-making.",
+    "longDescription": "Potion-making requires precision and knowledge. Test your understanding of magical potions and their ingredients.",
+    "quizImageUrl": "https://static0.srcdn.com/wordpress/wp-content/uploads/2019/03/Harry-Potter-Potions-Featured.jpg",
+    "results": ["first_year", "third_year", "sixth_year", "potions_master"],
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What is the main ingredient in Polyjuice Potion?",
+        "answers": [
+          { "text": "Fluxweed and lacewing flies", "isCorrect": true },
+          { "text": "Dragon scales and unicorn hair", "isCorrect": false },
+          { "text": "Wolfsbane and moonstone", "isCorrect": false },
+          { "text": "Bezoar and mandrake root", "isCorrect": false }
         ]
       },
       {
-        "id": "q5",
-        "text": "Which trait matters most to you?",
+        "id": "q2",
+        "text": "What does the Felix Felicis potion do?",
         "answers": [
-          { "text": "Courage", "points": { "gryffindor": 2 } },
-          { "text": "Ambition", "points": { "slytherin": 2 } },
-          { "text": "Intelligence", "points": { "ravenclaw": 2 } },
-          { "text": "Loyalty", "points": { "hufflepuff": 2 } }
+          { "text": "Brings good luck", "isCorrect": true },
+          { "text": "Makes you invisible", "isCorrect": false },
+          { "text": "Heals wounds", "isCorrect": false },
+          { "text": "Increases strength", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Which potion allows you to breathe underwater?",
+        "answers": [
+          { "text": "Gillyweed", "isCorrect": true },
+          { "text": "Wolfsbane Potion", "isCorrect": false },
+          { "text": "Pepperup Potion", "isCorrect": false },
+          { "text": "Draught of Living Death", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "What is used to cure werewolf bites?",
+        "answers": [
+          { "text": "Wolfsbane Potion", "isCorrect": true },
+          { "text": "Polyjuice Potion", "isCorrect": false },
+          { "text": "Veritaserum", "isCorrect": false },
+          { "text": "Amortentia", "isCorrect": false }
         ]
       }
     ]

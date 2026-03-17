@@ -22,6 +22,7 @@ fun QuizConverter.toQuizzesConverter(): QuizzesConverter {
     return QuizzesConverter(
         title = title,
         description = description,
+        longDescription = longDescription,
         imageUrl = quizImageUrl,
         type = quizType
     )

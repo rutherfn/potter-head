@@ -25,6 +25,9 @@ import com.nicholas.rutherford.potter.head.feature.characters.characters.Charact
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesParams
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesScreen
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailParams
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailScreen
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsParams
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsScreen
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
@@ -229,6 +232,51 @@ object AppNavigationGraph {
     }
 
     /**
+     * Defines the quiz detail screen in the navigation graph.
+     *
+     * This function sets up the quiz detail screen with:
+     * - Route: QuizDetail.route (includes name, description, and imageUrl parameters)
+     * - Arguments: [NavArguments.quizDetail] (defines the string parameters)
+     * - ViewModel: [QuizDetailViewModel] scoped to the back stack entry
+     * - Screen: [QuizDetailScreen] with state from the ViewModel
+     *
+     * The ViewModel is scoped to the back stack entry to ensure it survives
+     * configuration changes and is properly cleared when the screen is removed
+     * from the back stack.
+     */
+    fun NavGraphBuilder.quizDetailScreen() {
+        composable(
+            route = Screens.QuizDetail.route,
+            arguments = NavArguments.quizDetail
+        ) { backStackEntry ->
+            val factory = LocalViewModelFactory.current
+            val viewModel: QuizDetailViewModel = viewModel(
+                factory = factory,
+                viewModelStoreOwner = backStackEntry
+            )
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = {
+                    appBarFactory.createQuizDetailAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
+            )
+
+            QuizDetailScreen(
+                params = QuizDetailParams(
+                    state = viewModel.quizDetailStateFlow.collectAsState().value,
+                    onStartQuizClicked = {  }
+                )
+            )
+        }
+    }
+
+    /**
      * Defines the character detail screen in the navigation graph.
      *
      * This function sets up the character detail screen with:
@@ -302,7 +350,7 @@ object AppNavigationGraph {
             QuizzesScreen(
                 params = QuizzesParams(
                     state = viewModel.quizzesStateFlow.collectAsState().value,
-                    onQuizClicked = { viewModel.onQuizClicked() },
+                    onQuizClicked = { title, description, imageUrl -> viewModel.onQuizClicked(title, description, imageUrl) },
                     onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) },
                     onRetryClicked = { viewModel.retryLoadingQuizzes() }
                 )
@@ -350,6 +398,7 @@ object AppNavigationGraph {
         { charactersFiltersScreen() },
         { characterDetailScreen() },
         { quizzesScreen() },
+        { quizDetailScreen() },
         { settingsScreen() }
     )
 

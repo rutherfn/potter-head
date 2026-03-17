@@ -6,6 +6,8 @@ import com.google.gson.reflect.TypeToken
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
+import com.nicholas.rutherford.potter.head.database.entity.SavedAnswerItem
+import com.nicholas.rutherford.potter.head.database.entity.SavedQuestionItem
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
 
 /**
@@ -125,6 +127,44 @@ object DatabaseTypeConverters {
             null
         } else {
             val listType = object : TypeToken<List<AnswerEntity>>() {}.type
+            gson.fromJson(value, listType)
+        }
+    }
+
+    @TypeConverter
+    fun fromSavedAnswerItemList(value: List<SavedAnswerItem>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toSavedAnswerItemList(value: String?): List<SavedAnswerItem>? {
+        return if (value == null) {
+            null
+        } else {
+            val listType = object : TypeToken<List<SavedAnswerItem>>() {}.type
+            gson.fromJson(value, listType)
+        }
+    }
+
+    @TypeConverter
+    fun fromSavedQuestionItemList(value: List<SavedQuestionItem>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toSavedQuestionItemList(value: String?): List<SavedQuestionItem>? {
+        return if (value == null) {
+            null
+        } else {
+            val listType = object : TypeToken<List<SavedQuestionItem>>() {}.type
             gson.fromJson(value, listType)
         }
     }

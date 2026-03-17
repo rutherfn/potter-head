@@ -41,3 +41,4 @@ interface QuizDao {
     suspend fun deleteAllQuizzes()
 }
 
+

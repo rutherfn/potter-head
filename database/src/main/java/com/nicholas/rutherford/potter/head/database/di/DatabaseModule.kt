@@ -11,6 +11,7 @@ import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRep
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
 import com.nicholas.rutherford.potter.head.database.repository.DebugToggleRepository
 import com.nicholas.rutherford.potter.head.database.repository.QuizRepository
+import com.nicholas.rutherford.potter.head.database.repository.SavedQuizRepository
 import com.nicholas.rutherford.potter.head.database.repository.SpellRepository
 
 /**
@@ -32,6 +33,8 @@ interface DatabaseModule {
     val characterImageRepository: CharacterImageRepository
     val debugToggleRepository: DebugToggleRepository
     val quizRepository: QuizRepository
+    val savedQuizRepository: SavedQuizRepository
 }
+
 
 

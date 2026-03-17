@@ -77,4 +77,5 @@ object StringIds {
     val wasUnableToRetrieveTheDataPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_data_please_try_again_later
     val noQuizzesYet = R.string.no_quizzes_yet
     val weCouldNotFindAnyQuizzesTapRetryToLoadItems = R.string.we_could_not_find_any_quizzes_tap_retry_to_load_items
+    val quizDetail = R.string.quiz_detail
 }

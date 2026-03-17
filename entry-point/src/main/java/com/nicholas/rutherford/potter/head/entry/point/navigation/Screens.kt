@@ -49,6 +49,12 @@ sealed class Screens(
         showBottomNavigation = true
     )
 
+    object QuizDetail : Screens(
+        route = Constants.NavigationDestinations.QUIZ_DETAIL_SCREEN_WITH_PARAMS,
+        title = Constants.ScreenTitles.QUIZ_DETAIL,
+        showBottomNavigation = false
+    )
+
     object Settings : Screens(
         route = Constants.NavigationDestinations.SETTINGS_SCREEN,
         title = Constants.ScreenTitles.SETTINGS,
@@ -76,6 +82,7 @@ sealed class Screens(
                 route.startsWith(Quizzes.route) -> Quizzes.showBottomNavigation
                 route.startsWith(Settings.route) -> Settings.showBottomNavigation
                 route.startsWith(CharactersDetail.route) -> CharactersDetail.showBottomNavigation
+                route.startsWith(QuizDetail.route) -> QuizDetail.showBottomNavigation
                 route.startsWith(Spells.route) -> Spells.showBottomNavigation
                 else -> false
             }

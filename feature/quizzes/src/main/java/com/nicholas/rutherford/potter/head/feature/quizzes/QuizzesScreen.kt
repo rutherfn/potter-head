@@ -22,6 +22,9 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -108,7 +111,6 @@ fun QuizzesScreen(params: QuizzesParams) {
                 onQuizClicked = params.onQuizClicked
             )
             else -> {
-                // Submitted Quizzes - placeholder for now
                 EmptyOrErrorContent(
                     title = stringResource(id = StringIds.noQuizzesYet),
                     description = stringResource(id = StringIds.weCouldNotFindAnyQuizzesTapRetryToLoadItems),
@@ -225,7 +227,7 @@ private fun ShimmerQuizCard() {
 @Composable
 private fun QuizzesContent(
     state: QuizzesState,
-    onQuizClicked: () -> Unit
+    onQuizClicked: (title: String, description: String, imageUrl: String) -> Unit
 ) {
     val listState = rememberLazyListState()
 
@@ -236,9 +238,10 @@ private fun QuizzesContent(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(items = state.quizzes) { quiz ->
+            quiz.description
             QuizItem(
                 quiz = quiz,
-                onClick = onQuizClicked
+                onClick = { onQuizClicked(quiz.title, quiz.longDescription, quiz.imageUrl) }
             )
         }
     }
@@ -292,6 +295,15 @@ private fun QuizItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(24.dp)
+            )
         }
     }
 }

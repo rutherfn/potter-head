@@ -76,4 +76,5 @@
     <string name="was_unable_to_retrieve_the_data_please_try_again_later" translatable="false">Was unable to retrieve the %1$s. Please try again later</string>
     <string name="no_quizzes_yet" translatable="false">No Quizzes Yet</string>
     <string name="we_could_not_find_any_quizzes_tap_retry_to_load_items" translatable="false">We couldn\'t find any quizzes. Tap retry to load them</string>
+    <string name="quiz_detail" translatable="false">Quiz Detail</string>
 </resources>

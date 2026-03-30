@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 9,
-    "identityHash": "f4ed35813fe8513affee239b3f872cb1",
+    "identityHash": "fc383c88e805672fb60a6e56553d6437",
     "entities": [
       {
         "tableName": "characters",
@@ -289,7 +289,7 @@
         }
       },
       {
-        "tableName": "saved_quizzes",
+        "tableName": "savedQuizzes",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `quizId` TEXT NOT NULL, `quizTitle` TEXT NOT NULL, `quizDescription` TEXT NOT NULL, `quizImageUrl` TEXT NOT NULL, `resultText` TEXT NOT NULL, `savedAt` INTEGER NOT NULL, `questions` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -351,7 +351,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f4ed35813fe8513affee239b3f872cb1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fc383c88e805672fb60a6e56553d6437')"
     ]
   }
 }

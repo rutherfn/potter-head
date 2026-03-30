@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.database.converter
 
+import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.SavedAnswerItem
 import com.nicholas.rutherford.potter.head.database.entity.SavedQuestionItem
 import com.nicholas.rutherford.potter.head.database.entity.SavedQuizEntity
@@ -68,15 +69,18 @@ data class SavedQuizConverter(
             quiz: QuizConverter,
             resultText: String,
             id: Long,
+            selectedAnswers: List<AnswerEntity>,
             savedAt: Long = System.currentTimeMillis()
         ): SavedQuizConverter {
-            val questions = quiz.questions.map { question ->
+            val questions = quiz.questions.mapIndexed { index, question ->
+                val selectedForQuestion = selectedAnswers.getOrNull(index)
                 SavedQuestionItem(
                     questionText = question.text,
                     answers = question.answers.map { answer ->
                         SavedAnswerItem(
                             text = answer.text,
-                            isCorrect = answer.isCorrect ?: false
+                            isCorrect = answer.isCorrect ?: false,
+                            isSelected = selectedForQuestion != null && answer.text == selectedForQuestion.text
                         )
                     }
                 )

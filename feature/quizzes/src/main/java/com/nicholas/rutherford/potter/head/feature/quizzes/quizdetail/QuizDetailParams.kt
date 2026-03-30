@@ -9,6 +9,6 @@ package com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail
  * @author Nicholas Rutherford
  */
 data class QuizDetailParams(
-    val onStartQuizClicked: () -> Unit,
+    val onStartQuizClicked: (title: String) -> Unit,
     val state: QuizDetailState
 )

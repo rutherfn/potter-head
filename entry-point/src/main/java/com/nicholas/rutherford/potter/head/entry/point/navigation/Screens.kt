@@ -49,6 +49,16 @@ sealed class Screens(
         showBottomNavigation = true
     )
 
+    object TakeQuiz : Screens(
+        route = Constants.NavigationDestinations.TAKE_QUIZ_SCREEN_WITH_PARAMS,
+        title = Constants.ScreenTitles.TAKE_QUIZ
+    )
+
+    object QuizResult : Screens(
+        route = Constants.NavigationDestinations.QUIZ_RESULT_SCREEN_WITH_PARAMS,
+        title = Constants.ScreenTitles.QUIZ_RESULT
+    )
+
     object QuizDetail : Screens(
         route = Constants.NavigationDestinations.QUIZ_DETAIL_SCREEN_WITH_PARAMS,
         title = Constants.ScreenTitles.QUIZ_DETAIL,

@@ -5,7 +5,7 @@
     "description": "Discover which Hogwarts house you belong to.",
     "longDescription": "The legendary Sorting Hat looks deep into your personality and determines your true Hogwarts house.",
     "quizImageUrl": "https://miro.medium.com/v2/resize:fit:1200/0*TVvcb08UBLeL919-.jpeg",
-    "results": ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"],
+    "results": ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"],
     "questions": [
       {
         "id": "q1",
@@ -36,11 +36,11 @@
     "longDescription": "Wands choose the wizard. Answer honestly to discover your magical wand core and style.",
     "quizImageUrl": "https://thecraftyblogstalker.com/wp-content/uploads/2023/07/harry-potter-diy-wands-21.jpg",
     "results": [
-      "phoenix_feather",
-      "dragon_heartstring",
-      "unicorn_hair",
-      "thestral_hair",
-      "basilisk_fang"
+      "Phoenix Feather",
+      "Dragon Heartstring",
+      "Unicorn Hair",
+      "Thestral_Hair",
+      "Basilisk Fang"
     ],
     "questions": [
       {

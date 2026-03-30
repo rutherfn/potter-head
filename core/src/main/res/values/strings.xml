@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="available_quizzes" translatable="false">Available Quizzes</string>
     <string name="submitted_quizzes" translatable="false">Submitted Quizzes</string>
     <string name="clear_filters" translatable="false">Clear Filters</string>
@@ -77,4 +77,17 @@
     <string name="no_quizzes_yet" translatable="false">No Quizzes Yet</string>
     <string name="we_could_not_find_any_quizzes_tap_retry_to_load_items" translatable="false">We couldn\'t find any quizzes. Tap retry to load them</string>
     <string name="quiz_detail" translatable="false">Quiz Detail</string>
+    <string name="question_x_of_y" translatable="false">Question %1$d of %2$d</string>
+    <string name="got_it" translatable="false">Got It</string>
+    <string name="selecting_a_answer" translatable="false">Selecting A Answer</string>
+    <string name="please_select_a_answer_in_order_to_continue_the_quiz" translatable="false">Please select a answer in order to continue the quiz.</string>
+    <string name="please_select_a_answer_in_order_to_finish_the_quiz" translatable="false">Please select a answer in order to finish the quiz.</string>
+    <string name="leaving_current_quiz" translatable="false">Leaving Current Quiz</string>
+    <string name="leaving_current_quiz_description" translatable="false">Continuing will end the current quiz and not save progress. Are you sure you want to continue?</string>
+    <string name="unable_to_continue_with_quiz" translatable="false">Unable To Continue With Quiz</string>
+    <string name="unable_to_continue_with_quiz_description" translatable="false">We could continue with quiz. Please reselect new quiz in order to continue.</string>
+    <string name="quiz_result" translatable="false">Quiz Result</string>
+    <string name="quiz_completed" translatable="false">Quiz Completed</string>
+    <string name="your_result" translatable="false">Your result</string>
+    <string name="congrats_you_completed_x" translatable="false">Congrats. You completed %1$s</string>
 </resources>

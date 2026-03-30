@@ -2,7 +2,7 @@ package com.nicholas.rutherford.potter.head.database.repository
 
 import com.nicholas.rutherford.potter.head.database.converter.QuizConverter
 import com.nicholas.rutherford.potter.head.database.converter.SavedQuizConverter
-import kotlinx.coroutines.flow.Flow
+import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 
 /**
  * Repository interface for managing saved (completed) quizzes.
@@ -11,11 +11,12 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface SavedQuizRepository {
-    fun getAllSavedQuizzes(): Flow<List<SavedQuizConverter>>
+    fun getAllSavedQuizzes(): List<SavedQuizConverter>
 
-    fun getSavedQuizById(id: Long): Flow<SavedQuizConverter?>
+    fun getSavedQuizById(id: Long): SavedQuizConverter?
 
-    suspend fun insertQuiz(quiz: QuizConverter, resultText: String)
+    suspend fun getAllSavedQuizzesCount(): Int
+    suspend fun insertQuiz(quiz: QuizConverter, resultText: String, selectedAnswers: List<AnswerEntity>)
 
     suspend fun deleteSavedQuizById(id: Long)
 }

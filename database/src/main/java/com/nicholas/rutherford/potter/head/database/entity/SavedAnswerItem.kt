@@ -5,11 +5,13 @@ package com.nicholas.rutherford.potter.head.database.entity
  * Stored as part of [SavedQuestionItem] in the database via TypeConverter.
  *
  * @property text The answer option text.
- * @property isCorrect Whether this answer is the correct one.
+ * @property isCorrect Whether this answer is the correct one (trivia); false when not applicable.
+ * @property isSelected Whether the user chose this option for this attempt.
  *
  * @author Nicholas Rutherford
  */
 data class SavedAnswerItem(
     val text: String,
-    val isCorrect: Boolean
+    val isCorrect: Boolean,
+    val isSelected: Boolean = false
 )

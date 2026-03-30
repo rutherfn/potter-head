@@ -24,24 +24,34 @@ import kotlinx.coroutines.flow.update
  * @author Nicholas Rutherford
  */
 class NavigatorImpl : Navigator {
+    private val alertActionsMutableStateFlow = MutableStateFlow<AlertAction?>(value = null)
     private val navActionsMutableStateFlow = MutableStateFlow<NavigationAction?>(value = null)
 
     private val popRouteActionsMutableStateFlow = MutableStateFlow<String?>(value = null)
+    private val popOnceRequestsMutableStateFlow = MutableStateFlow(value = false)
 
     private val progressActionsMutableStateFlow = MutableStateFlow<ProgressAction?>(value = null)
 
+    override val alertActions: StateFlow<AlertAction?> = alertActionsMutableStateFlow.asStateFlow()
     override val navActions: StateFlow<NavigationAction?> = navActionsMutableStateFlow.asStateFlow()
     override val popRouteActions: StateFlow<String?> = popRouteActionsMutableStateFlow.asStateFlow()
+    override val popOnceRequests: StateFlow<Boolean> = popOnceRequestsMutableStateFlow.asStateFlow()
 
     override val progressActions: StateFlow<ProgressAction?> = progressActionsMutableStateFlow.asStateFlow()
+
+    override fun alert(alertAction: AlertAction?) = alertActionsMutableStateFlow.update { alertAction }
 
     override fun navigate(navigationAction: NavigationAction?) = navActionsMutableStateFlow.update { navigationAction }
 
     override fun pop(routeAction: String?) = popRouteActionsMutableStateFlow.update { routeAction }
 
+    override fun pop() = popOnceRequestsMutableStateFlow.update { true }
+
     override fun progress(progressAction: ProgressAction?) = progressActionsMutableStateFlow.update { progressAction }
-    
+
     override fun resetNavAction() = navActionsMutableStateFlow.update { null }
-    
+
     override fun resetPopAction() = popRouteActionsMutableStateFlow.update { null }
+
+    override fun resetPopOnceRequest() = popOnceRequestsMutableStateFlow.update { false }
 }

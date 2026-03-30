@@ -1,5 +1,8 @@
 package com.nicholas.rutherford.potter.head.core
 
+import com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles.QUIZ_RESULT
+import com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles.TAKE_QUIZ
+
 object Constants {
     const val IS_NOT_ALIVE_FILTER = "isNotAliveFilter"
     const val IS_ALIVE_FILTER = "isAliveFilter"
@@ -66,6 +69,8 @@ object Constants {
         const val QUIZ_DETAIL_SCREEN = "quizDetailScreen"
         const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{name}"
         const val QUIZ_DETAIL_SCREEN_WITH_PARAMS = "$QUIZ_DETAIL_SCREEN/{quiz_name}/{quiz_description}/{QUIZ_IMAGE_URL}"
+        const val TAKE_QUIZ_SCREEN_WITH_PARAMS = "$TAKE_QUIZ/{quiz_name}"
+        const val QUIZ_RESULT_SCREEN_WITH_PARAMS = "$QUIZ_RESULT/{quiz_id}"
         const val QUIZZES_SCREEN = "quizzesScreen"
         const val QUIZ_SELECTED_DETAIL_SCREEN = "quizSelectedDetailScreen"
         const val TOUR_THE_APP_SCREEN = "tourTheAppScreen"
@@ -78,12 +83,15 @@ object Constants {
         const val CHARACTERS_FILTERS = "Filters"
         const val CHARACTER_DETAIL = "Details"
         const val QUIZZES = "Quizzes"
+        const val TAKE_QUIZ = "TakeQuiz"
         const val QUIZ_DETAIL = "QuizDetail"
+        const val QUIZ_RESULT = "QuizResult"
         const val SETTINGS = "Settings"
     }
 
     object NamedArguments {
         const val QUIZ_NAME = "quiz_name"
+        const val QUIZ_ID = "quiz_id"
         const val QUIZ_DESCRIPTION = "quiz_description"
         const val QUIZ_IMAGE_URL = "QUIZ_IMAGE_URL"
         const val CHARACTER_NAME = "name"

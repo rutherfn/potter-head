@@ -4,8 +4,6 @@ import android.content.Context
 import com.nicholas.rutherford.potter.head.core.JsonReader
 import com.nicholas.rutherford.potter.head.database.converter.QuizConverter
 import com.nicholas.rutherford.potter.head.database.dao.QuizDao
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 /**
  * Implementation of QuizRepository.
@@ -23,16 +21,16 @@ class QuizRepositoryImpl(
 
     override suspend fun getQuizCount(): Int = dao.getQuizCount()
 
-    override fun getAllQuizzes(): Flow<List<QuizConverter>> {
-        return dao.getAllQuizzes().map { entities ->
-            entities.map { entity -> QuizConverter.fromEntity(entity = entity) }
-        }
+    override suspend fun getAllQuizzes(): List<QuizConverter> {
+        return dao.getAllQuizzes().map { entity -> QuizConverter.fromEntity(entity = entity) }
     }
 
-    override fun getQuizById(id: String): Flow<QuizConverter> {
-        return dao.getQuizById(id).map { entity ->
-            QuizConverter.fromEntity(entity = entity)
-        }
+    override suspend fun getQuizById(id: String): QuizConverter? {
+        return dao.getQuizById(id)?.let { entity -> QuizConverter.fromEntity(entity = entity) }
+    }
+
+    override suspend fun getQuizByTitle(title: String): QuizConverter? {
+        return dao.getQuizByTitle(title = title)?.let { entity -> QuizConverter.fromEntity(entity = entity) }
     }
 
     override suspend fun insertQuiz(quiz: QuizConverter) {

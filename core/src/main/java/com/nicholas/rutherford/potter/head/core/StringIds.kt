@@ -78,4 +78,17 @@ object StringIds {
     val noQuizzesYet = R.string.no_quizzes_yet
     val weCouldNotFindAnyQuizzesTapRetryToLoadItems = R.string.we_could_not_find_any_quizzes_tap_retry_to_load_items
     val quizDetail = R.string.quiz_detail
+    val questionXOfY = R.string.question_x_of_y
+    val gotIt = R.string.got_it
+    val selectingAAnswer = R.string.selecting_a_answer
+    val pleaseSelectAAnswerInOrderToContinueTheQuiz = R.string.please_select_a_answer_in_order_to_continue_the_quiz
+    val pleaseSelectAAnswerInOrderToFinishTheQuiz = R.string.please_select_a_answer_in_order_to_finish_the_quiz
+    val leavingCurrentQuiz = R.string.leaving_current_quiz
+    val leavingCurrentQuizDescription = R.string.leaving_current_quiz_description
+    val unableToContinueWithQuiz = R.string.unable_to_continue_with_quiz
+    val unableToContinueWithQuizDescription = R.string.unable_to_continue_with_quiz_description
+    val quizResult = R.string.quiz_result
+    val quizCompleted = R.string.quiz_completed
+    val yourResult = R.string.your_result
+    val congratsYouCompletedX = R.string.congrats_you_completed_x
 }

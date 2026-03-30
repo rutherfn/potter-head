@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
  *
  * @author Nicholas Rutherford
  */
-@Entity(tableName = "saved_quizzes")
+@Entity(tableName = "savedQuizzes")
 data class SavedQuizEntity(
     @PrimaryKey
     val id: Long,

@@ -6,7 +6,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.nicholas.rutherford.potter.head.database.entity.QuizEntity
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Data Access Object for QuizEntity.
@@ -20,10 +19,13 @@ interface QuizDao {
     suspend fun getQuizCount(): Int
 
     @Query("SELECT * FROM quizzes")
-    fun getAllQuizzes(): Flow<List<QuizEntity>>
+    suspend fun getAllQuizzes(): List<QuizEntity>
 
     @Query("SELECT * FROM quizzes WHERE id = :id")
-    fun getQuizById(id: String): Flow<QuizEntity>
+    suspend fun getQuizById(id: String): QuizEntity?
+
+    @Query("SELECT * FROM quizzes WHERE title = :title")
+    suspend fun getQuizByTitle(title: String): QuizEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuiz(quiz: QuizEntity)

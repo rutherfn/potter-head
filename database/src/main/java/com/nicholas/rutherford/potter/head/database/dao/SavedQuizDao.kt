@@ -14,18 +14,18 @@ import kotlinx.coroutines.flow.Flow
  */
 @Dao
 interface SavedQuizDao {
-    @Query("SELECT COUNT(*) FROM saved_quizzes")
+    @Query("SELECT COUNT(*) FROM savedQuizzes")
     suspend fun getSavedQuizCount(): Int
 
-    @Query("SELECT * FROM saved_quizzes ORDER BY savedAt DESC")
-    fun getAllSavedQuizzes(): Flow<List<SavedQuizEntity>>
+    @Query("SELECT * FROM savedQuizzes ORDER BY savedAt DESC")
+    fun getAllSavedQuizzes(): List<SavedQuizEntity>
 
-    @Query("SELECT * FROM saved_quizzes WHERE id = :id")
-    fun getSavedQuizById(id: Long): Flow<SavedQuizEntity?>
+    @Query("SELECT * FROM savedQuizzes WHERE id = :id")
+    fun getSavedQuizById(id: Long): SavedQuizEntity?
 
     @Insert
     suspend fun insertSavedQuiz(savedQuiz: SavedQuizEntity): Long
 
-    @Query("DELETE FROM saved_quizzes WHERE id = :id")
+    @Query("DELETE FROM savedQuizzes WHERE id = :id")
     suspend fun deleteSavedQuizById(id: Long)
 }

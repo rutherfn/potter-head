@@ -3,7 +3,6 @@ package com.nicholas.rutherford.potter.head.feature.quizzes
 import android.app.Application
 import android.net.Uri
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
-import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
@@ -42,8 +41,10 @@ class QuizzesViewModel(
     private var savedQuizzes: List<QuizzesConverter> = emptyList()
 
     init {
-        launch { checkForQuizzesInDb() }
-        launch { collectAllQuizzes() }
+        launch {
+            checkForQuizzesInDb()
+            loadQuizzes()
+        }
         quizzesMutableStateFlow.update { state ->
             state.copy(
                 filterTypes = listOf(
@@ -54,8 +55,6 @@ class QuizzesViewModel(
         }
     }
 
-    override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
-
     private suspend fun checkForQuizzesInDb() {
         val hasQuizzesInDb = quizRepository.getQuizCount() > 0
 
@@ -65,42 +64,44 @@ class QuizzesViewModel(
         }
     }
 
-    private fun collectAllQuizzes() {
-        collectFlow(flow = quizRepository.getAllQuizzes()) { quizzesFromDb ->
-            val quizzesConverters = quizzesFromDb.map { quiz -> quiz.toQuizzesConverter() }
-            allQuizzes = quizzesConverters
+    private suspend fun loadQuizzes() {
+        val quizzesFromDb = quizRepository.getAllQuizzes()
+        val quizzesConverters = quizzesFromDb.map { quiz -> quiz.toQuizzesConverter() }
+        allQuizzes = quizzesConverters
 
-            if (quizzesMutableStateFlow.value.selectedFilterIndex == 0) {
-                if (quizzesConverters.isNotEmpty()) {
-                    quizzesMutableStateFlow.update { state ->
-                        state.copy(
-                            quizzes = quizzesConverters,
-                            isLoading = false,
-                            errorType = DataErrorType.None
-                        )
-                    }
-                } else {
-                    quizzesMutableStateFlow.update { state ->
-                        state.copy(
-                            quizzes = emptyList(),
-                            isLoading = false
-                        )
-                    }
+        if (quizzesMutableStateFlow.value.selectedFilterIndex == 0) {
+            if (quizzesConverters.isNotEmpty()) {
+                quizzesMutableStateFlow.update { state ->
+                    state.copy(
+                        quizzes = quizzesConverters,
+                        isLoading = false,
+                        errorType = DataErrorType.None
+                    )
+                }
+            } else {
+                quizzesMutableStateFlow.update { state ->
+                    state.copy(
+                        quizzes = emptyList(),
+                        isLoading = false
+                    )
                 }
             }
         }
     }
 
+    internal fun buildQuizzesToShow(index: Int): List<QuizzesConverter> {
+        return if (index == 0) {
+            allQuizzes
+        } else {
+            savedQuizzes
+        }
+    }
+
     fun onFilterItemClicked(index: Int) {
         quizzesMutableStateFlow.update { state ->
-            val quizzesToShow = if (index == 0) {
-                allQuizzes
-            } else {
-                savedQuizzes
-            }
             state.copy(
                 selectedFilterIndex = index,
-                quizzes = quizzesToShow
+                quizzes = buildQuizzesToShow(index = index)
             )
         }
     }
@@ -114,7 +115,7 @@ class QuizzesViewModel(
         }
         launch {
             checkForQuizzesInDb()
-            collectAllQuizzes()
+            loadQuizzes()
         }
     }
 

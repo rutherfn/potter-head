@@ -1,7 +1,6 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
 import com.nicholas.rutherford.potter.head.database.converter.QuizConverter
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Repository interface for managing quizzes.
@@ -12,9 +11,11 @@ import kotlinx.coroutines.flow.Flow
 interface QuizRepository {
     suspend fun getQuizCount(): Int
 
-    fun getAllQuizzes(): Flow<List<QuizConverter>>
+    suspend fun getAllQuizzes(): List<QuizConverter>
 
-    fun getQuizById(id: String): Flow<QuizConverter>
+    suspend fun getQuizById(id: String): QuizConverter?
+
+    suspend fun getQuizByTitle(title: String): QuizConverter?
 
     suspend fun insertQuiz(quiz: QuizConverter)
 

@@ -39,21 +39,19 @@ fun SpellsScreen(params: SpellsParams) {
     when {
         state.isLoading && state.spells.isEmpty() && state.searchQuery.isEmpty() -> ShimmerSpellsContent()
         state.errorType.isValidErrorType() && state.searchQuery.isEmpty() -> {
-            val title = when (val error = state.errorType) {
-                is DataErrorType.FailedToFetchData -> {
-                    error.titleId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
-                }
-                else -> error.titleId?.let { id -> stringResource(id = id) } ?: ""
-            }
-            val description = when (val error = state.errorType) {
-                is DataErrorType.FailedToFetchData -> {
-                    error.descriptionId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
-                }
-                else -> error.descriptionId?.let { id -> stringResource(id = id) } ?: ""
-            }
             EmptyOrErrorContent(
-                title = title,
-                description = description,
+                title =  when (val error = state.errorType) {
+                    is DataErrorType.FailedToFetchData -> {
+                        error.titleId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                    }
+                    else -> error.titleId?.let { id -> stringResource(id = id) } ?: ""
+                },
+                description = when (val error = state.errorType) {
+                    is DataErrorType.FailedToFetchData -> {
+                        error.descriptionId?.let { id -> stringResource(id = id, error.dataType) } ?: ""
+                    }
+                    else -> error.descriptionId?.let { id -> stringResource(id = id) } ?: ""
+                },
                 buttonText = stringResource(id = StringIds.retry),
                 onButtonClicked = params.onRetryClicked
             )

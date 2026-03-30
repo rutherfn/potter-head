@@ -51,6 +51,7 @@ dependencies {
     api(libs.androidx.lifecycle.viewmodel.android)
     api(libs.androidx.compose.foundation.layout.android)
     implementation(libs.androidx.compose.foundation.android)
+    implementation(libs.androidx.compose.material.icons.extended.android)
     implementation(libs.androidx.compose.material3.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.text.android)

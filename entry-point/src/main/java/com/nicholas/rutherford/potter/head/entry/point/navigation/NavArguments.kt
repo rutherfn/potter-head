@@ -26,4 +26,10 @@ object NavArguments {
         navArgument(Constants.NamedArguments.QUIZ_DESCRIPTION) { type = NavType.StringType },
         navArgument(Constants.NamedArguments.QUIZ_IMAGE_URL) { type = NavType.StringType }
     )
+
+    val takeQuiz = listOf(navArgument(name = Constants.NamedArguments.QUIZ_NAME) { type = NavType.StringType })
+
+    val quizResult = listOf(navArgument(name = Constants.NamedArguments.QUIZ_ID) { type = NavType.StringType})
+
+
 }

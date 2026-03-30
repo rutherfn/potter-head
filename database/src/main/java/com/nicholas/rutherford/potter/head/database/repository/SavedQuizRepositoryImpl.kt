@@ -3,8 +3,7 @@ package com.nicholas.rutherford.potter.head.database.repository
 import com.nicholas.rutherford.potter.head.database.converter.QuizConverter
 import com.nicholas.rutherford.potter.head.database.converter.SavedQuizConverter
 import com.nicholas.rutherford.potter.head.database.dao.SavedQuizDao
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 
 /**
  * Implementation of [SavedQuizRepository].
@@ -16,23 +15,26 @@ import kotlinx.coroutines.flow.map
  */
 class SavedQuizRepositoryImpl(private val dao: SavedQuizDao) : SavedQuizRepository {
 
-    override fun getAllSavedQuizzes(): Flow<List<SavedQuizConverter>> {
-        return dao.getAllSavedQuizzes().map { entities ->
-            entities.map { entity -> SavedQuizConverter.fromEntity(entity = entity) }
+    override fun getAllSavedQuizzes(): List<SavedQuizConverter> {
+        return dao.getAllSavedQuizzes().map { entity ->
+            SavedQuizConverter.fromEntity(entity = entity)
         }
     }
 
-    override fun getSavedQuizById(id: Long): Flow<SavedQuizConverter?> {
-        return dao.getSavedQuizById(id).map { entity ->
-            entity?.let { value -> SavedQuizConverter.fromEntity(entity = value) }
+    override fun getSavedQuizById(id: Long): SavedQuizConverter? {
+        return dao.getSavedQuizById(id = id)?.let { entity ->
+            SavedQuizConverter.fromEntity(entity = entity)
         }
     }
 
-    override suspend fun insertQuiz(quiz: QuizConverter, resultText: String) {
+    override suspend fun getAllSavedQuizzesCount(): Int = dao.getSavedQuizCount()
+
+    override suspend fun insertQuiz(quiz: QuizConverter, resultText: String, selectedAnswers: List<AnswerEntity>) {
         val converter = SavedQuizConverter.fromQuizAndResult(
             quiz = quiz,
             resultText = resultText,
-            id = dao.getSavedQuizCount() + 1L
+            id = dao.getSavedQuizCount() + 1L,
+            selectedAnswers = selectedAnswers
         )
         dao.insertSavedQuiz(savedQuiz = converter.toEntity())
     }

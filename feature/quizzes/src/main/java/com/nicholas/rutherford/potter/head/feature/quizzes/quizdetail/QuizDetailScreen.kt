@@ -77,7 +77,7 @@ fun QuizDetailScreen(params: QuizDetailParams) {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Button(
-                    onClick = { /* TODO: Start quiz functionality */ },
+                    onClick = { params.onStartQuizClicked.invoke(state.title) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,

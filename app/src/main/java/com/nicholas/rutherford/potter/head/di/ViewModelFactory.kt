@@ -81,30 +81,34 @@ class ViewModelFactory(
             application = application
         )
 
-    private fun createQuizzesViewModel(): QuizzesViewModel = QuizzesViewModel(
-        application = application,
-        navigator = appGraph.navigatorModule.navigator,
-        quizRepository = appGraph.databaseModule.quizRepository
-    )
+    private fun createQuizzesViewModel(): QuizzesViewModel =
+        QuizzesViewModel(
+            application = application,
+            navigator = appGraph.navigatorModule.navigator,
+            quizRepository = appGraph.databaseModule.quizRepository
+        )
 
-    private fun createQuizDetailViewModel(extras: CreationExtras): QuizDetailViewModel = QuizDetailViewModel(
-        savedStateHandle = extras.createSavedStateHandle(),
-        navigator = appGraph.navigatorModule.navigator
-    )
+    private fun createQuizDetailViewModel(extras: CreationExtras): QuizDetailViewModel =
+        QuizDetailViewModel(
+            savedStateHandle = extras.createSavedStateHandle(),
+            navigator = appGraph.navigatorModule.navigator
+        )
 
-    private fun createQuizResultViewModel(extras: CreationExtras): QuizResultViewModel = QuizResultViewModel(
-        savedStateHandle = extras.createSavedStateHandle(),
-        savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
-        navigator = appGraph.navigatorModule.navigator
-    )
+    private fun createQuizResultViewModel(extras: CreationExtras): QuizResultViewModel =
+        QuizResultViewModel(
+            savedStateHandle = extras.createSavedStateHandle(),
+            savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
+            navigator = appGraph.navigatorModule.navigator
+        )
 
-    private fun createTakeQuizViewModel(extras: CreationExtras): TakeQuizViewModel = TakeQuizViewModel(
-        savedStateHandle = extras.createSavedStateHandle(),
-        application = application,
-        navigator = appGraph.navigatorModule.navigator,
-        quizRepository = appGraph.databaseModule.quizRepository,
-        savedQuizRepository = appGraph.databaseModule.savedQuizRepository
-    )
+    private fun createTakeQuizViewModel(extras: CreationExtras): TakeQuizViewModel =
+        TakeQuizViewModel(
+            savedStateHandle = extras.createSavedStateHandle(),
+            application = application,
+            navigator = appGraph.navigatorModule.navigator,
+            quizRepository = appGraph.databaseModule.quizRepository,
+            savedQuizRepository = appGraph.databaseModule.savedQuizRepository
+        )
 
     private fun createSettingsViewModel(): SettingsViewModel = SettingsViewModel()
 

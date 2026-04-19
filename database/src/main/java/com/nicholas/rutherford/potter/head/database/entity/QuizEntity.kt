@@ -1,8 +1,8 @@
 package com.nicholas.rutherford.potter.head.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.nicholas.rutherford.potter.head.core.jsonresponse.QuizQuestionJsonResponse
 
 /**
  * Entity representing a Harry Potter quiz in the Room database.
@@ -13,6 +13,8 @@ import com.nicholas.rutherford.potter.head.core.jsonresponse.QuizQuestionJsonRes
  * @property description The description of the quiz.
  * @property longDescription The long description of the quiz.
  * @property quizImageUrl The URL of the quiz image.
+ * @property resultsInfo Metadata per possible outcome; never null (empty when JSON has no entries).
+ *   Auto-migration fills existing rows with an empty JSON array via [ColumnInfo.defaultValue].
  * @property results A list of strings representing the results of the quiz.
  * @property questions A list of [QuestionEntity] representing the questions in the quiz.
  *
@@ -26,6 +28,8 @@ data class QuizEntity(
     val description: String,
     val longDescription: String,
     val quizImageUrl: String,
+    @ColumnInfo(defaultValue = "'[]'")
+    val resultsInfo: List<ResultsInfoEntity>,
     val results: List<String>,
     val questions: List<QuestionEntity>
 )

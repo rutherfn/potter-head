@@ -13,6 +13,8 @@ import androidx.room.PrimaryKey
  * @property quizDescription Quiz description for display.
  * @property quizImageUrl Quiz image URL for display.
  * @property resultText The result the user got (e.g. "Gryffindor").
+ * @property resultImageUrl The URL of the image associated with the result.
+ * @property resultMoreInfo Additional information about the result.
  * @property savedAt Timestamp when the quiz was saved (e.g. System.currentTimeMillis()).
  * @property questions Questions with possible answers and correct answer, stored as JSON.
  *
@@ -27,6 +29,8 @@ data class SavedQuizEntity(
     val quizDescription: String,
     val quizImageUrl: String,
     val resultText: String,
+    val resultImageUrl: String,
+    val resultMoreInfo: String,
     val savedAt: Long,
     val questions: List<SavedQuestionItem>
 )

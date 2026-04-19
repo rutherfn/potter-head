@@ -29,10 +29,18 @@ class SavedQuizRepositoryImpl(private val dao: SavedQuizDao) : SavedQuizReposito
 
     override suspend fun getAllSavedQuizzesCount(): Int = dao.getSavedQuizCount()
 
-    override suspend fun insertQuiz(quiz: QuizConverter, resultText: String, selectedAnswers: List<AnswerEntity>) {
+    override suspend fun insertQuiz(
+        quiz: QuizConverter,
+        resultText: String,
+        resultImageUrl: String,
+        resultMoreInfo: String,
+        selectedAnswers: List<AnswerEntity>
+    ) {
         val converter = SavedQuizConverter.fromQuizAndResult(
             quiz = quiz,
             resultText = resultText,
+            resultImageUrl = resultImageUrl,
+            resultMoreInfo = resultMoreInfo,
             id = dao.getSavedQuizCount() + 1L,
             selectedAnswers = selectedAnswers
         )

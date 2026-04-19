@@ -16,7 +16,13 @@ interface SavedQuizRepository {
     fun getSavedQuizById(id: Long): SavedQuizConverter?
 
     suspend fun getAllSavedQuizzesCount(): Int
-    suspend fun insertQuiz(quiz: QuizConverter, resultText: String, selectedAnswers: List<AnswerEntity>)
+    suspend fun insertQuiz(
+        quiz: QuizConverter,
+        resultText: String,
+        resultImageUrl: String,
+        resultMoreInfo: String,
+        selectedAnswers: List<AnswerEntity>
+    )
 
     suspend fun deleteSavedQuizById(id: Long)
 }

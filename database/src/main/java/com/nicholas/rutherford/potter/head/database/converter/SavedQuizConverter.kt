@@ -15,6 +15,8 @@ import com.nicholas.rutherford.potter.head.database.entity.SavedQuizEntity
  * @property quizDescription Quiz description for display.
  * @property quizImageUrl Quiz image URL for display.
  * @property resultText The result the user got (e.g. "Gryffindor").
+ * @property resultImageUrl The URL of the image associated with the result.
+ * @property resultMoreInfo Additional information about the result.
  * @property savedAt Timestamp when the quiz was saved.
  * @property questions Questions with possible answers and correct answer.
  *
@@ -27,6 +29,8 @@ data class SavedQuizConverter(
     val quizDescription: String,
     val quizImageUrl: String,
     val resultText: String,
+    val resultImageUrl: String,
+    val resultMoreInfo: String,
     val savedAt: Long,
     val questions: List<SavedQuestionItem>
 ) {
@@ -41,6 +45,8 @@ data class SavedQuizConverter(
         quizDescription = quizDescription,
         quizImageUrl = quizImageUrl,
         resultText = resultText,
+        resultImageUrl = resultImageUrl,
+        resultMoreInfo = resultMoreInfo,
         savedAt = savedAt,
         questions = questions
     )
@@ -57,17 +63,32 @@ data class SavedQuizConverter(
             quizDescription = entity.quizDescription,
             quizImageUrl = entity.quizImageUrl,
             resultText = entity.resultText,
+            resultImageUrl = entity.resultImageUrl,
+            resultMoreInfo = entity.resultMoreInfo,
             savedAt = entity.savedAt,
             questions = entity.questions
         )
 
         /**
-         * Maps a [QuizConverter] and the user's result text into a new [SavedQuizConverter].
-         * Use when saving a completed quiz. Caller must provide [id] (e.g. saved quiz list size + 1).
+         * Creates a [SavedQuizConverter] from a [QuizConverter], result presentation fields, and the
+         * answers the user selected. Questions are mapped in order; each [SavedAnswerItem.isSelected]
+         * is true when its text matches the selected answer for that question index.
+         *
+         * @param quiz The quiz template that was taken.
+         * @param resultText Result for the outcome of the result of quiz (e.g. house name or tier).
+         * @param resultImageUrl URL of the image shown for this result.
+         * @param resultMoreInfo Longer description or details for the result.
+         * @param id Database row id for this saved attempt.
+         * @param selectedAnswers Choices in the same order as [quiz.questions]; one entry per question answered.
+         * @param savedAt Epoch milliseconds when the attempt was saved; defaults to the current time.
+         *
+         * @return A converter ready to persist with [toEntity].
          */
         fun fromQuizAndResult(
             quiz: QuizConverter,
             resultText: String,
+            resultImageUrl: String,
+            resultMoreInfo: String,
             id: Long,
             selectedAnswers: List<AnswerEntity>,
             savedAt: Long = System.currentTimeMillis()
@@ -92,6 +113,8 @@ data class SavedQuizConverter(
                 quizDescription = quiz.description,
                 quizImageUrl = quiz.quizImageUrl,
                 resultText = resultText,
+                resultImageUrl = resultImageUrl,
+                resultMoreInfo = resultMoreInfo,
                 savedAt = savedAt,
                 questions = questions
             )

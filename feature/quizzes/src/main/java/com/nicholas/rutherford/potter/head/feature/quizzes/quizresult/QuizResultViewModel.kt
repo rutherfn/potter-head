@@ -37,26 +37,21 @@ class QuizResultViewModel(
         launch {
             val id = quizIdParam.toLongOrNull() ?: return@launch
             val saved = savedQuizRepository.getSavedQuizById(id = id) ?: return@launch
+            val quizImageUrl = saved.resultImageUrl.ifEmpty {
+                saved.quizImageUrl
+            }
             quizResultMutableStateFlow.value = QuizResultState(
                 quizTitle = saved.quizTitle,
-                quizImageUrl = saved.quizImageUrl,
+                quizImageUrl = quizImageUrl,
                 resultText = saved.resultText,
                 questions = saved.questions
             )
         }
     }
 
-    fun onViewResultsClicked() = quizResultMutableStateFlow.update { state ->
-            state.copy(
-                showDetailedResults = true
-            )
-        }
+    fun onViewResultsClicked() = quizResultMutableStateFlow.update { state -> state.copy(showDetailedResults = true) }
 
-    fun onHideResultsClicked() = quizResultMutableStateFlow.update { state ->
-        state.copy(
-            showDetailedResults = false
-        )
-    }
+    fun onHideResultsClicked() = quizResultMutableStateFlow.update { state -> state.copy(showDetailedResults = false) }
 
     fun onContinueClicked() = navigator.pop(routeAction = Constants.NavigationDestinations.QUIZZES_SCREEN)
 

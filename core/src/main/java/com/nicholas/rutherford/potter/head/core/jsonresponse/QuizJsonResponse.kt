@@ -8,6 +8,7 @@ package com.nicholas.rutherford.potter.head.core.jsonresponse
  * @param description The description of the quiz.
  * @param longDescription The long description of the quiz.
  * @param quizImageUrl The URL of the quiz image.
+ * @param resultsInfo A list of [QuizResultInfoJsonResponse] representing the results of the quiz.
  * @param results A list of strings representing the results of the quiz.
  * @param questions A list of [QuizQuestionJsonResponse] representing the questions in the quiz.
  *
@@ -19,6 +20,7 @@ data class QuizJsonResponse(
     val description: String,
     val longDescription: String,
     val quizImageUrl: String,
+    val resultsInfo: List<QuizResultInfoJsonResponse>,
     val results: List<String>,
     val questions: List<QuizQuestionJsonResponse>
 )

@@ -151,9 +151,13 @@ class TakeQuizViewModel(
 
             savedQuiz = quiz
 
+            val outcome = QuizOutcomeResolver.resolve(quiz = quiz, selectedAnswers = selectedAnswers.toList())
+
             savedQuizRepository.insertQuiz(
                 quiz = quiz,
-                resultText = quiz.results.firstOrNull() ?: "",
+                resultText = outcome.resultText,
+                resultImageUrl = outcome.resultImageUrl,
+                resultMoreInfo = outcome.resultMoreInfo,
                 selectedAnswers = selectedAnswers.toList()
             )
 

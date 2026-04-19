@@ -5,7 +5,13 @@
     "description": "Discover which Hogwarts house you belong to.",
     "longDescription": "The legendary Sorting Hat looks deep into your personality and determines your true Hogwarts house.",
     "quizImageUrl": "https://miro.medium.com/v2/resize:fit:1200/0*TVvcb08UBLeL919-.jpeg",
-    "results": ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"],
+    "resultsInfo": [
+      { "answer": "Gryffindor", "moreInfo": "You were sorted into Gryffindor because you’re brave, bold, and willing to stand up for what matters—you lead with your heart, even when it’s not the easiest path.", "imageUrl": "https://thenichollsworth.com/wp-content/uploads/2020/11/C0441055-AEE4-4C0D-8F43-A708DDEB6C3B-721x900.jpeg" },
+      { "answer": "Slytherin", "moreInfo": "You were sorted into Slytherin because you’re driven, focused, and not afraid to chase what you want—you think ahead and play the long game, and that’s a powerful strength.", "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/0/00/Slytherin_ClearBG.png/revision/latest?cb=20161020182557" },
+      { "answer": "Ravenclaw", "moreInfo": "You were sorted into Ravenclaw because you’re thoughtful, curious, and always looking to understand more—you see the world a little differently, and that’s something worth holding onto.", "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/7/71/Ravenclaw_ClearBG.png/revision/latest/thumbnail/width/360/height/360?cb=20161020182442"},
+      { "answer": "Hufflepuff", "moreInfo": "You were sorted into Hufflepuff because you’re genuine, loyal, and grounded—you show up for people and stay true to yourself, and that kind of consistency really matters.", "imageUrl": "https://static.wikia.nocookie.net/hogwarts-life/images/5/50/0.51_Hufflepuff_Crest_Transparent.png/revision/latest?cb=20180830143550" }
+    ],
+    "results": [],
     "questions": [
       {
         "id": "q1",
@@ -26,6 +32,66 @@
           { "text": "Understand both sides.", "points": { "ravenclaw": 2 } },
           { "text": "Comfort them.", "points": { "hufflepuff": 2 } }
         ]
+      },
+      {
+        "id": "q3",
+        "text": "You have one hour of free time in the library.",
+        "answers": [
+          { "text": "Skim daring adventure tales.", "points": { "gryffindor": 2 } },
+          { "text": "Read about influential wizards.", "points": { "slytherin": 2 } },
+          { "text": "Lose yourself in rare texts.", "points": { "ravenclaw": 2 } },
+          { "text": "Help someone find a book.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "A group project goes wrong right before the deadline.",
+        "answers": [
+          { "text": "Take charge and fix what you can.", "points": { "gryffindor": 2 } },
+          { "text": "Make sure your part still shines.", "points": { "slytherin": 2 } },
+          { "text": "Rework the plan with logic.", "points": { "ravenclaw": 2 } },
+          { "text": "Support teammates and share the load.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Someone spreads a rumor about you.",
+        "answers": [
+          { "text": "Confront them directly.", "points": { "gryffindor": 2 } },
+          { "text": "Turn opinion back in your favor.", "points": { "slytherin": 2 } },
+          { "text": "Gather facts before you react.", "points": { "ravenclaw": 2 } },
+          { "text": "Talk it through calmly.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Which prize would you want to win?",
+        "answers": [
+          { "text": "A trophy for bravery.", "points": { "gryffindor": 2 } },
+          { "text": "A seat at the high table.", "points": { "slytherin": 2 } },
+          { "text": "A scholarship to a rare seminar.", "points": { "ravenclaw": 2 } },
+          { "text": "A feast shared with friends.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "How do you prepare for a big exam?",
+        "answers": [
+          { "text": "Cram the night before with nerves of steel.", "points": { "gryffindor": 2 } },
+          { "text": "Focus on what raises your average most.", "points": { "slytherin": 2 } },
+          { "text": "Outline, revise, and test yourself.", "points": { "ravenclaw": 2 } },
+          { "text": "Study in a group and quiz each other.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What would you miss most if you left Hogwarts?",
+        "answers": [
+          { "text": "The thrill of adventure on the grounds.", "points": { "gryffindor": 2 } },
+          { "text": "The connections you have built.", "points": { "slytherin": 2 } },
+          { "text": "The endless shelves of knowledge.", "points": { "ravenclaw": 2 } },
+          { "text": "The warmth of your common room.", "points": { "hufflepuff": 2 } }
+        ]
       }
     ]
   },
@@ -35,13 +101,13 @@
     "description": "Find out which wand chooses you.",
     "longDescription": "Wands choose the wizard. Answer honestly to discover your magical wand core and style.",
     "quizImageUrl": "https://thecraftyblogstalker.com/wp-content/uploads/2023/07/harry-potter-diy-wands-21.jpg",
-    "results": [
-      "Phoenix Feather",
-      "Dragon Heartstring",
-      "Unicorn Hair",
-      "Thestral_Hair",
-      "Basilisk Fang"
+    "resultsInfo": [
+      { "answer": "Phoenix Feather", "moreInfo": "You were matched with a Phoenix Feather core because you’re resilient, rare, and capable of rising through anything—there’s a spark in you that refuses to burn out.", "imageUrl": "https://static.wikia.nocookie.net/pottermore/images/f/f1/9AB7FB41-F5C9-468A-9376-AD389651A47B.jpeg/revision/latest?cb=20200629052000" },
+      { "answer": "Dragon Heartstring", "moreInfo": "You were matched with a Dragon Heartstring core because you’re powerful, bold, and full of intensity—you don’t hold back, and your strength speaks for itself.", "imageUrl": "https://i.ebayimg.com/images/g/3A0AAOSwTs9nfpwO/s-l400.jpg" },
+      { "answer": "Unicorn Hair", "moreInfo": "You were matched with a Unicorn Hair core because you’re steady, kind, and deeply grounded—your strength comes from consistency and a quiet sense of purpose.", "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/f/f0/Neville%27s_wand.jpg/revision/latest/scale-to-width-down/250?cb=20141209002728"},
+      { "answer": "Thestral_Hair", "moreInfo": "You were matched with a Thestral Hair core because you see what others don’t—you carry depth, understanding, and a quiet strength shaped by experience.", "imageUrl": "https://static.wikia.nocookie.net/harrypotter/images/5/59/Elder_Wand.png/revision/latest?cb=20241227040818" }
     ],
+    "results": [],
     "questions": [
       {
         "id": "q1",
@@ -50,8 +116,7 @@
           { "text": "Bravery", "points": { "phoenix_feather": 2 } },
           { "text": "Power", "points": { "dragon_heartstring": 2 } },
           { "text": "Kindness", "points": { "unicorn_hair": 2 } },
-          { "text": "Mystery", "points": { "thestral_hair": 2 } },
-          { "text": "Cunning", "points": { "basilisk_fang": 2 } }
+          { "text": "Mystery", "points": { "thestral_hair": 2 } }
         ]
       },
       {
@@ -61,8 +126,67 @@
           { "text": "Sunrise fields", "points": { "unicorn_hair": 2 } },
           { "text": "Dark forests", "points": { "thestral_hair": 2 } },
           { "text": "Battle arenas", "points": { "dragon_heartstring": 2 } },
-          { "text": "Ancient castles", "points": { "phoenix_feather": 2 } },
-          { "text": "Hidden chambers", "points": { "basilisk_fang": 2 } }
+          { "text": "Ancient castles", "points": { "phoenix_feather": 2 } }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "How do you react when plans fall apart?",
+        "answers": [
+          { "text": "Trust something better will rise from it.", "points": { "phoenix_feather": 2 } },
+          { "text": "Force a new path open.", "points": { "dragon_heartstring": 2 } },
+          { "text": "Stay gentle and steady.", "points": { "unicorn_hair": 2 } },
+          { "text": "Accept what others cannot see yet.", "points": { "thestral_hair": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Pick a spellcasting style.",
+        "answers": [
+          { "text": "Bold and instinctive.", "points": { "phoenix_feather": 2 } },
+          { "text": "Overwhelming and direct.", "points": { "dragon_heartstring": 2 } },
+          { "text": "Precise and harmonious.", "points": { "unicorn_hair": 2 } },
+          { "text": "Subtle and rare.", "points": { "thestral_hair": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "What draws you to a wand in a shop window?",
+        "answers": [
+          { "text": "It seems to glow with possibility.", "points": { "phoenix_feather": 2 } },
+          { "text": "It looks unbreakable.", "points": { "dragon_heartstring": 2 } },
+          { "text": "It feels calm in your hand.", "points": { "unicorn_hair": 2 } },
+          { "text": "You swear it was not there a moment ago.", "points": { "thestral_hair": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Which companion would you choose on a quest?",
+        "answers": [
+          { "text": "A loyal friend who never quits.", "points": { "phoenix_feather": 2 } },
+          { "text": "A fierce ally who clears the way.", "points": { "dragon_heartstring": 2 } },
+          { "text": "A healer who keeps everyone whole.", "points": { "unicorn_hair": 2 } },
+          { "text": "A guide who knows secret roads.", "points": { "thestral_hair": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "What is your relationship with rules?",
+        "answers": [
+          { "text": "Break them when honor demands it.", "points": { "phoenix_feather": 2 } },
+          { "text": "Bend them if you gain from it.", "points": { "dragon_heartstring": 2 } },
+          { "text": "Follow them when they are fair.", "points": { "unicorn_hair": 2 } },
+          { "text": "Question what others take for granted.", "points": { "thestral_hair": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "How do you want to be remembered?",
+        "answers": [
+          { "text": "As someone who returned stronger.", "points": { "phoenix_feather": 2 } },
+          { "text": "As someone who could not be ignored.", "points": { "dragon_heartstring": 2 } },
+          { "text": "As someone who made others feel safe.", "points": { "unicorn_hair": 2 } },
+          { "text": "As someone who understood depths.", "points": { "thestral_hair": 2 } }
         ]
       }
     ]
@@ -73,6 +197,7 @@
     "description": "Reveal your spirit guardian.",
     "longDescription": "Your Patronus represents your inner strength and happiest memories.",
     "quizImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRzyh_GGcoaLVDv6jiqyFZhZ2t3f-I2iUJMw&s",
+    "resultsInfo": [],
     "results": ["stag", "wolf", "otter", "eagle", "horse"],
     "questions": [
       {
@@ -96,6 +221,72 @@
           { "text": "Joy", "points": { "otter": 2 } },
           { "text": "Strength", "points": { "horse": 2 } }
         ]
+      },
+      {
+        "id": "q3",
+        "text": "When darkness closes in, you think of…",
+        "answers": [
+          { "text": "Standing your ground for others.", "points": { "stag": 2 } },
+          { "text": "The pack that runs beside you.", "points": { "wolf": 2 } },
+          { "text": "Laughter that cuts through fear.", "points": { "otter": 2 } },
+          { "text": "Soaring above it all.", "points": { "eagle": 2 } },
+          { "text": "Galloping toward the light.", "points": { "horse": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "How do you move through the world?",
+        "answers": [
+          { "text": "With quiet dignity.", "points": { "stag": 2 } },
+          { "text": "With fierce loyalty.", "points": { "wolf": 2 } },
+          { "text": "With playful curiosity.", "points": { "otter": 2 } },
+          { "text": "With sharp awareness.", "points": { "eagle": 2 } },
+          { "text": "With steady endurance.", "points": { "horse": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Pick a season that matches your spirit.",
+        "answers": [
+          { "text": "Autumn mist and amber light.", "points": { "stag": 2 } },
+          { "text": "Winter under the pines.", "points": { "wolf": 2 } },
+          { "text": "Spring thaw and rushing streams.", "points": { "otter": 2 } },
+          { "text": "Clear summer skies.", "points": { "eagle": 2 } },
+          { "text": "Wind sweeping the moor.", "points": { "horse": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "What kind of friend are you?",
+        "answers": [
+          { "text": "The one others lean on.", "points": { "stag": 2 } },
+          { "text": "The one who has their back in a fight.", "points": { "wolf": 2 } },
+          { "text": "The one who lifts the mood.", "points": { "otter": 2 } },
+          { "text": "The one who sees the big picture.", "points": { "eagle": 2 } },
+          { "text": "The one who shows up, always.", "points": { "horse": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Your happiest memory often involves…",
+        "answers": [
+          { "text": "A moment of quiet pride.", "points": { "stag": 2 } },
+          { "text": "Belonging to something wild.", "points": { "wolf": 2 } },
+          { "text": "Pure, silly fun.", "points": { "otter": 2 } },
+          { "text": "Achievement and open air.", "points": { "eagle": 2 } },
+          { "text": "Freedom and forward motion.", "points": { "horse": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What would your Patronus need to chase away?",
+        "answers": [
+          { "text": "Cowardice in yourself.", "points": { "stag": 2 } },
+          { "text": "Abandonment.", "points": { "wolf": 2 } },
+          { "text": "Joylessness.", "points": { "otter": 2 } },
+          { "text": "Feeling trapped.", "points": { "eagle": 2 } },
+          { "text": "Being held back.", "points": { "horse": 2 } }
+        ]
       }
     ]
   },
@@ -105,6 +296,7 @@
     "description": "Which character are you most like?",
     "longDescription": "Your personality may match one of the famous witches or wizards of Hogwarts.",
     "quizImageUrl": "https://static.wikia.nocookie.net/heroes-and-villain/images/2/25/Harry_Potter_characters_poster.png/revision/latest/thumbnail/width/360/height/360?cb=20251023180919",
+    "resultsInfo": [],
     "results": ["harry", "hermione", "ron", "draco", "luna"],
     "questions": [
       {
@@ -128,6 +320,72 @@
           { "text": "Plan your future", "points": { "draco": 2 } },
           { "text": "Dream and wander", "points": { "luna": 2 } }
         ]
+      },
+      {
+        "id": "q3",
+        "text": "Someone insults your best friend in the corridor.",
+        "answers": [
+          { "text": "Step between them at once.", "points": { "harry": 2 } },
+          { "text": "Deliver a withering, factual reply.", "points": { "hermione": 2 } },
+          { "text": "Say something so blunt it stops the room.", "points": { "ron": 2 } },
+          { "text": "Store it away for later.", "points": { "draco": 2 } },
+          { "text": "Respond so oddly they lose the thread.", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "How do you handle being wrong?",
+        "answers": [
+          { "text": "Own it and move forward.", "points": { "harry": 2 } },
+          { "text": "Research until you understand why.", "points": { "hermione": 2 } },
+          { "text": "Grumble, then apologize with snacks.", "points": { "ron": 2 } },
+          { "text": "Rarely admit it out loud.", "points": { "draco": 2 } },
+          { "text": "You were probably right in a different way.", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Pick an elective you would ace.",
+        "answers": [
+          { "text": "Defense Against the Dark Arts", "points": { "harry": 2 } },
+          { "text": "Arithmancy", "points": { "hermione": 2 } },
+          { "text": "Care of Magical Creatures", "points": { "ron": 2 } },
+          { "text": "Potions (if the professor favors you)", "points": { "draco": 2 } },
+          { "text": "Divination", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "What stresses you out most?",
+        "answers": [
+          { "text": "Letting people down.", "points": { "harry": 2 } },
+          { "text": "Being unprepared.", "points": { "hermione": 2 } },
+          { "text": "Being overlooked.", "points": { "ron": 2 } },
+          { "text": "Losing status.", "points": { "draco": 2 } },
+          { "text": "Close-mindedness.", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "How do you cheer yourself up?",
+        "answers": [
+          { "text": "Go flying or get moving.", "points": { "harry": 2 } },
+          { "text": "Organize something or read.", "points": { "hermione": 2 } },
+          { "text": "Food and a joke.", "points": { "ron": 2 } },
+          { "text": "Retreat and regroup.", "points": { "draco": 2 } },
+          { "text": "Stare at clouds or thestrals.", "points": { "luna": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What do you want from your time at Hogwarts?",
+        "answers": [
+          { "text": "To matter when it counts.", "points": { "harry": 2 } },
+          { "text": "To master everything you touch.", "points": { "hermione": 2 } },
+          { "text": "To belong and have stories to tell.", "points": { "ron": 2 } },
+          { "text": "To come out on top.", "points": { "draco": 2 } },
+          { "text": "To see the world as it really is.", "points": { "luna": 2 } }
+        ]
       }
     ]
   },
@@ -137,6 +395,7 @@
     "description": "Test your wizarding knowledge.",
     "longDescription": "Only true Potterheads can answer all these questions correctly.",
     "quizImageUrl": "https://parade.com/.image/c_fill,w_1200,h_1200,g_faces:center/MTkwNTc2MDQ0MzE0NDcwMjY4/harry-potter-trivia.jpg",
+    "resultsInfo": [],
     "results": ["muggle", "student", "prefect", "potterhead"],
     "questions": [
       {
@@ -158,6 +417,66 @@
           { "text": "Lupin", "isCorrect": false },
           { "text": "Flitwick", "isCorrect": false }
         ]
+      },
+      {
+        "id": "q3",
+        "text": "What is the name of Harry's owl?",
+        "answers": [
+          { "text": "Hedwig", "isCorrect": true },
+          { "text": "Errol", "isCorrect": false },
+          { "text": "Pigwidgeon", "isCorrect": false },
+          { "text": "Crookshanks", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q4",
+        "text": "Which house is Harry sorted into?",
+        "answers": [
+          { "text": "Gryffindor", "isCorrect": true },
+          { "text": "Slytherin", "isCorrect": false },
+          { "text": "Ravenclaw", "isCorrect": false },
+          { "text": "Hufflepuff", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "What is the surname of Harry's aunt and uncle who raise him?",
+        "answers": [
+          { "text": "Dursley", "isCorrect": true },
+          { "text": "Granger", "isCorrect": false },
+          { "text": "Weasley", "isCorrect": false },
+          { "text": "Abbott", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Who is the headmaster of Hogwarts when Harry first arrives?",
+        "answers": [
+          { "text": "Albus Dumbledore", "isCorrect": true },
+          { "text": "Severus Snape", "isCorrect": false },
+          { "text": "Minerva McGonagall", "isCorrect": false },
+          { "text": "Dolores Umbridge", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "What position does Ron play on the Gryffindor Quidditch team (in later years)?",
+        "answers": [
+          { "text": "Keeper", "isCorrect": true },
+          { "text": "Seeker", "isCorrect": false },
+          { "text": "Chaser", "isCorrect": false },
+          { "text": "Beater", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What does the Mirror of Erised show?",
+        "answers": [
+          { "text": "Your heart's deepest desire", "isCorrect": true },
+          { "text": "Your future", "isCorrect": false },
+          { "text": "Hidden rooms in Hogwarts", "isCorrect": false },
+          { "text": "The last person you saw", "isCorrect": false }
+        ]
       }
     ]
   },
@@ -167,6 +486,7 @@
     "description": "Discover which house values align with your principles.",
     "longDescription": "Each Hogwarts house represents different core values. Find out which house's principles resonate most with your beliefs and actions.",
     "quizImageUrl": "https://64.media.tumblr.com/cea427576fb040bc2fbd35c1a1467e15/tumblr_inline_nx2ao0ntyc1tc8ofw_1280.png",
+    "resultsInfo": [],
     "results": ["gryffindor", "slytherin", "ravenclaw", "hufflepuff"],
     "questions": [
       {
@@ -198,6 +518,56 @@
           { "text": "Gaining knowledge", "points": { "ravenclaw": 2 } },
           { "text": "Helping others succeed", "points": { "hufflepuff": 2 } }
         ]
+      },
+      {
+        "id": "q4",
+        "text": "A classmate cheats and gets away with it.",
+        "answers": [
+          { "text": "Call it out even if it costs you.", "points": { "gryffindor": 2 } },
+          { "text": "Learn how they did it—for your own use.", "points": { "slytherin": 2 } },
+          { "text": "Weigh evidence before you speak up.", "points": { "ravenclaw": 2 } },
+          { "text": "Support anyone hurt by the unfairness.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "What is success to you?",
+        "answers": [
+          { "text": "Doing the right thing when it is hard.", "points": { "gryffindor": 2 } },
+          { "text": "Reaching the top of your chosen field.", "points": { "slytherin": 2 } },
+          { "text": "Understanding what others cannot.", "points": { "ravenclaw": 2 } },
+          { "text": "Building a life filled with trust.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "How do you spend a rare day off?",
+        "answers": [
+          { "text": "Trying something daring or physical.", "points": { "gryffindor": 2 } },
+          { "text": "Networking or polishing your image.", "points": { "slytherin": 2 } },
+          { "text": "Reading or learning for pleasure.", "points": { "ravenclaw": 2 } },
+          { "text": "Cooking, crafting, or helping someone.", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "Which quality would you teach a child first?",
+        "answers": [
+          { "text": "Bravery", "points": { "gryffindor": 2 } },
+          { "text": "Resourcefulness", "points": { "slytherin": 2 } },
+          { "text": "Curiosity", "points": { "ravenclaw": 2 } },
+          { "text": "Patience", "points": { "hufflepuff": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "How do you want your house to see you?",
+        "answers": [
+          { "text": "As someone who never backs down.", "points": { "gryffindor": 2 } },
+          { "text": "As someone destined for greatness.", "points": { "slytherin": 2 } },
+          { "text": "As someone worth listening to.", "points": { "ravenclaw": 2 } },
+          { "text": "As someone who makes home feel safe.", "points": { "hufflepuff": 2 } }
+        ]
       }
     ]
   },
@@ -207,6 +577,7 @@
     "description": "Which magical creature matches your personality?",
     "longDescription": "The wizarding world is full of fascinating creatures. Discover which magical being best represents your inner nature.",
     "quizImageUrl": "https://contentful.harrypotter.com/usf1vwtuqyxm/24Q70NrWZPY623EH4sOZ0d/3279b0dd1c28ac6b304f5ca1c7921483/WB-HP-F3-prisoner-of-azkaban-buckbeak.jpg?q=75&fm=jpg&w=2560",
+    "resultsInfo": [],
     "results": ["phoenix", "dragon", "hippogriff", "thestral", "unicorn"],
     "questions": [
       {
@@ -241,6 +612,61 @@
           { "text": "Mystery and depth", "points": { "thestral": 2 } },
           { "text": "Purity and grace", "points": { "unicorn": 2 } }
         ]
+      },
+      {
+        "id": "q4",
+        "text": "How do you greet someone new?",
+        "answers": [
+          { "text": "Warmly—you trust renewal.", "points": { "phoenix": 2 } },
+          { "text": "Assertively—you set the tone.", "points": { "dragon": 2 } },
+          { "text": "Politely—you wait for them to offer respect.", "points": { "hippogriff": 2 } },
+          { "text": "Quietly—you sense what others miss.", "points": { "thestral": 2 } },
+          { "text": "Gently—you choose who gets close.", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "Pick a magical sound.",
+        "answers": [
+          { "text": "Crackling flames becoming wings.", "points": { "phoenix": 2 } },
+          { "text": "A roar that shakes stone.", "points": { "dragon": 2 } },
+          { "text": "Wings beating in formal rhythm.", "points": { "hippogriff": 2 } },
+          { "text": "Hooves on paths no map shows.", "points": { "thestral": 2 } },
+          { "text": "Soft steps in silver moonlight.", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "What is your role in a crisis?",
+        "answers": [
+          { "text": "Inspire others to try again.", "points": { "phoenix": 2 } },
+          { "text": "Hold the line with raw force.", "points": { "dragon": 2 } },
+          { "text": "Mediate and demand courtesy.", "points": { "hippogriff": 2 } },
+          { "text": "Guide those who can handle the truth.", "points": { "thestral": 2 } },
+          { "text": "Protect the vulnerable.", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "How do you recover after failure?",
+        "answers": [
+          { "text": "Start fresh without shame.", "points": { "phoenix": 2 } },
+          { "text": "Train until you cannot fail again.", "points": { "dragon": 2 } },
+          { "text": "Apologize properly and rebuild trust.", "points": { "hippogriff": 2 } },
+          { "text": "Sit with it until you understand why.", "points": { "thestral": 2 } },
+          { "text": "Return to simple comforts.", "points": { "unicorn": 2 } }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What legend would you rather star in?",
+        "answers": [
+          { "text": "The one who returns when hope is gone.", "points": { "phoenix": 2 } },
+          { "text": "The one who guards the hoard.", "points": { "dragon": 2 } },
+          { "text": "The one who carries a hero with pride.", "points": { "hippogriff": 2 } },
+          { "text": "The one only the worthy can see.", "points": { "thestral": 2 } },
+          { "text": "The one glimpsed in moonlit glades.", "points": { "unicorn": 2 } }
+        ]
       }
     ]
   },
@@ -250,6 +676,7 @@
     "description": "Test your knowledge of wizarding spells.",
     "longDescription": "How well do you know the spells used in the wizarding world? Answer these questions to prove your magical knowledge.",
     "quizImageUrl": "https://hips.hearstapps.com/hmg-prod/images/mv5bogi0ogi5ztmtnwm4ys00zwizlthmymytzgnknzdkotnjndkxxkeyxkfqcgdeqxvynjq4ode4mzqat-v1-sy1000-cr0-0-1528-1000-al-1589922130.jpg",
+    "resultsInfo": [],
     "results": ["novice", "apprentice", "wizard", "master"],
     "questions": [
       {
@@ -291,6 +718,46 @@
           { "text": "Reparo", "isCorrect": false },
           { "text": "Petrificus Totalus", "isCorrect": false }
         ]
+      },
+      {
+        "id": "q5",
+        "text": "What does 'Nox' do?",
+        "answers": [
+          { "text": "Extinguishes wand light from Lumos", "isCorrect": true },
+          { "text": "Creates darkness that cannot be lit", "isCorrect": false },
+          { "text": "Puts someone to sleep", "isCorrect": false },
+          { "text": "Silences sound in a room", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "Which spell is used to levitate objects?",
+        "answers": [
+          { "text": "Wingardium Leviosa", "isCorrect": true },
+          { "text": "Levicorpus", "isCorrect": false },
+          { "text": "Mobiliarbus", "isCorrect": false },
+          { "text": "Descendo", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "What does the Patronus Charm primarily repel?",
+        "answers": [
+          { "text": "Dementors", "isCorrect": true },
+          { "text": "Boggarts", "isCorrect": false },
+          { "text": "Inferi", "isCorrect": false },
+          { "text": "Hinkypunks", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "Which spell repairs broken objects?",
+        "answers": [
+          { "text": "Reparo", "isCorrect": true },
+          { "text": "Reducio", "isCorrect": false },
+          { "text": "Depulso", "isCorrect": false },
+          { "text": "Colloportus", "isCorrect": false }
+        ]
       }
     ]
   },
@@ -300,6 +767,7 @@
     "description": "Prove your knowledge of potion-making.",
     "longDescription": "Potion-making requires precision and knowledge. Test your understanding of magical potions and their ingredients.",
     "quizImageUrl": "https://static0.srcdn.com/wordpress/wp-content/uploads/2019/03/Harry-Potter-Potions-Featured.jpg",
+    "resultsInfo": [],
     "results": ["first_year", "third_year", "sixth_year", "potions_master"],
     "questions": [
       {
@@ -340,6 +808,46 @@
           { "text": "Polyjuice Potion", "isCorrect": false },
           { "text": "Veritaserum", "isCorrect": false },
           { "text": "Amortentia", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q5",
+        "text": "What does Veritaserum force someone to do?",
+        "answers": [
+          { "text": "Tell the truth", "isCorrect": true },
+          { "text": "Fall asleep", "isCorrect": false },
+          { "text": "Forget the last hour", "isCorrect": false },
+          { "text": "Obey any command", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q6",
+        "text": "What is Amortentia known as?",
+        "answers": [
+          { "text": "The most powerful love potion", "isCorrect": true },
+          { "text": "A healing draught for heartbreak", "isCorrect": false },
+          { "text": "A potion that grants courage", "isCorrect": false },
+          { "text": "A poison that mimics sleep", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q7",
+        "text": "What does the Draught of Living Death do?",
+        "answers": [
+          { "text": "Puts the drinker into a deep sleep", "isCorrect": true },
+          { "text": "Kills instantly", "isCorrect": false },
+          { "text": "Turns the drinker invisible", "isCorrect": false },
+          { "text": "Causes uncontrollable laughter", "isCorrect": false }
+        ]
+      },
+      {
+        "id": "q8",
+        "text": "What is a bezoar used for?",
+        "answers": [
+          { "text": "As an antidote to many poisons", "isCorrect": true },
+          { "text": "To grow gills temporarily", "isCorrect": false },
+          { "text": "To transform into another person", "isCorrect": false },
+          { "text": "To see through invisibility cloaks", "isCorrect": false }
         ]
       }
     ]

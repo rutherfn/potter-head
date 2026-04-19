@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
+import com.nicholas.rutherford.potter.head.database.entity.ResultsInfoEntity
 import com.nicholas.rutherford.potter.head.database.entity.SavedAnswerItem
 import com.nicholas.rutherford.potter.head.database.entity.SavedQuestionItem
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
@@ -91,6 +92,22 @@ object DatabaseTypeConverters {
             val mapType = object : TypeToken<Map<String, Int>>() {}.type
             gson.fromJson(value, mapType)
         }
+    }
+
+    @TypeConverter
+    fun fromResultsInfoEntityList(value: List<ResultsInfoEntity>?): String? {
+        return if (value == null) {
+            null
+        } else {
+            gson.toJson(value)
+        }
+    }
+
+    @TypeConverter
+    fun toResultsInfoEntityList(value: String?): List<ResultsInfoEntity> {
+        if (value.isNullOrBlank()) return emptyList()
+        val listType = object : TypeToken<List<ResultsInfoEntity>>() {}.type
+        return gson.fromJson(value, listType) ?: emptyList()
     }
 
     @TypeConverter

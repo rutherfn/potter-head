@@ -1,9 +1,11 @@
 package com.nicholas.rutherford.potter.head.database.converter
 
 import com.nicholas.rutherford.potter.head.core.jsonresponse.QuizJsonResponse
+import com.nicholas.rutherford.potter.head.core.jsonresponse.QuizResultInfoJsonResponse
 import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuizEntity
+import com.nicholas.rutherford.potter.head.database.entity.ResultsInfoEntity
 
 /**
  * Converter data class for QuizEntity.
@@ -14,6 +16,7 @@ import com.nicholas.rutherford.potter.head.database.entity.QuizEntity
  * @property description The description of the quiz.
  * @property longDescription The long description of the quiz.
  * @property quizImageUrl The URL of the quiz image.
+ * @property resultsInfo A list of [ResultsInfoEntity] representing the results information.
  * @property results A list of strings representing the results of the quiz.
  * @property questions A list of [QuestionEntity] representing the questions in the quiz.
  *
@@ -25,6 +28,7 @@ data class QuizConverter(
     val description: String,
     val longDescription: String,
     val quizImageUrl: String,
+    val resultsInfo: List<ResultsInfoEntity>,
     val results: List<String>,
     val questions: List<QuestionEntity>
 ) {
@@ -38,6 +42,7 @@ data class QuizConverter(
         description = description,
         longDescription = longDescription,
         quizImageUrl = quizImageUrl,
+        resultsInfo = resultsInfo,
         results = results,
         questions = questions
     )
@@ -53,6 +58,7 @@ data class QuizConverter(
             description = entity.description,
             longDescription = entity.longDescription,
             quizImageUrl = entity.quizImageUrl,
+            resultsInfo = entity.resultsInfo,
             results = entity.results,
             questions = entity.questions
         )
@@ -81,6 +87,15 @@ data class QuizConverter(
                 description = response.description,
                 longDescription = response.longDescription,
                 quizImageUrl = response.quizImageUrl,
+                resultsInfo = (response.resultsInfo as List<QuizResultInfoJsonResponse?>)
+                    .filterNotNull()
+                    .map { resultInfo ->
+                        ResultsInfoEntity(
+                            answer = resultInfo.answer,
+                            moreInfo = resultInfo.moreInfo,
+                            imageUrl = resultInfo.imageUrl
+                        )
+                    },
                 results = response.results,
                 questions = questions
             )

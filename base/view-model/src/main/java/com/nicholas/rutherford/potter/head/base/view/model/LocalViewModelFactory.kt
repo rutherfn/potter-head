@@ -18,4 +18,3 @@ import androidx.lifecycle.ViewModelProvider
 val LocalViewModelFactory = compositionLocalOf<ViewModelProvider.Factory> {
     error("ViewModelFactory not provided. Make sure to provide it in your Activity/Composable.")
 }
-

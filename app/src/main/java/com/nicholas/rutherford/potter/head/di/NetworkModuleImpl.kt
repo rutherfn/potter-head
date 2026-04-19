@@ -54,5 +54,3 @@ class NetworkModuleImpl(
 
     override val networkMonitor: NetworkMonitor by lazy { NetworkMonitorImpl(context = context, connectivityManager = connectivityManager) }
 }
-
-

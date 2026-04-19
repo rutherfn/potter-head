@@ -166,4 +166,3 @@ private fun WizardStatusSelectionIndicator(isSelected: Boolean) {
         }
     }
 }
-

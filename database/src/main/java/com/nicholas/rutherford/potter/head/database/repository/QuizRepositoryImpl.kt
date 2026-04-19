@@ -60,4 +60,3 @@ class QuizRepositoryImpl(
         dao.deleteAllQuizzes()
     }
 }
-

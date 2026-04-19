@@ -27,4 +27,3 @@ fun QuizConverter.toQuizzesConverter(): QuizzesConverter {
         type = quizType
     )
 }
-

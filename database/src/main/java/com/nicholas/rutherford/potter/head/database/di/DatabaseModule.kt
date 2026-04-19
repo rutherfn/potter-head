@@ -35,6 +35,3 @@ interface DatabaseModule {
     val quizRepository: QuizRepository
     val savedQuizRepository: SavedQuizRepository
 }
-
-
-

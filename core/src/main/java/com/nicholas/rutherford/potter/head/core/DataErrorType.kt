@@ -44,4 +44,3 @@ sealed class DataErrorType(
  * Extension function to check if the error type is a valid error (not NONE).
  */
 fun DataErrorType.isValidErrorType(): Boolean = this is DataErrorType.NoInternetConnection || this is DataErrorType.FailedToFetchData
-

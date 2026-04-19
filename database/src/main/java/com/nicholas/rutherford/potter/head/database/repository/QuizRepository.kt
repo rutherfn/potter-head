@@ -29,4 +29,3 @@ interface QuizRepository {
 
     suspend fun deleteAllQuizzes()
 }
-

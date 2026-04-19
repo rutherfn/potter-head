@@ -59,4 +59,3 @@ infix fun <T> T.shouldNotBe(other: T) {
 inline fun <reified T> Any?.shouldBeInstanceOf() {
     assertInstanceOf(T::class.java, this, "Expected value to be an instance of ${T::class.simpleName}")
 }
-

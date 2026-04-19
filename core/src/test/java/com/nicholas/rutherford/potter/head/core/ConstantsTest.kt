@@ -90,4 +90,3 @@ class ConstantsTest {
         Constants.NamedArguments.CHARACTER_NAME shouldBe "name"
     }
 }
-

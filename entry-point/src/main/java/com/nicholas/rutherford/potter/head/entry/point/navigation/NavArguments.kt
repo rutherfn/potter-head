@@ -31,5 +31,4 @@ object NavArguments {
 
     val quizResult = listOf(navArgument(name = Constants.NamedArguments.QUIZ_ID) { type = NavType.StringType})
 
-
 }

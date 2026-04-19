@@ -166,4 +166,3 @@ private fun AliveStatusSelectionIndicator(isSelected: Boolean) {
         }
     }
 }
-

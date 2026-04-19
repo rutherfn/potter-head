@@ -29,4 +29,3 @@ data class PrimaryFilterFlows(
     val speciesFilterFlow: Flow<List<CharacterFilterConverter>>,
     val hogwartsAffiliationFilterFlow: Flow<List<CharacterFilterConverter>>
 )
-

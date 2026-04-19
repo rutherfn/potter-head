@@ -42,5 +42,3 @@ interface QuizDao {
     @Query("DELETE FROM quizzes")
     suspend fun deleteAllQuizzes()
 }
-
-

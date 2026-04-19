@@ -40,4 +40,3 @@ class DebugToggleRepositoryImpl(private val dao: DebugToggleDao) : DebugToggleRe
 
     override suspend fun isToggleEnabled(key: String): Boolean = dao.getToggleSync(key)?.isEnabled ?: false
 }
-

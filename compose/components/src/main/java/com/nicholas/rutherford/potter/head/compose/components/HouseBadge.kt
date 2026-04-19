@@ -44,6 +44,3 @@ fun HouseBadge(
         )
     }
 }
-
-
-

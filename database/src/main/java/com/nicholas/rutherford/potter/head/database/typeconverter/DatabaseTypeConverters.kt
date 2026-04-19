@@ -186,4 +186,3 @@ object DatabaseTypeConverters {
         }
     }
 }
-

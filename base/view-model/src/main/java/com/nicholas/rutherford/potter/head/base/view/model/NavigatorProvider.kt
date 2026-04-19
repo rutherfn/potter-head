@@ -11,4 +11,3 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
 interface NavigatorProvider {
     fun getNavigator(): Navigator
 }
-

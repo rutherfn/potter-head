@@ -43,37 +43,27 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.nicholas.rutherford.potter.head.compose.ui.theme.PotterHeadTheme
 import kotlinx.coroutines.delay
 
 /**
- * A reusable card with a top hero image (or placeholder), a primary headline, supporting text,
- * and an optional labeled highlight section (e.g. an outcome or score).
+ * Card layout for a hero image (or placeholder), primary headline, supporting copy, and an optional
+ * labeled highlight (for example a quiz outcome). Content is revealed in sequence when the card
+ * appears or when its inputs change.
  *
- * **Animation behavior**
+ * @param imageUrl URL for the hero image; when blank, a gradient placeholder with an icon is shown.
+ * @param imageContentDescription Content description for the hero image when [imageUrl] is non-blank.
+ * @param headline Primary title, centered and emphasized.
+ * @param supportingText Secondary line under the headline, centered and muted.
+ * @param highlightLabel Short label shown above [highlightValue]; ignored when [highlightValue] is blank.
+ * @param highlightValue Optional emphasized value; when blank, the divider and highlight section are omitted.
+ * @param modifier [Modifier] for the root [Card].
  *
- * On first display (and whenever [imageUrl], [headline], [supportingText], or [highlightValue]
- * change), content is revealed in sequence:
- *
- * 1. **Headline** — fades in and slides up slightly ([AnimatedVisibility] + [tween]).
- * 2. **Supporting text** — same pattern, started after a short [delay] so lines read in order.
- * 3. **Hero image** — scales from slightly smaller to full size ([spring]) while fading in ([tween])
- *    via [graphicsLayer]; gives a light “settle” without blocking text.
- * 4. **Highlight block** — only if [highlightValue] is non-blank; appears last with fade + slide,
- *    separated by a [HorizontalDivider].
- *
- * Visibility flags reset when the remembered keys change, so navigating to new content replays
- * the sequence.
- *
- * @param imageUrl URL for the hero image; if blank, a neutral gradient placeholder with icon is shown.
- * @param imageContentDescription Accessibility description for the hero image when [imageUrl] is used.
- * @param headline Primary title (centered, high emphasis).
- * @param supportingText Secondary line under the headline (centered, muted color).
- * @param highlightLabel Short label above the highlight value; ignored when [highlightValue] is blank.
- * @param highlightValue Optional emphasized value; when blank, the divider and highlight [Surface] are not shown.
- * @param modifier Modifier for the root [Card].
+ * @author Nicholas Rutherford
  */
 @Composable
 fun HeroSummaryCard(
@@ -87,7 +77,6 @@ fun HeroSummaryCard(
 ) {
     val cardShape = RoundedCornerShape(24.dp)
 
-    // One visibility flag per animated region; keys reset state when content identity changes.
     var showHeadline by remember(imageUrl, headline, supportingText, highlightValue) {
         mutableStateOf(false)
     }
@@ -101,7 +90,6 @@ fun HeroSummaryCard(
         mutableStateOf(false)
     }
 
-    // Stagger reveals so users read top-to-bottom; image animates in parallel with the later text beats.
     LaunchedEffect(imageUrl, headline, supportingText, highlightValue) {
         showHeadline = true
         delay(timeMillis = 90)
@@ -222,7 +210,6 @@ fun HeroSummaryCard(
                             modifier = Modifier.fillMaxWidth(),
                             color = MaterialTheme.colorScheme.outlineVariant
                         )
-                        // Uses theme surfaceVariant (light grey in light mode); label uses onSurface for contrast.
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(20.dp),
@@ -265,7 +252,12 @@ fun HeroSummaryCard(
 }
 
 /**
- * Loads [imageUrl] with Coil when present; otherwise draws a neutral placeholder (gradient + icon).
+ * Hero strip: loads [imageUrl] with Coil when set, otherwise a gradient placeholder and icon.
+ *
+ * @param imageUrl Remote image URL; blank selects the placeholder.
+ * @param contentDescription TalkBack description when the image is shown.
+ * @param placeholderTint Tint for the placeholder icon.
+ * @param modifier [Modifier] applied to the image or placeholder [Box].
  */
 @Composable
 private fun HeroSummaryCardTopImage(
@@ -300,5 +292,37 @@ private fun HeroSummaryCardTopImage(
                 tint = placeholderTint.copy(alpha = 0.9f)
             )
         }
+    }
+}
+
+@Preview(showBackground = true, name = "HeroSummaryCard — with highlight (light)")
+@Composable
+private fun HeroSummaryCardPreviewWithHighlightLight() {
+    PotterHeadTheme(darkTheme = false) {
+        HeroSummaryCard(
+            imageUrl = "",
+            imageContentDescription = "",
+            headline = "Sorting complete",
+            supportingText = "Here is where the Hat placed you.",
+            highlightLabel = "Your house",
+            highlightValue = "Gryffindor",
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+
+@Preview(showBackground = true, name = "HeroSummaryCard — no highlight (dark)")
+@Composable
+private fun HeroSummaryCardPreviewNoHighlightDark() {
+    PotterHeadTheme(darkTheme = true) {
+        HeroSummaryCard(
+            imageUrl = "",
+            imageContentDescription = "",
+            headline = "Patronus quiz",
+            supportingText = "Answer the questions to reveal your guardian.",
+            highlightLabel = "",
+            highlightValue = "",
+            modifier = Modifier.padding(16.dp)
+        )
     }
 }

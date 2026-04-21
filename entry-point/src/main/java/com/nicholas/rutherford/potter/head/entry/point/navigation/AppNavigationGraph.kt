@@ -126,7 +126,7 @@ object AppNavigationGraph {
         composable(route = Screens.Spells.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: SpellsViewModel = viewModel(factory = factory)
+            val viewModel: SpellsViewModel = viewModel<SpellsViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.spellsStateFlow.collectAsState().value
 
@@ -161,7 +161,7 @@ object AppNavigationGraph {
         composable(route = Screens.Characters.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: CharactersViewModel = viewModel(factory = factory)
+            val viewModel: CharactersViewModel = viewModel<CharactersViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.charactersStateFlow.collectAsState().value
 
@@ -203,7 +203,7 @@ object AppNavigationGraph {
         composable(route = Screens.CharacterFilters.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: CharacterFiltersViewModel = viewModel(factory = factory)
+            val viewModel: CharacterFiltersViewModel = viewModel<CharacterFiltersViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.characterFiltersStateFlow.collectAsState().value
 
@@ -257,7 +257,7 @@ object AppNavigationGraph {
             arguments = NavArguments.quizDetail
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            val viewModel: QuizDetailViewModel = viewModel(
+            val viewModel: QuizDetailViewModel = viewModel<QuizDetailViewModel>(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
@@ -304,7 +304,7 @@ object AppNavigationGraph {
             arguments = NavArguments.characterDetail
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            val viewModel: CharacterDetailViewModel = viewModel(
+            val viewModel: CharacterDetailViewModel = viewModel<CharacterDetailViewModel>(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
@@ -344,7 +344,7 @@ object AppNavigationGraph {
         composable(route = Screens.Quizzes.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: QuizzesViewModel = viewModel(factory = factory)
+            val viewModel: QuizzesViewModel = viewModel<QuizzesViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
 
             ObserveLifecycle(viewModel = viewModel)
@@ -365,13 +365,24 @@ object AppNavigationGraph {
         }
     }
 
+    /**
+     * Defines the quiz result screen in the navigation graph.
+     *
+     * This function sets up the quiz result screen with:
+     * - Route: QuizResult.route
+     * - ViewModel: [QuizResultViewModel] created via [LocalViewModelFactory]
+     * - Screen: [QuizResultScreen] with parameters for quiz click handling
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
     fun NavGraphBuilder.quizResultScreen() {
         composable(
             route = Screens.QuizResult.route,
             arguments = NavArguments.quizResult
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            val viewModel: QuizResultViewModel = viewModel(
+            val viewModel: QuizResultViewModel = viewModel<QuizResultViewModel>(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
@@ -399,13 +410,25 @@ object AppNavigationGraph {
             )
         }
     }
+
+    /**
+     * Defines the Take Quiz screen in the navigation graph.
+     *
+     * This function sets up the take quiz screen with:
+     * - Route: TakeAQuiz.route
+     * - ViewModel: [TakeQuizViewModel] created via [LocalViewModelFactory]
+     * - Screen: [TakeQuizScreen] with parameters for quiz click handling
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
     fun NavGraphBuilder.takeQuizScreen() {
         composable(
             route = Screens.TakeQuiz.route,
             arguments = NavArguments.takeQuiz
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            val viewModel: TakeQuizViewModel = viewModel(
+            val viewModel: TakeQuizViewModel = viewModel<TakeQuizViewModel>(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
@@ -454,7 +477,7 @@ object AppNavigationGraph {
         composable(route = Screens.Settings.route) {
 
             val factory = LocalViewModelFactory.current
-            val viewModel: SettingsViewModel = viewModel(factory = factory)
+            val viewModel: SettingsViewModel = viewModel<SettingsViewModel>(factory = factory)
 
             SettingsScreen(
                 params = SettingsParams(

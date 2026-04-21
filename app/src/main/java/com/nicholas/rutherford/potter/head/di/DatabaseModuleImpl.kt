@@ -78,9 +78,7 @@ class DatabaseModuleImpl(
 
     override val quizRepository: QuizRepository by lazy { QuizRepositoryImpl(dao = appDatabase.quizDao(), context = context) }
 
-    override val savedQuizRepository: SavedQuizRepository by lazy {
-        SavedQuizRepositoryImpl(dao = appDatabase.savedQuizDao())
-    }
+    override val savedQuizRepository: SavedQuizRepository by lazy { SavedQuizRepositoryImpl(dao = appDatabase.savedQuizDao()) }
 
     private fun initializeDefaultData(database: AppDatabase) {
         scopeModule.ioScope.launch {

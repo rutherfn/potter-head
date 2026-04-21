@@ -7,7 +7,6 @@ import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
 import com.nicholas.rutherford.potter.head.database.entity.ResultsInfoEntity
-import com.nicholas.rutherford.potter.head.database.entity.SavedAnswerItem
 import com.nicholas.rutherford.potter.head.database.entity.SavedQuestionItem
 import com.nicholas.rutherford.potter.head.database.entity.WandEntity
 
@@ -105,7 +104,9 @@ object DatabaseTypeConverters {
 
     @TypeConverter
     fun toResultsInfoEntityList(value: String?): List<ResultsInfoEntity> {
-        if (value.isNullOrBlank()) return emptyList()
+        if (value.isNullOrBlank()) {
+            return emptyList()
+        }
         val listType = object : TypeToken<List<ResultsInfoEntity>>() {}.type
         return gson.fromJson(value, listType) ?: emptyList()
     }
@@ -125,44 +126,6 @@ object DatabaseTypeConverters {
             null
         } else {
             val listType = object : TypeToken<List<QuestionEntity>>() {}.type
-            gson.fromJson(value, listType)
-        }
-    }
-
-    @TypeConverter
-    fun fromAnswerEntityList(value: List<AnswerEntity>?): String? {
-        return if (value == null) {
-            null
-        } else {
-            gson.toJson(value)
-        }
-    }
-
-    @TypeConverter
-    fun toAnswerEntityList(value: String?): List<AnswerEntity>? {
-        return if (value == null) {
-            null
-        } else {
-            val listType = object : TypeToken<List<AnswerEntity>>() {}.type
-            gson.fromJson(value, listType)
-        }
-    }
-
-    @TypeConverter
-    fun fromSavedAnswerItemList(value: List<SavedAnswerItem>?): String? {
-        return if (value == null) {
-            null
-        } else {
-            gson.toJson(value)
-        }
-    }
-
-    @TypeConverter
-    fun toSavedAnswerItemList(value: String?): List<SavedAnswerItem>? {
-        return if (value == null) {
-            null
-        } else {
-            val listType = object : TypeToken<List<SavedAnswerItem>>() {}.type
             gson.fromJson(value, listType)
         }
     }

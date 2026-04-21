@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.collectLatest
 import co.touchlab.kermit.Logger
 import kotlinx.coroutines.launch
 
-
 /**
  * A base `ViewModel` class that implements [DefaultLifecycleObserver] to provide logging
  * for lifecycle events and lifecycle-aware Flow collection management.
@@ -32,7 +31,8 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
 
     /**
      * The screen title for this ViewModel's screen.
-     * Should be overridden by subclasses to return the appropriate title from [com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles].
+     * Should be overridden by subclasses to return the appropriate title (for example from
+     * `Constants.ScreenTitles` in the core module).
      *
      * @return The screen title string
      */

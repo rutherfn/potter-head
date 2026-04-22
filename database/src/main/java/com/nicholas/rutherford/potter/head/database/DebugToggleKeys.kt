@@ -9,4 +9,3 @@ package com.nicholas.rutherford.potter.head.database
 object DebugToggleKeys {
     const val SHOULD_SIMULATE_NO_INTERNET_CONNECTION = "shouldSimulateNoInternetConnection"
 }
-

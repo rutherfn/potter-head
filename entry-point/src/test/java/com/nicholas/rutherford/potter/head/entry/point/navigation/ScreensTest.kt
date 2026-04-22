@@ -62,5 +62,32 @@ class ScreensTest {
             Screens.Settings.title shouldBe Constants.ScreenTitles.SETTINGS
         }
     }
-}
 
+    @Nested
+    inner class TakeQuiz {
+
+        @Test
+        fun `route should be set to correct navigation destination with parameters`() {
+            Screens.TakeQuiz.route shouldBe Constants.NavigationDestinations.TAKE_QUIZ_SCREEN_WITH_PARAMS
+        }
+
+        @Test
+        fun `title should be set to correct screen title`() {
+            Screens.TakeQuiz.title shouldBe Constants.ScreenTitles.TAKE_QUIZ
+        }
+    }
+
+    @Nested
+    inner class QuizResult {
+
+        @Test
+        fun `route should be set to correct navigation destination with parameters`() {
+            Screens.QuizResult.route shouldBe Constants.NavigationDestinations.QUIZ_RESULT_SCREEN_WITH_PARAMS
+        }
+
+        @Test
+        fun `title should be set to correct screen title`() {
+            Screens.QuizResult.title shouldBe Constants.ScreenTitles.QUIZ_RESULT
+        }
+    }
+}

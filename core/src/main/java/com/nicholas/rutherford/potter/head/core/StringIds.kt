@@ -1,6 +1,8 @@
 package com.nicholas.rutherford.potter.head.core
 
 object StringIds {
+    val availableQuizzes = R.string.available_quizzes
+    val submittedQuizzes = R.string.submitted_quizzes
     val characterDetail = R.string.character_detail
     val characterNotFound = R.string.character_not_found
     val filterByStudentOrStaff = R.string.filter_by_student_or_staff
@@ -65,9 +67,28 @@ object StringIds {
     val human = R.string.human
     val male = R.string.male
     val spells = R.string.spells
+    val quizzes = R.string.quizzes
     val couldNotRetrieveSpells = R.string.could_not_retrieve_spells
     val wasUnableToRetrieveTheSpellsPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_spells_please_try_again_later
     val noSpellsYet = R.string.no_spells_yet
     val weCouldNotFindAnySpellsTapRetryToLoadItems = R.string.we_could_not_find_any_spells_tap_retry_to_load_items
     val noSpellsFound = R.string.no_spells_found
+    val couldNotRetrieveData = R.string.could_not_retrieve_data
+    val wasUnableToRetrieveTheDataPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_data_please_try_again_later
+    val noQuizzesYet = R.string.no_quizzes_yet
+    val weCouldNotFindAnyQuizzesTapRetryToLoadItems = R.string.we_could_not_find_any_quizzes_tap_retry_to_load_items
+    val quizDetail = R.string.quiz_detail
+    val questionXOfY = R.string.question_x_of_y
+    val gotIt = R.string.got_it
+    val selectingAAnswer = R.string.selecting_a_answer
+    val pleaseSelectAAnswerInOrderToContinueTheQuiz = R.string.please_select_a_answer_in_order_to_continue_the_quiz
+    val pleaseSelectAAnswerInOrderToFinishTheQuiz = R.string.please_select_a_answer_in_order_to_finish_the_quiz
+    val leavingCurrentQuiz = R.string.leaving_current_quiz
+    val leavingCurrentQuizDescription = R.string.leaving_current_quiz_description
+    val unableToContinueWithQuiz = R.string.unable_to_continue_with_quiz
+    val unableToContinueWithQuizDescription = R.string.unable_to_continue_with_quiz_description
+    val quizResult = R.string.quiz_result
+    val quizCompleted = R.string.quiz_completed
+    val yourResult = R.string.your_result
+    val congratsYouCompletedX = R.string.congrats_you_completed_x
 }

@@ -26,4 +26,3 @@ interface NetworkMonitor {
      */
     suspend fun isConnected(): Boolean
 }
-

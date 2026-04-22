@@ -114,4 +114,3 @@ fun getSpeciesColor(species: String): Color {
         else -> MaterialTheme.colorScheme.primary
     }
 }
-

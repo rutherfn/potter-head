@@ -17,4 +17,3 @@ data class DebugToggleEntity(
     val toggleKey: String,
     val isEnabled: Boolean
 )
-

@@ -18,4 +18,3 @@ data class ApplicationDependencies(
     val navigator: Navigator,
     val appBarFactory: AppBarFactory
 )
-

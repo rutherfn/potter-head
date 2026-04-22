@@ -18,4 +18,3 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarF
 val LocalAppBarFactory = compositionLocalOf<AppBarFactory> {
     error("AppBarFactory not provided. Make sure to provide it in your Activity/Composable.")
 }
-

@@ -35,4 +35,3 @@ object TestWandResponse {
 const val WAND_RESPONSE_WOOD = "holly"
 const val WAND_RESPONSE_CORE = "phoenix feather"
 const val WAND_RESPONSE_LENGTH = 11.0
-

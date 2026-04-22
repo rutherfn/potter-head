@@ -9,5 +9,9 @@ interface AppBarFactory {
     fun createCharactersAppBar(): AppBar
     fun createFiltersAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
     fun createCharacterDetailAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
+    fun createQuizDetailAppBar(onIconButtonClicked: (() -> Unit)? = null): AppBar
+    fun createTakeQuizAppBar(onIconButtonClicked: (() -> Unit)?): AppBar
+    fun createQuizResultAppBar(onIconButtonClicked: (() -> Unit)?): AppBar
     fun createSpellsAppBar(): AppBar
+    fun createQuizzesAppBar(): AppBar
 }

@@ -40,4 +40,3 @@ interface DebugToggleDao {
     @Query("DELETE FROM debugToggles")
     suspend fun deleteAllToggles()
 }
-

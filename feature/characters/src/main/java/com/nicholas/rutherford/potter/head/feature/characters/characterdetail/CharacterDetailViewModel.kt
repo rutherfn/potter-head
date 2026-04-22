@@ -33,6 +33,8 @@ class CharacterDetailViewModel(
     private val application: Application
 ) : BaseViewModel() {
 
+    override val screenTitle: String = Constants.ScreenTitles.CHARACTER_DETAIL
+
     private val characterDetailMutableStateFlow = MutableStateFlow(value = CharacterDetailState())
     val characterDetailStateFlow: StateFlow<CharacterDetailState> = characterDetailMutableStateFlow.asStateFlow()
     internal val characterNameParam: String = savedStateHandle.get<String>(Constants.NamedArguments.CHARACTER_NAME)?.let { value -> Uri.decode(value) } ?: ""

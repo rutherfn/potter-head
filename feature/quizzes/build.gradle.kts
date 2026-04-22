@@ -40,14 +40,23 @@ kotlin {
 }
 
 dependencies {
+    api(project(path = ":base:view-model"))
+    api(project(path = ":core"))
+    api(project(path = ":compose:components"))
+    api(project(path = ":compose:ui-theme"))
+    api(project(path = ":database"))
+
     androidTestImplementation(libs.androidx.test.monitor)
     api(libs.androidx.compose.runtime.android)
     api(libs.androidx.lifecycle.viewmodel.android)
-    implementation(libs.androidx.compose.foundation.layout.android)
+    api(libs.androidx.compose.foundation.layout.android)
+    implementation(libs.androidx.compose.foundation.android)
+    implementation(libs.androidx.compose.material.icons.extended.android)
     implementation(libs.androidx.compose.material3.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.text.android)
     implementation(libs.androidx.compose.ui.unit.android)
+    implementation(libs.coil.compose)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

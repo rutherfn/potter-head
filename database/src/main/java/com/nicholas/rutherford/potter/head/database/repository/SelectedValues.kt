@@ -26,4 +26,3 @@ data class SelectedValues(
     val speciesValues: List<String>,
     val hogwartsAffiliationValues: List<String>
 )
-

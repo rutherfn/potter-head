@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Entity representing a Harry Potter character in the Room database.
+ * Entity representing a character in the Room database.
  * The character's name serves as the primary key.
  *
  * @property name The name of the character.

@@ -52,4 +52,3 @@ internal fun <T> lifecycleAwareState(
     }
     return lifecycleAwareStateFlow.collectAsState(initialState)
 }
-

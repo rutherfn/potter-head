@@ -107,4 +107,3 @@ const val CHARACTER_RESPONSE_IS_HOGWARTS_STAFF = false
 const val CHARACTER_RESPONSE_ACTOR_NAME = "Daniel Radcliffe"
 const val CHARACTER_RESPONSE_IS_ALIVE = true
 const val CHARACTER_RESPONSE_IMAGE = "https://ik.imagekit.io/hpapi/harry.jpg"
-

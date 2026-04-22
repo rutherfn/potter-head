@@ -24,4 +24,3 @@ data class AdditionalFilterFlows(
     val wizardFilterFlow: Flow<List<CharacterFilterConverter>>,
     val aliveStatusFilterFlow: Flow<List<CharacterFilterConverter>>
 )
-

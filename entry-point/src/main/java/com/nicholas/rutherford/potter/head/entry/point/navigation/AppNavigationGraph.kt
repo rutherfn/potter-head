@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -25,6 +26,15 @@ import com.nicholas.rutherford.potter.head.feature.characters.characters.Charact
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesParams
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesScreen
 import com.nicholas.rutherford.potter.head.feature.quizzes.QuizzesViewModel
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailParams
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailScreen
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetailViewModel
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizresult.QuizResultParams
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizresult.QuizResultScreen
+import com.nicholas.rutherford.potter.head.feature.quizzes.quizresult.QuizResultViewModel
+import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizParams
+import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizScreen
+import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsParams
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsScreen
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
@@ -116,7 +126,7 @@ object AppNavigationGraph {
         composable(route = Screens.Spells.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: SpellsViewModel = viewModel(factory = factory)
+            val viewModel: SpellsViewModel = viewModel<SpellsViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.spellsStateFlow.collectAsState().value
 
@@ -151,7 +161,7 @@ object AppNavigationGraph {
         composable(route = Screens.Characters.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: CharactersViewModel = viewModel(factory = factory)
+            val viewModel: CharactersViewModel = viewModel<CharactersViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.charactersStateFlow.collectAsState().value
 
@@ -193,7 +203,7 @@ object AppNavigationGraph {
         composable(route = Screens.CharacterFilters.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: CharacterFiltersViewModel = viewModel(factory = factory)
+            val viewModel: CharacterFiltersViewModel = viewModel<CharacterFiltersViewModel>(factory = factory)
             val appBarFactory = LocalAppBarFactory.current
             val state = viewModel.characterFiltersStateFlow.collectAsState().value
 
@@ -229,6 +239,51 @@ object AppNavigationGraph {
     }
 
     /**
+     * Defines the quiz detail screen in the navigation graph.
+     *
+     * This function sets up the quiz detail screen with:
+     * - Route: QuizDetail.route (includes name, description, and imageUrl parameters)
+     * - Arguments: [NavArguments.quizDetail] (defines the string parameters)
+     * - ViewModel: [QuizDetailViewModel] scoped to the back stack entry
+     * - Screen: [QuizDetailScreen] with state from the ViewModel
+     *
+     * The ViewModel is scoped to the back stack entry to ensure it survives
+     * configuration changes and is properly cleared when the screen is removed
+     * from the back stack.
+     */
+    fun NavGraphBuilder.quizDetailScreen() {
+        composable(
+            route = Screens.QuizDetail.route,
+            arguments = NavArguments.quizDetail
+        ) { backStackEntry ->
+            val factory = LocalViewModelFactory.current
+            val viewModel: QuizDetailViewModel = viewModel<QuizDetailViewModel>(
+                factory = factory,
+                viewModelStoreOwner = backStackEntry
+            )
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = {
+                    appBarFactory.createQuizDetailAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
+            )
+
+            QuizDetailScreen(
+                params = QuizDetailParams(
+                    state = viewModel.quizDetailStateFlow.collectAsState().value,
+                    onStartQuizClicked = { title -> viewModel.onStartQuizClicked(title) }
+                )
+            )
+        }
+    }
+
+    /**
      * Defines the character detail screen in the navigation graph.
      *
      * This function sets up the character detail screen with:
@@ -249,7 +304,7 @@ object AppNavigationGraph {
             arguments = NavArguments.characterDetail
         ) { backStackEntry ->
             val factory = LocalViewModelFactory.current
-            val viewModel: CharacterDetailViewModel = viewModel(
+            val viewModel: CharacterDetailViewModel = viewModel<CharacterDetailViewModel>(
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
@@ -286,14 +341,122 @@ object AppNavigationGraph {
      * when navigating between screens within the same graph.
      */
     fun NavGraphBuilder.quizzesScreen() {
-        composable(route = Screens.Quizzes.route) {
+        composable(route = Screens.Quizzes.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
-            val viewModel: QuizzesViewModel = viewModel(factory = factory)
+            val viewModel: QuizzesViewModel = viewModel<QuizzesViewModel>(factory = factory)
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createQuizzesAppBar() }
+            )
 
             QuizzesScreen(
                 params = QuizzesParams(
-                    onSortingHatQuizClicked = { viewModel.onSortingHatQuizClicked() }
+                    state = viewModel.quizzesStateFlow.collectAsState().value,
+                    onQuizClicked = { title, description, imageUrl -> viewModel.onQuizClicked(title, description, imageUrl) },
+                    onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) },
+                    onRetryClicked = { viewModel.retryLoadingQuizzes() }
+                )
+            )
+        }
+    }
+
+    /**
+     * Defines the quiz result screen in the navigation graph.
+     *
+     * This function sets up the quiz result screen with:
+     * - Route: QuizResult.route
+     * - ViewModel: [QuizResultViewModel] created via [LocalViewModelFactory]
+     * - Screen: [QuizResultScreen] with parameters for quiz click handling
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
+    fun NavGraphBuilder.quizResultScreen() {
+        composable(
+            route = Screens.QuizResult.route,
+            arguments = NavArguments.quizResult
+        ) { backStackEntry ->
+            val factory = LocalViewModelFactory.current
+            val viewModel: QuizResultViewModel = viewModel<QuizResultViewModel>(
+                factory = factory,
+                viewModelStoreOwner = backStackEntry
+            )
+            val state = viewModel.quizResultStateFlow.collectAsState().value
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = {
+                    appBarFactory.createQuizResultAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
+            )
+
+            QuizResultScreen(
+                params = QuizResultParams(
+                    state = state,
+                    onViewResultsClicked = { viewModel.onViewResultsClicked() },
+                    onHideResultsClicked = { viewModel.onHideResultsClicked() },
+                    onContinueClicked = { viewModel.onContinueClicked() }
+                )
+            )
+        }
+    }
+
+    /**
+     * Defines the Take Quiz screen in the navigation graph.
+     *
+     * This function sets up the take quiz screen with:
+     * - Route: TakeAQuiz.route
+     * - ViewModel: [TakeQuizViewModel] created via [LocalViewModelFactory]
+     * - Screen: [TakeQuizScreen] with parameters for quiz click handling
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
+    fun NavGraphBuilder.takeQuizScreen() {
+        composable(
+            route = Screens.TakeQuiz.route,
+            arguments = NavArguments.takeQuiz
+        ) { backStackEntry ->
+            val factory = LocalViewModelFactory.current
+            val viewModel: TakeQuizViewModel = viewModel<TakeQuizViewModel>(
+                factory = factory,
+                viewModelStoreOwner = backStackEntry
+            )
+            val state = viewModel.takeQuizStateFlow.collectAsState().value
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = {
+                    appBarFactory.createTakeQuizAppBar(
+                        onIconButtonClicked = { viewModel.onBackClicked() }
+                    )
+                }
+            )
+
+            BackHandler(onBack = { viewModel.onBackClicked() })
+
+            TakeQuizScreen(
+                params = TakeQuizParams(
+                    state = state,
+                    onAnswerSelected = { answerIndex -> viewModel.onAnswerSelected(answerIndex) },
+                    onContinueClicked = { currentQuestionNumber, questionSize, selectedAnswerIndex -> viewModel.onContinueClicked(
+                        currentQuestionNumber = currentQuestionNumber,
+                        questionSize = questionSize,
+                        selectedAnswerIndex = selectedAnswerIndex
+                    ) }
                 )
             )
         }
@@ -314,7 +477,7 @@ object AppNavigationGraph {
         composable(route = Screens.Settings.route) {
 
             val factory = LocalViewModelFactory.current
-            val viewModel: SettingsViewModel = viewModel(factory = factory)
+            val viewModel: SettingsViewModel = viewModel<SettingsViewModel>(factory = factory)
 
             SettingsScreen(
                 params = SettingsParams(
@@ -339,6 +502,9 @@ object AppNavigationGraph {
         { charactersFiltersScreen() },
         { characterDetailScreen() },
         { quizzesScreen() },
+        { quizDetailScreen() },
+        { takeQuizScreen() },
+        { quizResultScreen() },
         { settingsScreen() }
     )
 

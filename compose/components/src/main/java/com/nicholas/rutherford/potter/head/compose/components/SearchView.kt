@@ -329,4 +329,3 @@ private fun SearchViewWithQueryAndFiltersDarkPreview() {
         )
     }
 }
-

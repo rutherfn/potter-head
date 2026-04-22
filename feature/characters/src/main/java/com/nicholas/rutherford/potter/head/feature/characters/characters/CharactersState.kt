@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characters
 
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 
 /**
@@ -21,7 +22,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
  */
 data class CharactersState(
     val characters: List<CharacterConverter> = emptyList(),
-    val errorType: CharactersErrorType = CharactersErrorType.NONE,
+    val errorType: DataErrorType = DataErrorType.None,
     val isLoading: Boolean = true,
     val shouldShowNoContent: Boolean = false,
     val isLoadingMore: Boolean = false,

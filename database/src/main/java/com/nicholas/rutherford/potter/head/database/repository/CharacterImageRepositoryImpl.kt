@@ -1,7 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.repository
 
 import android.content.Context
-import com.nicholas.rutherford.potter.head.core.CharacterImageUrlReader
+import com.nicholas.rutherford.potter.head.core.JsonReader
 import com.nicholas.rutherford.potter.head.database.converter.CharacterImageUrlConverter
 import com.nicholas.rutherford.potter.head.database.dao.CharacterImageDao
 import kotlinx.coroutines.flow.Flow
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
  * Handles the conversion between entities and converters.
  *
  * @param dao The DAO for accessing character urls.
- * @param context The application context uses to call [CharacterImageUrlReader]
+ * @param context The application context uses to call [JsonReader]
  *
  * @author Nicholas Rutherford
  */
@@ -39,7 +39,7 @@ class CharacterImageRepositoryImpl(
     }
 
     override suspend fun insertAllCharacterImageUrls() {
-        val characterUrlsJson = CharacterImageUrlReader.getCharacterImageUrls(context = context)
+        val characterUrlsJson = JsonReader.getCharacterImageUrls(context = context)
         val characterImageUrlConverters = characterUrlsJson.map { jsonResponse -> CharacterImageUrlConverter.fromJsonResponse(json = jsonResponse) }
         
         dao.insertAllCharacterImageUrls(characterImageUrls = characterImageUrlConverters.map { converter -> converter.toEntity() })

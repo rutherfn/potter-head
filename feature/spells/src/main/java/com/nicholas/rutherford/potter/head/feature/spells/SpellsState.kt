@@ -1,5 +1,6 @@
 package com.nicholas.rutherford.potter.head.feature.spells
 
+import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.database.converter.SpellConverter
 
 /**
@@ -15,7 +16,7 @@ import com.nicholas.rutherford.potter.head.database.converter.SpellConverter
  */
 data class SpellsState(
     val spells: List<SpellConverter> = emptyList(),
-    val errorType: SpellsErrorType = SpellsErrorType.NONE,
+    val errorType: DataErrorType = DataErrorType.None,
     val isLoading: Boolean = true,
     val searchQuery: String = ""
 )

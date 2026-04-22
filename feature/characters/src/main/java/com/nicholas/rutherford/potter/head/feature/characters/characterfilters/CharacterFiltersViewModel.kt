@@ -26,6 +26,8 @@ class CharacterFiltersViewModel(
     private val navigator: Navigator
 ) : BaseViewModel() {
 
+    override val screenTitle: String = Constants.ScreenTitles.CHARACTERS_FILTERS
+
     private val characterFiltersMutableStateFlow = MutableStateFlow(CharacterFiltersState())
     val characterFiltersStateFlow: StateFlow<CharacterFiltersState> = characterFiltersMutableStateFlow.asStateFlow()
 

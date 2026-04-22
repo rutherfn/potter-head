@@ -22,4 +22,3 @@ interface ScopeModule {
 
     val defaultScope: CoroutineScope
 }
-

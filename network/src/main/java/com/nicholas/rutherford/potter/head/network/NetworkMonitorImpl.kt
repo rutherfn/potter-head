@@ -132,4 +132,3 @@ class NetworkMonitorImpl(
                 capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
     }
 }
-

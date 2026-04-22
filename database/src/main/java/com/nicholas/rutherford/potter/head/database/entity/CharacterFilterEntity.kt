@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
 
 /**
- * Entity representing a Harry Potter character filter in the Room database.
+ * Entity representing a character filter in the Room database.
  * The id that automatically generates serves as the primary key.
  *
  * @property id The id of the filter.

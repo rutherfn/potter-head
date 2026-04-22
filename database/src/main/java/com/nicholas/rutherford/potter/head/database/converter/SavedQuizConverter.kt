@@ -78,7 +78,7 @@ data class SavedQuizConverter(
          * @param resultText Result for the outcome of the result of quiz (e.g. house name or tier).
          * @param resultImageUrl URL of the image shown for this result.
          * @param resultMoreInfo Longer description or details for the result.
-         * @param id Database row id for this saved attempt.
+         * @param id Row id; use `0` for new rows so Room assigns [androidx.room.PrimaryKey.autoGenerate].
          * @param selectedAnswers Choices in the same order as [quiz.questions]; one entry per question answered.
          * @param savedAt Epoch milliseconds when the attempt was saved; defaults to the current time.
          *
@@ -89,7 +89,7 @@ data class SavedQuizConverter(
             resultText: String,
             resultImageUrl: String,
             resultMoreInfo: String,
-            id: Long,
+            id: Long = 0L,
             selectedAnswers: List<AnswerEntity>,
             savedAt: Long = System.currentTimeMillis()
         ): SavedQuizConverter {

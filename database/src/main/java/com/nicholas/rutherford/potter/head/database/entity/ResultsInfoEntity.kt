@@ -1,7 +1,7 @@
 package com.nicholas.rutherford.potter.head.database.entity
 
 /**
- * Rich metadata for one possible quiz outcome (answer text, blurb, image).
+ * Entity representing  possible quiz outcome.
  * Stored as JSON inside [QuizEntity.resultsInfo] via [com.nicholas.rutherford.potter.head.database.typeconverter.DatabaseTypeConverters], not as its own table.
  *
  * @property answer The final result or "answer" to the completed quiz

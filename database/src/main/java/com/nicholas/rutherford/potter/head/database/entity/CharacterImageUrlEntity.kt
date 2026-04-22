@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Entity representing a Harry Potter character URL in the Room database.
+ * Entity representing a character URL in the Room database.
  * The character's id we assigned to it via JSON, serves as the primary key.
  *
  * @property id The id of the character.

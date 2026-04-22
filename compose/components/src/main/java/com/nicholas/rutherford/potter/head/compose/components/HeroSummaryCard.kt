@@ -52,7 +52,7 @@ import kotlinx.coroutines.delay
 
 /**
  * Card layout for a hero image (or placeholder), primary headline, supporting copy, and an optional
- * labeled highlight (for example a quiz outcome). Content is revealed in sequence when the card
+ * labeled highlight. Content is revealed in sequence when the card
  * appears or when its inputs change.
  *
  * @param imageUrl URL for the hero image; when blank, a gradient placeholder with an icon is shown.

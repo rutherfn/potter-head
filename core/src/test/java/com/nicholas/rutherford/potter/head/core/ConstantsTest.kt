@@ -66,6 +66,26 @@ class ConstantsTest {
     }
 
     @Test
+    fun `NavigationDestinations TAKE_QUIZ_SCREEN should be set to correct expected value`() {
+        Constants.NavigationDestinations.TAKE_QUIZ_SCREEN shouldBe "takeQuizScreen"
+    }
+
+    @Test
+    fun `NavigationDestinations QUIZ_RESULT_SCREEN should be set to correct expected value`() {
+        Constants.NavigationDestinations.QUIZ_RESULT_SCREEN shouldBe "quizResultScreen"
+    }
+
+    @Test
+    fun `NavigationDestinations TAKE_QUIZ_SCREEN_WITH_PARAMS should be set to correct expected value`() {
+        Constants.NavigationDestinations.TAKE_QUIZ_SCREEN_WITH_PARAMS shouldBe "takeQuizScreen/{quiz_name}"
+    }
+
+    @Test
+    fun `NavigationDestinations QUIZ_RESULT_SCREEN_WITH_PARAMS should be set to correct expected value`() {
+        Constants.NavigationDestinations.QUIZ_RESULT_SCREEN_WITH_PARAMS shouldBe "quizResultScreen/{quiz_id}"
+    }
+
+    @Test
     fun `ScreenTitles CHARACTERS should be set to correct expected value`() {
         Constants.ScreenTitles.CHARACTERS shouldBe "Characters"
     }
@@ -83,6 +103,16 @@ class ConstantsTest {
     @Test
     fun `ScreenTitles SETTINGS should be set to correct expected value`() {
         Constants.ScreenTitles.SETTINGS shouldBe "Settings"
+    }
+
+    @Test
+    fun `ScreenTitles TAKE_QUIZ should be set to correct expected value`() {
+        Constants.ScreenTitles.TAKE_QUIZ shouldBe "TakeQuiz"
+    }
+
+    @Test
+    fun `ScreenTitles QUIZ_RESULT should be set to correct expected value`() {
+        Constants.ScreenTitles.QUIZ_RESULT shouldBe "QuizResult"
     }
 
     @Test

@@ -35,16 +35,16 @@ class SavedQuizRepositoryImpl(private val dao: SavedQuizDao) : SavedQuizReposito
         resultImageUrl: String,
         resultMoreInfo: String,
         selectedAnswers: List<AnswerEntity>
-    ) {
+    ): Long {
         val converter = SavedQuizConverter.fromQuizAndResult(
             quiz = quiz,
             resultText = resultText,
             resultImageUrl = resultImageUrl,
             resultMoreInfo = resultMoreInfo,
-            id = dao.getSavedQuizCount() + 1L,
+            id = 0L,
             selectedAnswers = selectedAnswers
         )
-        dao.insertSavedQuiz(savedQuiz = converter.toEntity())
+        return dao.insertSavedQuiz(savedQuiz = converter.toEntity())
     }
 
     override suspend fun deleteSavedQuizById(id: Long) = dao.deleteSavedQuizById(id = id)

@@ -147,13 +147,11 @@ class TakeQuizViewModel(
 
     private suspend fun handleLastQuestionAnswered() {
         currentQuiz?.let { quiz ->
-            val savedQuizId = savedQuizRepository.getAllSavedQuizzesCount().toLong() + 1L
-
             savedQuiz = quiz
 
             val outcome = QuizOutcomeResolver.resolve(quiz = quiz, selectedAnswers = selectedAnswers.toList())
 
-            savedQuizRepository.insertQuiz(
+            val savedQuizId = savedQuizRepository.insertQuiz(
                 quiz = quiz,
                 resultText = outcome.resultText,
                 resultImageUrl = outcome.resultImageUrl,

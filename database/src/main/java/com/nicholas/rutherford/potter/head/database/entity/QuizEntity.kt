@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 /**
- * Entity representing a Harry Potter quiz in the Room database.
+ * Entity representing a quiz in the Room database.
  * The quizzes id serves as the primary key.
  *
  * @property id The unique identifier of the quiz.

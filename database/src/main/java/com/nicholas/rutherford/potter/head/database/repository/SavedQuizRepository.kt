@@ -22,7 +22,7 @@ interface SavedQuizRepository {
         resultImageUrl: String,
         resultMoreInfo: String,
         selectedAnswers: List<AnswerEntity>
-    )
+    ): Long
 
     suspend fun deleteSavedQuizById(id: Long)
 }

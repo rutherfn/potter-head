@@ -55,11 +55,6 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.ext.QuizzesConverter
  * - Available Quizzes: Quizzes that can be taken
  * - Submitted Quizzes: Quizzes that have been completed
  *
- * The screen displays quiz cards with:
- * - Quiz image (rectangular, not circular)
- * - Quiz title
- * - Quiz description
- *
  * @param params The parameters containing quiz data, state, and interaction callbacks.
  *
  * @author Nicholas Rutherford
@@ -234,11 +229,10 @@ private fun QuizzesContent(
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(items = state.quizzes) { quiz ->
-            quiz.description
             QuizItem(
                 quiz = quiz,
                 onClick = { onQuizClicked(quiz.title, quiz.longDescription, quiz.imageUrl) }

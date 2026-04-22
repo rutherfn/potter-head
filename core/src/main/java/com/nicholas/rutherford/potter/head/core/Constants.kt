@@ -1,8 +1,5 @@
 package com.nicholas.rutherford.potter.head.core
 
-import com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles.QUIZ_RESULT
-import com.nicholas.rutherford.potter.head.core.Constants.ScreenTitles.TAKE_QUIZ
-
 object Constants {
     const val IS_NOT_ALIVE_FILTER = "isNotAliveFilter"
     const val IS_ALIVE_FILTER = "isAliveFilter"
@@ -67,10 +64,12 @@ object Constants {
         const val CHARACTERS_FILTERS_SCREEN = "charactersFiltersScreen"
         const val CHARACTER_DETAIL_SCREEN = "characterDetailScreen"
         const val QUIZ_DETAIL_SCREEN = "quizDetailScreen"
+        const val TAKE_QUIZ_SCREEN = "takeQuizScreen"
+        const val QUIZ_RESULT_SCREEN = "quizResultScreen"
         const val CHARACTER_DETAIL_SCREEN_WITH_PARAMS = "$CHARACTER_DETAIL_SCREEN/{name}"
         const val QUIZ_DETAIL_SCREEN_WITH_PARAMS = "$QUIZ_DETAIL_SCREEN/{quiz_name}/{quiz_description}/{QUIZ_IMAGE_URL}"
-        const val TAKE_QUIZ_SCREEN_WITH_PARAMS = "$TAKE_QUIZ/{quiz_name}"
-        const val QUIZ_RESULT_SCREEN_WITH_PARAMS = "$QUIZ_RESULT/{quiz_id}"
+        const val TAKE_QUIZ_SCREEN_WITH_PARAMS = "$TAKE_QUIZ_SCREEN/{quiz_name}"
+        const val QUIZ_RESULT_SCREEN_WITH_PARAMS = "$QUIZ_RESULT_SCREEN/{quiz_id}"
         const val QUIZZES_SCREEN = "quizzesScreen"
         const val QUIZ_SELECTED_DETAIL_SCREEN = "quizSelectedDetailScreen"
         const val TOUR_THE_APP_SCREEN = "tourTheAppScreen"

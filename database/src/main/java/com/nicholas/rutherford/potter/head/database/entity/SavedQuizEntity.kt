@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
  * Entity representing a completed quiz attempt saved by the user.
  * Stores quiz metadata and full question/answer data so results can be shown from this repo alone.
  *
- * @property id Unique identifier for this saved attempt (e.g. list size + 1 when saving).
+ * @property id Unique row id for this saved attempt; auto-generated on insert ([androidx.room.PrimaryKey.autoGenerate]).
  * @property quizId The id of the quiz template this was taken from.
  * @property quizTitle Quiz title for display.
  * @property quizDescription Quiz description for display.
@@ -22,8 +22,8 @@ import androidx.room.PrimaryKey
  */
 @Entity(tableName = "savedQuizzes")
 data class SavedQuizEntity(
-    @PrimaryKey
-    val id: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0L,
     val quizId: String,
     val quizTitle: String,
     val quizDescription: String,

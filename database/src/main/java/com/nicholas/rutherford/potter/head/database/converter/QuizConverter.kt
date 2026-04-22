@@ -6,6 +6,7 @@ import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
 import com.nicholas.rutherford.potter.head.database.entity.QuizEntity
 import com.nicholas.rutherford.potter.head.database.entity.ResultsInfoEntity
+import kotlin.random.Random
 
 /**
  * Converter data class for QuizEntity.
@@ -32,6 +33,15 @@ data class QuizConverter(
     val results: List<String>,
     val questions: List<QuestionEntity>
 ) {
+
+    /**
+     * New attempt order: each question keeps the same options but shuffles their display order so
+     * position bias is reduced; [AnswerEntity] identity used for scoring is unchanged.
+     *
+     * @param random Source of randomness (e.g. [Random.Default] in production, seeded [Random] in tests).
+     */
+    fun shuffleAnswers(random: Random = Random.Default): QuizConverter =
+        copy(questions = questions.map { question -> question.copy(answers = question.answers.shuffled(random)) })
 
     /**
      * Converts this converter to a QuizEntity.

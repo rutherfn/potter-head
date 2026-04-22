@@ -15,6 +15,7 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.quizresult.QuizResult
 import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
 import com.nicholas.rutherford.potter.head.feature.spells.SpellsViewModel
+import kotlin.random.Random
 
 /**
  * Factory for creating ViewModels with dependency injection.
@@ -107,7 +108,8 @@ class ViewModelFactory(
             application = application,
             navigator = appGraph.navigatorModule.navigator,
             quizRepository = appGraph.databaseModule.quizRepository,
-            savedQuizRepository = appGraph.databaseModule.savedQuizRepository
+            savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
+            random = Random.Default
         )
 
     private fun createSettingsViewModel(): SettingsViewModel = SettingsViewModel()

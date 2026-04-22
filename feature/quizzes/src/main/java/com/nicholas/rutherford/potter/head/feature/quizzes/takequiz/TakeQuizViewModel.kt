@@ -19,13 +19,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlin.random.Random
 
 class TakeQuizViewModel(
     savedStateHandle: SavedStateHandle,
     private val application: Application,
     private val navigator: Navigator,
     private val quizRepository: QuizRepository,
-    private val savedQuizRepository: SavedQuizRepository
+    private val savedQuizRepository: SavedQuizRepository,
+    private val random: Random
 ) : BaseViewModel() {
 
     override val screenTitle: String = Constants.ScreenTitles.TAKE_QUIZ
@@ -45,11 +47,12 @@ class TakeQuizViewModel(
 
     private suspend fun updateStateFromParams() {
         quizRepository.getQuizByTitle(title = quizNameParam)?.let { quiz ->
-            currentQuiz = quiz
+            val sessionQuiz = quiz.shuffleAnswers(random = random)
+            currentQuiz = sessionQuiz
             takeQuizMutableStateFlow.update { state ->
                 state.copy(
-                    questions = quiz.questions,
-                    questionSize = quiz.questions.size
+                    questions = sessionQuiz.questions,
+                    questionSize = sessionQuiz.questions.size
                 )
             }
         }

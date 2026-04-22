@@ -83,11 +83,20 @@ class QuizzesViewModel(
         savedQuizzes = savedQuizConverters
 
         quizzesMutableStateFlow.update { state ->
+            val shouldShowSavedFilter = savedQuizConverters.isNotEmpty()
+            val effectiveSelectedFilterIndex =
+                if (shouldShowSavedFilter || state.selectedFilterIndex == 0) {
+                    state.selectedFilterIndex
+                } else {
+                    0
+                }
+
             state.copy(
-                quizzes = buildQuizzesToShow(index = state.selectedFilterIndex),
+                selectedFilterIndex = effectiveSelectedFilterIndex,
+                quizzes = buildQuizzesToShow(index = effectiveSelectedFilterIndex),
                 isLoading = false,
                 errorType = DataErrorType.None,
-                shouldShowFilterChips = savedQuizConverters.isNotEmpty()
+                shouldShowFilterChips = shouldShowSavedFilter
             )
         }
     }

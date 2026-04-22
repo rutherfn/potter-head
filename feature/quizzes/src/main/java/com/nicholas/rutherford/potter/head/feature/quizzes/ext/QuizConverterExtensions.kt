@@ -15,7 +15,7 @@ private fun String.quizTemplateIdToQuizType(): QuizType = when (lowercase()) {
     else -> QuizType.NONE
 }
 
-/** Converts a timestamp in milliseconds to a formatted string with date and time using "MMM dd, yyyy hh:mm a" format. */
+/** Converts a timestamp in milliseconds to a formatted string with date and time using "MMM dd, yyyy" format. */
 fun Long.toDateWithTimestampString(): String {
     val formatter = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
     return formatter.format(Date(this))

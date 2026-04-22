@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * @param titleValue Optional The [String] value of the title to be displayed in the app bar. This gets priority over [titleId]
  * @param titleFormatArgs Optional format arguments for the title string resource (e.g. for "Question %1$d of %2$d").
  * @param onIconButtonClicked The action to perform when the icon button is clicked.
+ *        Not part of [equals]/[hashCode]; identity changes every recomposition but behavior is stable.
  * @param iconContentDescription The content description of the icon button.
  * @param imageVector The image vector to be displayed in the icon button.
  *
@@ -32,7 +33,6 @@ data class AppBar(
             if (other.titleFormatArgs == null) return false
             if (!titleFormatArgs.contentEquals(other.titleFormatArgs)) return false
         } else if (other.titleFormatArgs != null) return false
-        if (onIconButtonClicked != other.onIconButtonClicked) return false
         if (iconContentDescription != other.iconContentDescription) return false
         if (imageVector != other.imageVector) return false
         return true
@@ -42,7 +42,6 @@ data class AppBar(
         var result = titleId
         result = 31 * result + (titleValue?.hashCode() ?: 0)
         result = 31 * result + (titleFormatArgs?.contentHashCode() ?: 0)
-        result = 31 * result + (onIconButtonClicked?.hashCode() ?: 0)
         result = 31 * result + iconContentDescription.hashCode()
         result = 31 * result + (imageVector?.hashCode() ?: 0)
         return result

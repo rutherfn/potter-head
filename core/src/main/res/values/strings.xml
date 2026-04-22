@@ -89,7 +89,6 @@
     <string name="quiz_result" translatable="false">Quiz Result</string>
     <string name="quiz_completed" translatable="false">Quiz Completed</string>
     <string name="your_result" translatable="false">Your Result</string>
-    <string name="quiz_completed_on" translatable="false">Completed on</string>
     <string name="quiz_list_submitted_result_line" translatable="false">Your result: %1$s</string>
     <string name="quiz_list_submitted_completed_line" translatable="false">Completed On: %1$s</string>
     <string name="congrats_you_completed_x" translatable="false">Congrats. You completed %1$s</string>

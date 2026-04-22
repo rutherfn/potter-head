@@ -3,8 +3,10 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -108,12 +110,6 @@ object AppNavigationGraph {
             }
             onDispose {
                 backStackEntry.lifecycle.removeObserver(observer)
-            }
-        }
-
-        SideEffect {
-            if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                updateAppBar(appBar = appBarProvider())
             }
         }
     }
@@ -443,8 +439,11 @@ object AppNavigationGraph {
                 viewModelStoreOwner = backStackEntry
             )
 
-            val state = viewModel.takeQuizStateFlow.collectAsState()
+            val takeQuizState by viewModel.takeQuizStateFlow.collectAsState()
             val appBarFactory = LocalAppBarFactory.current
+            val onTakeQuizAppBarIconClick = remember(viewModel) {
+                { viewModel.onBackClicked() }
+            }
 
             ObserveLifecycle(viewModel = viewModel)
 
@@ -452,17 +451,29 @@ object AppNavigationGraph {
                 backStackEntry = backStackEntry,
                 appBarProvider = {
                     appBarFactory.createTakeQuizAppBar(
-                        quizTitle = state.value.quizTitle,
-                        onIconButtonClicked = { viewModel.onBackClicked() }
+                        quizTitle = takeQuizState.quizTitle,
+                        onIconButtonClicked = onTakeQuizAppBarIconClick
                     )
                 }
             )
+
+            // This is here so that once quizTitle state property is updated, it should update the app bar here
+            LaunchedEffect(takeQuizState.quizTitle) {
+                if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                    updateAppBar(
+                        appBar = appBarFactory.createTakeQuizAppBar(
+                            quizTitle = takeQuizState.quizTitle,
+                            onIconButtonClicked = onTakeQuizAppBarIconClick
+                        )
+                    )
+                }
+            }
 
             BackHandler(onBack = { viewModel.onBackClicked() })
 
             TakeQuizScreen(
                 params = TakeQuizParams(
-                    state = state.value,
+                    state = takeQuizState,
                     onAnswerSelected = { answerIndex -> viewModel.onAnswerSelected(answerIndex) },
                     onContinueClicked = { currentQuestionNumber, questionSize, selectedAnswerIndex -> viewModel.onContinueClicked(
                         currentQuestionNumber = currentQuestionNumber,

@@ -42,10 +42,10 @@ fun MainNavigationScaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             currentAppBar?.let { appBar ->
-                val title = if (!appBar.titleFormatArgs.isNullOrEmpty()) {
-                    stringResource(id = appBar.titleId, *appBar.titleFormatArgs)
-                } else {
-                    stringResource(appBar.titleId)
+                val title = when {
+                    !appBar.titleValue.isNullOrBlank() -> appBar.titleValue
+                    !appBar.titleFormatArgs.isNullOrEmpty() -> stringResource(id = appBar.titleId, *appBar.titleFormatArgs)
+                    else -> stringResource(appBar.titleId)
                 }
                 MainAppBar(
                     title = title,

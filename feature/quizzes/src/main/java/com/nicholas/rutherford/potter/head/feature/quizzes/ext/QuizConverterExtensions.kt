@@ -29,6 +29,7 @@ fun Long.toDateWithTimestampString(): String {
  * @author Nicholas Rutherford
  */
 fun QuizConverter.toQuizzesConverter(): QuizzesConverter = QuizzesConverter(
+    id = 0L, // not used only used for saved quiz converter
     title = title,
     description = description,
     longDescription = longDescription,
@@ -46,6 +47,7 @@ fun QuizConverter.toQuizzesConverter(): QuizzesConverter = QuizzesConverter(
  * @author Nicholas Rutherford
  */
 fun SavedQuizConverter.toQuizzesConverter(): QuizzesConverter = QuizzesConverter(
+    id = id,
     title = quizTitle,
     description = quizDescription,
     longDescription = resultMoreInfo.ifBlank { quizDescription },

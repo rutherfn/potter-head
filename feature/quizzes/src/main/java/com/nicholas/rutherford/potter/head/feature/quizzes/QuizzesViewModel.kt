@@ -134,6 +134,14 @@ class QuizzesViewModel(
         }
     }
 
+    fun onSavedQuizClicked(quizId: Long) {
+        val route = Constants.NavigationDestinations.QUIZ_RESULT_SCREEN_WITH_PARAMS.replace(
+            oldValue = "{${Constants.NamedArguments.QUIZ_ID}}",
+            newValue = quizId.toString()
+        )
+        navigator.navigate(navigationAction = SimpleNavigationAction(destination = route))
+    }
+
     fun onQuizClicked(title: String, description: String, imageUrl: String) {
         val encodedTitle = Uri.encode(title)
         val encodedDescription = Uri.encode(description)

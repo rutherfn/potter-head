@@ -39,9 +39,13 @@ class AppBarFactoryImpl : AppBarFactory {
             iconContentDescription = "Back"
         )
 
-    override fun createTakeQuizAppBar(onIconButtonClicked: (() -> Unit)?): AppBar =
+    override fun createTakeQuizAppBar(
+        quizTitle: String?,
+        onIconButtonClicked: (() -> Unit)?
+    ): AppBar =
         AppBar(
             titleId = StringIds.quizzes,
+            titleValue = quizTitle,
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             onIconButtonClicked = onIconButtonClicked,
             iconContentDescription = "Back"

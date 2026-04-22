@@ -105,20 +105,11 @@ fun QuizzesScreen(params: QuizzesParams) {
                 buttonText = stringResource(id = StringIds.retry),
                 onButtonClicked = params.onRetryClicked
             )
-            state.selectedFilterIndex == 0 -> QuizzesContent(
-                state = state,
-                onQuizClicked = params.onQuizClicked
-            )
-            state.selectedFilterIndex == 1 -> QuizzesContent(
-                state = state,
-                onQuizClicked = params.onQuizClicked
-            )
             else -> {
-                EmptyOrErrorContent(
-                    title = stringResource(id = StringIds.noQuizzesYet),
-                    description = stringResource(id = StringIds.weCouldNotFindAnyQuizzesTapRetryToLoadItems),
-                    buttonText = stringResource(id = StringIds.retry),
-                    onButtonClicked = params.onRetryClicked
+                QuizzesContent(
+                    state = state,
+                    onSavedQuizClicked = params.onSavedQuizClicked,
+                    onQuizClicked = params.onQuizClicked
                 )
             }
         }
@@ -230,6 +221,7 @@ private fun ShimmerQuizCard() {
 @Composable
 private fun QuizzesContent(
     state: QuizzesState,
+    onSavedQuizClicked: (quizId: Long) -> Unit,
     onQuizClicked: (title: String, description: String, imageUrl: String) -> Unit
 ) {
     val listState = rememberLazyListState()
@@ -243,7 +235,13 @@ private fun QuizzesContent(
         items(items = state.quizzes) { quiz ->
             QuizItem(
                 quiz = quiz,
-                onClick = { onQuizClicked(quiz.title, quiz.longDescription, quiz.imageUrl) }
+                onClick = {
+                    if (state.selectedFilterIndex == 0) {
+                        onQuizClicked(quiz.title, quiz.longDescription, quiz.imageUrl)
+                    } else {
+                        onSavedQuizClicked(quiz.id)
+                    }
+                }
             )
         }
     }

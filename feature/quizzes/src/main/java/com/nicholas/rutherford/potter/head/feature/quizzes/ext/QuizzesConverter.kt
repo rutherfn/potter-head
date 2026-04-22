@@ -1,6 +1,7 @@
 package com.nicholas.rutherford.potter.head.feature.quizzes.ext
 
 data class QuizzesConverter(
+    val id: Long,
     val title: String,
     val description: String,
     val longDescription: String,

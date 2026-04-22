@@ -3,6 +3,7 @@ package com.nicholas.rutherford.potter.head.entry.point.navigation
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -107,6 +108,12 @@ object AppNavigationGraph {
             }
             onDispose {
                 backStackEntry.lifecycle.removeObserver(observer)
+            }
+        }
+
+        SideEffect {
+            if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                updateAppBar(appBar = appBarProvider())
             }
         }
     }
@@ -358,6 +365,7 @@ object AppNavigationGraph {
                 params = QuizzesParams(
                     state = viewModel.quizzesStateFlow.collectAsState().value,
                     onQuizClicked = { title, description, imageUrl -> viewModel.onQuizClicked(title, description, imageUrl) },
+                    onSavedQuizClicked = { quizId -> viewModel.onSavedQuizClicked(quizId = quizId)},
                     onFilterItemClicked = { index -> viewModel.onFilterItemClicked(index) },
                     onRetryClicked = { viewModel.retryLoadingQuizzes() }
                 )
@@ -434,7 +442,8 @@ object AppNavigationGraph {
                 factory = factory,
                 viewModelStoreOwner = backStackEntry
             )
-            val state = viewModel.takeQuizStateFlow.collectAsState().value
+
+            val state = viewModel.takeQuizStateFlow.collectAsState()
             val appBarFactory = LocalAppBarFactory.current
 
             ObserveLifecycle(viewModel = viewModel)
@@ -443,6 +452,7 @@ object AppNavigationGraph {
                 backStackEntry = backStackEntry,
                 appBarProvider = {
                     appBarFactory.createTakeQuizAppBar(
+                        quizTitle = state.value.quizTitle,
                         onIconButtonClicked = { viewModel.onBackClicked() }
                     )
                 }
@@ -452,7 +462,7 @@ object AppNavigationGraph {
 
             TakeQuizScreen(
                 params = TakeQuizParams(
-                    state = state,
+                    state = state.value,
                     onAnswerSelected = { answerIndex -> viewModel.onAnswerSelected(answerIndex) },
                     onContinueClicked = { currentQuestionNumber, questionSize, selectedAnswerIndex -> viewModel.onContinueClicked(
                         currentQuestionNumber = currentQuestionNumber,

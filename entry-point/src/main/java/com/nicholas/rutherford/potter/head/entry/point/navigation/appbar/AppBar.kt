@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  * Data class representing the configuration for an app bar.
  *
  * @param titleId The resource ID of the title to be displayed in the app bar.
+ * @param titleValue Optional The [String] value of the title to be displayed in the app bar. This gets priority over [titleId]
  * @param titleFormatArgs Optional format arguments for the title string resource (e.g. for "Question %1$d of %2$d").
  * @param onIconButtonClicked The action to perform when the icon button is clicked.
  * @param iconContentDescription The content description of the icon button.
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
  */
 data class AppBar(
     val titleId: Int,
+    val titleValue: String? = null,
     val titleFormatArgs: Array<Any>? = null,
     val onIconButtonClicked: (() -> Unit)? = null,
     val iconContentDescription: String = "",
@@ -25,6 +27,7 @@ data class AppBar(
         if (this === other) return true
         if (other !is AppBar) return false
         if (titleId != other.titleId) return false
+        if (titleValue != other.titleValue) return false
         if (titleFormatArgs != null) {
             if (other.titleFormatArgs == null) return false
             if (!titleFormatArgs.contentEquals(other.titleFormatArgs)) return false
@@ -37,6 +40,7 @@ data class AppBar(
 
     override fun hashCode(): Int {
         var result = titleId
+        result = 31 * result + (titleValue?.hashCode() ?: 0)
         result = 31 * result + (titleFormatArgs?.contentHashCode() ?: 0)
         result = 31 * result + (onIconButtonClicked?.hashCode() ?: 0)
         result = 31 * result + iconContentDescription.hashCode()

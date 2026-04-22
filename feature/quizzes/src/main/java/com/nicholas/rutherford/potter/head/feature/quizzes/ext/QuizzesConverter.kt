@@ -6,5 +6,6 @@ data class QuizzesConverter(
     val longDescription: String,
     val imageUrl: String,
     val type: QuizType,
-
+    val timestampOfLastLogged: String?,
+    val quizResult: String?
 )

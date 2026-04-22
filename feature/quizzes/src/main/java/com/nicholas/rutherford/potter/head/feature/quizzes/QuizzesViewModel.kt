@@ -2,11 +2,13 @@ package com.nicholas.rutherford.potter.head.feature.quizzes
 
 import android.app.Application
 import android.net.Uri
+import androidx.lifecycle.LifecycleOwner
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.repository.QuizRepository
+import com.nicholas.rutherford.potter.head.database.repository.SavedQuizRepository
 import com.nicholas.rutherford.potter.head.feature.quizzes.ext.QuizzesConverter
 import com.nicholas.rutherford.potter.head.feature.quizzes.ext.toQuizzesConverter
 import com.nicholas.rutherford.potter.head.navigation.Navigator
@@ -22,6 +24,7 @@ import kotlinx.coroutines.flow.update
  *
  * @param application The application context for accessing string resources.
  * @param quizRepository The repository for managing quizzes in the local database.
+ * @param savedQuizRepository The repository for managing saved quizzes in the local database.
  * @param navigator The navigator for navigating between screens.
  *
  * @author Nicholas Rutherford
@@ -29,6 +32,7 @@ import kotlinx.coroutines.flow.update
 class QuizzesViewModel(
     private val application: Application,
     private val quizRepository: QuizRepository,
+    private val savedQuizRepository: SavedQuizRepository,
     private val navigator: Navigator
 ) : BaseViewModel() {
 
@@ -41,10 +45,6 @@ class QuizzesViewModel(
     private var savedQuizzes: List<QuizzesConverter> = emptyList()
 
     init {
-        launch {
-            checkForQuizzesInDb()
-            loadQuizzes()
-        }
         quizzesMutableStateFlow.update { state ->
             state.copy(
                 filterTypes = listOf(
@@ -52,6 +52,14 @@ class QuizzesViewModel(
                     application.getString(StringIds.submittedQuizzes)
                 )
             )
+        }
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        launch {
+            checkForQuizzesInDb()
+            loadQuizzes()
         }
     }
 
@@ -67,7 +75,12 @@ class QuizzesViewModel(
     private suspend fun loadQuizzes() {
         val quizzesFromDb = quizRepository.getAllQuizzes()
         val quizzesConverters = quizzesFromDb.map { quiz -> quiz.toQuizzesConverter() }
+
+        val savedQuizzesFromDb = savedQuizRepository.getAllSavedQuizzes()
+        val savedQuizConverters = savedQuizzesFromDb.map { quiz -> quiz.toQuizzesConverter() }
+
         allQuizzes = quizzesConverters
+        savedQuizzes = savedQuizConverters
 
         if (quizzesMutableStateFlow.value.selectedFilterIndex == 0) {
             if (quizzesConverters.isNotEmpty()) {
@@ -75,14 +88,16 @@ class QuizzesViewModel(
                     state.copy(
                         quizzes = quizzesConverters,
                         isLoading = false,
-                        errorType = DataErrorType.None
+                        errorType = DataErrorType.None,
+                        shouldShowFilterChips = savedQuizzesFromDb.isNotEmpty()
                     )
                 }
             } else {
                 quizzesMutableStateFlow.update { state ->
                     state.copy(
                         quizzes = emptyList(),
-                        isLoading = false
+                        isLoading = false,
+                        shouldShowFilterChips = savedQuizzesFromDb.isNotEmpty()
                     )
                 }
             }

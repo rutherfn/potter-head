@@ -400,6 +400,8 @@ object AppNavigationGraph {
                 }
             )
 
+            BackHandler(onBack = { viewModel.onBackClicked() })
+
             QuizResultScreen(
                 params = QuizResultParams(
                     state = state,

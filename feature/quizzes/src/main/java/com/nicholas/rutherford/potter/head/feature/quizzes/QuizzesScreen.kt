@@ -46,6 +46,7 @@ import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.DataErrorType
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.core.isValidErrorType
+import com.nicholas.rutherford.potter.head.core.safeLet
 import com.nicholas.rutherford.potter.head.feature.quizzes.ext.QuizzesConverter
 
 /**
@@ -68,10 +69,13 @@ fun QuizzesScreen(params: QuizzesParams) {
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        QuizFilterChips(
-            state = state,
-            onFilterItemClicked = params.onFilterItemClicked
-        )
+
+        if (state.shouldShowFilterChips) {
+            QuizFilterChips(
+                state = state,
+                onFilterItemClicked = params.onFilterItemClicked
+            )
+        }
 
         when {
             state.isLoading && state.quizzes.isEmpty() && state.selectedFilterIndex == 0 -> ShimmerQuizzesContent()
@@ -102,6 +106,10 @@ fun QuizzesScreen(params: QuizzesParams) {
                 onButtonClicked = params.onRetryClicked
             )
             state.selectedFilterIndex == 0 -> QuizzesContent(
+                state = state,
+                onQuizClicked = params.onQuizClicked
+            )
+            state.selectedFilterIndex == 1 -> QuizzesContent(
                 state = state,
                 onQuizClicked = params.onQuizClicked
             )
@@ -280,14 +288,36 @@ private fun QuizItem(
                     overflow = TextOverflow.Ellipsis
                 )
 
-                Text(
-                    text = quiz.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.2,
-                    maxLines = 3,
-                    overflow = TextOverflow.Ellipsis
-                )
+                safeLet(quiz.timestampOfLastLogged, quiz.quizResult) { timestamp, result ->
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
+                        Text(
+                            text = stringResource(id = StringIds.quizListSubmittedResultLine, result),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                        Text(
+                            text = stringResource(id = StringIds.quizListSubmittedCompletedLine, timestamp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
+                } ?: run {
+                    Text(
+                        text = quiz.description,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.2,
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.width(8.dp))

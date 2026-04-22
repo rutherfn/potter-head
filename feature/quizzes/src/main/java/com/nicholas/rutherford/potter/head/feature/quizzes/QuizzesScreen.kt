@@ -232,14 +232,17 @@ private fun QuizzesContent(
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(items = state.quizzes) { quiz ->
+        items(
+            items = state.quizzes,
+            key = { quiz -> "${quiz.quizTemplateId}_${quiz.savedQuizId}" }
+        ) { quiz ->
             QuizItem(
                 quiz = quiz,
                 onClick = {
                     if (state.selectedFilterIndex == 0) {
                         onQuizClicked(quiz.title, quiz.longDescription, quiz.imageUrl)
                     } else {
-                        onSavedQuizClicked(quiz.id)
+                        quiz.savedQuizId?.let { savedId -> onSavedQuizClicked(savedId) } ?: {}
                     }
                 }
             )

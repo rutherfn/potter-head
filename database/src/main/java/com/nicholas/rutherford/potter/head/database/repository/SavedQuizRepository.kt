@@ -11,9 +11,9 @@ import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
  * @author Nicholas Rutherford
  */
 interface SavedQuizRepository {
-    fun getAllSavedQuizzes(): List<SavedQuizConverter>
+    suspend fun getAllSavedQuizzes(): List<SavedQuizConverter>
 
-    fun getSavedQuizById(id: Long): SavedQuizConverter?
+    suspend fun getSavedQuizById(id: Long): SavedQuizConverter?
 
     suspend fun getAllSavedQuizzesCount(): Int
     suspend fun insertQuiz(

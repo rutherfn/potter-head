@@ -15,13 +15,13 @@ import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
  */
 class SavedQuizRepositoryImpl(private val dao: SavedQuizDao) : SavedQuizRepository {
 
-    override fun getAllSavedQuizzes(): List<SavedQuizConverter> {
+    override suspend fun getAllSavedQuizzes(): List<SavedQuizConverter> {
         return dao.getAllSavedQuizzes().map { entity ->
             SavedQuizConverter.fromEntity(entity = entity)
         }
     }
 
-    override fun getSavedQuizById(id: Long): SavedQuizConverter? {
+    override suspend fun getSavedQuizById(id: Long): SavedQuizConverter? {
         return dao.getSavedQuizById(id = id)?.let { entity ->
             SavedQuizConverter.fromEntity(entity = entity)
         }

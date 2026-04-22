@@ -35,10 +35,9 @@ data class QuizConverter(
 ) {
 
     /**
-     * New attempt order: each question keeps the same options but shuffles their display order so
-     * position bias is reduced; [AnswerEntity] identity used for scoring is unchanged.
+     * Shuffles the answers for each question in the quiz.
      *
-     * @param random Source of randomness (e.g. [Random.Default] in production, seeded [Random] in tests).
+     * @param random Source of randomness.
      */
     fun shuffleAnswers(random: Random = Random.Default): QuizConverter =
         copy(questions = questions.map { question -> question.copy(answers = question.answers.shuffled(random)) })

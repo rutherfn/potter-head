@@ -82,25 +82,13 @@ class QuizzesViewModel(
         allQuizzes = quizzesConverters
         savedQuizzes = savedQuizConverters
 
-        if (quizzesMutableStateFlow.value.selectedFilterIndex == 0) {
-            if (quizzesConverters.isNotEmpty()) {
-                quizzesMutableStateFlow.update { state ->
-                    state.copy(
-                        quizzes = quizzesConverters,
-                        isLoading = false,
-                        errorType = DataErrorType.None,
-                        shouldShowFilterChips = savedQuizzesFromDb.isNotEmpty()
-                    )
-                }
-            } else {
-                quizzesMutableStateFlow.update { state ->
-                    state.copy(
-                        quizzes = emptyList(),
-                        isLoading = false,
-                        shouldShowFilterChips = savedQuizzesFromDb.isNotEmpty()
-                    )
-                }
-            }
+        quizzesMutableStateFlow.update { state ->
+            state.copy(
+                quizzes = buildQuizzesToShow(index = state.selectedFilterIndex),
+                isLoading = false,
+                errorType = DataErrorType.None,
+                shouldShowFilterChips = savedQuizConverters.isNotEmpty()
+            )
         }
     }
 

@@ -11,6 +11,7 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.ext.QuizzesConverter
  * @param filterTypes The list of filter types.
  * @param errorType The type of error to display.
  * @param isLoading Whether the screen is currently loading data.
+ * @param shouldShowFilterChips Whether to show the filter chips on the Quiz screen.
  *
  * @author Nicholas Rutherford
  */
@@ -19,5 +20,6 @@ data class QuizzesState(
     val selectedFilterIndex: Int = 0,
     val filterTypes: List<String> = emptyList(),
     val errorType: DataErrorType = DataErrorType.None,
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val shouldShowFilterChips: Boolean = false
 )

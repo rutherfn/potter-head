@@ -6,6 +6,7 @@ import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
  * Defines UI data for the Take Quiz State Screen.
  * Defined and managed in the ViewModel.
  *
+ * @param quizTitle The title of the quiz.
  * @param questions The list of questions to be displayed.
  * @param questionSize The total number of questions.
  * @param currentQuestionNumber The 1-based current question number.
@@ -14,6 +15,7 @@ import com.nicholas.rutherford.potter.head.database.entity.QuestionEntity
  * @author Nicholas Rutherford
  */
 data class TakeQuizState(
+    val quizTitle: String? = null,
     val questions: List<QuestionEntity> = emptyList(),
     val questionSize: Int = 0,
     val currentQuestionNumber: Int = 1,

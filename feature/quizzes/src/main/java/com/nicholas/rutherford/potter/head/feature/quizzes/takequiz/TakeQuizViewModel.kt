@@ -51,6 +51,7 @@ class TakeQuizViewModel(
             currentQuiz = sessionQuiz
             takeQuizMutableStateFlow.update { state ->
                 state.copy(
+                    quizTitle = sessionQuiz.title,
                     questions = sessionQuiz.questions,
                     questionSize = sessionQuiz.questions.size
                 )

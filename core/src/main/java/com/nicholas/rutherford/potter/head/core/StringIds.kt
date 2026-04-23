@@ -90,5 +90,7 @@ object StringIds {
     val quizResult = R.string.quiz_result
     val quizCompleted = R.string.quiz_completed
     val yourResult = R.string.your_result
+    val quizListSubmittedResultLine = R.string.quiz_list_submitted_result_line
+    val quizListSubmittedCompletedLine = R.string.quiz_list_submitted_completed_line
     val congratsYouCompletedX = R.string.congrats_you_completed_x
 }

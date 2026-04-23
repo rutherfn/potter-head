@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.nicholas.rutherford.potter.head.database.entity.SavedQuizEntity
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Data Access Object for [SavedQuizEntity].
@@ -18,10 +17,10 @@ interface SavedQuizDao {
     suspend fun getSavedQuizCount(): Int
 
     @Query("SELECT * FROM savedQuizzes ORDER BY savedAt DESC")
-    fun getAllSavedQuizzes(): List<SavedQuizEntity>
+    suspend fun getAllSavedQuizzes(): List<SavedQuizEntity>
 
     @Query("SELECT * FROM savedQuizzes WHERE id = :id")
-    fun getSavedQuizById(id: Long): SavedQuizEntity?
+    suspend fun getSavedQuizById(id: Long): SavedQuizEntity?
 
     @Insert
     suspend fun insertSavedQuiz(savedQuiz: SavedQuizEntity): Long

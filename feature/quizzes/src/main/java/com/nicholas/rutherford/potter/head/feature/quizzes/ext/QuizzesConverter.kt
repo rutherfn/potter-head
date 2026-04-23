@@ -1,10 +1,13 @@
 package com.nicholas.rutherford.potter.head.feature.quizzes.ext
 
 data class QuizzesConverter(
+    val quizTemplateId: String,
+    val savedQuizId: Long?,
     val title: String,
     val description: String,
     val longDescription: String,
     val imageUrl: String,
     val type: QuizType,
-
+    val timestampOfLastLogged: String?,
+    val quizResult: String?
 )

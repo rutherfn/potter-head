@@ -86,7 +86,8 @@ class ViewModelFactory(
         QuizzesViewModel(
             application = application,
             navigator = appGraph.navigatorModule.navigator,
-            quizRepository = appGraph.databaseModule.quizRepository
+            quizRepository = appGraph.databaseModule.quizRepository,
+            savedQuizRepository = appGraph.databaseModule.savedQuizRepository
         )
 
     private fun createQuizDetailViewModel(extras: CreationExtras): QuizDetailViewModel =

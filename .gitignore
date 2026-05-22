@@ -41,16 +41,23 @@ Thumbs.db
 
 .kotlin/errors
 
-build
-
+# Gradle build output directories (module roots only — do not use a bare "build" rule; it ignores
+# source under packages such as com.nicholas.rutherford.potter.head.build.type)
 app/build
 base/view-model/build
-core/build
+build-type/build
+compose/components/build
 compose/ui-theme/build
+core/build
+data-store/build
 database/build
 entry-point/build
 feature/characters/build
 feature/quizzes/build
+feature/settings/build
+feature/spells/build
 model/build
-network/build
 navigation/build
+network/build
+scope/build
+test-utils/build

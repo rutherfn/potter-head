@@ -1,13 +1,18 @@
 package com.nicholas.rutherford.potter.head.entry.point.navigation
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.LifecycleOwner
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.navigation.NavHostController
 import com.nicholas.rutherford.potter.head.base.view.model.asLifecycleAwareState
 import com.nicholas.rutherford.potter.head.compose.components.AlertDialog
 import com.nicholas.rutherford.potter.head.compose.components.ProgressDialog
+import com.nicholas.rutherford.potter.head.entry.point.MainActivity
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
@@ -15,6 +20,7 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  * Sets up LaunchedEffect handlers for navigation actions and manages progress dialogs.
  * This composable only handles side effects and does not render UI layout.
  *
+ * @param activity The hosting [MainActivity], used for launching intents and finishing the activity.
  * @param navController The NavController for handling navigation.
  * @param navigator The Navigator for managing navigation actions.
  * @param lifecycleOwner The LifecycleOwner for observing state changes.
@@ -23,10 +29,13 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  */
 @Composable
 fun NavigationSideEffects(
+    activity: MainActivity,
     navController: NavHostController,
     navigator: Navigator,
     lifecycleOwner: LifecycleOwner
 ) {
+    val context = LocalContext.current
+
     val alertActionState by navigator.alertActions.asLifecycleAwareState(
         lifecycleOwner = lifecycleOwner,
         initialState = null
@@ -49,6 +58,15 @@ fun NavigationSideEffects(
         initialState = null
     )
 
+    val toastState by navigator.toastActions.asLifecycleAwareState(
+        lifecycleOwner = lifecycleOwner,
+        initialState = null
+    )
+    val urlState by navigator.urlActions.asLifecycleAwareState(
+        lifecycleOwner = lifecycleOwner,
+        initialState = null
+    )
+
     LaunchedEffect(navActionState?.destination) {
         navActionState?.let { state ->
             navController.navigate(state.destination, state.navOptions)
@@ -67,6 +85,21 @@ fun NavigationSideEffects(
         if (popOnceRequest) {
             navController.popBackStack()
             navigator.resetPopOnceRequest()
+        }
+    }
+
+    LaunchedEffect(toastState) {
+        toastState?.let { toast ->
+            Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
+            navigator.resetToastAction()
+        }
+    }
+
+    LaunchedEffect(urlState) {
+        urlState?.let { url ->
+            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+            activity.startActivity(intent)
+            navigator.url(url = null)
         }
     }
 

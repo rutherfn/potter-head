@@ -1,6 +1,7 @@
 [versions]
 agp = "8.6.1"
 converterGson = "3.0.0"
+dataStore = "1.1.7"
 gson = "2.13.2"
 kermit = "2.0.8"
 kotlin = "2.3.10"
@@ -41,6 +42,7 @@ coil = "2.7.0"
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
+data-store = { module ="androidx.datastore:datastore-preferences", version.ref = "dataStore"}
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junitJupiter" }

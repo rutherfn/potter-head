@@ -7,6 +7,8 @@ import com.nicholas.rutherford.potter.head.base.view.model.NavigatorProvider
 import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvider
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryProvider
 import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
+import com.nicholas.rutherford.potter.head.feature.data.store.DataStorePreferenceReaderProvider
+import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
@@ -17,7 +19,7 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  * [NavigatorProvider], and [AppBarFactoryProvider] respectively.
  *
  * @param context The [Context] from which to retrieve the application context
- * @return [ApplicationDependencies] containing the ViewModelFactory, Navigator, and AppBarFactory
+ * @return [ApplicationDependencies] containing the ViewModelFactory, Navigator, AppBarFactory, and settings repository
  * @throws IllegalStateException if the application doesn't implement the required providers
  *
  * @author Nicholas Rutherford
@@ -36,9 +38,14 @@ fun getApplicationDependencies(context: Context): ApplicationDependencies {
         ?.getAppBarFactory()
         ?: throw IllegalStateException("Application must implement AppBarFactoryProvider")
 
+    val dataStorePreferenceReader: DataStorePreferenceReader = (application as? DataStorePreferenceReaderProvider)
+        ?.getDataStorePreferenceReader()
+        ?: throw IllegalStateException("Application must implement DataStorePreferenceReaderProvider")
+
     return ApplicationDependencies(
         viewModelFactory = viewModelFactory,
         navigator = navigator,
-        appBarFactory = appBarFactory
+        appBarFactory = appBarFactory,
+        dataStorePreferenceReader = dataStorePreferenceReader
     )
 }

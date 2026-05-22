@@ -10,8 +10,13 @@ import com.nicholas.rutherford.potter.head.base.view.model.ViewModelFactoryProvi
 import com.nicholas.rutherford.potter.head.di.AppGraph
 import com.nicholas.rutherford.potter.head.di.AppGraphImpl
 import com.nicholas.rutherford.potter.head.di.ViewModelFactory
+import com.nicholas.rutherford.potter.head.entry.point.applyThemePreferenceNightMode
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryProvider
 import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import com.nicholas.rutherford.potter.head.feature.data.store.DataStorePreferenceReaderProvider
+import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
 
@@ -32,7 +37,9 @@ class PotterHeadApplication :
     Application(),
     ViewModelFactoryProvider,
     NavigatorProvider,
-    AppBarFactoryProvider {
+    AppBarFactoryProvider,
+    DataStorePreferenceReaderProvider {
+
     /**
      * Kermit Logger for this class.
      */
@@ -42,11 +49,23 @@ class PotterHeadApplication :
 
     val viewModelFactory: ViewModelFactory by lazy { ViewModelFactory(appGraph = appGraph, application = this) }
 
+    override fun onCreate() {
+        super.onCreate()
+        runBlocking(context = Dispatchers.IO) {
+            appGraph.dataStoreModule.dataStorePreferenceReader.ensureThemePreferenceLoaded()
+        }
+        applyThemePreferenceNightMode(
+            themePreferenceValue = appGraph.dataStoreModule.dataStorePreferenceReader.peekThemePreferenceValue()
+        )
+    }
+
     override fun getViewModelFactory(): LifeCycleViewModelProvider.Factory = viewModelFactory
 
     override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
 
     override fun getAppBarFactory(): AppBarFactory = appGraph.appBarModule.appBarFactory
+
+    override fun getDataStorePreferenceReader(): DataStorePreferenceReader = appGraph.dataStoreModule.dataStorePreferenceReader
 
     companion object {
         @JvmStatic

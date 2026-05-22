@@ -45,6 +45,8 @@ dependencies {
     api(project(path = ":compose:components"))
     api(project(path = ":compose:ui-theme"))
     api(project(path = ":database"))
+    api(project(path = ":data-store"))
+    api(project(path = ":feature:settings"))
 
     androidTestImplementation(libs.androidx.test.monitor)
     api(libs.androidx.compose.runtime.android)

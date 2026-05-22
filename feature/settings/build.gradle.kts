@@ -41,16 +41,22 @@ kotlin {
 
 dependencies {
     implementation(project(path = ":base:view-model"))
+    implementation(project(path = ":build-type"))
     implementation(project(path = ":core"))
+    implementation(project(path = ":database"))
+    implementation(project(path = ":data-store"))
+    implementation(project(path = ":scope"))
 
     androidTestImplementation(libs.androidx.test.monitor)
     api(libs.androidx.compose.runtime.android)
     api(libs.androidx.lifecycle.viewmodel.android)
     implementation(libs.androidx.compose.foundation.layout.android)
+    implementation(libs.androidx.compose.foundation.android)
     implementation(libs.androidx.compose.material3.android)
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.text.android)
     implementation(libs.androidx.compose.ui.unit.android)
+    implementation(libs.androidx.core.ktx)
 
     androidTestImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

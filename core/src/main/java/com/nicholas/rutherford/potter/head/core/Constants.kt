@@ -1,6 +1,11 @@
 package com.nicholas.rutherford.potter.head.core
 
 object Constants {
+    const val DEBUG_VERSION_NAME = "debug"
+
+    const val RELEASE_VERSION_NAME = "release"
+
+    const val STAGE_VERSION_NAME = "stage"
     const val IS_NOT_ALIVE_FILTER = "isNotAliveFilter"
     const val IS_ALIVE_FILTER = "isAliveFilter"
     const val IS_WIZARD_FILTER = "isWizardFilter"
@@ -8,7 +13,8 @@ object Constants {
     const val HAS_HOUSE_AFFILIATION_FILTER = "hasHouseAffiliationFilter"
     const val HAS_NOT_HOUSE_AFFILIATION_FILTER = "hasNotHouseAffiliationFilter"
     const val CHECKMARK = "✓"
-    const val DATABASE_NAME = "potter_head_database"
+    // Bumped after a bad v11 auto-migration corrupted local DBs on device.
+    const val DATABASE_NAME = "potter_head_database_v2"
     const val MALE = "male"
     const val FEMALE = "female"
     const val SPECIES_ACROMANTULA = "acromantula"
@@ -51,6 +57,7 @@ object Constants {
     const val DELAY_LOADING_MORE_CHARACTERS = 300L
     const val SHIMMER_CHARACTER_COUNT = 20
     const val RETRY_LOADING_CHARACTERS_DELAY = 2000L
+    const val API_DOCUMENT_WEBSITE = "https://hp-api.onrender.com"
     const val BASE_API_URL = "https://hp-api.onrender.com/api/"
     const val NETWORK_MODULE_CLASS_NAME = "com.nicholas.rutherford.potter.head.network.di.NetworkModule"
     const val NETWORK_MODULE_NAME = "NetworkModule"
@@ -94,5 +101,14 @@ object Constants {
         const val QUIZ_DESCRIPTION = "quiz_description"
         const val QUIZ_IMAGE_URL = "QUIZ_IMAGE_URL"
         const val CHARACTER_NAME = "name"
+    }
+
+    object DataStore {
+        const val NAME = "potter_head_preferences"
+
+        object VALUES {
+            const val THEME_PREFERENCE = "theme_preference_value"
+            const val SHOULD_SHUFFLE_ANSWER_ORDER = "should_shuffle_answer_order_value"
+        }
     }
 }

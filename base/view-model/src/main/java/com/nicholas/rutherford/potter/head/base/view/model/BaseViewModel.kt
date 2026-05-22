@@ -26,6 +26,8 @@ import kotlinx.coroutines.launch
  *
  * Usage: Extend this class in your own ViewModel classes to gain automatic lifecycle logging
  * and use the `collectFlow` method for lifecycle-aware Flow collection.
+ *
+ * @author Nicholas Rutherford
  */
 abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
 
@@ -128,6 +130,33 @@ abstract class BaseViewModel : ViewModel(), DefaultLifecycleObserver {
                 combine(flow1, flow2) { t1, t2 ->
                     if (shouldCollectFlow()) {
                         onCollect(t1, t2)
+                    }
+                }.collectLatest {}
+            }
+            activeFlowCollections.add(job)
+        }
+    }
+
+    /**
+     * Collects three Flows using combine in a lifecycle-aware manner.
+     * The collection will automatically start when the ViewModel is resumed and stop when paused.
+     *
+     * @param flow1 The first Flow to combine
+     * @param flow2 The second Flow to combine
+     * @param flow3 The third Flow to combine
+     * @param onCollect The action to perform for each combined emission
+     */
+    protected fun <T1, T2, T3> collectFlows(
+        flow1: Flow<T1>,
+        flow2: Flow<T2>,
+        flow3: Flow<T3>,
+        onCollect: suspend (T1, T2, T3) -> Unit
+    ) {
+        getScope().let { scope ->
+            val job = scope.launch {
+                combine(flow1, flow2, flow3) { t1, t2, t3 ->
+                    if (shouldCollectFlow()) {
+                        onCollect(t1, t2, t3)
                     }
                 }.collectLatest {}
             }

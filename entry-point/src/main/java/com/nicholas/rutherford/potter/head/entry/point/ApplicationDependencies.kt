@@ -2,6 +2,7 @@ package com.nicholas.rutherford.potter.head.entry.point
 
 import androidx.lifecycle.ViewModelProvider
 import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
+import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 
 /**
@@ -16,5 +17,6 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
 data class ApplicationDependencies(
     val viewModelFactory: ViewModelProvider.Factory,
     val navigator: Navigator,
-    val appBarFactory: AppBarFactory
+    val appBarFactory: AppBarFactory,
+    val dataStorePreferenceReader: DataStorePreferenceReader
 )

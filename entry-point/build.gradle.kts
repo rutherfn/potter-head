@@ -50,7 +50,9 @@ android {
 
 dependencies {
     implementation(project(path = ":base:view-model"))
+    implementation(project(path = ":data-store"))
     implementation(project(path = ":compose:ui-theme"))
+    implementation(libs.androidx.appcompat)
     implementation(project(path = ":navigation"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))

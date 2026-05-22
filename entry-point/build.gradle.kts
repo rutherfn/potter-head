@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.android)
     implementation(libs.androidx.compose.ui.text.android)
     implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
     implementation(libs.androidx.lifecycle.viewmodel.android)
     implementation(libs.androidx.lifecycle.viewmodel.compose.android)

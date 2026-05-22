@@ -11,6 +11,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.nicholas.rutherford.potter.head.base.view.model.LocalViewModelFactory
@@ -34,8 +36,21 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         val dependencies = getApplicationDependencies(context = this)
-        val startupThemePreference = dependencies.dataStorePreferenceReader.peekThemePreferenceValue()
 
+        lifecycleScope.launch {
+            val startupThemePreference = dependencies.dataStorePreferenceReader.readThemePreferenceSnapshot()
+            applyThemePreferenceNightMode(themePreferenceValue = startupThemePreference)
+            setMainContent(
+                dependencies = dependencies,
+                startupThemePreference = startupThemePreference
+            )
+        }
+    }
+
+    private fun setMainContent(
+        dependencies: ApplicationDependencies,
+        startupThemePreference: Int
+    ) {
         setContent {
             val lifecycleOwner = LocalLifecycleOwner.current
             val themePreference by dependencies.dataStorePreferenceReader
@@ -64,7 +79,7 @@ class MainActivity : ComponentActivity() {
                         navigator = dependencies.navigator,
                         lifecycleOwner = lifecycleOwner
                     )
-                    
+
                     MainNavigationScaffold(
                         navController = navController,
                         lifecycleOwner = lifecycleOwner,

@@ -11,11 +11,6 @@ import kotlinx.coroutines.flow.Flow
  */
 interface DataStorePreferenceReader {
     fun readThemePreferenceValueFlow(): Flow<Int>
-
-    /**
-     * Reads the saved theme preference once (cached afterward) for use before collecting the flow.
-     */
     suspend fun readThemePreferenceSnapshot(): Int
-
     fun readShouldShuffleAnswerOrderFlow(): Flow<Boolean>
 }

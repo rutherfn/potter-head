@@ -2,9 +2,7 @@ package com.nicholas.rutherford.potter.head.core
 
 object Constants {
     const val DEBUG_VERSION_NAME = "debug"
-
     const val RELEASE_VERSION_NAME = "release"
-
     const val STAGE_VERSION_NAME = "stage"
     const val IS_NOT_ALIVE_FILTER = "isNotAliveFilter"
     const val IS_ALIVE_FILTER = "isAliveFilter"
@@ -13,7 +11,6 @@ object Constants {
     const val HAS_HOUSE_AFFILIATION_FILTER = "hasHouseAffiliationFilter"
     const val HAS_NOT_HOUSE_AFFILIATION_FILTER = "hasNotHouseAffiliationFilter"
     const val CHECKMARK = "✓"
-    // Bumped after a bad v11 auto-migration corrupted local DBs on device.
     const val DATABASE_NAME = "potter_head_database_v2"
     const val MALE = "male"
     const val FEMALE = "female"

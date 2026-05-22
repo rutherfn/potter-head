@@ -1,0 +1,47 @@
+name: App Bundle (Debug)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build debug app bundle
+        run: ./gradlew :app:bundleDebug --stacktrace
+
+      - name: Upload debug bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-bundle-debug
+          path: app/build/outputs/bundle/debug/app-debug.aab
+          retention-days: 30
+          if-no-files-found: error
+
+      - name: Summary
+        run: |
+          echo "### Debug app bundle" >> "$GITHUB_STEP_SUMMARY"
+          echo "Application ID: \`com.nicholas.rutherford.potter.head.debug\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Artifact: **app-bundle-debug** (signed with the default debug keystore)" >> "$GITHUB_STEP_SUMMARY"

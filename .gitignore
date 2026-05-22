@@ -29,6 +29,10 @@ proguard/
 .metadata/
 
 local.properties
+keystore.properties
+release.keystore
+*.jks
+*.keystore
 
 # Mac OS X clutter
 *.DS_Store
@@ -45,3 +49,5 @@ Thumbs.db
 # ignored except under src/, so package paths like build.type remain tracked.
 build
 !**/src/**
+
+keystore.properties.example

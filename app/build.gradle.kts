@@ -1,9 +1,35 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint)
 }
+
+fun loadReleaseSigningProperties(rootDir: java.io.File): Properties? {
+    val keystorePropertiesFile = rootDir.resolve("keystore.properties")
+    if (keystorePropertiesFile.isFile) {
+        return Properties().apply {
+            keystorePropertiesFile.inputStream().use { load(it) }
+        }
+    }
+    val storeFile = System.getenv("RELEASE_STORE_FILE")
+    val storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+    val keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+    val keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+    if (!storeFile.isNullOrBlank() && !storePassword.isNullOrBlank() && !keyAlias.isNullOrBlank() && !keyPassword.isNullOrBlank()) {
+        return Properties().apply {
+            setProperty("storeFile", storeFile)
+            setProperty("storePassword", storePassword)
+            setProperty("keyAlias", keyAlias)
+            setProperty("keyPassword", keyPassword)
+        }
+    }
+    return null
+}
+
+val releaseSigningProperties = loadReleaseSigningProperties(rootProject.projectDir)
 
 android {
     namespace = "com.nicholas.rutherford.potter.head"
@@ -19,13 +45,44 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (releaseSigningProperties != null) {
+            create("release") {
+                val signing = releaseSigningProperties!!
+                storeFile = file(signing.getProperty("storeFile"))
+                storePassword = signing.getProperty("storePassword")
+                keyAlias = signing.getProperty("keyAlias")
+                keyPassword = signing.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            applicationIdSuffix = ".release"
             isMinifyEnabled = false
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            releaseSigningProperties?.let {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+        create("stage") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".stage"
+            isMinifyEnabled = false
+            isDebuggable = true
+            releaseSigningProperties?.let {
+                signingConfig = signingConfigs.getByName("release")
+            }
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            isMinifyEnabled = false
+            isDebuggable = true
         }
     }
     compileOptions {

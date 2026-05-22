@@ -7,10 +7,6 @@ plugins {
     alias(libs.plugins.ktlint)
 }
 
-/**
- * Local: copy [keystore.properties.example] to keystore.properties with an absolute storeFile path.
- * CI: stage/release workflows set RELEASE_STORE_FILE and related env vars from GitHub Secrets.
- */
 fun loadReleaseSigningProperties(rootDir: java.io.File): Properties? {
     val keystorePropertiesFile = rootDir.resolve("keystore.properties")
     if (keystorePropertiesFile.isFile) {
@@ -22,12 +18,7 @@ fun loadReleaseSigningProperties(rootDir: java.io.File): Properties? {
     val storePassword = System.getenv("RELEASE_STORE_PASSWORD")
     val keyAlias = System.getenv("RELEASE_KEY_ALIAS")
     val keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
-    if (
-        !storeFile.isNullOrBlank() &&
-        !storePassword.isNullOrBlank() &&
-        !keyAlias.isNullOrBlank() &&
-        !keyPassword.isNullOrBlank()
-    ) {
+    if (!storeFile.isNullOrBlank() && !storePassword.isNullOrBlank() && !keyAlias.isNullOrBlank() && !keyPassword.isNullOrBlank()) {
         return Properties().apply {
             setProperty("storeFile", storeFile)
             setProperty("storePassword", storePassword)

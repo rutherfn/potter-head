@@ -29,11 +29,6 @@ dependencyAnalysis {
     }
 }
 
-/**
- * Kermit publishes separate Maven variants per Android build type (debug vs release).
- * Custom "stage" cannot consume kermit-android-debug, so stage uses release Kermit.
- * Any module that already declares debug Kermit gets matching stage deps automatically.
- */
 private fun Project.declaresKermitDebugDependency(): Boolean {
     val debugConfigurations = listOf("debugApi", "debugImplementation")
     return debugConfigurations.any { configurationName ->

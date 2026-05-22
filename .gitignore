@@ -49,3 +49,5 @@ Thumbs.db
 # ignored except under src/, so package paths like build.type remain tracked.
 build
 !**/src/**
+
+keystore.properties.example

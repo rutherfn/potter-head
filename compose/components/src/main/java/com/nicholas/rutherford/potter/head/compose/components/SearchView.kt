@@ -88,13 +88,6 @@ fun SearchView(
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
 
-    val clearSearch: () -> Unit = {
-        focusManager.clearFocus()
-        currentTextFieldValue = TextFieldValue(text = "", selection = TextRange.Zero)
-        lastSentText = ""
-        onClearClicked()
-    }
-
     BackHandler(enabled = isFocused) {
         focusManager.clearFocus()
     }
@@ -108,6 +101,7 @@ fun SearchView(
                 selection = TextRange(searchQuery.length)
             )
             lastSentText = searchQuery
+            
             if (searchQuery.isEmpty()) {
                 focusManager.clearFocus()
             }
@@ -169,7 +163,12 @@ fun SearchView(
                             imageVector = Icons.Default.Clear,
                             contentDescription = "Clear Search",
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                            modifier = Modifier.clickable { clearSearch() }
+                            modifier = Modifier.clickable {
+                                focusManager.clearFocus()
+                                currentTextFieldValue = TextFieldValue(text = "", selection = TextRange.Zero)
+                                lastSentText = ""
+                                onClearClicked()
+                            }
                         )
                     }
                 },

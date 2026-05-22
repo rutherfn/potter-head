@@ -11,7 +11,7 @@ object Constants {
     const val HAS_HOUSE_AFFILIATION_FILTER = "hasHouseAffiliationFilter"
     const val HAS_NOT_HOUSE_AFFILIATION_FILTER = "hasNotHouseAffiliationFilter"
     const val CHECKMARK = "✓"
-    const val DATABASE_NAME = "potter_head_database_v2"
+    const val DATABASE_NAME = "potter_head_room_database"
     const val MALE = "male"
     const val FEMALE = "female"
     const val SPECIES_ACROMANTULA = "acromantula"

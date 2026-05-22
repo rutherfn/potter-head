@@ -52,7 +52,6 @@ dependencies {
     implementation(project(path = ":base:view-model"))
     implementation(project(path = ":data-store"))
     implementation(project(path = ":compose:ui-theme"))
-    implementation(libs.androidx.appcompat)
     implementation(project(path = ":navigation"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
@@ -69,6 +68,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.foundation.android)
     debugImplementation(libs.androidx.compose.foundation.layout.android)
 
+    implementation(libs.androidx.appcompat)
     implementation(libs.androidx.compose.material3.android)
     implementation(libs.androidx.compose.material.icons.core.android)
     implementation(libs.androidx.compose.material.icons.extended)

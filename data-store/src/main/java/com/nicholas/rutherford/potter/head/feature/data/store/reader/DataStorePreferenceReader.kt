@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
  * @author Nicholas Rutherford
  */
 interface DataStorePreferenceReader {
-    fun readThemePreferenceValueFlow(): Flow<Int>
     suspend fun readThemePreferenceSnapshot(): Int
+    fun readThemePreferenceValueFlow(): Flow<Int>
     fun readShouldShuffleAnswerOrderFlow(): Flow<Boolean>
 }

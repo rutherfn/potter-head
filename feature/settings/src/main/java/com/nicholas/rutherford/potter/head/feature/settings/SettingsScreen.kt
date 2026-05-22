@@ -25,18 +25,15 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.core.theme.ThemePreference
 
 @Composable
 fun SettingsScreen(params: SettingsParams) {
     val state = params.state
-    val uriHandler = LocalUriHandler.current
 
     LazyColumn(
         modifier = Modifier
@@ -127,7 +124,7 @@ fun SettingsScreen(params: SettingsParams) {
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            AboutCard(
+            AboutAppCard(
                 versionName = state.versionName,
                 onViewDataSourceClick = params.onViewDataSourceClicked
             )
@@ -198,7 +195,7 @@ private fun ShuffleAnswersRow(checked: Boolean, onCheckedChange: (Boolean) -> Un
 }
 
 @Composable
-private fun AboutCard(
+private fun AboutAppCard(
     versionName: String,
     onViewDataSourceClick: () -> Unit
 ) {

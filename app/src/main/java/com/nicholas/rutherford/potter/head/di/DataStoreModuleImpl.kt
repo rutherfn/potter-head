@@ -1,7 +1,6 @@
 package com.nicholas.rutherford.potter.head.di
 
 import android.content.Context
-import com.nicholas.rutherford.potter.head.build.type.di.BuildTypeModule
 import com.nicholas.rutherford.potter.head.feature.data.store.di.DataStoreModule
 import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReaderImpl
@@ -17,8 +16,9 @@ import com.nicholas.rutherford.potter.head.feature.data.store.writer.DataStorePr
  *
  * @author Nicholas Rutherford
  */
-internal class DataStoreModuleImpl(private val context: Context) : DataStoreModule {
-
+internal class DataStoreModuleImpl(
+    private val context: Context
+) : DataStoreModule {
     override val dataStorePreferenceReader: DataStorePreferenceReader by lazy { DataStorePreferenceReaderImpl(context = context) }
 
     override val dataStorePreferenceWriter: DataStorePreferencesWriter by lazy { DataStorePreferencesWriterImpl(context = context) }

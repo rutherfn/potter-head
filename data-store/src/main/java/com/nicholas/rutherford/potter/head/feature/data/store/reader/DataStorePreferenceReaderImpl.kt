@@ -23,14 +23,14 @@ class DataStorePreferenceReaderImpl(private val context: Context) : DataStorePre
 
     private var cachedThemePreferenceValue: Int? = null
 
+    override suspend fun readThemePreferenceSnapshot(): Int {
+        return cachedThemePreferenceValue ?: readThemePreferenceValueFlow().first().also { value -> cachedThemePreferenceValue = value }
+    }
+
     override fun readThemePreferenceValueFlow(): Flow<Int> {
         return context.dataStore.data.map { preferences ->
             preferences[intPreferencesKey(name = Constants.DataStore.VALUES.THEME_PREFERENCE)] ?: ThemePreference.SYSTEM.value
         }
-    }
-
-    override suspend fun readThemePreferenceSnapshot(): Int {
-        return cachedThemePreferenceValue ?: readThemePreferenceValueFlow().first().also { value -> cachedThemePreferenceValue = value }
     }
 
     override fun readShouldShuffleAnswerOrderFlow(): Flow<Boolean> {

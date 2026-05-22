@@ -19,7 +19,7 @@ import com.nicholas.rutherford.potter.head.navigation.Navigator
  * [NavigatorProvider], and [AppBarFactoryProvider] respectively.
  *
  * @param context The [Context] from which to retrieve the application context
- * @return [ApplicationDependencies] containing the ViewModelFactory, Navigator, AppBarFactory, and settings repository
+ * @return [ApplicationDependencies] containing the ViewModelFactory, Navigator, AppBarFactory, and DataStorePreferenceReader
  * @throws IllegalStateException if the application doesn't implement the required providers
  *
  * @author Nicholas Rutherford

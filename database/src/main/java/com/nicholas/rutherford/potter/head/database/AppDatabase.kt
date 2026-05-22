@@ -69,11 +69,7 @@ abstract class AppDatabase : RoomDatabase() {
                 context,
                 AppDatabase::class.java,
                 Constants.DATABASE_NAME
-            )
-                .addMigrations(DatabaseMigrations.MIGRATION_9_10)
-                .fallbackToDestructiveMigration(dropAllTables = true)
-                .fallbackToDestructiveMigrationOnDowngrade(dropAllTables = true)
-                .build()
+            ).build()
         }
     }
 }

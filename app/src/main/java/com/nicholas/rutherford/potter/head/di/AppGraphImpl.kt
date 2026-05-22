@@ -17,8 +17,9 @@ import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
  *
  * @author Nicholas Rutherford
  */
-class AppGraphImpl(private val context: Context) : AppGraph {
-
+class AppGraphImpl(
+    private val context: Context
+) : AppGraph {
     override val buildTypeModule: BuildTypeModule by lazy { BuildTypeModuleImpl() }
 
     override val dataStoreModule: DataStoreModule by lazy { DataStoreModuleImpl(context = context) }

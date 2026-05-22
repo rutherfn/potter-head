@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import com.nicholas.rutherford.potter.head.core.Constants
 
 /**
@@ -56,6 +57,24 @@ fun Modifier.shimmerEffect(): Modifier {
 }
 
 /**
+ * Whether the active [MaterialTheme] color scheme is dark (respects in-app theme, not only system).
+ */
+@Composable
+fun isAppInDarkTheme(): Boolean = MaterialTheme.colorScheme.background.luminance() < 0.5f
+
+/**
+ * Checkmark color on top of a house/species-colored selection circle.
+ */
+@Composable
+fun getBadgeSelectionCheckmarkColor(): Color {
+    return if (isAppInDarkTheme()) {
+        MaterialTheme.colorScheme.surface
+    } else {
+        Color.White
+    }
+}
+
+/**
  * Returns the color associated with a Hogwarts house name.
  *
  * @param house The house name (case-insensitive).
@@ -65,6 +84,9 @@ fun Modifier.shimmerEffect(): Modifier {
  */
 @Composable
 fun getHouseColor(house: String): Color {
+    if (isAppInDarkTheme()) {
+        return Color.White
+    }
     return when (house.lowercase()) {
         Constants.GRYFFINDOR_HOUSE -> GryffindorRed
         Constants.SLYTHERIN_HOUSE -> SlytherinGreen
@@ -84,6 +106,9 @@ fun getHouseColor(house: String): Color {
  */
 @Composable
 fun getSpeciesColor(species: String): Color {
+    if (isAppInDarkTheme()) {
+        return Color.White
+    }
     return when (species.lowercase()) {
         Constants.SPECIES_HUMAN -> SpeciesHuman
         Constants.SPECIES_DRAGON -> SpeciesDragon

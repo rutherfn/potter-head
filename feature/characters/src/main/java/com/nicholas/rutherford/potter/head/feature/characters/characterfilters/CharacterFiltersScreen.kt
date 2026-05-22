@@ -28,8 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.nicholas.rutherford.potter.head.compose.ui.theme.getBadgeSelectionCheckmarkColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getHouseColor
 import com.nicholas.rutherford.potter.head.compose.ui.theme.getSpeciesColor
+import com.nicholas.rutherford.potter.head.compose.ui.theme.isAppInDarkTheme
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 
@@ -326,15 +328,17 @@ private fun SelectionIndicator(
     val checkmarkColor = if (isSelected) {
         if (isNoHouse) {
             MaterialTheme.colorScheme.surface
+        } else if (isAppInDarkTheme()) {
+            getBadgeSelectionCheckmarkColor()
         } else if (house == Constants.HUFFLEPUFF_HOUSE) {
             MaterialTheme.colorScheme.onSurface
         } else {
-            Color.White
+            getBadgeSelectionCheckmarkColor()
         }
     } else {
         Color.Transparent
     }
-    
+
     Box(
         modifier = Modifier
             .size(28.dp)
@@ -518,15 +522,19 @@ private fun SpeciesSelectionIndicator(
     }
     
     val checkmarkColor = if (isSelected) {
-        when (species.lowercase()) {
-            Constants.SPECIES_PHOENIX,
-            Constants.SPECIES_PYGMY_PUFF -> MaterialTheme.colorScheme.onSurface
-            else -> Color.White
+        if (isAppInDarkTheme()) {
+            getBadgeSelectionCheckmarkColor()
+        } else {
+            when (species.lowercase()) {
+                Constants.SPECIES_PHOENIX,
+                Constants.SPECIES_PYGMY_PUFF -> MaterialTheme.colorScheme.onSurface
+                else -> getBadgeSelectionCheckmarkColor()
+            }
         }
     } else {
         Color.Transparent
     }
-    
+
     Box(
         modifier = Modifier
             .size(28.dp)

@@ -113,7 +113,7 @@
     <string name="shuffle_answer_order" translatable="false">Shuffle answer order</string>
     <string name="randomize_multiple_choice_order_description" translatable="false">Randomize multiple-choice order each time you start a quiz.</string>
     <string name="version_x" translatable="false">Version %s</string>
-    <string name="character_and_quiz_data_description" translatable="false">Character and quiz data are provided by the HP API community project. This app is an unofficial fan project.</string>
+    <string name="character_and_quiz_data_description" translatable="false">Character data are provided by the HP API community project. This app leverages that API in order to fulfill application experience.</string>
     <string name="no_saved_quizzes_to_reset" translatable="false">No saved quizzes to reset</string>
     <string name="no_character_filters_to_reset" translatable="false">No character filters to reset</string>"
 </resources>

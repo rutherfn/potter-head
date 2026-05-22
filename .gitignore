@@ -29,6 +29,10 @@ proguard/
 .metadata/
 
 local.properties
+keystore.properties
+release.keystore
+*.jks
+*.keystore
 
 # Mac OS X clutter
 *.DS_Store

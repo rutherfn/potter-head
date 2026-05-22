@@ -17,7 +17,7 @@ class BuildTypeModuleImpl : BuildTypeModule {
         BuildTypeImpl(
             sdkValue = Build.VERSION.SDK_INT,
             versionName = BuildConfig.VERSION_NAME,
-            buildTypeValue = "debug" // todo -> https://trello.com/c/nompwO4w/47-add-build-type-functionality
+            buildTypeValue = BuildConfig.BUILD_TYPE
         )
     }
 }

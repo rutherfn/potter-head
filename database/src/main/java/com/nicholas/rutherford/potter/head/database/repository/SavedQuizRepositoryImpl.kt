@@ -48,4 +48,6 @@ class SavedQuizRepositoryImpl(private val dao: SavedQuizDao) : SavedQuizReposito
     }
 
     override suspend fun deleteSavedQuizById(id: Long) = dao.deleteSavedQuizById(id = id)
+
+    override suspend fun deleteAllSavedQuizzes() = dao.deleteAllSavedQuizzes()
 }

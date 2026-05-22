@@ -110,10 +110,20 @@ class ViewModelFactory(
             navigator = appGraph.navigatorModule.navigator,
             quizRepository = appGraph.databaseModule.quizRepository,
             savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
+            dataStorePreferenceReader = appGraph.dataStoreModule.dataStorePreferenceReader,
             random = Random.Default
         )
 
-    private fun createSettingsViewModel(): SettingsViewModel = SettingsViewModel()
+    private fun createSettingsViewModel(): SettingsViewModel =
+        SettingsViewModel(
+            application = application,
+            navigator = appGraph.navigatorModule.navigator,
+            buildType = appGraph.buildTypeModule.buildType,
+            characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
+            savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
+            dataStorePreferenceReader = appGraph.dataStoreModule.dataStorePreferenceReader,
+            dataStorePreferencesWriter = appGraph.dataStoreModule.dataStorePreferenceWriter
+        )
 
     private fun <T : ViewModel> handleUnknownViewModel(modelClass: Class<T>): Nothing {
         val errorMessage = "Unknown ViewModel class: ${modelClass.name}. Add it to ViewModelFactory.create() to support injection."

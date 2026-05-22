@@ -14,6 +14,5 @@ import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarF
  * @author Nicholas Rutherford
  */
 interface AppBarFactoryModule {
-
     val appBarFactory: AppBarFactory
 }

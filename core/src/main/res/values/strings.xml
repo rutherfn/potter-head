@@ -92,4 +92,28 @@
     <string name="quiz_list_submitted_result_line" translatable="false">Your result: %1$s</string>
     <string name="quiz_list_submitted_completed_line" translatable="false">Completed On: %1$s</string>
     <string name="congrats_you_completed_x" translatable="false">Congrats. You completed %1$s</string>
+    <string name="light" translatable="false">Light</string>
+    <string name="dark" translatable="false">Dark</string>
+    <string name="system" translatable="false">System</string>
+    <string name="appearance" translatable="false">Appearance</string>
+    <string name="data" translatable="false">Data</string>
+    <string name="clear_character_filters" translatable="false">Clear Character Filters</string>
+    <string name="are_you_sure_you_want_to_clear_character_filters" translatable="false">Are you sure you want to clear all character filters on character list screen? This will allow you to see all characters.</string>
+    <string name="clear_saved_quizzes" translatable="false">Clear Saved Quizzes</string>
+    <string name="are_you_sure_you_want_to_clear_all_saved_quizzes" translatable="false">Are you sure you want to clear all saved quizzes?</string>
+    <string name="saved_quizzes_have_been_cleared" translatable="false">Saved quizzes have been cleared</string>
+    <string name="saved_character_filters_have_been_cleared" translatable="false">Saved character filters have been cleared</string>
+    <string name="clear_saved_quiz_results" translatable="false">Clear Saved quiz results</string>
+    <string name="removes_completed_quiz_history_from_this_device" translatable="false">Remove completed quiz history from this device.</string>
+    <string name="reset_character_filters" translatable="false">Reset character filters</string>
+    <string name="view_data_source" translatable="false">View data source</string>
+    <string name="potter_head" translatable="false">PotterHead</string>
+    <string name="clears_saved_house_description" translatable="false">Clears saved house, species, and other character list filters.</string>
+    <string name="about" translatable="false">About</string>
+    <string name="shuffle_answer_order" translatable="false">Shuffle answer order</string>
+    <string name="randomize_multiple_choice_order_description" translatable="false">Randomize multiple-choice order each time you start a quiz.</string>
+    <string name="version_x" translatable="false">Version %s</string>
+    <string name="character_and_quiz_data_description" translatable="false">Character data are provided by the HP API community project. This app leverages that API in order to fulfill application experience.</string>
+    <string name="no_saved_quizzes_to_reset" translatable="false">No saved quizzes to reset</string>
+    <string name="no_character_filters_to_reset" translatable="false">No character filters to reset</string>"
 </resources>

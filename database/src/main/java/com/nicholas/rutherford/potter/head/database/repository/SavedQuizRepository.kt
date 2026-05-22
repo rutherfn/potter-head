@@ -25,4 +25,6 @@ interface SavedQuizRepository {
     ): Long
 
     suspend fun deleteSavedQuizById(id: Long)
+
+    suspend fun deleteAllSavedQuizzes()
 }

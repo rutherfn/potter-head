@@ -32,12 +32,20 @@ class NavigatorImpl : Navigator {
 
     private val progressActionsMutableStateFlow = MutableStateFlow<ProgressAction?>(value = null)
 
+    private val toastActionsMutableStateFlow = MutableStateFlow<String?>(value = null)
+
+    private val urlsActionsMutableStateFlow = MutableStateFlow<String?>(value = null)
+
     override val alertActions: StateFlow<AlertAction?> = alertActionsMutableStateFlow.asStateFlow()
     override val navActions: StateFlow<NavigationAction?> = navActionsMutableStateFlow.asStateFlow()
     override val popRouteActions: StateFlow<String?> = popRouteActionsMutableStateFlow.asStateFlow()
     override val popOnceRequests: StateFlow<Boolean> = popOnceRequestsMutableStateFlow.asStateFlow()
 
     override val progressActions: StateFlow<ProgressAction?> = progressActionsMutableStateFlow.asStateFlow()
+
+    override val toastActions: StateFlow<String?> = toastActionsMutableStateFlow.asStateFlow()
+
+    override val urlActions: StateFlow<String?> = urlsActionsMutableStateFlow.asStateFlow()
 
     override fun alert(alertAction: AlertAction?) = alertActionsMutableStateFlow.update { alertAction }
 
@@ -54,4 +62,10 @@ class NavigatorImpl : Navigator {
     override fun resetPopAction() = popRouteActionsMutableStateFlow.update { null }
 
     override fun resetPopOnceRequest() = popOnceRequestsMutableStateFlow.update { false }
+
+    override fun resetToastAction() = toastActionsMutableStateFlow.update { null }
+
+    override fun toastAction(toastAction: String) = toastActionsMutableStateFlow.update { toastAction }
+
+    override fun url(url: String?) = urlsActionsMutableStateFlow.update { url }
 }

@@ -491,7 +491,7 @@ object AppNavigationGraph {
      * This function sets up the settings screen with:
      * - Route: Settings.route
      * - ViewModel: [SettingsViewModel] created via [LocalViewModelFactory]
-     * - Screen: [SettingsScreen] with parameters for settings item click handling
+     * - Screen: [SettingsScreen] with callbacks for data actions (clear quizzes, reset filters)
      *
      * The ViewModel is scoped to the navigation graph, so it will be retained
      * when navigating between screens within the same graph.
@@ -501,10 +501,16 @@ object AppNavigationGraph {
 
             val factory = LocalViewModelFactory.current
             val viewModel: SettingsViewModel = viewModel<SettingsViewModel>(factory = factory)
+            val state by viewModel.settingsStateFlow.collectAsState()
 
             SettingsScreen(
                 params = SettingsParams(
-                    onItemClicked = { viewModel.onItemClicked() }
+                    state = state,
+                    onThemePreferenceSelected = { value -> viewModel.onThemePreferenceSelected(value = value) },
+                    onShuffleAnswerOrderCheckedChanged = { value -> viewModel.onShuffleAnswerOrderCheckedChanged(value = value)},
+                    onClearSavedQuizzesClick = { viewModel.onClearSavedQuizzesClick() },
+                    onResetCharacterFiltersClick = { viewModel.onResetCharacterFiltersClick() },
+                    onViewDataSourceClicked = { viewModel.onViewDataSourceClicked() }
                 )
             )
         }

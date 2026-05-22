@@ -12,6 +12,8 @@ import com.nicholas.rutherford.potter.head.di.AppGraphImpl
 import com.nicholas.rutherford.potter.head.di.ViewModelFactory
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryProvider
 import com.nicholas.rutherford.potter.head.entry.point.navigation.appbar.AppBarFactory
+import com.nicholas.rutherford.potter.head.feature.data.store.DataStorePreferenceReaderProvider
+import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import androidx.lifecycle.ViewModelProvider as LifeCycleViewModelProvider
 
@@ -32,7 +34,8 @@ class PotterHeadApplication :
     Application(),
     ViewModelFactoryProvider,
     NavigatorProvider,
-    AppBarFactoryProvider {
+    AppBarFactoryProvider,
+    DataStorePreferenceReaderProvider {
     /**
      * Kermit Logger for this class.
      */
@@ -47,6 +50,8 @@ class PotterHeadApplication :
     override fun getNavigator(): Navigator = appGraph.navigatorModule.navigator
 
     override fun getAppBarFactory(): AppBarFactory = appGraph.appBarModule.appBarFactory
+
+    override fun getDataStorePreferenceReader(): DataStorePreferenceReader = appGraph.dataStoreModule.dataStorePreferenceReader
 
     companion object {
         @JvmStatic

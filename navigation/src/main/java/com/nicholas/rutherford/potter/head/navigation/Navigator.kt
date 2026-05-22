@@ -30,18 +30,18 @@ interface Navigator {
     val popRouteActions: StateFlow<String?>
     val popOnceRequests: StateFlow<Boolean>
     val progressActions: StateFlow<ProgressAction?>
+    val toastActions: StateFlow<String?>
+    val urlActions: StateFlow<String?>
 
     fun alert(alertAction: AlertAction?)
     fun navigate(navigationAction: NavigationAction?)
     fun pop(routeAction: String?)
-
-    /**
-     * Requests a single pop of the back stack (e.g. to return to the previous screen).
-     * Prefer this over [pop] when the previous destination has a parameterized route.
-     */
     fun pop()
     fun progress(progressAction: ProgressAction?)
     fun resetNavAction()
     fun resetPopAction()
     fun resetPopOnceRequest()
+    fun resetToastAction()
+    fun toastAction(toastAction: String)
+    fun url(url: String?)
 }

@@ -4,12 +4,14 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
+import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
 import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.converter.QuizConverter
 import com.nicholas.rutherford.potter.head.database.entity.AnswerEntity
 import com.nicholas.rutherford.potter.head.database.repository.QuizRepository
 import com.nicholas.rutherford.potter.head.database.repository.SavedQuizRepository
+import com.nicholas.rutherford.potter.head.feature.data.store.reader.DataStorePreferenceReader
 import com.nicholas.rutherford.potter.head.navigation.AlertAction
 import com.nicholas.rutherford.potter.head.navigation.AlertConfirmAndDismissButton
 import com.nicholas.rutherford.potter.head.navigation.Navigator
@@ -27,6 +29,7 @@ class TakeQuizViewModel(
     private val navigator: Navigator,
     private val quizRepository: QuizRepository,
     private val savedQuizRepository: SavedQuizRepository,
+    private val dataStorePreferenceReader: DataStorePreferenceReader,
     private val random: Random
 ) : BaseViewModel() {
 
@@ -42,19 +45,30 @@ class TakeQuizViewModel(
     private val selectedAnswers: ArrayList<AnswerEntity> = arrayListOf()
 
     init {
-        launch { updateStateFromParams() }
+        updateStateFromParams()
     }
 
-    private suspend fun updateStateFromParams() {
-        quizRepository.getQuizByTitle(title = quizNameParam)?.let { quiz ->
-            val sessionQuiz = quiz.shuffleAnswers(random = random)
-            currentQuiz = sessionQuiz
-            takeQuizMutableStateFlow.update { state ->
-                state.copy(
-                    quizTitle = sessionQuiz.title,
-                    questions = sessionQuiz.questions,
-                    questionSize = sessionQuiz.questions.size
-                )
+    override fun getFlowCollectionTrigger(): FlowCollectionTrigger = FlowCollectionTrigger.INIT
+
+    private fun updateStateFromParams() {
+        collectFlow(
+            flow = dataStorePreferenceReader.readShouldShuffleAnswerOrderFlow()
+        ) { shouldShuffleAnswerOrder ->
+            quizRepository.getQuizByTitle(title = quizNameParam)?.let { quiz ->
+                val sessionQuiz = if (shouldShuffleAnswerOrder) {
+                    quiz.shuffleAnswers(random = random)
+                } else {
+                    quiz
+
+                }
+                currentQuiz = sessionQuiz
+                takeQuizMutableStateFlow.update { state ->
+                    state.copy(
+                        quizTitle = sessionQuiz.title,
+                        questions = sessionQuiz.questions,
+                        questionSize = sessionQuiz.questions.size
+                    )
+                }
             }
         }
     }

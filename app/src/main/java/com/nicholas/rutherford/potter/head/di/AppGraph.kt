@@ -1,7 +1,9 @@
 package com.nicholas.rutherford.potter.head.di
 
+import com.nicholas.rutherford.potter.head.build.type.di.BuildTypeModule
 import com.nicholas.rutherford.potter.head.database.di.DatabaseModule
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryModule
+import com.nicholas.rutherford.potter.head.feature.data.store.di.DataStoreModule
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
 import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
@@ -13,6 +15,8 @@ import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
  * @author Nicholas Rutherford
  */
 interface AppGraph {
+    val buildTypeModule: BuildTypeModule
+    val dataStoreModule: DataStoreModule
     val networkModule: NetworkModule
     val navigatorModule: NavigatorModule
     val appBarModule: AppBarFactoryModule

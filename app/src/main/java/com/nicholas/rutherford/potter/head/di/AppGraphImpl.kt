@@ -1,8 +1,10 @@
 package com.nicholas.rutherford.potter.head.di
 
 import android.content.Context
+import com.nicholas.rutherford.potter.head.build.type.di.BuildTypeModule
 import com.nicholas.rutherford.potter.head.database.di.DatabaseModule
 import com.nicholas.rutherford.potter.head.entry.point.di.AppBarFactoryModule
+import com.nicholas.rutherford.potter.head.feature.data.store.di.DataStoreModule
 import com.nicholas.rutherford.potter.head.navigation.di.NavigatorModule
 import com.nicholas.rutherford.potter.head.network.di.NetworkModule
 import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
@@ -18,6 +20,10 @@ import com.nicholas.rutherford.potter.head.scope.di.ScopeModule
 class AppGraphImpl(
     private val context: Context
 ) : AppGraph {
+    override val buildTypeModule: BuildTypeModule by lazy { BuildTypeModuleImpl() }
+
+    override val dataStoreModule: DataStoreModule by lazy { DataStoreModuleImpl(context = context) }
+
     override val networkModule: NetworkModule by lazy { NetworkModuleImpl(context = context) }
 
     override val navigatorModule: NavigatorModule by lazy { NavigatorModuleImpl() }

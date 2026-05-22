@@ -41,16 +41,7 @@ Thumbs.db
 
 .kotlin/errors
 
+# Gradle build output (local compile artifacts — never commit). Directories named "build" are
+# ignored except under src/, so package paths like build.type remain tracked.
 build
-
-app/build
-base/view-model/build
-core/build
-compose/ui-theme/build
-database/build
-entry-point/build
-feature/characters/build
-feature/quizzes/build
-model/build
-network/build
-navigation/build
+!**/src/**

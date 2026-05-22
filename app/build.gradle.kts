@@ -38,12 +38,15 @@ android {
         }
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
 
 dependencies {
     implementation(project(path = ":base:view-model"))
+    implementation(project(path = ":build-type"))
+    implementation(project(path = ":data-store"))
     implementation(project(path = ":entry-point"))
     implementation(project(path = ":feature:characters"))
     implementation(project(path = ":feature:quizzes"))
@@ -67,5 +70,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.android)
     implementation(libs.androidx.lifecycle.viewmodel.savedstate.android)
 
+    implementation(libs.androidx.appcompat)
     implementation(libs.kotlin.stdlib.version)
+    implementation(libs.kotlinx.coroutines.android)
 }

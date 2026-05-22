@@ -27,4 +27,7 @@ interface SavedQuizDao {
 
     @Query("DELETE FROM savedQuizzes WHERE id = :id")
     suspend fun deleteSavedQuizById(id: Long)
+
+    @Query("DELETE FROM savedQuizzes")
+    suspend fun deleteAllSavedQuizzes()
 }

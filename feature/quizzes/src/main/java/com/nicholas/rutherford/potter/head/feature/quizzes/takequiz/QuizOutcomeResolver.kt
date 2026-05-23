@@ -120,7 +120,9 @@ object QuizOutcomeResolver {
             )
         }
 
-        if (quiz.results.isEmpty()) return fallbackOutcome(quiz = quiz)
+        if (quiz.results.isEmpty()) {
+            return fallbackOutcome(quiz = quiz)
+        }
 
         val tierIndex = (correctCount * quiz.results.size / totalQuestions)
             .coerceAtMost(quiz.results.lastIndex)
@@ -141,9 +143,8 @@ object QuizOutcomeResolver {
                 resultMoreInfo = info.moreInfo
             )
         }
-        val resultLabel = quiz.results.firstOrNull().orEmpty()
         return QuizOutcome(
-            resultText = resultLabel,
+            resultText = quiz.results.firstOrNull().orEmpty(),
             resultImageUrl = "",
             resultMoreInfo = ""
         )

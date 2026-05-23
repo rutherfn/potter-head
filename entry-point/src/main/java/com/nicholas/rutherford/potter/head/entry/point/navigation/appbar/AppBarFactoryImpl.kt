@@ -62,6 +62,17 @@ class AppBarFactoryImpl : AppBarFactory {
     override fun createSpellsAppBar(): AppBar =
         AppBar(titleId = StringIds.spells, imageVector = null)
 
+    override fun createSettingsAppBar(): AppBar =
+        AppBar(titleId = StringIds.settings, imageVector = null)
+
+    override fun createQuizResultUrlsAppBar(onIconButtonClicked: (() -> Unit)?): AppBar =
+        AppBar(
+            titleId = StringIds.debug,
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            onIconButtonClicked = onIconButtonClicked,
+            iconContentDescription = "Back"
+        )
+
     override fun createQuizzesAppBar(): AppBar =
         AppBar(titleId = StringIds.quizzes, imageVector = null)
 }

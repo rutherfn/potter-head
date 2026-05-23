@@ -97,6 +97,7 @@
     <string name="system" translatable="false">System</string>
     <string name="appearance" translatable="false">Appearance</string>
     <string name="data" translatable="false">Data</string>
+    <string name="debug" translatable="false">Debug</string>
     <string name="clear_character_filters" translatable="false">Clear Character Filters</string>
     <string name="are_you_sure_you_want_to_clear_character_filters" translatable="false">Are you sure you want to clear all character filters on character list screen? This will allow you to see all characters.</string>
     <string name="clear_saved_quizzes" translatable="false">Clear Saved Quizzes</string>
@@ -116,4 +117,9 @@
     <string name="character_and_quiz_data_description" translatable="false">Character data are provided by the HP API community project. This app leverages that API in order to fulfill application experience.</string>
     <string name="no_saved_quizzes_to_reset" translatable="false">No saved quizzes to reset</string>
     <string name="no_character_filters_to_reset" translatable="false">No character filters to reset</string>"
+    <string name="settings" translatable="false">Settings</string>
+    <string name="open_quiz_result_urls" translatable="false">Open quiz result urls</string>
+    <string name="view_quiz_images_result_urls" translatable="false">View images URS for quiz results. Debug feature to check to make sure we are loading vaild URLS</string>
+    <string name="quiz_result_urls_screen_description" translatable="false">Debug screen to monitor quiz image URLs. Spot broken or removed links and update app_quizzes.json when needed.</string>
+    <string name="view_url" translatable="false">View URL</string>
 </resources>

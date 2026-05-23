@@ -19,7 +19,7 @@ data class QuizOutcome(
  * (ties broken by order in [QuizConverter.resultsInfo] then [QuizConverter.results]).
  *
  * Trivia-style quizzes (answers use [AnswerEntity.isCorrect]) map the number of correct answers
- * into bands across [QuizConverter.results] (lowest tier for fewest correct, highest for most).
+ * into score bands. Prefer [QuizConverter.resultsInfo] when present; otherwise [QuizConverter.results].
  */
 object QuizOutcomeResolver {
 
@@ -83,7 +83,7 @@ object QuizOutcomeResolver {
                 result.equals(winningKey, ignoreCase = true)
         }
         return QuizOutcome(
-            resultText = fromResults ?: winningKey,
+            resultText = fromResults ?: winningKey.replaceFirstChar { char -> char.uppercaseChar() },
             resultImageUrl = "",
             resultMoreInfo = ""
         )
@@ -106,12 +106,30 @@ object QuizOutcomeResolver {
     }
 
     private fun resolveTrivia(quiz: QuizConverter, selectedAnswers: List<AnswerEntity>): QuizOutcome {
-        if (quiz.results.isEmpty()) return fallbackOutcome(quiz = quiz)
         val totalQuestions = selectedAnswers.size.coerceAtLeast(minimumValue = 1)
         val correctCount = selectedAnswers.count { it.isCorrect == true }
-        val tierIndex = (correctCount * quiz.results.size / totalQuestions).coerceAtMost(quiz.results.lastIndex)
+
+        if (quiz.resultsInfo.isNotEmpty()) {
+            val tierIndex = (correctCount * quiz.resultsInfo.size / totalQuestions)
+                .coerceAtMost(quiz.resultsInfo.lastIndex)
+            val tier = quiz.resultsInfo[tierIndex]
+            return QuizOutcome(
+                resultText = tier.answer,
+                resultImageUrl = tier.imageUrl,
+                resultMoreInfo = tier.moreInfo
+            )
+        }
+
+        if (quiz.results.isEmpty()) return fallbackOutcome(quiz = quiz)
+
+        val tierIndex = (correctCount * quiz.results.size / totalQuestions)
+            .coerceAtMost(quiz.results.lastIndex)
         val label = quiz.results[tierIndex]
-        return QuizOutcome(resultText = label, resultImageUrl = "", resultMoreInfo = "")
+        return QuizOutcome(
+            resultText = label,
+            resultImageUrl = "",
+            resultMoreInfo = ""
+        )
     }
 
     private fun fallbackOutcome(quiz: QuizConverter): QuizOutcome {
@@ -123,7 +141,11 @@ object QuizOutcomeResolver {
                 resultMoreInfo = info.moreInfo
             )
         }
-        val r = quiz.results.firstOrNull().orEmpty()
-        return QuizOutcome(resultText = r, resultImageUrl = "", resultMoreInfo = "")
+        val resultLabel = quiz.results.firstOrNull().orEmpty()
+        return QuizOutcome(
+            resultText = resultLabel,
+            resultImageUrl = "",
+            resultMoreInfo = ""
+        )
     }
 }

@@ -16,6 +16,7 @@ import com.nicholas.rutherford.potter.head.feature.data.store.writer.DataStorePr
 import com.nicholas.rutherford.potter.head.navigation.AlertAction
 import com.nicholas.rutherford.potter.head.navigation.AlertConfirmAndDismissButton
 import com.nicholas.rutherford.potter.head.navigation.Navigator
+import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -51,7 +52,8 @@ class SettingsViewModel(
                     application.getString(StringIds.dark),
                     application.getString(StringIds.system)
                 ),
-                versionName = buildType.versionNameValue
+                versionName = buildType.versionNameValue,
+                isDebug = buildType.isDebug()
             )
         }
     }
@@ -154,4 +156,9 @@ class SettingsViewModel(
             }
         }
     }
+
+    fun onOpenQuizResultUrls() {
+        navigator.navigate(navigationAction = SimpleNavigationAction(destination = Constants.NavigationDestinations.QUIZ_RESULT_URLS_SCREEN))
+    }
+
 }

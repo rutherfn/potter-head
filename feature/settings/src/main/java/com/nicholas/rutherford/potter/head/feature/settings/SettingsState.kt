@@ -6,5 +6,6 @@ data class SettingsState(
     val versionName: String = "",
     val themeOptions: List<String> = emptyList(),
     val selectedTheme: ThemePreference = ThemePreference.SYSTEM,
-    val shouldShuffleAnswerOrderChecked: Boolean = false
+    val shouldShuffleAnswerOrderChecked: Boolean = false,
+    val isDebug: Boolean = false
 )

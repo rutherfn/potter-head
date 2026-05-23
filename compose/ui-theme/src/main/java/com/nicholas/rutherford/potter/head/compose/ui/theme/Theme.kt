@@ -20,6 +20,7 @@ private val DarkColorScheme =
         onBackground = TextOnDark,
         onSurface = TextOnDark,
         onSurfaceVariant = TextOnDark,
+        surfaceContainer = PotterGrey,
         error = PotterRed,
         onError = TextOnPrimary
     )
@@ -38,6 +39,7 @@ private val LightColorScheme =
         onBackground = TextPrimary,
         onSurface = TextPrimary,
         onSurfaceVariant = TextSecondary,
+        surfaceContainer = NavigationBarContainerLight,
         error = PotterRed,
         onError = TextOnPrimary
     )

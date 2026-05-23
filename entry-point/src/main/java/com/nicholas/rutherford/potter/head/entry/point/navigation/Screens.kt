@@ -71,6 +71,12 @@ sealed class Screens(
         showBottomNavigation = true
     )
 
+    object QuizResultUrls: Screens(
+        route = Constants.NavigationDestinations.QUIZ_RESULT_URLS_SCREEN,
+        title = Constants.ScreenTitles.QUIZ_RESULT_URLS,
+        showBottomNavigation = false
+    )
+
     /**
      * Helper function to find a screen by its route and check if it should show bottom navigation.
      *
@@ -91,6 +97,7 @@ sealed class Screens(
                 route.startsWith(CharacterFilters.route) -> CharacterFilters.showBottomNavigation
                 route.startsWith(Quizzes.route) -> Quizzes.showBottomNavigation
                 route.startsWith(Settings.route) -> Settings.showBottomNavigation
+                route.startsWith(QuizResultUrls.route) -> QuizResultUrls.showBottomNavigation
                 route.startsWith(CharactersDetail.route) -> CharactersDetail.showBottomNavigation
                 route.startsWith(QuizDetail.route) -> QuizDetail.showBottomNavigation
                 route.startsWith(Spells.route) -> Spells.showBottomNavigation

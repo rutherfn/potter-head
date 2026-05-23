@@ -67,6 +67,7 @@ object StringIds {
     val human = R.string.human
     val male = R.string.male
     val spells = R.string.spells
+    val settings = R.string.settings
     val quizzes = R.string.quizzes
     val couldNotRetrieveSpells = R.string.could_not_retrieve_spells
     val wasUnableToRetrieveTheSpellsPleaseTryAgainLater = R.string.was_unable_to_retrieve_the_spells_please_try_again_later
@@ -98,6 +99,7 @@ object StringIds {
     val system = R.string.system
     val appearance = R.string.appearance
     val data = R.string.data
+    val debug = R.string.debug
     val clearCharacterFilters = R.string.clear_character_filters
     val areYouSureYouWantToClearCharacterFilters = R.string.are_you_sure_you_want_to_clear_character_filters
     val clearSavedQuizzes = R.string.clear_saved_quizzes
@@ -117,4 +119,8 @@ object StringIds {
     val characterAndQuizDataDescription = R.string.character_and_quiz_data_description
     val noSavedQuizzesToReset =  R.string.no_saved_quizzes_to_reset
     val noCharacterFiltersToReset = R.string.no_character_filters_to_reset
+    val openQuizResultUrls = R.string.open_quiz_result_urls
+    val viewQuizImagesResultUrls = R.string.view_quiz_images_result_urls
+    val quizResultUrlsScreenDescription = R.string.quiz_result_urls_screen_description
+    val viewUrl = R.string.view_url
 }

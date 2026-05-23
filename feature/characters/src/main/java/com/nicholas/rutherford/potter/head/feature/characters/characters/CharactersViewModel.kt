@@ -260,19 +260,22 @@ class CharactersViewModel(
 
     fun onClearClicked() {
         launch {
-            charactersMutableStateFlow.update { state -> 
-                state.copy(
-                    searchQuery = "",
-                    shouldShowNoContent = true
-                )
-            }
-
             currentVisibleCount.set(charactersMutableStateFlow.value.pageSize)
 
             val currentCharacters = characterRepository.getAllCharacters().first()
             allCharacters.value = currentCharacters
 
-            updatePaginatedCharacters()
+            val visibleCount = currentVisibleCount.get()
+            charactersMutableStateFlow.update { state ->
+                state.copy(
+                    searchQuery = "",
+                    characters = currentCharacters.take(n = visibleCount),
+                    errorType = DataErrorType.None,
+                    isLoading = false,
+                    shouldShowNoContent = false,
+                    hasMoreToLoad = currentCharacters.size > visibleCount,
+                )
+            }
         }
     }
 

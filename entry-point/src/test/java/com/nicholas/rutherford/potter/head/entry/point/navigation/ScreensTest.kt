@@ -64,6 +64,20 @@ class ScreensTest {
     }
 
     @Nested
+    inner class QuizResultUrls {
+
+        @Test
+        fun `route should be set to correct navigation destination`() {
+            Screens.QuizResultUrls.route shouldBe Constants.NavigationDestinations.QUIZ_RESULT_URLS_SCREEN
+        }
+
+        @Test
+        fun `title should be set to correct screen title`() {
+            Screens.QuizResultUrls.title shouldBe Constants.ScreenTitles.QUIZ_RESULT_URLS
+        }
+    }
+
+    @Nested
     inner class TakeQuiz {
 
         @Test

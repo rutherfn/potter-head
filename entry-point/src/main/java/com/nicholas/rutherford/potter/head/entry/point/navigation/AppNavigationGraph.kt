@@ -41,6 +41,9 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizView
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsParams
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsScreen
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import com.nicholas.rutherford.potter.head.feature.settings.debug.QuizResultUrlsParams
+import com.nicholas.rutherford.potter.head.feature.settings.debug.QuizResultUrlsScreen
+import com.nicholas.rutherford.potter.head.feature.settings.debug.QuizResultUrlsViewModel
 import com.nicholas.rutherford.potter.head.feature.spells.SpellsParams
 import com.nicholas.rutherford.potter.head.feature.spells.SpellsScreen
 import com.nicholas.rutherford.potter.head.feature.spells.SpellsViewModel
@@ -497,11 +500,21 @@ object AppNavigationGraph {
      * when navigating between screens within the same graph.
      */
     fun NavGraphBuilder.settingsScreen() {
-        composable(route = Screens.Settings.route) {
+        composable(route = Screens.Settings.route) { backStackEntry ->
 
             val factory = LocalViewModelFactory.current
             val viewModel: SettingsViewModel = viewModel<SettingsViewModel>(factory = factory)
             val state by viewModel.settingsStateFlow.collectAsState()
+
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createSettingsAppBar() }
+            )
+
 
             SettingsScreen(
                 params = SettingsParams(
@@ -510,8 +523,47 @@ object AppNavigationGraph {
                     onShuffleAnswerOrderCheckedChanged = { value -> viewModel.onShuffleAnswerOrderCheckedChanged(value = value)},
                     onClearSavedQuizzesClick = { viewModel.onClearSavedQuizzesClick() },
                     onResetCharacterFiltersClick = { viewModel.onResetCharacterFiltersClick() },
-                    onViewDataSourceClicked = { viewModel.onViewDataSourceClicked() }
+                    onViewDataSourceClicked = { viewModel.onViewDataSourceClicked() },
+                    onOpenQuizResultUrls = { viewModel.onOpenQuizResultUrls() }
                 )
+            )
+        }
+    }
+
+    /**
+     * Defines the quiz result urls screen in the navigation graph.
+     *
+     * This function sets up the quiz result urls screen with:
+     * - Route: QuizResultUrls.route
+     * - ViewModel: [QuizResultUrlsViewModel] created via [LocalViewModelFactory]
+     * - Screen: [QuizResultUrlsScreen] with data state
+     *
+     * The ViewModel is scoped to the navigation graph, so it will be retained
+     * when navigating between screens within the same graph.
+     */
+    fun NavGraphBuilder.quizResultUrlsScreen() {
+        composable(route = Screens.QuizResultUrls.route) { backStackEntry ->
+            val factory = LocalViewModelFactory.current
+            val viewModel: QuizResultUrlsViewModel = viewModel<QuizResultUrlsViewModel>(
+                factory = factory,
+                viewModelStoreOwner = backStackEntry
+            )
+            val state = viewModel.quizResultUrlsStateFlow.collectAsState().value
+
+            val appBarFactory = LocalAppBarFactory.current
+
+            ObserveLifecycle(viewModel = viewModel)
+
+            ManageAppBarLifecycle(
+                backStackEntry = backStackEntry,
+                appBarProvider = { appBarFactory.createQuizResultUrlsAppBar(onIconButtonClicked = { viewModel.onBackClicked() } ) }
+            )
+
+            QuizResultUrlsScreen(
+                params = QuizResultUrlsParams(
+                    state = state,
+                    onViewUrlClicked = viewModel::onViewUrlClicked,
+                ),
             )
         }
     }
@@ -534,7 +586,8 @@ object AppNavigationGraph {
         { quizDetailScreen() },
         { takeQuizScreen() },
         { quizResultScreen() },
-        { settingsScreen() }
+        { settingsScreen() },
+        { quizResultUrlsScreen() }
     )
 
     fun setupAllScreens(builder: NavGraphBuilder) {

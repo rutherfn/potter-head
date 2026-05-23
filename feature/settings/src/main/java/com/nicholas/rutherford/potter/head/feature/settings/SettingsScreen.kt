@@ -116,6 +116,11 @@ fun SettingsScreen(params: SettingsParams) {
 
         item { Spacer(modifier = Modifier.height(height = 16.dp)) }
 
+        if (state.isDebug) {
+            item { SettingsSectionDebug(onOpenQuizResultUrls = params.onOpenQuizResultUrls) }
+            item { Spacer(modifier = Modifier.height(height = 16.dp)) }
+        }
+
         item {
             Text(
                 text = stringResource(id = StringIds.about),
@@ -160,6 +165,34 @@ private fun ThemeChoiceRow(
             )
         }
     }
+}
+
+@Composable
+private fun SettingsSectionDebug(onOpenQuizResultUrls: () -> Unit) {
+        Text(
+            text = stringResource(id = StringIds.debug),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        )
+        Column(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 4.dp)
+        ) {
+            TextButton(onClick = onOpenQuizResultUrls) {
+                Text(
+                    text = stringResource(id = StringIds.openQuizResultUrls),
+                    color = MaterialTheme.colorScheme.secondary
+                )
+            }
+            Text(
+                text = stringResource(id = StringIds.viewQuizImagesResultUrls),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(start = 16.dp, bottom = 4.dp)
+            )
+        }
 }
 
 @Composable

@@ -78,6 +78,7 @@ object Constants {
         const val QUIZ_SELECTED_DETAIL_SCREEN = "quizSelectedDetailScreen"
         const val TOUR_THE_APP_SCREEN = "tourTheAppScreen"
         const val SETTINGS_SCREEN = "settingsScreen"
+        const val QUIZ_RESULT_URLS_SCREEN = "quizResultUrlsScreen"
     }
 
     object ScreenTitles {
@@ -90,6 +91,7 @@ object Constants {
         const val QUIZ_DETAIL = "QuizDetail"
         const val QUIZ_RESULT = "QuizResult"
         const val SETTINGS = "Settings"
+        const val QUIZ_RESULT_URLS = "QuizResultUrls"
     }
 
     object NamedArguments {
@@ -107,5 +109,17 @@ object Constants {
             const val THEME_PREFERENCE = "theme_preference_value"
             const val SHOULD_SHUFFLE_ANSWER_ORDER = "should_shuffle_answer_order_value"
         }
+    }
+
+    object QuizResultUrlsLazyColumnKeys {
+        const val SCREEN_DESCRIPTION = "screen-description"
+
+        fun quizHeader(quizId: String): String = "quiz-header-$quizId"
+
+        fun quizDivider(quizId: String): String = "quiz-divider-$quizId"
+
+        fun quizEmpty(quizId: String): String = "quiz-empty-$quizId"
+
+        fun resultItem(quizId: String, resultLabel: String): String = "$quizId-$resultLabel"
     }
 }

@@ -13,5 +13,7 @@ interface AppBarFactory {
     fun createTakeQuizAppBar(quizTitle: String?, onIconButtonClicked: (() -> Unit)?): AppBar
     fun createQuizResultAppBar(onIconButtonClicked: (() -> Unit)?): AppBar
     fun createSpellsAppBar(): AppBar
+    fun createSettingsAppBar(): AppBar
+    fun createQuizResultUrlsAppBar(onIconButtonClicked: (() -> Unit)?): AppBar
     fun createQuizzesAppBar(): AppBar
 }

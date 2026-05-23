@@ -8,5 +8,6 @@ data class SettingsParams(
     val onShuffleAnswerOrderCheckedChanged: (Boolean) -> Unit,
     val onClearSavedQuizzesClick: () -> Unit,
     val onResetCharacterFiltersClick: () -> Unit,
-    val onViewDataSourceClicked: () -> Unit
+    val onViewDataSourceClicked: () -> Unit,
+    val onOpenQuizResultUrls: () -> Unit
 )

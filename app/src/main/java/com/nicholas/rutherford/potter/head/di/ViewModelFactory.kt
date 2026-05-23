@@ -14,6 +14,7 @@ import com.nicholas.rutherford.potter.head.feature.quizzes.quizdetail.QuizDetail
 import com.nicholas.rutherford.potter.head.feature.quizzes.quizresult.QuizResultViewModel
 import com.nicholas.rutherford.potter.head.feature.quizzes.takequiz.TakeQuizViewModel
 import com.nicholas.rutherford.potter.head.feature.settings.SettingsViewModel
+import com.nicholas.rutherford.potter.head.feature.settings.debug.QuizResultUrlsViewModel
 import com.nicholas.rutherford.potter.head.feature.spells.SpellsViewModel
 import kotlin.random.Random
 
@@ -48,6 +49,7 @@ class ViewModelFactory(
             QuizResultViewModel::class.java -> createQuizResultViewModel(extras = extras) as T
             TakeQuizViewModel::class.java -> createTakeQuizViewModel(extras = extras) as T
             SettingsViewModel::class.java -> createSettingsViewModel() as T
+            QuizResultUrlsViewModel::class.java -> createQuizResultUrlsViewModel() as T
             else -> handleUnknownViewModel(modelClass)
         }
 
@@ -123,6 +125,12 @@ class ViewModelFactory(
             savedQuizRepository = appGraph.databaseModule.savedQuizRepository,
             dataStorePreferenceReader = appGraph.dataStoreModule.dataStorePreferenceReader,
             dataStorePreferencesWriter = appGraph.dataStoreModule.dataStorePreferenceWriter
+        )
+
+    private fun createQuizResultUrlsViewModel(): QuizResultUrlsViewModel =
+        QuizResultUrlsViewModel(
+            quizRepository = appGraph.databaseModule.quizRepository,
+            navigator = appGraph.navigatorModule.navigator
         )
 
     private fun <T : ViewModel> handleUnknownViewModel(modelClass: Class<T>): Nothing {

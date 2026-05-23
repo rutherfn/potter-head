@@ -11,6 +11,7 @@ val PotterGrey = Color(0xFF2B2B2B)
 
 val SurfaceLight = Color(0xFFFAFAFA)
 val SurfaceDark = Color(0xFF121212)
+val NavigationBarContainerLight = Color(0xFFFFF8F5)
 
 val TextPrimary = Color(0xFF1A1A1A)
 val TextSecondary = Color(0xFF666666)

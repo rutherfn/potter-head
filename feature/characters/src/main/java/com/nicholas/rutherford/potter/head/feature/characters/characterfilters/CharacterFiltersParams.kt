@@ -16,6 +16,7 @@ package com.nicholas.rutherford.potter.head.feature.characters.characterfilters
  * @param onFilterHogwartsAffiliationClicked Callback for when a Hogwarts affiliation filter is clicked.
  * @param onFilterWizardStatusClicked Callback for when a wizard status filter is clicked.
  * @param onFilterAliveStatusClicked Callback for when an alive status filter is clicked.
+ * @param onResetFiltersClicked Callback for when the reset filters button is clicked.
  *
  * @author Nicholas Rutherford
  */
@@ -32,5 +33,6 @@ data class CharacterFiltersParams(
     val onFilterSpeciesClicked: (value: String) -> Unit,
     val onFilterHogwartsAffiliationClicked: (value: String) -> Unit,
     val onFilterWizardStatusClicked: (value: String) -> Unit,
-    val onFilterAliveStatusClicked: (value: String) -> Unit
+    val onFilterAliveStatusClicked: (value: String) -> Unit,
+    val onResetFiltersClicked: () -> Unit,
 )

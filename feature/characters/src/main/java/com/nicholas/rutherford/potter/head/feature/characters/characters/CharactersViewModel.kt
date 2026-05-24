@@ -10,7 +10,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterImageRepository
 import com.nicholas.rutherford.potter.head.database.repository.CharacterRepository
-import com.nicholas.rutherford.potter.head.database.repository.getActiveFilterCount
+import com.nicholas.rutherford.potter.head.database.repository.getActiveFilterSelectionCount
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import com.nicholas.rutherford.potter.head.navigation.SimpleNavigationAction
 import com.nicholas.rutherford.potter.head.network.HarryPotterApiRepository
@@ -121,8 +121,8 @@ class CharactersViewModel(
     }
 
     private fun collectFilterCount() {
-        collectFlow(flow = characterFilterRepository.getCharacterFilters()) {
-            val filterCount = characterFilterRepository.getActiveFilterCount()
+        collectFlow(flow = characterFilterRepository.getCharacterFilters()) { characterFilters ->
+            val filterCount = characterFilters.getActiveFilterSelectionCount()
             charactersMutableStateFlow.update { state ->
                 state.copy(filterCount = filterCount)
             }

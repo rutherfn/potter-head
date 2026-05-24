@@ -16,7 +16,7 @@ import com.nicholas.rutherford.potter.head.database.converter.CharacterConverter
  * @param hasMoreToLoad Whether there is more data to load.
  * @param pageSize The number of items to load at a time.
  * @param searchQuery The current search query text.
- * @param filterCount The number of active filters.
+ * @param filterCount The number of filter options that differ from their default values.
  *
  * @author Nicholas Rutherford
  */

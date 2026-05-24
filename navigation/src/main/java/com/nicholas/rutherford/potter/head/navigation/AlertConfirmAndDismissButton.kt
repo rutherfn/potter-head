@@ -10,5 +10,5 @@ package com.nicholas.rutherford.potter.head.navigation
  */
 data class AlertConfirmAndDismissButton(
     val buttonText: String,
-        val onButtonClicked: (() -> Unit)? = null
+    val onButtonClicked: (() -> Unit)? = null
 )

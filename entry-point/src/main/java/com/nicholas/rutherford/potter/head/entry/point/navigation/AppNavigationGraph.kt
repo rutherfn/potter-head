@@ -238,7 +238,8 @@ object AppNavigationGraph {
                     onFilterSpeciesClicked = { value -> viewModel.onFilterSpeciesClicked(value) },
                     onFilterHogwartsAffiliationClicked = { value -> viewModel.onFilterHogwartsAffiliationClicked(value) },
                     onFilterWizardStatusClicked = { value -> viewModel.onFilterWizardStatusClicked(value) },
-                    onFilterAliveStatusClicked = { value -> viewModel.onFilterAliveStatusClicked(value) }
+                    onFilterAliveStatusClicked = { value -> viewModel.onFilterAliveStatusClicked(value) },
+                    onResetFiltersClicked = { viewModel.onResetFiltersClicked() },
                 )
             )
         }

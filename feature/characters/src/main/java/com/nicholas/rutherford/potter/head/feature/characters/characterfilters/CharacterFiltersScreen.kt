@@ -15,10 +15,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -108,6 +111,36 @@ fun CharacterFiltersScreen(params: CharacterFiltersParams) {
             selectedAliveStatuses = state.aliveStatusFiltersSelected,
             onFilterAliveStatusClicked = { aliveStatus -> params.onFilterAliveStatusClicked(aliveStatus) }
         )
+
+        if (state.shouldShowResetFiltersButton) {
+            resetFiltersSection(onResetFiltersClicked = params.onResetFiltersClicked)
+        }
+    }
+}
+
+private fun LazyListScope.resetFiltersSection(onResetFiltersClicked: () -> Unit) {
+    item {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp, bottom = 24.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Button(
+                onClick = { onResetFiltersClicked.invoke() },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                )
+            ) {
+                Text(
+                    text = stringResource(id = StringIds.resetFilters),
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+        }
     }
 }
 

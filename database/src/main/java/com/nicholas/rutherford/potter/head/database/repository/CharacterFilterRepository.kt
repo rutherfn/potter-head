@@ -25,73 +25,39 @@ interface CharacterFilterRepository {
     suspend fun resetFilters()
 }
 
-/**
- * Extension function to get the count of active filters that are not at their default values.
- * A filter is considered at default if its values match exactly the default values for that filter type.
- *
- * @return The count of filters that differ from their default values.
- *
- * @author Nicholas Rutherford
- */
-suspend fun CharacterFilterRepository.getActiveFilterCount(): Int {
-    val allFilters = getAllCharacterFiltersSync()
-    
-    return allFilters.count { filter ->
-        if (!filter.isActive) {
-            false
-        } else {
-            !isFilterAtDefault(filter)
+fun List<CharacterFilterConverter>.getActiveFilterSelectionCount(): Int {
+    var selectionCount = 0
+
+    filter { filter -> filter.isActive }
+        .groupBy { filter -> filter.filterType }
+        .forEach { groupedFilters ->
+            groupedFilters.value.firstOrNull()?.let { filter ->
+                selectionCount += getSelectionDeltaFromDefault(filter = filter)
+            }
         }
+
+    return selectionCount
+}
+
+suspend fun CharacterFilterRepository.getActiveFilterCount(): Int {
+    return getAllCharacterFiltersSync().getActiveFilterSelectionCount()
+}
+
+private fun getDefaultFilter(filterType: CharacterFilterType): CharacterFilterConverter {
+    return when (filterType) {
+        CharacterFilterType.HOUSE -> DefaultFilters.HouseFilter
+        CharacterFilterType.GENDER -> DefaultFilters.genderFilter
+        CharacterFilterType.SPECIES -> DefaultFilters.speciesFilter
+        CharacterFilterType.HOGWARTS_AFFILIATION -> DefaultFilters.hogwartsAffiliationFilter
+        CharacterFilterType.WIZARD_STATUS -> DefaultFilters.isWizardFilter
+        CharacterFilterType.ALIVE_STATUS -> DefaultFilters.isAliveFilter
     }
 }
 
-/**
- * Checks if a filter is at its default values.
- *
- * @param filter The filter to check.
- * @return true if the filter matches its default values, false otherwise.
- */
-private fun isFilterAtDefault(filter: CharacterFilterConverter): Boolean {
-    return when (filter.filterType) {
-        CharacterFilterType.HOUSE -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.HouseFilter,
-            filter = filter
-        )
-        CharacterFilterType.GENDER -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.genderFilter,
-            filter = filter
-        )
-        CharacterFilterType.SPECIES -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.speciesFilter,
-            filter = filter
-        )
-        CharacterFilterType.HOGWARTS_AFFILIATION -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.hogwartsAffiliationFilter,
-            filter = filter
-        )
-        CharacterFilterType.WIZARD_STATUS -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.isWizardFilter,
-            filter = filter
-        )
-        CharacterFilterType.ALIVE_STATUS -> isFilterValuesAtDefault(
-            defaultFilter = DefaultFilters.isAliveFilter,
-            filter = filter
-        )
-    }
-}
+private fun getSelectionDeltaFromDefault(filter: CharacterFilterConverter): Int {
+    val defaultValues = getDefaultFilter(filterType = filter.filterType).values.toSet()
+    val currentValues = filter.values.toSet()
+    val selectionDelta = (defaultValues - currentValues).size + (currentValues - defaultValues).size
 
-/**
- * Helper function to check if a filter's values match the default filter's values.
- *
- * @param defaultFilter The default filter to compare against.
- * @param filter The filter to check.
- * @return true if the filter values match the default filter values exactly, false otherwise.
- */
-private fun isFilterValuesAtDefault(
-    defaultFilter: CharacterFilterConverter,
-    filter: CharacterFilterConverter
-): Boolean {
-    val defaultValues = defaultFilter.values.toSet()
-    val filterValues = filter.values.toSet()
-    return filterValues.containsAll(defaultValues) && defaultValues.containsAll(filterValues)
+    return selectionDelta
 }

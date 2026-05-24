@@ -1,11 +1,17 @@
 package com.nicholas.rutherford.potter.head.feature.characters.characterfilters
 
+import android.app.Application
 import com.nicholas.rutherford.potter.head.base.view.model.BaseViewModel
 import com.nicholas.rutherford.potter.head.base.view.model.FlowCollectionTrigger
 import com.nicholas.rutherford.potter.head.core.Constants
+import com.nicholas.rutherford.potter.head.core.StringIds
 import com.nicholas.rutherford.potter.head.database.CharacterFilterType
+import com.nicholas.rutherford.potter.head.database.DefaultFilters
 import com.nicholas.rutherford.potter.head.database.converter.CharacterFilterConverter
 import com.nicholas.rutherford.potter.head.database.repository.CharacterFilterRepository
+import com.nicholas.rutherford.potter.head.database.repository.getActiveFilterCount
+import com.nicholas.rutherford.potter.head.navigation.AlertAction
+import com.nicholas.rutherford.potter.head.navigation.AlertConfirmAndDismissButton
 import com.nicholas.rutherford.potter.head.navigation.Navigator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,12 +23,14 @@ import kotlinx.coroutines.flow.update
  * Manages all defined filters allowing the user to turn on and off filters
  *
  * @param characterFilterRepository The repository for managing character filters.
+ * @param application The application context.
  * @param navigator The navigator for navigating between screens.
  *
  * @author Nicholas Rutherford
  */
 class CharacterFiltersViewModel(
     private val characterFilterRepository: CharacterFilterRepository,
+    private val application: Application,
     private val navigator: Navigator
 ) : BaseViewModel() {
 
@@ -47,43 +55,57 @@ class CharacterFiltersViewModel(
 
     private fun collectCharacterFilters() {
         collectFlow(flow = characterFilterRepository.getCharacterFilters()) { characterFilters ->
-            characterFilters.forEach { filter ->
-                updateFilterState(
-                    filterType = filter.filterType,
-                    values = filter.values
-                )
+            characterFiltersMutableStateFlow.update { state ->
+                var updatedState = state
+
+                characterFilters.forEach { filter ->
+                    updatedState = when (filter.filterType) {
+                        CharacterFilterType.HOUSE -> {
+                            houseFilterValues = filter.values
+                            updatedState.copy(houseFiltersSelected = filter.values)
+                        }
+                        CharacterFilterType.GENDER -> {
+                            genderFilterValues = filter.values
+                            updatedState.copy(genderFiltersSelected = filter.values)
+                        }
+                        CharacterFilterType.SPECIES -> {
+                            speciesFilterValues = filter.values
+                            updatedState.copy(speciesFiltersSelected = filter.values)
+                        }
+                        CharacterFilterType.HOGWARTS_AFFILIATION -> {
+                            hogwartsAffiliationsFilterValues = filter.values
+                            updatedState.copy(hogwartsAffiliationsSelected = filter.values)
+                        }
+                        CharacterFilterType.WIZARD_STATUS -> {
+                            wizardStatusFilterValues = filter.values
+                            updatedState.copy(wizardStatusFiltersSelected = filter.values)
+                        }
+                        CharacterFilterType.ALIVE_STATUS -> {
+                            aliveStatusFilterValues = filter.values
+                            updatedState.copy(aliveStatusFiltersSelected = filter.values)
+                        }
+                    }
+                }
+
+                updatedState.withResetButtonVisibility()
             }
         }
     }
 
-    private fun updateFilterState(filterType: CharacterFilterType, values: List<String>) {
-        characterFiltersMutableStateFlow.update { state ->
-            when (filterType) {
-                CharacterFilterType.HOUSE -> {
-                    houseFilterValues = values
-                    state.copy(houseFiltersSelected = values)
-                }
-                CharacterFilterType.GENDER -> {
-                    genderFilterValues = values
-                    state.copy(genderFiltersSelected = values)
-                }
-                CharacterFilterType.SPECIES -> {
-                    speciesFilterValues = values
-                    state.copy(speciesFiltersSelected = values)
-                }
-                CharacterFilterType.HOGWARTS_AFFILIATION -> {
-                    hogwartsAffiliationsFilterValues = values
-                    state.copy(hogwartsAffiliationsSelected = values)
-                }
-                CharacterFilterType.WIZARD_STATUS -> {
-                    wizardStatusFilterValues = values
-                    state.copy(wizardStatusFiltersSelected = values)
-                }
-                CharacterFilterType.ALIVE_STATUS -> {
-                    aliveStatusFilterValues = values
-                    state.copy(aliveStatusFiltersSelected = values)
-                }
-            }
+    private fun CharacterFiltersState.withResetButtonVisibility(): CharacterFiltersState {
+        return copy(shouldShowResetFiltersButton = hasActiveNonDefaultFilters())
+    }
+
+    private fun CharacterFiltersState.hasActiveNonDefaultFilters(): Boolean {
+        return listOf(
+            houseFiltersSelected to DefaultFilters.HouseFilter.values,
+            genderFiltersSelected to DefaultFilters.genderFilter.values,
+            speciesFiltersSelected to DefaultFilters.speciesFilter.values,
+            hogwartsAffiliationsSelected to DefaultFilters.hogwartsAffiliationFilter.values,
+            wizardStatusFiltersSelected to DefaultFilters.isWizardFilter.values,
+            aliveStatusFiltersSelected to DefaultFilters.isAliveFilter.values,
+        ).any { (selectedValues, defaultValues) ->
+            selectedValues.toSet() != defaultValues.toSet()
         }
     }
 
@@ -127,7 +149,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     houseFilterValues = updatedValues
-                    state.copy(houseFiltersSelected = updatedValues)
+                    state.copy(houseFiltersSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -142,7 +164,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     genderFilterValues = updatedValues
-                    state.copy(genderFiltersSelected = updatedValues)
+                    state.copy(genderFiltersSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -157,7 +179,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     hogwartsAffiliationsFilterValues = updatedValues
-                    state.copy(hogwartsAffiliationsSelected = updatedValues)
+                    state.copy(hogwartsAffiliationsSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -172,7 +194,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     speciesFilterValues = updatedValues
-                    state.copy(speciesFiltersSelected = updatedValues)
+                    state.copy(speciesFiltersSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -238,7 +260,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     wizardStatusFilterValues = updatedValues
-                    state.copy(wizardStatusFiltersSelected = updatedValues)
+                    state.copy(wizardStatusFiltersSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -259,7 +281,7 @@ class CharacterFiltersViewModel(
             ) { updatedValues ->
                 characterFiltersMutableStateFlow.update { state ->
                     aliveStatusFilterValues = updatedValues
-                    state.copy(aliveStatusFiltersSelected = updatedValues)
+                    state.copy(aliveStatusFiltersSelected = updatedValues).withResetButtonVisibility()
                 }
             }
         }
@@ -272,4 +294,30 @@ class CharacterFiltersViewModel(
         )
 
     fun onBackClicked() = navigator.pop(routeAction = Constants.NavigationDestinations.CHARACTERS_SCREEN)
+
+    fun onResetFiltersClicked() = navigator.alert(alertAction = buildResetFiltersAlert())
+
+    fun buildResetFiltersAlert(): AlertAction {
+        return AlertAction(
+            title = application.getString(StringIds.resetFilters),
+            confirmButton = AlertConfirmAndDismissButton(
+                buttonText = application.getString(StringIds.yes),
+                onButtonClicked = { onYesResetFiltersClicked() }
+            ),
+            dismissButton = AlertConfirmAndDismissButton(buttonText = application.getString(StringIds.no)),
+            description = application.getString(StringIds.areYouSureYouWantToResetFiltersForCharacters),
+        )
+    }
+
+    fun onYesResetFiltersClicked() {
+        launch {
+            val filterCount = characterFilterRepository.getActiveFilterCount()
+
+            if (filterCount >= 1) {
+                characterFilterRepository.resetFilters()
+                navigator.pop(routeAction = Constants.NavigationDestinations.CHARACTERS_SCREEN)
+                navigator.toastAction(toastAction = application.getString(StringIds.filtersResetToDefault))
+            }
+        }
+    }
 }

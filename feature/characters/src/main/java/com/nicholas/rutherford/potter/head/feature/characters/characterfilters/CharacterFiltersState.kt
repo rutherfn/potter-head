@@ -10,6 +10,7 @@ package com.nicholas.rutherford.potter.head.feature.characters.characterfilters
  * @param hogwartsAffiliationsSelected The list of selected Hogwarts affiliation filters.
  * @param wizardStatusFiltersSelected The list of selected wizard status filters.
  * @param aliveStatusFiltersSelected The list of selected alive status filters.
+ * @param shouldShowResetFiltersButton Whether the reset filters button should be visible.
  *
  * @author Nicholas Rutherford
  */
@@ -19,5 +20,6 @@ data class CharacterFiltersState(
     val speciesFiltersSelected: List<String> = emptyList(),
     val hogwartsAffiliationsSelected: List<String> = emptyList(),
     val wizardStatusFiltersSelected: List<String> = emptyList(),
-    val aliveStatusFiltersSelected: List<String> = emptyList()
+    val aliveStatusFiltersSelected: List<String> = emptyList(),
+    val shouldShowResetFiltersButton: Boolean = false,
 )

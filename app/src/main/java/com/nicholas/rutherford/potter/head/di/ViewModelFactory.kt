@@ -66,6 +66,7 @@ class ViewModelFactory(
     private fun createCharacterFiltersViewModel(): CharacterFiltersViewModel =
         CharacterFiltersViewModel(
             characterFilterRepository = appGraph.databaseModule.characterFilterRepository,
+            application = application,
             navigator = appGraph.navigatorModule.navigator
         )
 

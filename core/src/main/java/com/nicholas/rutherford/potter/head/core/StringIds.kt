@@ -123,4 +123,7 @@ object StringIds {
     val viewQuizImagesResultUrls = R.string.view_quiz_images_result_urls
     val quizResultUrlsScreenDescription = R.string.quiz_result_urls_screen_description
     val viewUrl = R.string.view_url
+    val resetFilters = R.string.reset_filters
+    val areYouSureYouWantToResetFiltersForCharacters = R.string.are_you_sure_you_to_want_reset_filters_for_characters
+    val filtersResetToDefault = R.string.filters_reset_to_default
 }

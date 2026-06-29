@@ -74,7 +74,7 @@ object AppNavigationGraph {
      * Holds the currently displayed AppBar as a StateFlow.
      * Should be observed and rendered from the top-level UI NavigationComponent.
      */
-    private val _currentAppBar = MutableStateFlow<AppBar?>(null)
+    private val _currentAppBar = MutableStateFlow<AppBar?>(value = null)
     val currentAppBar: StateFlow<AppBar?> = _currentAppBar.asStateFlow()
 
     /**
@@ -102,15 +102,14 @@ object AppNavigationGraph {
     ) {
         DisposableEffect(backStackEntry) {
             val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_RESUME) {
+                if (event == Lifecycle.Event.ON_START) {
                     updateAppBar(appBar = appBarProvider())
                 }
             }
             backStackEntry.lifecycle.addObserver(observer)
 
-            if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-                updateAppBar(appBar = appBarProvider())
-            }
+            updateAppBar(appBar = appBarProvider())
+
             onDispose {
                 backStackEntry.lifecycle.removeObserver(observer)
             }
@@ -463,7 +462,7 @@ object AppNavigationGraph {
 
             // This is here so that once quizTitle state property is updated, it should update the app bar here
             LaunchedEffect(takeQuizState.quizTitle) {
-                if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+                if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
                     updateAppBar(
                         appBar = appBarFactory.createTakeQuizAppBar(
                             quizTitle = takeQuizState.quizTitle,

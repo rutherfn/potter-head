@@ -36,7 +36,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.nicholas.rutherford.potter.head"
+        applicationId = "com.nicholas.rutherford.potter"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -59,7 +59,7 @@ android {
 
     buildTypes {
         release {
-            applicationIdSuffix = ".release"
+            applicationIdSuffix = ".head"
             isMinifyEnabled = false
             isDebuggable = false
             proguardFiles(
@@ -72,7 +72,7 @@ android {
         }
         create("stage") {
             initWith(getByName("debug"))
-            applicationIdSuffix = ".stage"
+            applicationIdSuffix = ".staging"
             isMinifyEnabled = false
             isDebuggable = true
             releaseSigningProperties?.let {
@@ -80,7 +80,7 @@ android {
             }
         }
         debug {
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = ".head.debug"
             isMinifyEnabled = false
             isDebuggable = true
         }

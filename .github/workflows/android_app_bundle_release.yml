@@ -58,5 +58,5 @@ jobs:
       - name: Summary
         run: |
           echo "### Release app bundle" >> "$GITHUB_STEP_SUMMARY"
-          echo "Application ID: \`com.nicholas.rutherford.potter.head.release\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Application ID: \`com.nicholas.rutherford.potter.head\`" >> "$GITHUB_STEP_SUMMARY"
           echo "Artifact: **app-bundle-release** (release signing config)" >> "$GITHUB_STEP_SUMMARY"

@@ -108,7 +108,9 @@ object AppNavigationGraph {
             }
             backStackEntry.lifecycle.addObserver(observer)
 
-            updateAppBar(appBar = appBarProvider())
+            if (backStackEntry.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                updateAppBar(appBar = appBarProvider())
+            }
 
             onDispose {
                 backStackEntry.lifecycle.removeObserver(observer)
